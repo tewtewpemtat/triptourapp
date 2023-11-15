@@ -49,12 +49,6 @@ class RegisterPage extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     // เพิ่มโค้ดสำหรับสมัครสมาชิก
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              RegisterPage()), // RegisterPage() คือหน้าที่คุณต้องไป
-                    );
                   },
                   child: Text(
                     'สมัครสมาชิก',
