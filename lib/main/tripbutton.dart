@@ -12,7 +12,10 @@ class TripButtons extends StatelessWidget {
             alignment: Alignment.centerLeft, // จัดตำแหน่งข้อความไปทางซ้าย
             child: Text(
               'สร้างทริปของคุณ',
-              style: TextStyle(fontSize: 14),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
