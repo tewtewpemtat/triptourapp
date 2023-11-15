@@ -26,9 +26,9 @@ class RegisterPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      right: 10.0), // ระยะห่างทางด้านขวาของปุ่ม
-                  child: ElevatedButton(
-                    onPressed: () {
+                      left: 0.0), // ระยะห่างทางด้านขวาของปุ่ม
+                  child: InkWell(
+                    onTap: () {
                       // เพิ่มโค้ดสำหรับเข้าสู่ระบบ
                       Navigator.push(
                         context,
@@ -37,11 +37,17 @@ class RegisterPage extends StatelessWidget {
                                 LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
                       );
                     },
-                    child: Text('เข้าสู่ระบบ'),
+                    child: Text(
+                      'เข้าสู่ระบบ',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
+                SizedBox(width: 20),
+                InkWell(
+                  onTap: () {
                     // เพิ่มโค้ดสำหรับสมัครสมาชิก
                     Navigator.push(
                       context,
@@ -53,6 +59,7 @@ class RegisterPage extends StatelessWidget {
                   child: Text(
                     'สมัครสมาชิก',
                     style: TextStyle(
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

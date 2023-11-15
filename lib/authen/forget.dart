@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'register.dart';
-import 'forget.dart';
-import '../main.dart';
+import 'login.dart';
 
-class LoginPage extends StatelessWidget {
+class ForgetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +32,7 @@ class LoginPage extends StatelessWidget {
                       // เพิ่มโค้ดสำหรับเข้าสู่ระบบ
                     },
                     child: Text(
-                      'เข้าสู่ระบบ',
+                      'ลืมรหัสผ่าน',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -42,51 +40,26 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
-                InkWell(
-                  onTap: () {
-                    // เพิ่มโค้ดสำหรับสมัครสมาชิก
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              RegisterPage()), // RegisterPage() คือหน้าที่คุณต้องไป
-                    );
-                  },
-                  child: Text('สมัครสมาชิก', style: TextStyle(fontSize: 24)),
-                ),
               ],
             ),
             SizedBox(height: 5),
-            Text('เข้าสู่ระบบเพื่อเข้าใช้งานเเอปพลิเคชั่น Trip Tour',
+            Text('กรอกหมายเลขโทรศัพทที่ใช้สมัครสมาชิกกับ Trip Tour',
                 style: TextStyle(fontSize: 12)),
-            SizedBox(height: 15),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'อีเมล',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'รหัสผ่าน',
-                border: OutlineInputBorder(),
-              ),
-            ),
+            Text('เราจะส่งOTPสำหรับเเก้ไขรหัสผ่านหมายเลขโทรศัพท์ของท่าน',
+                style: TextStyle(fontSize: 12)),
             SizedBox(height: 20),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'ระบุเบอร์โทรศัพท์',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 15),
             ElevatedButton(
               onPressed: () {
-                // เพิ่มโค้ดสำหรับ Sign in
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          MyApp()), // RegisterPage() คือหน้าที่คุณต้องไป
-                );
+                // เพิ่มโค้ด
               },
-              child: Text('เข้าสู่ระบบ'),
+              child: Text('ดำเนินการต่อ'),
             ),
             SizedBox(height: 10),
             TextButton(
@@ -96,10 +69,10 @@ class LoginPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ForgetPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                          LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
                 );
               },
-              child: Text('ลืมรหัสผ่าน'),
+              child: Text('หากมีสมาชิกอยู่เเล้ว กดที่นี่เพื่อเข้าสู่ระบบ'),
             ),
           ],
         ),
@@ -111,7 +84,7 @@ class LoginPage extends StatelessWidget {
 void main() {
   runApp(
     MaterialApp(
-      home: LoginPage(),
+      home: ForgetPage(),
     ),
   );
 }
