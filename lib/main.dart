@@ -3,10 +3,10 @@ import 'main/bottom_navbar.dart';
 import 'main/tripbutton.dart';
 import 'main/top_navbar.dart';
 import 'main/triphistory.dart';
-import 'authen/login.dart';
+import 'starter.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Starter());
 }
 
 class MyApp extends StatelessWidget {

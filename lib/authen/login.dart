@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Triptour',
+              'TripTour',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
