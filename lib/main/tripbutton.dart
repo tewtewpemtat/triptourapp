@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:triptourapp/main/createtrip.dart';
+import 'package:triptourapp/createtrip.dart';
+import 'package:triptourapp/jointrip.dart';
 
 class TripButtons extends StatelessWidget {
   @override
@@ -47,6 +48,12 @@ class TripButtons extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // ไปยังหน้าเข้าร่วมทริป
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        JoinTripPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+              );
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.green,
