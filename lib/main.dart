@@ -22,7 +22,9 @@ class MyApp extends StatelessWidget {
             Column(
               children: [
                 TripButtons(),
-                TripHistory(),
+                Expanded(
+                  child: TripHistory(),
+                ),
               ],
             ),
             Positioned(

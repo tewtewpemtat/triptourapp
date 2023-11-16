@@ -27,7 +27,7 @@ class DownPage extends StatelessWidget {
                       width: 1.0, // ความหนาของเส้นกรอบ
                     ),
                   ),
-                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  margin: EdgeInsets.symmetric(horizontal: 0.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -73,7 +73,7 @@ class DownPage extends StatelessWidget {
                       width: 1.0, // ความหนาของเส้นกรอบ
                     ),
                   ),
-                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  margin: EdgeInsets.symmetric(horizontal: 0.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -109,7 +109,7 @@ class DownPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               InkWell(
-                onTap: () {},
+                onTap: () {}, // ใส่โค้ดตอนคลิก
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
@@ -118,7 +118,7 @@ class DownPage extends StatelessWidget {
                       width: 1.0, // ความหนาของเส้นกรอบ
                     ),
                   ),
-                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  margin: EdgeInsets.symmetric(horizontal: 0.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

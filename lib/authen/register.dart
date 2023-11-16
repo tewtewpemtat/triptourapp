@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'login.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -11,30 +12,39 @@ class RegisterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'TripTour',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.start, // จัดตำแหน่งให้ Text อยู่ตรงกลาง
+            Row(
+              children: [
+                Text(
+                  'Trip',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Text(
+                  'Tour',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFE59730),
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ],
             ),
             SizedBox(height: 20),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.start, // ตำแหน่งปุ่มจะอยู่ทางด้านซ้าย
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0), // ระยะห่างทางด้านขวาของปุ่ม
+                  padding: const EdgeInsets.only(left: 0.0),
                   child: InkWell(
                     onTap: () {
-                      // เพิ่มโค้ดสำหรับเข้าสู่ระบบ
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                        MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
                     child: Text(
@@ -61,36 +71,101 @@ class RegisterPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Text('เข้าสู่ระบบเพื่อเข้าใช้งานเเอปพลิเคชั่น Trip Tour',
+            Text('เข้าสู่ระบบเพื่อเข้าใช้งานแอปพลิเคชัน Trip Tour',
                 style: TextStyle(fontSize: 12)),
             SizedBox(height: 15),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'อีเมล',
-                border: OutlineInputBorder(),
+            Container(
+              width: 339,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: TextFormField(
+                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                decoration: InputDecoration(
+                  labelText: 'อีเมล',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 10),
-            TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'รหัสผ่าน',
-                border: OutlineInputBorder(),
+            Container(
+              width: 339,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: TextFormField(
+                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                decoration: InputDecoration(
+                  labelText: 'รหัสผ่าน',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 10),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'เบอร์โทรศัพท์',
-                border: OutlineInputBorder(),
+            Container(
+              width: 339,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: TextFormField(
+                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                decoration: InputDecoration(
+                  labelText: 'เบอร์โทรศัพท์',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // เพิ่มโค้ดสำหรับ Sign in
-              },
-              child: Text('ดำเนินการต่อ'),
+            Container(
+              width: 184,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xffdb923c),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  // เพิ่มโค้ดสำหรับ Sign in
+                },
+                child: Text(
+                  'ดำเนินการต่อ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

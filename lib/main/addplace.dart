@@ -56,6 +56,10 @@ class AddPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             SlidePlace(),
+            SizedBox(height: 10),
+            Expanded(
+              child: DownPage(),
+            ),
           ],
         ),
       ),
