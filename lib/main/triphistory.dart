@@ -53,43 +53,66 @@ class TripHistory extends StatelessWidget {
             ],
           ),
         ),
+        SizedBox(height: 7),
         // สร้างกล่องข้อความและรูป
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black, // สีของเส้นกรอบ
+              width: 1.0, // ความหนาของเส้นกรอบ
+            ),
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Image.asset(
-                  'assets/cat.jpg', // แทนชื่อไฟล์รูปภาพที่คุณต้องการแสดง
-                  fit: BoxFit.cover, // ปรับขนาดรูปภาพให้เต็ม Container
+                flex: 4, // กำหนดขนาดของส่วนทางซ้าย (30%)
+                child: Container(
+                  child: Image.asset(
+                    'assets/cat.jpg',
+                    width: 100.0,
+                    height: 140.0,
+                    fit: BoxFit.cover, // ขยายเต็มส่วน
+                  ),
                 ),
               ),
-              SizedBox(width: 13), // เพิ่มระยะห่างระหว่างรูปภาพและข้อความ
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('ชื่อทริป: จา',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                  Text('รีวิว: ดีมาก',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                  Text('สถานะทริป: ยอดเยี่ยม',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                  Text('ระยะทางทริป: 100 เมตร',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                  Text('เริ่มต้นกรุงเทพสิ้นสุดกรุงเทพ',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                  Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                  Text('ผู้จัดทริป: ติว',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                  Text('จำนวนผู้ร่วมทริป: 16 คน',
-                      style: TextStyle(fontSize: 11)), // ปรับขนาดข้อความ
-                ],
+              SizedBox(width: 13),
+              Expanded(
+                flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
+                child: Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('ชื่อทริป: จา', style: TextStyle(fontSize: 12)),
+                      Text('สถานะทริป: กำลังดำเนินการ',
+                          style: TextStyle(fontSize: 12)),
+                      Row(
+                        children: [
+                          Text('รีวิว: ดีมาก\t\t\t'),
+                          Icon(Icons.location_on,
+                              size: 12), // ใช้ icon แสดงตำแหน่ง
+                          SizedBox(width: 5),
+                          Text('100 เมตร', style: TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                      Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
+                          style: TextStyle(fontSize: 12)),
+                      Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
+                          style: TextStyle(fontSize: 12)),
+                      Text('ผู้จัดทริป: ติว', style: TextStyle(fontSize: 12)),
+                      Text('จำนวนผู้ร่วมทริป: 16 คน',
+                          style: TextStyle(fontSize: 12)),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
         ),
+
         // สร้างปุ่มจัดการทริป
       ],
     );
