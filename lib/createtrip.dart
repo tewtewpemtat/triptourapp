@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'tripmanage.dart';
 
 class CreateTripPage extends StatefulWidget {
   @override
@@ -134,6 +135,12 @@ class _CreateTripPageState extends State<CreateTripPage> {
               ElevatedButton(
                 onPressed: () {
                   // ทำงานเมื่อกดปุ่ม "ดำเนินการต่อ"
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            TripmanagePage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                  );
                 },
                 child: Text("ดำเนินการต่อ"),
               ),

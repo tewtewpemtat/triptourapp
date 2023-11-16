@@ -91,7 +91,8 @@ class TripHistory extends StatelessWidget {
                           style: TextStyle(fontSize: 12)),
                       Row(
                         children: [
-                          Text('รีวิว: ดีมาก\t\t\t'),
+                          Text('รีวิว: ดีมาก\t\t\t',
+                              style: TextStyle(fontSize: 12)),
                           Icon(Icons.location_on,
                               size: 12), // ใช้ icon แสดงตำแหน่ง
                           SizedBox(width: 5),
