@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/main/createtrip.dart';
 
 class TripButtons extends StatelessWidget {
   @override
@@ -24,6 +25,12 @@ class TripButtons extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               // ไปยังหน้าสร้างทริป
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CreateTripPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+              );
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.blue,
