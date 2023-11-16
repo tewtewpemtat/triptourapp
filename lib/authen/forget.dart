@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:triptourapp/authen/login.dart';
+import 'otp.dart';
 
 class ForgetPage extends StatelessWidget {
   @override
@@ -58,6 +59,12 @@ class ForgetPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // เพิ่มโค้ด
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          OtpPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                );
               },
               child: Text('ดำเนินการต่อ'),
             ),

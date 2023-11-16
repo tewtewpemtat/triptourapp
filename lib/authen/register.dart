@@ -80,7 +80,6 @@ class RegisterPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             TextFormField(
-              obscureText: true,
               decoration: InputDecoration(
                 labelText: 'เบอร์โทรศัพท์',
                 border: OutlineInputBorder(),
