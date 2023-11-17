@@ -1,0 +1,10 @@
+^C:\USERS\TEW00\DESKTOP\PROJECTAPP\TRIPTOURAPP\BUILD\WINDOWS\CMAKEFILES\8ADF775D05CB4473F000EE935CBA5B94\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,14 @@
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/icudtl.dat
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/flutter_windows.dll
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/AssetManifest.smcbin
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/assets/00.jpg
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/assets/cat.jpg
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/assets/green.png
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/assets/pencil.png
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+C:/Users/tew00/Desktop/Projectapp/triptourapp/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag

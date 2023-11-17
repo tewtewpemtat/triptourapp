@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'tripmanage.dart'; //CreateTripPage
+import 'tripmanage.dart';
+
 class CreateTripPage extends StatefulWidget {
   @override
   _CreateTripPageState createState() => _CreateTripPageState();
