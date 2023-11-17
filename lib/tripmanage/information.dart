@@ -44,7 +44,13 @@ class InformationPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16)),
             Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
                 style: TextStyle(fontSize: 16)),
-            Text('ผู้จัดทริป: ติว', style: TextStyle(fontSize: 16)),
+            Row(
+              children: [
+                Text('ผู้จัดทริป: ติว\t\t\t\t\t\t\t',
+                    style: TextStyle(fontSize: 16)),
+                Text('ผู้ร่วมทริปสูงสุด : 12', style: TextStyle(fontSize: 16)),
+              ],
+            ),
           ],
         ),
       ),
