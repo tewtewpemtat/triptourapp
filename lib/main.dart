@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'main/bottom_navbar.dart';
-import 'main/tripbutton.dart';
 import 'main/top_navbar.dart';
+import 'main/tripbutton.dart';
 import 'main/triphistory.dart';
-import 'starter.dart';
+import 'splash.dart';
 
 void main() {
-  runApp(Starter());
+  runApp(splash());
 }
 
 class MyApp extends StatelessWidget {

@@ -8,27 +8,44 @@ class TripHistory extends StatelessWidget {
           CrossAxisAlignment.start, // จัดให้ข้อมูลบนสุดเริ่มจากด้านซ้าย
       children: [
         // ข้อความ "ประวัติทริป" อยู่บนสุด
-        Padding(
-          padding: EdgeInsets.only(left: 16), // เพิ่ม Padding ไปทางซ้าย
-          child: Text(
-            'ประวัติทริป',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        SizedBox(height: 20),
+        Column(
+          children: [
+            Column(
+              children: [
+                Align(
+                  child: Container(
+                    width: 391,
+                    height: 41,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xffeaeaea),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        children: [
+                          Icon(Icons.search, color: Colors.grey),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'ค้นหาประวัติทริป',
+                                border: InputBorder.none,
+                                isDense: true,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
-        // สร้างส่วนของการค้นหา
-        Padding(
-          padding: EdgeInsets.all(16),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'ค้นหาประวัติทริป',
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(),
-            ),
-          ),
-        ),
+        SizedBox(height: 20),
         // สร้างปุ่มจัดการทริปและเรียงลำดับ
         Padding(
           padding: EdgeInsets.only(
