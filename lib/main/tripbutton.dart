@@ -12,6 +12,7 @@ class TripButtons extends StatelessWidget {
           margin: EdgeInsets.all(10), // ระยะห่างระหว่างปุ่ม
           child: Align(
             alignment: Alignment.centerLeft, // จัดตำแหน่งข้อความไปทางซ้าย
+
             child: Text(
               'สร้างทริปของคุณ',
               style: TextStyle(
@@ -21,27 +22,42 @@ class TripButtons extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.all(10),
-          child: ElevatedButton(
-            onPressed: () {
-              // ไปยังหน้าสร้างทริป
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        CreateTripPage()), // RegisterPage() คือหน้าที่คุณต้องไป
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.blue,
-              padding: EdgeInsets.all(16),
+        Column(
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: 391,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xffdb923c),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateTripPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          Color(0xffdb923c), // ให้สีปุ่มเท่ากับสีของ Container
+                      padding: EdgeInsets.all(16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Text(
+                      'สร้างทริป',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            child: Text(
-              'สร้างทริป',
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
-          ),
+          ],
         ),
         Container(
           margin: EdgeInsets.all(10),
@@ -51,18 +67,24 @@ class TripButtons extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        JoinTripPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                  builder: (context) => JoinTripPage(),
+                ),
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.green,
+              primary: Color(
+                  0xffdb923c), // ให้สีเหมือนกับสีของ Container ที่ใช้ในการสร้างทริป
               padding: EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
             child: Text(
               'เข้าร่วมทริป',
               style: TextStyle(fontSize: 18, color: Colors.white),
+              
             ),
+            
           ),
         ),
       ],

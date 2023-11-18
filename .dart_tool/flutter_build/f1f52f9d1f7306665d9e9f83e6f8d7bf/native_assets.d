@@ -1,0 +1,1 @@
+ C:\\MobileApp\\triptourapp\\.dart_tool\\flutter_build\\f1f52f9d1f7306665d9e9f83e6f8d7bf\\native_assets.yaml: 

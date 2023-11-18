@@ -1,0 +1,14 @@
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/icudtl.dat
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/flutter_windows.dll
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.bin
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/assets/00.jpg
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/assets/cat.jpg
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/assets/green.png
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/assets/pencil.png
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/FontManifest.json
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+C:/MobileApp/triptourapp/build/windows/x64/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag
