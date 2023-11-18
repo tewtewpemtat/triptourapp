@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'tripmanage/information.dart';
+import 'tripmanage/headbutton.dart';
 
 class TripmanagePage extends StatelessWidget {
   @override
@@ -30,9 +31,15 @@ class TripmanagePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(11.0), // กำหนด margin ที่ต้องการ
-        child: InformationPage(),
+      body: Column(
+        children: [
+          Flexible(
+            child: InformationPage(),
+          ),
+          Flexible(
+            child: HeadbuttonPage(),
+          ),
+        ],
       ),
     );
   }

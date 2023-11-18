@@ -4,7 +4,6 @@ import 'addplace/slideplace.dart';
 
 class AddPage extends StatelessWidget {
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
