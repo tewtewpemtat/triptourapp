@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-#Sat Nov 18 20:33:36 ICT 2023
-base.0=C\:\\MobileApp\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-=======
-#Sat Nov 18 06:00:28 ICT 2023
+#Sun Nov 19 07:27:27 ICT 2023
 base.0=C\:\\Users\\tew00\\Desktop\\Projectapp\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
->>>>>>> main
 renamed.0=classes.dex
 path.0=classes.dex

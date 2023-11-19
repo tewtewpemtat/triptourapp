@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-5:/values-ne/values-ne.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-9:/values-ne/values-ne.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\JAGUAR\\.gradle\\caches\\transforms-3\\7e9df2ac2213a6bd3cef0f2f27870d79\\transformed\\core-1.6.0\\res\\values-ne\\values-ne.xml",
+                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\7e9df2ac2213a6bd3cef0f2f27870d79\\transformed\\core-1.6.0\\res\\values-ne\\values-ne.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
