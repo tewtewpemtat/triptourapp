@@ -8,11 +8,16 @@ class InformationPage extends StatelessWidget {
       padding: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: Colors.grey[200], // สีเทาอ่อน
-        border: Border.all(
-          color: Colors.black, // สีดำ
-          width: 2.0, // ความหนาของเส้นกรอบ
-        ),
+
         borderRadius: BorderRadius.circular(0.0), // มุมเเหลม
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // สีและความโปร่งใสของเงา
+            spreadRadius: 3, // การกระจายขอบของเงา
+            blurRadius: 6, // ความเบลอของเงา
+            offset: Offset(0, 1), // ตำแหน่งของเงา (นอน, ตั้ง)
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

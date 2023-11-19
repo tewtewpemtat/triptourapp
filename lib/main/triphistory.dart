@@ -66,25 +66,30 @@ class TripHistory extends StatelessWidget {
       },
       child: Material(
         child: Container(
-          padding: EdgeInsets.all(0),
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.black, // สีของเส้นกรอบ
-              width: 1.0, // ความหนาของเส้นกรอบ
+              color: Colors.grey,
+              width: 1.0,
             ),
+            borderRadius:
+                BorderRadius.circular(10), // กำหนด BorderRadius ที่ต้องการ
           ),
-          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 4,
-                child: Container(
-                  child: Image.asset(
-                    'assets/cat.jpg',
-                    width: 100.0,
-                    height: 140.0,
-                    fit: BoxFit.cover,
+                flex: 5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      10), // กำหนด BorderRadius ที่ต้องการ
+                  child: Container(
+                    child: Image.asset(
+                      'assets/main/main_image1.png',
+                      width: 100.0,
+                      height: 160.0,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

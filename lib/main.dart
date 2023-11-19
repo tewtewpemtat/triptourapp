@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TripTour',
       home: Scaffold(
-        appBar: TopNavbar(), // เรียกใช้ TopNavbar Widget
+        appBar: TopNavbar(), // เรียกใช้ TopNavbar Widgetna
         resizeToAvoidBottomInset: false, // เพิ่มการตั้งค่านี้
         body: SingleChildScrollView(
           child: Column(

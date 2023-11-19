@@ -31,11 +31,20 @@ class UserButton extends StatelessWidget {
                     primary: Colors.white, // สีพื้นหลังของปุ่ม
                     onPrimary: Colors.black, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.chat), // รูปไอคอนแชท
+                      IconButton(
+                        icon: Icon(Icons.chat),
+                        onPressed: () {
+                          // ทำอะไรสักอย่างเมื่อกด icon อีเมล
+                        },
+                      ),
+                      // รูปไอคอนแชท
                       SizedBox(width: 8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
                       Text('แชทกลุ่ม'),
                     ],
@@ -57,6 +66,9 @@ class UserButton extends StatelessWidget {
                     primary: Colors.white, // สีพื้นหลังของปุ่ม
                     onPrimary: Colors.black, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +80,7 @@ class UserButton extends StatelessWidget {
                         },
                       ),
                       // รูปไอคอนแชท
-                      // ระยะห่างระหว่างไอคอนแชทและข้อความ
+                      SizedBox(width: 8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
                       Text('ร้องขอสถานที่'),
                     ],
                   ),

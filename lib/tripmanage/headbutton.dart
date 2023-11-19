@@ -32,6 +32,9 @@ class HeadButton extends StatelessWidget {
                     primary: Colors.white, // สีพื้นหลังของปุ่ม
                     onPrimary: Colors.black, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -60,6 +63,9 @@ class HeadButton extends StatelessWidget {
                     primary: Colors.white,
                     onPrimary: Colors.black,
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Text('เพิ่มสถานที่'),
                 ),
@@ -74,6 +80,9 @@ class HeadButton extends StatelessWidget {
                     primary: Colors.white,
                     onPrimary: Colors.black,
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Text('กำหนดเวลาแต่ละสถานที่'),
                 ),

@@ -1,0 +1,215 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: DownPage(),
+  ));
+}
+
+class DownPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color(0xFFF0F0F0), // สีพื้นหลังของหน้า
+          padding: EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10), // เพิ่มบรรทัดนี้
+                    border: Border.all(
+                      color: Colors.grey, // สีของเส้นกรอบ
+                      width: 1.0, // ความหนาของเส้นกรอบ
+                    ),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 0.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              'assets/addplace/addplace_image1.png',
+                              width: 100.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Expanded(
+                        flex: 7,
+                        child: Container(
+                          margin: EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('เพิ่มจากคำร้องขอ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              Text('เพิ่มสถานที่จากคำร้องขอ',
+                                  style: TextStyle(fontSize: 12)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10), // เพิ่มบรรทัดนี้
+                    border: Border.all(
+                      color: Colors.grey, // สีของเส้นกรอบ
+                      width: 1.0, // ความหนาของเส้นกรอบ
+                    ),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 0.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              'assets/addplace/addplace_image2.png',
+                              width: 100.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Expanded(
+                        flex: 7,
+                        child: Container(
+                          margin: EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('กำหนดเอง',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              Text('กำหนดสถานที่ของคุณเอง',
+                                  style: TextStyle(fontSize: 12)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              InkWell(
+                onTap: () {}, // ใส่โค้ดตอนคลิก
+                child: Container(
+                  padding: EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.grey, // สีของเส้นกรอบ
+                      width: 1.0, // ความหนาของเส้นกรอบ
+                    ),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 0.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 3, // กำหนดขนาดของส่วนทางซ้าย (30%)
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              'assets/userplan/userplan_image1.png',
+                              width: 100.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Expanded(
+                        flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
+                        child: Container(
+                          margin: EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('ร้านกาเเฟ WhiteCafe',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  )),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  color: Color(0xFF1E30D7),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 2.0),
+                                child: Text(
+                                  'นนทบุรี',
+                                  style: TextStyle(
+                                      fontSize: 8, color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.add,
+                                size: 24.0, // ปรับขนาดไอคอนตามที่ต้องการ
+                                color: Colors.blue, // เลือกสีตามที่ต้องการ
+                              ),
+                              // เพิ่มวิดเจ็ตอื่น ๆ ที่คุณต้องการที่นี่
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
