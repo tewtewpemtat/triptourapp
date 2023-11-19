@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\tew00\Desktop\triptourapp\build\windows\CMakeFiles\921c0ba71a9dc3472fa950ad6b71cee9\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{206C4C03-0099-3E59-9AAE-21B0242D205E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

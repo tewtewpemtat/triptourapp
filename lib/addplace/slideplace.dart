@@ -26,8 +26,15 @@ class _SlidePlaceState extends State<SlidePlace> {
       margin: EdgeInsets.all(0.0),
       height: 100,
       decoration: BoxDecoration(
-        color: Colors.grey[200],
-        border: Border.all(color: Colors.black, width: 1.0),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 3,
+            blurRadius: 6,
+            offset: Offset(0, 3), // เปลี่ยนตำแหน่งของเงาลงไปทางล่าง
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,16 +70,19 @@ class _SlidePlaceState extends State<SlidePlace> {
         });
       },
       child: Container(
-        padding: EdgeInsets.all(8.0),
-        margin: EdgeInsets.only(right: 5.0),
+        padding: EdgeInsets.all(9.0),
+        margin: EdgeInsets.only(right: 10.0),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1.0),
+          border: Border.all(color: Colors.grey, width: 1.0),
           borderRadius: BorderRadius.circular(5.0),
-          color: isSelected ? Colors.yellow : Colors.white,
+          color: isSelected ? Color(0xFFECB800) : Colors.white,
         ),
         child: Text(
           placeType,
-          style: TextStyle(fontSize: 14.0),
+          style: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold, // เพิ่มบรรทัดนี้เพื่อทำให้ตัวหนา
+          ),
         ),
       ),
     );

@@ -12,7 +12,7 @@ class DownPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white, // สีพื้นหลังของหน้า
+          color: Color(0xFFF0F0F0), // สีพื้นหลังของหน้า
           padding: EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -22,8 +22,9 @@ class DownPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10), // เพิ่มบรรทัดนี้
                     border: Border.all(
-                      color: Colors.black, // สีของเส้นกรอบ
+                      color: Colors.grey, // สีของเส้นกรอบ
                       width: 1.0, // ความหนาของเส้นกรอบ
                     ),
                   ),
@@ -32,27 +33,33 @@ class DownPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 3, // กำหนดขนาดของส่วนทางซ้าย (30%)
+                        flex: 3,
                         child: Container(
-                          child: Image.asset(
-                            'assets/cat.jpg',
-                            width: 100.0,
-                            height: 80.0,
-                            fit: BoxFit.cover, // ขยายเต็มส่วน
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              'assets/addplace/addplace_image1.png',
+                              width: 100.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(width: 4),
                       Expanded(
-                        flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
+                        flex: 7,
                         child: Container(
                           margin: EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('เพิ่มจากคำร้องขอ',
-                                  style: TextStyle(fontSize: 16)),
-                              Text('เพิ่มสถานที่จากคำรองขอ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              Text('เพิ่มสถานที่จากคำร้องขอ',
                                   style: TextStyle(fontSize: 12)),
                             ],
                           ),
@@ -68,8 +75,9 @@ class DownPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10), // เพิ่มบรรทัดนี้
                     border: Border.all(
-                      color: Colors.black, // สีของเส้นกรอบ
+                      color: Colors.grey, // สีของเส้นกรอบ
                       width: 1.0, // ความหนาของเส้นกรอบ
                     ),
                   ),
@@ -78,26 +86,33 @@ class DownPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 3, // กำหนดขนาดของส่วนทางซ้าย (30%)
+                        flex: 3,
                         child: Container(
-                          child: Image.asset(
-                            'assets/cat.jpg',
-                            width: 100.0,
-                            height: 80.0,
-                            fit: BoxFit.cover, // ขยายเต็มส่วน
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              'assets/addplace/addplace_image2.png',
+                              width: 100.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(width: 4),
                       Expanded(
-                        flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
+                        flex: 7,
                         child: Container(
                           margin: EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('กำหนดเอง', style: TextStyle(fontSize: 16)),
-                              Text('กำหนดสถานของคุณเอง',
+                              Text('กำหนดเอง',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              Text('กำหนดสถานที่ของคุณเอง',
                                   style: TextStyle(fontSize: 12)),
                             ],
                           ),
@@ -113,8 +128,9 @@ class DownPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.black, // สีของเส้นกรอบ
+                      color: Colors.grey, // สีของเส้นกรอบ
                       width: 1.0, // ความหนาของเส้นกรอบ
                     ),
                   ),
@@ -125,24 +141,29 @@ class DownPage extends StatelessWidget {
                       Expanded(
                         flex: 3, // กำหนดขนาดของส่วนทางซ้าย (30%)
                         child: Container(
-                          child: Image.asset(
-                            'assets/cat.jpg',
-                            width: 100.0,
-                            height: 80.0,
-                            fit: BoxFit.cover, // ขยายเต็มส่วน
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              'assets/userplan/userplan_image1.png',
+                              width: 100.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(width: 4),
                       Expanded(
-                        flex: 5, // กำหนดขนาดของส่วนทางขวา (70%)
+                        flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
                         child: Container(
                           margin: EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('ร้านกาเเฟ WhiteCafe',
-                                  style: TextStyle(fontSize: 16)),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  )),
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -150,13 +171,14 @@ class DownPage extends StatelessWidget {
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(16.0),
-                                  color: Colors.grey,
+                                  color: Color(0xFF1E30D7),
                                 ),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 15.0, vertical: 2.0),
                                 child: Text(
                                   'นนทบุรี',
-                                  style: TextStyle(fontSize: 8),
+                                  style: TextStyle(
+                                      fontSize: 8, color: Colors.white),
                                 ),
                               ),
                             ],

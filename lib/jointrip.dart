@@ -24,6 +24,7 @@ class JoinTripPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(0),
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: Colors.black, // สีของเส้นกรอบ
                     width: 1.0, // ความหนาของเส้นกรอบ
@@ -36,11 +37,14 @@ class JoinTripPage extends StatelessWidget {
                     Expanded(
                       flex: 4, // กำหนดขนาดของส่วนทางซ้าย (30%)
                       child: Container(
-                        child: Image.asset(
-                          'assets/cat.jpg',
-                          width: 100.0,
-                          height: 80.0,
-                          fit: BoxFit.cover, // ขยายเต็มส่วน
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            'assets/jointrip/mail_image1.png',
+                            width: 100.0,
+                            height: 80.0,
+                            fit: BoxFit.cover, // ขยายเต็มส่วน
+                          ),
                         ),
                       ),
                     ),
@@ -49,6 +53,10 @@ class JoinTripPage extends StatelessWidget {
                       flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
                       child: Container(
                         margin: EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
