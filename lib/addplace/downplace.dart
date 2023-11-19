@@ -143,7 +143,22 @@ class DownPage extends StatelessWidget {
                             children: [
                               Text('ร้านกาเเฟ WhiteCafe',
                                   style: TextStyle(fontSize: 16)),
-                              Text('นนทบุรี', style: TextStyle(fontSize: 12)),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  color: Colors.grey,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 2.0),
+                                child: Text(
+                                  'นนทบุรี',
+                                  style: TextStyle(fontSize: 8),
+                                ),
+                              ),
                             ],
                           ),
                         ),
