@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/testuser.dart';
 import 'tripmanage/information.dart';
 import 'tripmanage/headbutton.dart';
 import 'tripmanage/userbutton.dart';
@@ -28,7 +29,10 @@ class TripmanagePage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.mail),
               onPressed: () {
-                // ทำอะไรสักอย่างเมื่อกด icon อีเมล
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TestUserPage()),
+                );
               },
             ),
           ],
