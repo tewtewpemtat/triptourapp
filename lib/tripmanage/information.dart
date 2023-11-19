@@ -4,7 +4,16 @@ class InformationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8.0),
+      margin: EdgeInsets.all(0.0),
+      padding: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // สีเทาอ่อน
+        border: Border.all(
+          color: Colors.black, // สีดำ
+          width: 2.0, // ความหนาของเส้นกรอบ
+        ),
+        borderRadius: BorderRadius.circular(0.0), // มุมเเหลม
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -24,8 +33,10 @@ class InformationPage extends StatelessWidget {
           ),
           Row(
             children: [
-              Text('จำนวนผู้ร่วมทริป: 16 คน \t\t\t\t\t\t\t\t\t\t',
-                  style: TextStyle(fontSize: 16)),
+              Text(
+                'จำนวนผู้ร่วมทริป: 16 คน \t\t\t\t\t\t\t\t\t\t',
+                style: TextStyle(fontSize: 16),
+              ),
               Image.asset('assets/green.png', width: 14, height: 14),
               Text('\t กำลังดำเนินการ ', style: TextStyle(fontSize: 16)),
             ],

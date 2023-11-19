@@ -34,33 +34,36 @@ class AddPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
               'เพิ่มสถานที่',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
-            Text(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
               'เพิ่มสถานที่บนทริปของคุณ',
               style: TextStyle(
                 fontSize: 18.0,
               ),
             ),
-            SizedBox(height: 10),
-            SlidePlace(),
-            SizedBox(height: 10),
-            Expanded(
-              child: DownPage(),
-            ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: SlidePlace(),
+          ),
+          Expanded(
+            child: DownPage(),
+          ),
+        ],
       ),
     );
   }

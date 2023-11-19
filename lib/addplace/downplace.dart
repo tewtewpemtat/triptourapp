@@ -13,7 +13,7 @@ class DownPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white, // สีพื้นหลังของหน้า
-          padding: EdgeInsets.all(2.0),
+          padding: EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

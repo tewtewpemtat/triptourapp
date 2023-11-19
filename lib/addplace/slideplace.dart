@@ -26,6 +26,7 @@ class _SlidePlaceState extends State<SlidePlace> {
       margin: EdgeInsets.all(0.0),
       height: 100,
       decoration: BoxDecoration(
+        color: Colors.grey[200],
         border: Border.all(color: Colors.black, width: 1.0),
       ),
       child: Column(
