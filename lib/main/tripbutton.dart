@@ -22,45 +22,38 @@ class TripButtons extends StatelessWidget {
             ),
           ),
         ),
-        Column(
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: 391,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xffdb923c),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateTripPage()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary:
-                          Color(0xffdb923c), // ให้สีปุ่มเท่ากับสีของ Container
-                      padding: EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: Text(
-                      'สร้างทริป',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ],
+        Container(
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color(0xffdb923c),
+          ),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateTripPage()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xffdb923c), // ให้สีปุ่มเท่ากับสีของ Container
+              padding: EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
             ),
-          ],
+            child: Text(
+              'สร้างทริป',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+          ),
         ),
         Container(
           margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color(0xffdb923c),
+          ),
           child: ElevatedButton(
             onPressed: () {
               // ไปยังหน้าเข้าร่วมทริป
@@ -82,9 +75,7 @@ class TripButtons extends StatelessWidget {
             child: Text(
               'เข้าร่วมทริป',
               style: TextStyle(fontSize: 18, color: Colors.white),
-              
             ),
-            
           ),
         ),
       ],

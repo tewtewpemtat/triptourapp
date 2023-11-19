@@ -33,12 +33,8 @@ class TripmanagePage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Flexible(
-            child: InformationPage(),
-          ),
-          Flexible(
-            child: HeadbuttonPage(),
-          ),
+          InformationPage(),
+          HeadbuttonPage(),
         ],
       ),
     );

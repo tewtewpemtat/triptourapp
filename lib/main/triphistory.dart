@@ -8,15 +8,14 @@ class TripHistory extends StatelessWidget {
           CrossAxisAlignment.start, // จัดให้ข้อมูลบนสุดเริ่มจากด้านซ้าย
       children: [
         // ข้อความ "ประวัติทริป" อยู่บนสุด
-        SizedBox(height: 20),
+
         Column(
           children: [
             Column(
               children: [
                 Align(
                   child: Container(
-                    width: 391,
-                    height: 41,
+                    margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color(0xffeaeaea),
@@ -45,7 +44,7 @@ class TripHistory extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(height: 20),
+
         // สร้างปุ่มจัดการทริปและเรียงลำดับ
         Padding(
           padding: EdgeInsets.only(
