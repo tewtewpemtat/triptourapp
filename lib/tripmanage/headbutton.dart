@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/addplace.dart';
 
-class HeadbuttonPage extends StatelessWidget {
+class HeadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +51,10 @@ class HeadbuttonPage extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // ทำอะไรเมื่อกดปุ่มเพิ่มสถานที่
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddPage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
@@ -85,7 +89,7 @@ class HeadbuttonPage extends StatelessWidget {
 void main() {
   runApp(
     MaterialApp(
-      home: HeadbuttonPage(),
+      home: HeadButton(),
     ),
   );
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'tripmanage/information.dart';
 import 'tripmanage/headbutton.dart';
+import 'tripmanage/userbutton.dart';
+import 'tripmanage/headplan.dart';
+import 'tripmanage/userplan.dart';
 
 class TripmanagePage extends StatelessWidget {
   @override
@@ -31,11 +34,14 @@ class TripmanagePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          InformationPage(),
-          HeadbuttonPage(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            InformationPage(),
+            HeadButton(),
+            HeadPlan(),
+          ],
+        ),
       ),
     );
   }
