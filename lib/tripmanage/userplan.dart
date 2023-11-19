@@ -21,18 +21,20 @@ class UserPlan extends StatelessWidget {
           color: Colors.black, // สีของเส้นกรอบ
           width: 1.0, // ความหนาของเส้นกรอบ
         ),
+        borderRadius: BorderRadius.circular(10), // มุมโค้งของ Container
       ),
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 4,
-            child: Container(
+            flex: 5,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
               child: Image.asset(
-                'assets/cat.jpg',
+                'assets/userplan/userplan_image1.png',
                 width: 100.0,
-                height: 165.0,
+                height: 170.0,
                 fit: BoxFit.cover,
               ),
             ),
@@ -54,8 +56,9 @@ class UserPlan extends StatelessWidget {
                         ),
                       ),
                       Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(Icons.remove)),
+                        alignment: Alignment.centerRight,
+                        child: Icon(Icons.remove),
+                      ),
                     ],
                   ),
                   Container(
@@ -64,28 +67,39 @@ class UserPlan extends StatelessWidget {
                         color: Colors.black, // สีของเส้นกรอบ
                         width: 1.0, // ความหนาของเส้นกรอบ
                       ),
-                      borderRadius:
-                          BorderRadius.circular(16.0), // ความโค้งของมุมกรอบ
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Color(0xFF1E30D7), // ความโค้งของมุมกรอบ
                     ),
-                    padding: EdgeInsets.all(3.0), // การกำหนด padding
+                    padding: EdgeInsets.all(3.0),
                     child: Text(
                       'กรุงเทพมหานคร',
-                      style: TextStyle(fontSize: 8),
+                      style: TextStyle(
+                        fontSize: 8,
+                        color: Colors.white, // สีของข้อความ
+                        // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                      ),
                     ),
                   ),
                   SizedBox(height: 3),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black,
+                        color: Colors.white,
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(16.0),
+                      color: Color(0xffdc933c),
                     ),
                     padding: EdgeInsets.all(3.0),
                     child: Text(
                       'กำหนดการเวลา : 00:00',
-                      style: TextStyle(fontSize: 8),
+                      style: TextStyle(
+                        fontSize: 8,
+                        color: Colors.white, // สีของข้อความ
+                        fontWeight: FontWeight.bold, // หนา
+                        fontStyle: FontStyle.italic, // เอียง
+                        // และคุณสามารถกำหนดคุณสมบัติอื่น ๆ ตามต้องการ
+                      ),
                     ),
                   ),
                   Text('จำนวนผู้เข้าร่วม : 16', style: TextStyle(fontSize: 12)),
@@ -99,25 +113,17 @@ class UserPlan extends StatelessWidget {
                             // ทำอะไรเมื่อกดปุ่มเพิ่มสถานที่
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
+                            primary: Color(0xffcfcfcf),
                             onPrimary: Colors.black,
-                            fixedSize: Size(20, 20),
+                            fixedSize: Size(70, 10),
                           ),
-                          child: Text('เข้าร่วม'),
-                        ),
-                      ),
-                      SizedBox(width: 7),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // ทำอะไรเมื่อกดปุ่มกำหนดเวลาแต่ละสถานที่
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            onPrimary: Colors.black,
-                            fixedSize: Size(20, 20),
+                          child: Text(
+                            'จุดนัดพบ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold, // ทำให้เป็นตัวหนา
+                              // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                            ),
                           ),
-                          child: Text('จุดนัดพบ'),
                         ),
                       ),
                     ],

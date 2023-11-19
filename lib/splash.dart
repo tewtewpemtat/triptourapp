@@ -22,7 +22,12 @@ class IntroducePage extends StatefulWidget {
 }
 
 class _IntroducePageState extends State<IntroducePage> {
-  final List<String> imagePaths = ['assets/cat.jpg', 'assets/00.jpg'];
+  final List<String> imagePaths = [
+    'assets/splash/splash_image1.png',
+    'assets/splash/splash_image2.png',
+    'assets/splash/splash_image3.png',
+    'assets/splash/splash_image4.png'
+  ];
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -36,7 +41,7 @@ class _IntroducePageState extends State<IntroducePage> {
   void _autoTransition() {
     if (_currentPage < imagePaths.length - 1) {
       _pageController.nextPage(
-          duration: Duration(seconds: 2), curve: Curves.easeInOut);
+          duration: Duration(seconds: 3), curve: Curves.easeInOut);
     } else {
       _pageController.jumpToPage(0);
     }
@@ -49,7 +54,7 @@ class _IntroducePageState extends State<IntroducePage> {
       children: [
         // Top 50%: Image
         Expanded(
-          flex: 5,
+          flex: 8,
           child: PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {
@@ -59,41 +64,65 @@ class _IntroducePageState extends State<IntroducePage> {
             },
             itemCount: imagePaths.length,
             itemBuilder: (context, index) {
-              return Image.asset(
-                imagePaths[index],
-                fit: BoxFit.cover,
+              return FractionallySizedBox(
+                heightFactor: 1, // ลองปรับค่านี้เพื่อเปลี่ยนความสูง
+                child: Image.asset(
+                  imagePaths[index],
+                  fit: BoxFit.cover,
+                ),
               );
             },
           ),
         ),
+
         // Bottom 50%: Text and Button
+        // 50% ล่าง: ข้อความและปุ่ม
         Expanded(
           flex: 5,
           child: Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment
+                .center, // เปลี่ยนจาก Alignment.topCenter เป็น Alignment.center
             child: FractionallySizedBox(
               widthFactor: 0.8,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'TripTour',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.center, // เพิ่มบรรทัดนี้
+                      children: [
+                        Text(
+                          'Trip',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                        Text(
+                          'Tour',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFE59730),
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'เเอปพลิเคชั่นวางเแผนจัดทริปท่องเที่ยว',
+                      'แอปพลิเคชันวางแผนจัดทริปท่องเที่ยว',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      'ที่ช่วยให้คุณเเละกลุ่มเพื่อนของคุณท่อง',
+                      'ที่ช่วยให้คุณและกลุ่มเพื่อนของคุณท่อง',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -117,10 +146,11 @@ class _IntroducePageState extends State<IntroducePage> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
                         },
                         child: Text(
                           'ดำเนินการต่อ',

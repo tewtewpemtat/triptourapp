@@ -44,7 +44,12 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 0.0),
                   child: InkWell(
                     onTap: () {
-                      // เพิ่มโค้ดสำหรับเข้าสู่ระบบ
+                        Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyApp(),
+                      ),
+                    );
                     },
                     child: Text(
                       'เข้าสู่ระบบ',
