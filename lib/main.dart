@@ -18,28 +18,19 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: TopNavbar(), // เรียกใช้ TopNavbar Widget
         resizeToAvoidBottomInset: false, // เพิ่มการตั้งค่านี้
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                TripButtons(),
-                Expanded(
-                  child: TripHistory(),
-                ),
-              ],
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: BottomNavbar(
-                selectedIndex: 0,
-                onItemTapped: (index) {
-                  // โค้ดที่จะทำเมื่อผู้ใช้แตะที่ BottomNavbar
-                },
-              ),
-            ),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              TripButtons(),
+              TripHistory(),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavbar(
+          selectedIndex: 0,
+          onItemTapped: (index) {
+            // โค้ดที่จะทำเมื่อผู้ใช้แตะที่ BottomNavbar
+          },
         ),
       ),
     );
