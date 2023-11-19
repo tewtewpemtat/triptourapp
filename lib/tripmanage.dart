@@ -5,6 +5,7 @@ import 'tripmanage/headbutton.dart';
 import 'tripmanage/userbutton.dart';
 import 'tripmanage/headplan.dart';
 import 'tripmanage/userplan.dart';
+import 'infoplace.dart';
 
 class TripmanagePage extends StatelessWidget {
   @override

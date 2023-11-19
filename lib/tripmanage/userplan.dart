@@ -64,8 +64,8 @@ class UserPlan extends StatelessWidget {
                         color: Colors.black, // สีของเส้นกรอบ
                         width: 1.0, // ความหนาของเส้นกรอบ
                       ),
-                      borderRadius:
-                          BorderRadius.circular(16.0), // ความโค้งของมุมกรอบ
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.grey, // ความโค้งของมุมกรอบ
                     ),
                     padding: EdgeInsets.all(3.0), // การกำหนด padding
                     child: Text(
@@ -81,6 +81,7 @@ class UserPlan extends StatelessWidget {
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.grey,
                     ),
                     padding: EdgeInsets.all(3.0),
                     child: Text(
