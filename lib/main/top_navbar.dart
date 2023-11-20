@@ -8,12 +8,35 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text('Travel Together'),
+      title: Padding(
+        padding: EdgeInsets.all(0.0), // ปรับ margin ตามที่ต้องการ
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 25.0,
+              backgroundImage: AssetImage('assets/cat.jpg'),
+            ),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Travel Together',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+                Text(
+                  'จำนวนทริปที่เข้าร่วม : 2',
+                  style: TextStyle(fontSize: 13, color: Colors.white),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
       actions: [
         IconButton(
-          icon: Icon(Icons.account_circle),
+          icon: Icon(Icons.settings),
           onPressed: () {
-            // ไปยังหน้าโปรไฟล์
             Navigator.push(
               context,
               MaterialPageRoute(

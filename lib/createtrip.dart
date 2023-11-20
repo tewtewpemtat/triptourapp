@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'tripmanage.dart';
 
 class CreateTripPage extends StatefulWidget {
@@ -138,10 +139,18 @@ class _CreateTripPageState extends State<CreateTripPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            TripmanagePage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                      builder: (context) => TripmanagePage(),
+                    ),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white, // สีพื้นหลังของปุ่ม
+                  onPrimary: Colors.black, // สีขอบตัวอักษร
+                  fixedSize: Size(200, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
                 child: Text("ดำเนินการต่อ"),
               ),
               SizedBox(height: 20),

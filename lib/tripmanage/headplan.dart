@@ -66,9 +66,12 @@ class HeadPlan extends StatelessWidget {
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(Icons.remove),
+                        InkWell(
+                          onTap: () {},
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(Icons.remove),
+                          ),
                         ),
                       ],
                     ),
@@ -120,26 +123,30 @@ class HeadPlan extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // ทำอะไรเมื่อกดปุ่มเพิ่มสถานที่
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xffcfcfcf),
-                              onPrimary: Colors.black,
-                              fixedSize: Size(70, 10),
-                            ),
-                            child: Text(
-                              'จุดนัดพบ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold, // ทำให้เป็นตัวหนา
-                                // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // ทำอะไรเมื่อกดปุ่มเพิ่มสถานที่
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xffcfcfcf),
+                                onPrimary: Colors.black,
+                                fixedSize: Size(70, 10),
+                              ),
+                              child: Text(
+                                'จุดนัดพบ',
+                                style: TextStyle(
+                                  fontWeight:
+                                      FontWeight.bold, // ทำให้เป็นตัวหนา
+                                  // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ],
-                    ),
+                    )
                   ],
                 ),
               ),

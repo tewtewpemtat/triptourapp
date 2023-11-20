@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/triptimeline.dart';
+import 'package:triptourapp/main.dart';
 
 class BottomNavbar extends StatelessWidget {
   final int selectedIndex;
@@ -27,7 +29,23 @@ class BottomNavbar extends StatelessWidget {
         ),
       ],
       currentIndex: selectedIndex,
-      onTap: onItemTapped,
+      onTap: (index) {
+        if (index == 0) {
+          // ถ้า index เท่ากับ 0 (หน้าหลัก), ให้เปลี่ยนไปที่หน้า MainPage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MyApp()),
+          );
+        } else if (index == 2) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => TripTimeLine()),
+          );
+        } else {
+          // ถ้าไม่ใช่หน้าหลักหรือไทมไลน์ทริป, ให้เรียก callback onItemTapped
+          onItemTapped(index);
+        }
+      },
     );
   }
 }
