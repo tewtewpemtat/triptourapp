@@ -34,9 +34,12 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
+                    primary: Colors.white, // สีพื้นหลังของปุ่ม
+                    onPrimary: Colors.black, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -102,9 +105,12 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
+                    primary: Colors.white, // สีพื้นหลังของปุ่ม
+                    onPrimary: Colors.black, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -125,9 +131,12 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
+                    primary: Colors.white, // สีพื้นหลังของปุ่ม
+                    onPrimary: Colors.black, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -137,6 +146,19 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                       Text('สิ่งน่าสนใจ'),
                     ],
                   ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              SizedBox(width: 10),
+              Text(
+                'สมาชิกที่เข้าร่วม',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

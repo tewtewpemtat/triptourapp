@@ -24,7 +24,7 @@ class AddPage extends StatelessWidget {
                 color: Color(0xffeaeaea),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: [
                     Icon(Icons.search, color: Colors.grey),
@@ -70,7 +70,7 @@ class AddPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(1.0),
               child: SlidePlace(),
             ),
             Expanded(
