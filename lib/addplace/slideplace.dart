@@ -73,7 +73,7 @@ class _SlidePlaceState extends State<SlidePlace> {
         padding: EdgeInsets.all(9.0),
         margin: EdgeInsets.only(right: 10.0),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1.0),
+          border: Border.all(color: Colors.grey, width: 2.0),
           borderRadius: BorderRadius.circular(5.0),
           color: isSelected ? Color(0xFFECB800) : Colors.white,
         ),

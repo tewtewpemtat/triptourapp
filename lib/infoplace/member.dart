@@ -18,10 +18,10 @@ class MemberPage extends StatelessWidget {
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.black, // สีของเส้นกรอบ
+            color: Colors.grey, // สีของเส้นกรอบ
             width: 1.0, // ความหนาของเส้นกรอบ
           ),
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
         child: Row(
@@ -49,7 +49,14 @@ class MemberPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('ชื่อทริป: จา', style: TextStyle(fontSize: 16)),
+                    Text(
+                      'JaGUARxKAI',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight
+                            .bold, // เพิ่มคำสั่งนี้เพื่อทำให้ตัวอักษรเป็นตัวหนา
+                      ),
+                    ),
                   ],
                 ),
               ),

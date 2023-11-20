@@ -164,21 +164,18 @@ class DownPage extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                   )),
+                              SizedBox(height: 5),
                               Container(
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 1.0,
-                                  ),
                                   borderRadius: BorderRadius.circular(16.0),
                                   color: Color(0xFF1E30D7),
                                 ),
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 15.0, vertical: 2.0),
+                                    horizontal: 20.0, vertical: 1.0),
                                 child: Text(
                                   'นนทบุรี',
                                   style: TextStyle(
-                                      fontSize: 8, color: Colors.white),
+                                      fontSize: 11, color: Colors.white),
                                 ),
                               ),
                             ],
