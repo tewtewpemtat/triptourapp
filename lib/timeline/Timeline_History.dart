@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../placetimeline.dart';
 
 class TripTimeLineHistory extends StatelessWidget {
   @override
@@ -6,6 +7,7 @@ class TripTimeLineHistory extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 3),
         Container(
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -31,18 +33,36 @@ class TripTimeLineHistory extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(height: 5),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'ไทมไลน์ของคุณ',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         SizedBox(height: 7),
-        buildTripItem(),
-        buildTripItem(),
-        buildTripItem(),
+        buildTripItem(context),
+        buildTripItem(context),
+        buildTripItem(context),
       ],
     );
   }
 
-  Widget buildTripItem() {
+  Widget buildTripItem(BuildContext context) {
     return InkWell(
       onTap: () {
-        // ทำอะไรเมื่อคลิกที่รายการทริป
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlaceTimeline(),
+          ),
+        );
       },
       child: Material(
         child: Container(
@@ -79,29 +99,13 @@ class TripTimeLineHistory extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.all(0.0),
                   padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white, // สีเทาอ่อน
-
-                    borderRadius: BorderRadius.circular(0.0), // มุมเเหลม
-                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'ชื่อทริป: จา',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Image.asset('assets/pencil.png',
-                                width: 18, height: 18),
-                          ),
-                        ],
+                      Text(
+                        'ชื่อทริป: จา',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Row(
                         children: [
@@ -116,23 +120,21 @@ class TripTimeLineHistory extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
-                              style: TextStyle(fontSize: 12)),
-                          Icon(Icons.location_on,
-                              size: 12), // ใช้ icon แสดงตำแหน่ง
-                          SizedBox(width: 5),
+                          Icon(Icons.location_on, size: 12),
                           Text('100 เมตร', style: TextStyle(fontSize: 12)),
+                          SizedBox(width: 5),
+                          Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
+                              style: TextStyle(fontSize: 12)),
                         ],
                       ),
-                      Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
-                          style: TextStyle(fontSize: 12)),
+                      Text(
+                        'วันที่เดินทาง: 11/08/66 - 13/08/66',
+                      ),
                       Text('ผู้จัดทริป: ติว\t\t\t\t\t\t\t',
                           style: TextStyle(fontSize: 12)),
                       Row(
                         children: [
                           Text('จำนวนผู้ร่วมทริป: 12 คน \t\t\t',
-                              style: TextStyle(fontSize: 12)),
-                          Text('ผู้ร่วมทริปสูงสุด : 12',
                               style: TextStyle(fontSize: 12)),
                         ],
                       ),

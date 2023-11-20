@@ -66,9 +66,12 @@ class HeadPlan extends StatelessWidget {
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(Icons.remove),
+                        InkWell(
+                          onTap: () {},
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(Icons.remove),
+                          ),
                         ),
                       ],
                     ),

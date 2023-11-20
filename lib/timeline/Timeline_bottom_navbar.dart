@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:triptourapp/TripTimeLine.dart';
+import 'package:triptourapp/triptimeline.dart';
 import 'package:triptourapp/main.dart';
 
 class TimeLineBottomNavBar extends StatelessWidget {

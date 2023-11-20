@@ -82,7 +82,7 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                             });
                           },
                           child: Icon(
-                            Icons.gavel, // แทนด้วย icon ที่คุณต้องการ
+                            Icons.remove, // แทนด้วย icon ที่คุณต้องการ
                             color: Colors.red, // สีของ icon
                             size: 30, // ขนาดของ icon
                           ),
@@ -192,7 +192,7 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                             });
                           },
                           child: Icon(
-                            Icons.gavel, // แทนด้วย icon ที่คุณต้องการ
+                            Icons.remove, // แทนด้วย icon ที่คุณต้องการ
                             color: Colors.red, // สีของ icon
                             size: 30, // ขนาดของ icon
                           ),
