@@ -11,12 +11,32 @@ class HeadButton extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(0.0),
-            child: Text(
-              'แผนการเดินทาง',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'แผนการเดินทาง',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // ทำสิ่งที่ต้องการเมื่อคลิกที่ปุ่ม
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง
+                    primary: Colors.white, // กำหนดสีของตัวอักษรเป็นสีขาว
+                  ),
+                  child: Text(
+                    'ยกเลิกทริป',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      // สามารถกำหนดสีข้อความเพิ่มเติมได้ที่นี่ถ้าต้องการ
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
           SizedBox(height: 10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/friend.dart';
 import 'package:triptourapp/triptimeline.dart';
 import 'package:triptourapp/main.dart';
 
@@ -35,6 +36,12 @@ class BottomNavbar extends StatelessWidget {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => MyApp()),
+          );
+        }
+        if (index == 1) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Friend()),
           );
         } else if (index == 2) {
           Navigator.pushReplacement(

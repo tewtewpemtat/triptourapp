@@ -21,7 +21,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Travel Together',
+                  'Jaguar',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 Text(
@@ -36,15 +36,48 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.settings),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+          onPressed: () async {
+            final result = await showMenu(
+              context: context,
+              position: RelativeRect.fromLTRB(
+                  100, 100, 0, 0), // ปรับตำแหน่งที่เปิด Slide ทางขวา
+              items: [
+                PopupMenuItem(
+                  child: Text('แก้ไขโปรไฟล์'),
+                  value: 'editProfile',
+                ),
+                PopupMenuItem(
+                  child: Text('แก้ไขข้อมูลส่วนตัว'),
+                  value: 'editPersonalInfo',
+                ),
+                PopupMenuItem(
+                  child: Text('ออกจากระบบ'),
+                  value: 'logout',
+                ),
+              ],
             );
+
+            // ตรวจสอบผลลัพธ์และดำเนินการตามต้องการ
+            if (result != null) {
+              switch (result) {
+                case 'editProfile':
+                  // ทำงานเมื่อเลือกแก้ไขโปรไฟล์
+                  break;
+                case 'editPersonalInfo':
+                  // ทำงานเมื่อเลือกแก้ไขข้อมูลส่วนตัว
+                  break;
+                case 'logout':
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                  break;
+              }
+            }
           },
-        ),
+        )
       ],
     );
   }
