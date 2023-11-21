@@ -1,4 +1,4 @@
-#Mon Nov 20 16:22:20 ICT 2023
+#Tue Nov 21 12:36:57 ICT 2023
 base.0=C\:\\MobileApp\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
