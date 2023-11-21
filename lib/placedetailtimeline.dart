@@ -74,18 +74,14 @@ class PlaceDetail extends StatelessWidget {
                   SizedBox(height: 5),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey, // สีของเส้นกรอบ
-                        width: 1.0, // ความหนาของเส้นกรอบ
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
+                      borderRadius: BorderRadius.circular(8.0),
                       color: Color(0xFF1E30D7), // ความโค้งของมุมกรอบ
                     ),
                     padding: EdgeInsets.all(3.0),
                     child: Text(
                       'กรุงเทพมหานคร',
                       style: TextStyle(
-                        fontSize: 8,
+                        fontSize: 10,
                         color: Colors.white, // สีของข้อความ
                         // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
                       ),
@@ -96,18 +92,14 @@ class PlaceDetail extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey, // สีของเส้นกรอบ
-                            width: 1.0, // ความหนาของเส้นกรอบ
-                          ),
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: Color(0xFF1E30D7), // ความโค้งของมุมกรอบ
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Color(0xffdb923c), // ความโค้งของมุมกรอบ
                         ),
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           'เช็คอิน',
                           style: TextStyle(
-                            fontSize: 8,
+                            fontSize: 10,
                             color: Colors.white, // สีของข้อความ
                             // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
                           ),
@@ -132,18 +124,14 @@ class PlaceDetail extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey, // สีของเส้นกรอบ
-                            width: 1.0, // ความหนาของเส้นกรอบ
-                          ),
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: Color(0xFF1E30D7), // ความโค้งของมุมกรอบ
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Color(0xffc21111), // ความโค้งของมุมกรอบ
                         ),
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           'เช็คเอาท์',
                           style: TextStyle(
-                            fontSize: 8,
+                            fontSize: 10,
                             color: Colors.white, // สีของข้อความ
                             // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
                           ),

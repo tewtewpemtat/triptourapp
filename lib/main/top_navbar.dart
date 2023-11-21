@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/EditProfile.dart';
+import 'package:triptourapp/EditUser.dart';
+
 import '../authen/login.dart';
 
 class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
@@ -22,11 +25,15 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Text(
                   'Jaguar',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   'จำนวนทริปที่เข้าร่วม : 2',
-                  style: TextStyle(fontSize: 13, color: Colors.white),
+                  style: TextStyle(fontSize: 13, color: Colors.black),
                 ),
               ],
             ),
@@ -61,10 +68,20 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
             if (result != null) {
               switch (result) {
                 case 'editProfile':
-                  // ทำงานเมื่อเลือกแก้ไขโปรไฟล์
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfilePage(),
+                    ),
+                  );
                   break;
                 case 'editPersonalInfo':
-                  // ทำงานเมื่อเลือกแก้ไขข้อมูลส่วนตัว
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditUserPage(),
+                    ),
+                  );
                   break;
                 case 'logout':
                   Navigator.pushReplacement(
