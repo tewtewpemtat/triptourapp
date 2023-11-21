@@ -17,7 +17,7 @@ class TripHistory extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black), // สีของกรอบ
+                      border: Border.all(color: Colors.grey), // สีของกรอบ
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Row(
@@ -94,7 +94,7 @@ class TripHistory extends StatelessWidget {
                   child: Image.asset(
                     'assets/main/main_image1.png',
                     width: 100.0,
-                    height: 160.0,
+                    height: 170.0,
                     fit: BoxFit.cover,
                   ),
                 ),
