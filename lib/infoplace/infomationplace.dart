@@ -39,19 +39,9 @@ class InformationPlan extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '1.ร้านจาคอฟฟี',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Icon(Icons.remove),
-                          ),
-                        ],
+                      Text(
+                        '1.ร้านจาคอฟฟี',
+                        style: TextStyle(fontSize: 18),
                       ),
                       Container(
                         decoration: BoxDecoration(

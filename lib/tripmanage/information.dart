@@ -30,9 +30,13 @@ class InformationPage extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset('assets/pencil.png', width: 18, height: 18),
+              InkWell(
+                onTap: () {},
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child:
+                      Image.asset('assets/pencil.png', width: 18, height: 18),
+                ),
               ),
             ],
           ),
