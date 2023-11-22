@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/SetProfile.dart';
 
 import '../main.dart';
 import 'forget.dart';
@@ -44,12 +45,12 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 0.0),
                   child: InkWell(
                     onTap: () {
-                        Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyApp(),
-                      ),
-                    );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyApp(),
+                        ),
+                      );
                     },
                     child: Text(
                       'เข้าสู่ระบบ',
@@ -139,7 +140,7 @@ class LoginPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyApp(),
+                      builder: (context) => SetProfilePage(),
                     ),
                   );
                 },
