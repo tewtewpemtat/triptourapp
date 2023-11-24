@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../privatechat.dart';
 
 class FriendList extends StatelessWidget {
   @override
@@ -6,16 +7,23 @@ class FriendList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTripItem(),
-        buildTripItem(),
+        buildTripItem(context),
+        buildTripItem(context),
       ],
     );
   }
 
-  Widget buildTripItem() {
+  Widget buildTripItem(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatScreenPage(),
+            ),
+          );
+        },
         child: Container(
           padding: EdgeInsets.all(0),
           decoration: BoxDecoration(

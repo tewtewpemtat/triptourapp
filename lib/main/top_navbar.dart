@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/EditUser.dart';
 
@@ -12,6 +11,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.grey[200],
       title: Padding(
         padding: EdgeInsets.all(0.0), // ปรับ margin ตามที่ต้องการ
         child: Row(
@@ -29,7 +29,6 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                   style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 20,
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
@@ -45,6 +44,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.settings),
+          color: Colors.black,
           onPressed: () async {
             final result = await showMenu(
               context: context,
@@ -56,8 +56,8 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                   value: 'editProfile',
                 ),
                 PopupMenuItem(
-                  child: Text('แก้ไขข้อมูลส่วนตัว'),
-                  value: 'editPersonalInfo',
+                  child: Text('แก้ไขรหัสผ่าน'),
+                  value: 'editPassword',
                 ),
                 PopupMenuItem(
                   child: Text('ออกจากระบบ'),
@@ -77,14 +77,13 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   );
                   break;
-                case 'editPersonalInfo':
+                case 'editPassword':
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditUserPage(),
+                      builder: (context) => EditUser(),
                     ),
                   );
-                  break;
                 case 'logout':
                   Navigator.pushReplacement(
                     context,

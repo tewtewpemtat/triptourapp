@@ -45,8 +45,7 @@ class TripButtons extends StatelessWidget {
             ),
             child: Text(
               'สร้างทริป',
-              style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 18, color: Colors.white),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ),
@@ -76,8 +75,7 @@ class TripButtons extends StatelessWidget {
             ),
             child: Text(
               'เข้าร่วมทริป',
-              style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 18, color: Colors.white),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ),

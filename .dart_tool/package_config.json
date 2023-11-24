@@ -63,9 +63,9 @@
     },
     {
       "name": "cross_file",
-      "rootUri": "file:///C:/Users/JAGUAR/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.3+6",
+      "rootUri": "file:///C:/Users/JAGUAR/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.3+7",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "crypto",
@@ -297,9 +297,9 @@
     },
     {
       "name": "petitparser",
-      "rootUri": "file:///C:/Users/JAGUAR/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-5.4.0",
+      "rootUri": "file:///C:/Users/JAGUAR/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-6.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "platform",
@@ -393,9 +393,9 @@
     },
     {
       "name": "xml",
-      "rootUri": "file:///C:/Users/JAGUAR/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.3.0",
+      "rootUri": "file:///C:/Users/JAGUAR/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "yaml",
@@ -410,7 +410,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-11-24T10:31:20.782908Z",
+  "generated": "2023-11-24T14:05:48.009069Z",
   "generator": "pub",
   "generatorVersion": "3.2.0"
 }

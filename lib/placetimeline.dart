@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/triptimeline.dart';
 import 'placedetailtimeline.dart';
 
 class PlaceTimeline extends StatelessWidget {
@@ -6,8 +7,28 @@ class PlaceTimeline extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ไทมไลน์"),
+        backgroundColor: Colors.grey[200],
+        title: Text(
+          "ไทมไลน์",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          color: Colors.black,
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => TripTimeLine()),
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

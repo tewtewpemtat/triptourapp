@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/main.dart';
+import 'package:triptourapp/tripmanage.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -11,12 +13,37 @@ class JoinTripPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ตอบรับคำเชิญเพื่อเข้าร่วมทริป"),
-        centerTitle: true,
+        backgroundColor: Colors.grey[200],
+        title: Text(
+          "ตอบรับคำเชิญเพื่อเข้าร่วมทริป",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        leading: IconButton(
+          color: Colors.black,
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MyApp()),
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TripmanagePage(),
+              ),
+            );
+          },
           child: Container(
             color: Colors.white, // สีพื้นหลังของหน้า
             padding: EdgeInsets.all(16.0),
