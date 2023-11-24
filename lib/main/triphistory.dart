@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/tripmanage.dart';
 
 class TripHistory extends StatelessWidget {
@@ -28,8 +29,10 @@ class TripHistory extends StatelessWidget {
                         SizedBox(width: 5),
                         Expanded(
                           child: TextField(
+                            style:
+                                GoogleFonts.ibmPlexSansThai(), // เพิ่มบรรทัดนี้
                             decoration: InputDecoration(
-                              hintText: 'ค้นหาประวัติทริป',
+                              hintText: 'ค้นหาทริปของคุณ',
                               border: InputBorder.none,
                               isDense: true,
                             ),
@@ -123,7 +126,7 @@ class TripHistory extends StatelessWidget {
                           Expanded(
                             child: Text(
                               'ชื่อทริป: จา',
-                              style: TextStyle(
+                              style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -137,14 +140,15 @@ class TripHistory extends StatelessWidget {
                         ],
                       ),
                       Text('สถานะทริป: กำลังดำเนินการ',
-                          style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                       Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
-                          style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                       Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
-                          style: TextStyle(fontSize: 12)),
-                      Text('ผู้จัดทริป: ติว', style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                      Text('ผู้จัดทริป: ติว',
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                       Text('จำนวนผู้ร่วมทริป: 16 คน',
-                          style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                     ],
                   ),
                 ),

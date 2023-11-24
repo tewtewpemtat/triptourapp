@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/triptimeline.dart';
+
 import 'placedetailtimeline.dart';
 
 class PlaceTimeline extends StatelessWidget {
@@ -10,7 +12,8 @@ class PlaceTimeline extends StatelessWidget {
         backgroundColor: Colors.grey[200],
         title: Text(
           "ไทมไลน์",
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
@@ -40,7 +43,7 @@ class PlaceTimeline extends StatelessWidget {
               ), // Adjust the values as needed
               child: Text(
                 'จำนวนสถานที่ทั้งหมด',
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -100,7 +103,7 @@ class PlaceTimeline extends StatelessWidget {
                   children: [
                     Text(
                       '1.ร้านจาคอฟฟี',
-                      style: TextStyle(fontSize: 18),
+                      style: GoogleFonts.ibmPlexSansThai(fontSize: 18),
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -114,7 +117,7 @@ class PlaceTimeline extends StatelessWidget {
                       padding: EdgeInsets.all(3.0),
                       child: Text(
                         'กรุงเทพมหานคร',
-                        style: TextStyle(
+                        style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 8,
                           color: Colors.white, // สีของข้อความ
                           // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -123,11 +126,11 @@ class PlaceTimeline extends StatelessWidget {
                     ),
                     SizedBox(height: 3),
                     Text('จำนวนผู้เข้าร่วม : 16',
-                        style: TextStyle(fontSize: 12)),
+                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                     Text('เริ่มต้น : 11/08/66 เวลา : 13:12',
-                        style: TextStyle(fontSize: 12)),
+                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                     Text('เริ่มต้น : 11/08/66 เวลา : 13:45',
-                        style: TextStyle(fontSize: 12)),
+                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                   ],
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/addfriend.dart';
-import '../placetimeline.dart';
 
 class FriendButton extends StatelessWidget {
   @override
@@ -8,7 +8,31 @@ class FriendButton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 3),
+        SizedBox(height: 10),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'รายชื่อเพื่อน',
+            style: GoogleFonts.ibmPlexSansThai(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: 2),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'แชทส่วนตัวเพื่อสนทนาในเเอปพลิเคชั่น Trip Tour',
+            style:
+                GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
+          ),
+        ),
+        SizedBox(height: 10),
         Container(
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -34,31 +58,7 @@ class FriendButton extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(
-            left: 10,
-          ), // Adjust the values as needed
-          child: Text(
-            'รายชื่อเพื่อน',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        SizedBox(height: 2),
-        Container(
-          margin: EdgeInsets.only(
-            left: 10,
-          ), // Adjust the values as needed
-          child: Text(
-            'แชทส่วนตัวเพื่อสนทนาในเเอปพลิเคชั่น Trip Tour',
-            style: TextStyle(
-              fontSize: 13,
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
+        SizedBox(height: 10),
         Container(
           margin: EdgeInsets.only(
             left: 10,
@@ -80,7 +80,8 @@ class FriendButton extends StatelessWidget {
                     children: [
                       Icon(Icons.add),
                       SizedBox(width: 10),
-                      Text('เพิ่มเพื่อน', style: TextStyle(fontSize: 15)),
+                      Text('เพิ่มเพื่อน',
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 15)),
                     ],
                   ),
                 ),

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/main.dart';
+
 import 'tripmanage.dart';
-import 'dart:io';
 
 class CreateTripPage extends StatefulWidget {
   @override
@@ -49,7 +52,8 @@ class _CreateTripPageState extends State<CreateTripPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         title: Text("ระบุข้อมูลการสร้างทริป",
-            style: TextStyle(
+            style: GoogleFonts.ibmPlexSansThai(
+              fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
         centerTitle: true,
@@ -91,10 +95,10 @@ class _CreateTripPageState extends State<CreateTripPage> {
               SizedBox(height: 3),
               Text(
                 "เพิ่มรูปทริป",
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black,
+                  color: Colors.grey,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -102,7 +106,9 @@ class _CreateTripPageState extends State<CreateTripPage> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: "ตั้งชื่อทริปของคุณ",
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -114,14 +120,16 @@ class _CreateTripPageState extends State<CreateTripPage> {
                       child: InputDecorator(
                         decoration: InputDecoration(
                           labelText: "วันที่เริ่มเดินทาง",
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
                               "${selectedStartDate.toLocal()}".split(' ')[0],
-                              style: TextStyle(fontSize: 16),
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
                             ),
                             Icon(Icons.calendar_today),
                           ],
@@ -136,14 +144,16 @@ class _CreateTripPageState extends State<CreateTripPage> {
                       child: InputDecorator(
                         decoration: InputDecoration(
                           labelText: "วันที่สิ้นสุดเดินทาง",
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
                               "${selectedEndDate.toLocal()}".split(' ')[0],
-                              style: TextStyle(fontSize: 16),
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
                             ),
                             Icon(Icons.calendar_today),
                           ],
@@ -173,7 +183,9 @@ class _CreateTripPageState extends State<CreateTripPage> {
                       ),
                       decoration: InputDecoration(
                         labelText: "จำนวนผู้ร่วมทริปสูงสุด",
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                       ),
                     ),
                   ),
@@ -191,14 +203,20 @@ class _CreateTripPageState extends State<CreateTripPage> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white, // สีพื้นหลังของปุ่ม
-                  onPrimary: Colors.black, // สีขอบตัวอักษร
+                  primary: Color(0xffdb923c),
+                  onPrimary: Colors.white,
                   fixedSize: Size(200, 50),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text("ดำเนินการต่อ"),
+                child: Text(
+                  "ดำเนินการต่อ",
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               SizedBox(height: 20),
               InkWell(
@@ -212,7 +230,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
                 },
                 child: Text(
                   "ล้างข้อมูลเพื่อระบุข้อมูลการสร้างทริปใหม่",
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,

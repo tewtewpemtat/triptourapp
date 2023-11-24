@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'main/bottom_navbar.dart';
 import 'main/top_navbar.dart';
 import 'main/tripbutton.dart';

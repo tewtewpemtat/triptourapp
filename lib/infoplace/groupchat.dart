@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/infoplace.dart';
-import 'package:triptourapp/tripmanage.dart';
 
 void main() {
   runApp(GroupScreenPage());
@@ -32,7 +32,8 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: Colors.grey[200],
         title: Text(
           "แชทกลุ่ม",
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
@@ -93,7 +94,8 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 Text(
                   user,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style:
+                      GoogleFonts.ibmPlexSansThai(fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 4.0),
@@ -104,8 +106,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   child: Text(
                     message,
-                    style:
-                        TextStyle(color: isYou ? Colors.white : Colors.black),
+                    style: GoogleFonts.ibmPlexSansThai(
+                        color: isYou ? Colors.white : Colors.black),
                   ),
                 ),
               ],

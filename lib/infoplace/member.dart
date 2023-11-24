@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MemberPage extends StatelessWidget {
   @override
@@ -13,8 +14,8 @@ class MemberPage extends StatelessWidget {
               SizedBox(width: 10),
               Text(
                 'สมาชิกที่เข้าร่วม',
-                style: TextStyle(
-                  fontSize: 18,
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -67,8 +68,8 @@ class MemberPage extends StatelessWidget {
                   children: [
                     Text(
                       'JaGUARxKAI',
-                      style: TextStyle(
-                        fontSize: 20,
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 18,
                         fontWeight: FontWeight
                             .bold, // เพิ่มคำสั่งนี้เพื่อทำให้ตัวอักษรเป็นตัวหนา
                       ),

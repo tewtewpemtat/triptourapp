@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -55,12 +56,13 @@ class DownPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('เพิ่มจากคำร้องขอ',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ibmPlexSansThai(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   )),
                               Text('เพิ่มสถานที่จากคำร้องขอ',
-                                  style: TextStyle(fontSize: 12)),
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 12)),
                             ],
                           ),
                         ),
@@ -108,12 +110,13 @@ class DownPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('กำหนดเอง',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ibmPlexSansThai(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   )),
                               Text('กำหนดสถานที่ของคุณเอง',
-                                  style: TextStyle(fontSize: 12)),
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 12)),
                             ],
                           ),
                         ),
@@ -161,7 +164,7 @@ class DownPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('ร้านกาเเฟ WhiteCafe',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ibmPlexSansThai(
                                     fontSize: 16,
                                   )),
                               SizedBox(height: 5),
@@ -174,7 +177,7 @@ class DownPage extends StatelessWidget {
                                     horizontal: 20.0, vertical: 1.0),
                                 child: Text(
                                   'นนทบุรี',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ibmPlexSansThai(
                                       fontSize: 11, color: Colors.white),
                                 ),
                               ),

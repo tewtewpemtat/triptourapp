@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/tripmanage.dart';
+
 import 'infoplace/groupchat.dart';
 import 'infoplace/headinfobutton.dart';
 import 'infoplace/infomationplace.dart';
@@ -28,7 +30,8 @@ class InfoPlacePage extends StatelessWidget {
               child: Text(
                 'แผนการเดินทาง',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),

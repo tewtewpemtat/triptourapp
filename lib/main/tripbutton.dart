@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/createtrip.dart';
 import 'package:triptourapp/jointrip.dart';
 
@@ -15,11 +16,21 @@ class TripButtons extends StatelessWidget {
 
             child: Text(
               'สร้างทริปของคุณ',
-              style: TextStyle(
+              style: GoogleFonts.ibmPlexSansThai(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'สร้างทริปหรือเข้าร่วมทริปเพื่อร่วมเดินทางกับเพื่อนๆ',
+            style:
+                GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
           ),
         ),
         Container(
@@ -44,7 +55,7 @@ class TripButtons extends StatelessWidget {
             ),
             child: Text(
               'สร้างทริป',
-              style: TextStyle(
+              style: GoogleFonts.ibmPlexSansThai(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -78,11 +89,10 @@ class TripButtons extends StatelessWidget {
             ),
             child: Text(
               'เข้าร่วมทริป',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+              style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),

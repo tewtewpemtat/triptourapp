@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/authen/login.dart';
+
 import 'otp.dart';
 
 class ForgetPage extends StatelessWidget {
@@ -12,13 +14,27 @@ class ForgetPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'TripTour',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.start, // จัดตำแหน่งให้ Text อยู่ตรงกลาง
+            Row(
+              children: [
+                Text(
+                  'Trip',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Text(
+                  'Tour',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFE59730),
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ],
             ),
             SizedBox(height: 20),
             Row(
@@ -34,7 +50,7 @@ class ForgetPage extends StatelessWidget {
                     },
                     child: Text(
                       'ลืมรหัสผ่าน',
-                      style: TextStyle(
+                      style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -45,28 +61,45 @@ class ForgetPage extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text('กรอกหมายเลขโทรศัพทที่ใช้สมัครสมาชิกกับ Trip Tour',
-                style: TextStyle(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
             Text('เราจะส่งOTPสำหรับเเก้ไขรหัสผ่านหมายเลขโทรศัพท์ของท่าน',
-                style: TextStyle(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
             SizedBox(height: 20),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'ระบุเบอร์โทรศัพท์',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
             SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-                // เพิ่มโค้ด
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          OtpPage()), // RegisterPage() คือหน้าที่คุณต้องไป
-                );
-              },
-              child: Text('ดำเนินการต่อ'),
+            Container(
+              width: 184,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xffdb923c),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  // เพิ่มโค้ดสำหรับ Sign in
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OtpPage(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'ดำเนินการต่อ',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 10),
             TextButton(
@@ -79,7 +112,13 @@ class ForgetPage extends StatelessWidget {
                           LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
                 );
               },
-              child: Text('หากมีสมาชิกอยู่เเล้ว กดที่นี่เพื่อเข้าสู่ระบบ'),
+              child: Text(
+                'หากมีสมาชิกอยู่เเล้ว กดที่นี่เพื่อเข้าสู่ระบบ',
+                style: GoogleFonts.ibmPlexSansThai(
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),

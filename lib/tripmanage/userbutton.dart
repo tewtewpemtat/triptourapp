@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:triptourapp/requestplace.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserButton extends StatelessWidget {
   @override
@@ -17,7 +19,8 @@ class UserButton extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'แผนการเดินทาง',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
                 TextButton(
@@ -30,7 +33,7 @@ class UserButton extends StatelessWidget {
                   ),
                   child: Text(
                     'ออกจากทริป',
-                    style: TextStyle(
+                    style: GoogleFonts.ibmPlexSansThai(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       // สามารถกำหนดสีข้อความเพิ่มเติมได้ที่นี่ถ้าต้องการ
@@ -69,7 +72,12 @@ class UserButton extends StatelessWidget {
 
                       // รูปไอคอนแชท
                       SizedBox(width: 8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
-                      Text('แชทกลุ่ม'),
+                      Text(
+                        'แชทกลุ่ม',
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -105,7 +113,12 @@ class UserButton extends StatelessWidget {
 
                       // รูปไอคอนแชท
                       SizedBox(width: 8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
-                      Text('ร้องขอสถานที่'),
+                      Text(
+                        'ร้องขอสถานที่',
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'addplace/downplace.dart';
 import 'addplace/slideplace.dart';
@@ -56,7 +57,7 @@ class AddPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'เพิ่มสถานที่',
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -66,9 +67,8 @@ class AddPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'เพิ่มสถานที่บนทริปของคุณ',
-                style: TextStyle(
-                  fontSize: 14.0,
-                ),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 14.0, color: Colors.grey),
               ),
             ),
             Padding(

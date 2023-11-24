@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/authen/login.dart';
+
 import 'newpassword.dart';
 
 class OtpPage extends StatelessWidget {
@@ -11,13 +14,27 @@ class OtpPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'TripTour',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.start, // จัดตำแหน่งให้ Text อยู่ตรงกลาง
+            Row(
+              children: [
+                Text(
+                  'Trip',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Text(
+                  'Tour',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFE59730),
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ],
             ),
             SizedBox(height: 20),
             Row(
@@ -33,7 +50,7 @@ class OtpPage extends StatelessWidget {
                     },
                     child: Text(
                       'ยืนยัน OTP',
-                      style: TextStyle(
+                      style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -43,33 +60,80 @@ class OtpPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Text('โปรดรอรับ OTP ภายใน 5 นาที', style: TextStyle(fontSize: 12)),
+            Text('โปรดรอรับ OTP ภายใน 5 นาที',
+                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
             SizedBox(height: 20),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'กรอกรหัส OTP',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
             SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-                // เพิ่มโค้ด
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          NewpasswordPage()), // RegisterPage() คือหน้าที่คุณต้องไป
-                );
-              },
-              child: Text('ดำเนินการต่อ'),
+            Container(
+              width: 184,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xffdb923c),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  // เพิ่มโค้ดสำหรับ Sign in
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewpasswordPage(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'ดำเนินการต่อ',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 5),
             TextButton(
               onPressed: () {
-                // เพิ่มโค้ดสำหรับลืมรหัสผ่าน
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtpPage(),
+                  ),
+                );
               },
-              child: Text('ส่งรหัส OTP อีกครั้ง'),
+              child: Text(
+                'ส่งรหัส OTP อีกครั้ง',
+                style: GoogleFonts.ibmPlexSansThai(
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                // เพิ่มโค้ดสำหรับลืมรหัสผ่าน
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                );
+              },
+              child: Text(
+                'กดที่นี่เพื่อกลับไปยังหน้าเข้าสู่ระบบ',
+                style: GoogleFonts.ibmPlexSansThai(
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),

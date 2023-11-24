@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../infoplace.dart';
 
 class UserPlan extends StatelessWidget {
@@ -28,7 +30,7 @@ class UserPlan extends StatelessWidget {
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.black, // สีของเส้นกรอบ
+            color: Colors.grey, // สีของเส้นกรอบ
             width: 1.0, // ความหนาของเส้นกรอบ
           ),
           borderRadius: BorderRadius.circular(10), // มุมโค้งของ Container
@@ -62,7 +64,10 @@ class UserPlan extends StatelessWidget {
                         Expanded(
                           child: Text(
                             '1.ร้านจาคอฟฟี',
-                            style: TextStyle(fontSize: 18),
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         InkWell(
@@ -86,7 +91,7 @@ class UserPlan extends StatelessWidget {
                       padding: EdgeInsets.all(3.0),
                       child: Text(
                         'กรุงเทพมหานคร',
-                        style: TextStyle(
+                        style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 8,
                           color: Colors.white, // สีของข้อความ
                           // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -106,7 +111,7 @@ class UserPlan extends StatelessWidget {
                       padding: EdgeInsets.all(3.0),
                       child: Text(
                         'กำหนดการเวลา : 00:00',
-                        style: TextStyle(
+                        style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 8,
                           color: Colors.white, // สีของข้อความ
                           fontWeight: FontWeight.bold, // หนา
@@ -116,9 +121,9 @@ class UserPlan extends StatelessWidget {
                       ),
                     ),
                     Text('จำนวนผู้เข้าร่วม : 16',
-                        style: TextStyle(fontSize: 12)),
+                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                     Text('ห่าง 15Km จากตำแหน่งของคุณ',
-                        style: TextStyle(fontSize: 12)),
+                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                     Row(
                       children: [
                         Expanded(
@@ -133,9 +138,9 @@ class UserPlan extends StatelessWidget {
                             ),
                             child: Text(
                               'เข้าร่วม',
-                              style: TextStyle(
+                              style: GoogleFonts.ibmPlexSansThai(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12 // ทำให้เป็นตัวหนา
+                                  fontSize: 11 // ทำให้เป็นตัวหนา
                                   // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
                                   ),
                             ),
@@ -154,8 +159,8 @@ class UserPlan extends StatelessWidget {
                             ),
                             child: Text(
                               'จุดนัดพบ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
+                              style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold, fontSize: 9),
                             ),
                           ),
                         ),

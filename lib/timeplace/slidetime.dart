@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(
@@ -48,7 +49,7 @@ class _SlideTimeState extends State<SlideTime> {
     return Container(
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.all(0.0),
-      height: 180,
+      height: 190,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -68,8 +69,8 @@ class _SlideTimeState extends State<SlideTime> {
             children: [
               Text(
                 'เลือกเวลาเริ่มต้น-สิ้นสุด',
-                style: TextStyle(
-                  fontSize: 16.0,
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -111,12 +112,12 @@ class _SlideTimeState extends State<SlideTime> {
               });
             },
             style: TextButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: Color(0xffdb923c),
               primary: Colors.white,
             ),
             child: Text(
               'บันทึก',
-              style: TextStyle(
+              style: GoogleFonts.ibmPlexSansThai(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -150,7 +151,7 @@ class _SlideTimeState extends State<SlideTime> {
         ),
         child: Text(
           timeType,
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
             fontSize: 16.0,
             fontWeight: FontWeight.bold,
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:triptourapp/editprofile.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/editpassword.dart';
 
 import '../authen/login.dart';
@@ -26,14 +27,16 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Text(
                   'Jaguar',
-                  style: TextStyle(
-                    fontSize: 20,
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                     color: Colors.black,
                   ),
                 ),
                 Text(
                   'จำนวนทริปที่เข้าร่วม : 2',
-                  style: TextStyle(fontSize: 13, color: Colors.black),
+                  style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 13, color: Colors.black),
                 ),
               ],
             ),
@@ -51,15 +54,24 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                   100, 100, 0, 0), // ปรับตำแหน่งที่เปิด Slide ทางขวา
               items: [
                 PopupMenuItem(
-                  child: Text('แก้ไขโปรไฟล์'),
+                  child: Text(
+                    'แก้ไขโปรไฟล์',
+                    style: GoogleFonts.ibmPlexSansThai(), // เพิ่มบรรทัดนี้
+                  ),
                   value: 'editProfile',
                 ),
                 PopupMenuItem(
-                  child: Text('แก้ไขรหัสผ่าน'),
+                  child: Text(
+                    'แก้ไขรหัสผ่าน',
+                    style: GoogleFonts.ibmPlexSansThai(),
+                  ),
                   value: 'editPassword',
                 ),
                 PopupMenuItem(
-                  child: Text('ออกจากระบบ'),
+                  child: Text(
+                    'ออกจากระบบ',
+                    style: GoogleFonts.ibmPlexSansThai(),
+                  ),
                   value: 'logout',
                 ),
               ],
