@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/edittrip.dart';
 
 class InformationPage extends StatelessWidget {
@@ -28,7 +29,8 @@ class InformationPage extends StatelessWidget {
               Expanded(
                 child: Text(
                   'ชื่อทริป: จา',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               InkWell(
@@ -50,21 +52,23 @@ class InformationPage extends StatelessWidget {
             children: [
               Text(
                 'จำนวนผู้ร่วมทริป: 16 คน \t\t\t\t\t\t\t\t\t\t',
-                style: TextStyle(fontSize: 16),
+                style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
               ),
               Image.asset('assets/green.png', width: 14, height: 14),
-              Text('\t กำลังดำเนินการ ', style: TextStyle(fontSize: 16)),
+              Text('\t กำลังดำเนินการ ',
+                  style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
             ],
           ),
           Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
-              style: TextStyle(fontSize: 16)),
+              style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
           Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
-              style: TextStyle(fontSize: 16)),
+              style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
           Row(
             children: [
               Text('ผู้จัดทริป: ติว\t\t\t\t\t\t\t',
-                  style: TextStyle(fontSize: 16)),
-              Text('ผู้ร่วมทริปสูงสุด : 12', style: TextStyle(fontSize: 16)),
+                  style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
+              Text('ผู้ร่วมทริปสูงสุด : 12',
+                  style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
             ],
           ),
         ],

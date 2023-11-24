@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SlidePlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140.0, // Set a specific height for the container
+      height: 140.0,
+      // Set a specific height for the container
       child: PageView(
         children: [
           buildTripItem(context),
@@ -51,7 +53,10 @@ class SlidePlace extends StatelessWidget {
                     children: [
                       Text(
                         '1. ร้านจาคอฟฟี',
-                        style: TextStyle(fontSize: 18),
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -65,7 +70,7 @@ class SlidePlace extends StatelessWidget {
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           'กรุงเทพมหานคร',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 8,
                             color: Colors.white, // สีของข้อความ
                             // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -74,7 +79,7 @@ class SlidePlace extends StatelessWidget {
                       ),
                       Text(
                           '164/694 ถนนกาเน เขตหนองมา แขวงหนองลิง กรุงเทพมหานคร 15000',
-                          style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                     ],
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PlaceSum extends StatelessWidget {
   @override
@@ -20,7 +21,7 @@ class PlaceSum extends StatelessWidget {
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.black, // สีของเส้นกรอบ
+            color: Colors.grey, // สีของเส้นกรอบ
             width: 1.0, // ความหนาของเส้นกรอบ
           ),
           borderRadius: BorderRadius.circular(10), // มุมโค้งของ Container
@@ -36,7 +37,7 @@ class PlaceSum extends StatelessWidget {
                 child: Image.asset(
                   'assets/userplan/userplan_image1.png',
                   width: 100.0,
-                  height: 160.0,
+                  height: 170.0,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -54,7 +55,10 @@ class PlaceSum extends StatelessWidget {
                         Expanded(
                           child: Text(
                             '1.ร้านจาคอฟฟี',
-                            style: TextStyle(fontSize: 18),
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         InkWell(
@@ -78,7 +82,7 @@ class PlaceSum extends StatelessWidget {
                       padding: EdgeInsets.all(3.0),
                       child: Text(
                         'กรุงเทพมหานคร',
-                        style: TextStyle(
+                        style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 8,
                           color: Colors.white, // สีของข้อความ
                           // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -87,7 +91,7 @@ class PlaceSum extends StatelessWidget {
                     ),
                     Text(
                         '164/694 ถนนกาเน เขตหนองมา แขวงหนองลิง กรุงเทพมหานคร 15000',
-                        style: TextStyle(fontSize: 12)),
+                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                     SizedBox(
                       height: 3,
                     ),
@@ -101,7 +105,7 @@ class PlaceSum extends StatelessWidget {
                           padding: EdgeInsets.all(3.0),
                           child: Text(
                             'เวลาเริ่มต้น',
-                            style: TextStyle(
+                            style: GoogleFonts.ibmPlexSansThai(
                               fontSize: 10,
                               color: Colors.white, // สีของข้อความ
                               // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -112,7 +116,7 @@ class PlaceSum extends StatelessWidget {
                           padding: EdgeInsets.all(3.0),
                           child: Text(
                             ': 13:21  ',
-                            style: TextStyle(
+                            style: GoogleFonts.ibmPlexSansThai(
                                 fontSize: 10,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold // สีของข้อความ
@@ -130,12 +134,12 @@ class PlaceSum extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            color: Color(0xffdb923c), // ความโค้งของมุมกรอบ
+                            color: Color(0xffc21111), // ความโค้งของมุมกรอบ
                           ),
                           padding: EdgeInsets.all(3.0),
                           child: Text(
                             'เวลาสิ้นสุด',
-                            style: TextStyle(
+                            style: GoogleFonts.ibmPlexSansThai(
                               fontSize: 10,
                               color: Colors.white, // สีของข้อความ
                               // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -146,7 +150,7 @@ class PlaceSum extends StatelessWidget {
                           padding: EdgeInsets.all(3.0),
                           child: Text(
                             ': 13:21  ',
-                            style: TextStyle(
+                            style: GoogleFonts.ibmPlexSansThai(
                                 fontSize: 10,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold // สีของข้อความ

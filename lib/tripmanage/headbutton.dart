@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/groupchat.dart';
+
 import '../timeplace.dart';
 
 class HeadButton extends StatelessWidget {
@@ -18,7 +20,8 @@ class HeadButton extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'แผนการเดินทาง',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
                 TextButton(
@@ -31,7 +34,7 @@ class HeadButton extends StatelessWidget {
                   ),
                   child: Text(
                     'ยกเลิกทริป',
-                    style: TextStyle(
+                    style: GoogleFonts.ibmPlexSansThai(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       // สามารถกำหนดสีข้อความเพิ่มเติมได้ที่นี่ถ้าต้องการ
@@ -68,7 +71,13 @@ class HeadButton extends StatelessWidget {
                     children: [
                       Icon(Icons.chat), // รูปไอคอนแชท
                       SizedBox(width: 8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
-                      Text('แชทกลุ่ม'),
+                      Text(
+                        'แชทกลุ่ม',
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -101,7 +110,8 @@ class HeadButton extends StatelessWidget {
                       SizedBox(width: 2),
                       Text(
                         'เพิ่มสถานที่',
-                        style: TextStyle(
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
                       ),
@@ -133,8 +143,9 @@ class HeadButton extends StatelessWidget {
                       SizedBox(width: 2),
                       Text(
                         'กำหนดเวลาแต่ละสถานที่',
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
                         ),
                       ),
                     ],

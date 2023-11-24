@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/main.dart';
 
 class EditUser extends StatefulWidget {
@@ -16,7 +17,8 @@ class _EditUser extends State<EditUser> {
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         title: Text("แก้ไขรหัสผ่าน",
-            style: TextStyle(
+            style: GoogleFonts.ibmPlexSansThai(
+              fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
         centerTitle: true,
@@ -63,10 +65,17 @@ class _EditUser extends State<EditUser> {
                           _showEditDialog();
                         },
                         style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.green),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xffdb923c),
+                          ),
                         ),
-                        child: Text('บันทึก'),
+                        child: Text(
+                          'บันทึก',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(width: 16), // ตัวกันระหว่างปุ่ม
@@ -84,7 +93,13 @@ class _EditUser extends State<EditUser> {
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.red),
                         ),
-                        child: Text('ยกเลิก'),
+                        child: Text(
+                          'ยกเลิก',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ],

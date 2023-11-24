@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/tripmanage.dart';
 
 void main() {
@@ -31,8 +32,9 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: Colors.grey[200],
         title: Text(
           "แชทกลุ่ม",
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
             color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
@@ -92,7 +94,8 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 Text(
                   user,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style:
+                      GoogleFonts.ibmPlexSansThai(fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 4.0),
@@ -103,8 +106,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   child: Text(
                     message,
-                    style:
-                        TextStyle(color: isYou ? Colors.white : Colors.black),
+                    style: GoogleFonts.ibmPlexSansThai(
+                        color: isYou ? Colors.white : Colors.black),
                   ),
                 ),
               ],
@@ -158,7 +161,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Column(
                             children: [
                               Icon(Icons.camera_alt, size: 25.0),
-                              Text('ถ่ายรูป'),
+                              Text('ถ่ายรูป',
+                                  style: GoogleFonts.ibmPlexSansThai()),
                             ],
                           ),
                         ),
@@ -174,7 +178,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Column(
                             children: [
                               Icon(Icons.image, size: 25.0),
-                              Text('รูปภาพ'),
+                              Text('รูปภาพ',
+                                  style: GoogleFonts.ibmPlexSansThai()),
                             ],
                           ),
                         ),
@@ -187,7 +192,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Column(
                             children: [
                               Icon(Icons.place, size: 25.0),
-                              Text('มารค์จุดนัดพบ'),
+                              Text('มารค์จุดนัดพบ',
+                                  style: GoogleFonts.ibmPlexSansThai()),
                             ],
                           ),
                         ),
@@ -200,7 +206,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Column(
                             children: [
                               Icon(Icons.star, size: 25.0),
-                              Text('แนะนำสิ่งน่าสนใจ'),
+                              Text('แนะนำสิ่งน่าสนใจ',
+                                  style: GoogleFonts.ibmPlexSansThai()),
                             ],
                           ),
                         ),

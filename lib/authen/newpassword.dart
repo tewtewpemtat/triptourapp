@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'login.dart';
 
@@ -16,7 +17,7 @@ class NewpasswordPage extends StatelessWidget {
               children: [
                 Text(
                   'Trip',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -25,7 +26,7 @@ class NewpasswordPage extends StatelessWidget {
                 ),
                 Text(
                   'Tour',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFE59730),
@@ -48,7 +49,7 @@ class NewpasswordPage extends StatelessWidget {
                     },
                     child: Text(
                       'รหัสผ่านใหม่',
-                      style: TextStyle(
+                      style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -58,7 +59,8 @@ class NewpasswordPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Text('กรอกรหัสผ่านที่ท่านต้องการ', style: TextStyle(fontSize: 12)),
+            Text('กรอกรหัสผ่านที่ท่านต้องการ',
+                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
             SizedBox(height: 20),
             TextFormField(
               obscureText: true,
@@ -99,7 +101,7 @@ class NewpasswordPage extends StatelessWidget {
                 },
                 child: Text(
                   'ดำเนินการต่อ',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -118,7 +120,13 @@ class NewpasswordPage extends StatelessWidget {
                           LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
                 );
               },
-              child: Text('กดที่นี่เพื่อกลับไปยังหน้าเข้าสู่ระบบ'),
+              child: Text(
+                'กดที่นี่เพื่อกลับไปยังหน้าเข้าสู่ระบบ',
+                style: GoogleFonts.ibmPlexSansThai(
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),

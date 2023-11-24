@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HeadInfoButton extends StatefulWidget {
   @override
@@ -46,7 +47,10 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                     children: [
                       Icon(Icons.place),
                       SizedBox(width: 8),
-                      Text('ตำแหน่งผู้ร่วมทริป'),
+                      Text('ตำแหน่งผู้ร่วมทริป',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontWeight: FontWeight.bold,
+                          )),
                     ],
                   ),
                 ),
@@ -117,7 +121,10 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                     children: [
                       Icon(Icons.map),
                       SizedBox(width: 8),
-                      Text('สถานที่น่าสนใจ'),
+                      Text('สถานที่น่าสนใจ',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontWeight: FontWeight.bold,
+                          )),
                     ],
                   ),
                 ),
@@ -143,7 +150,10 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
                     children: [
                       Icon(Icons.star),
                       SizedBox(width: 8),
-                      Text('สิ่งน่าสนใจ'),
+                      Text('สิ่งน่าสนใจ',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontWeight: FontWeight.bold,
+                          )),
                     ],
                   ),
                 ),

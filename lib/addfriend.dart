@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/friend.dart';
-import 'package:triptourapp/friend/friendbutton.dart';
-import 'package:triptourapp/friend/friendlist.dart';
-import 'main/top_navbar.dart';
 
 void main() {
   runApp(AddFriend());
@@ -18,7 +16,8 @@ class AddFriend extends StatelessWidget {
             backgroundColor: Colors.grey[200],
             title: Text(
               "เพิ่มเพื่อน",
-              style: TextStyle(
+              style: GoogleFonts.ibmPlexSansThai(
+                fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
@@ -121,7 +120,7 @@ class AddFriend extends StatelessWidget {
                             flex: 8,
                             child: Text(
                               'JaGUARxKAI',
-                              style: TextStyle(
+                              style: GoogleFonts.ibmPlexSansThai(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),

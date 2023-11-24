@@ -24,6 +24,16 @@ class TripButtons extends StatelessWidget {
           ),
         ),
         Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'สร้างทริปหรือเข้าร่วมทริปเพื่อร่วมเดินทางกับเพื่อนๆ',
+            style:
+                GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
+          ),
+        ),
+        Container(
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -45,7 +55,11 @@ class TripButtons extends StatelessWidget {
             ),
             child: Text(
               'สร้างทริป',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -75,7 +89,10 @@ class TripButtons extends StatelessWidget {
             ),
             child: Text(
               'เข้าร่วมทริป',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),

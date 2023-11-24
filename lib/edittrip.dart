@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/tripmanage.dart';
 
@@ -124,7 +126,7 @@ class _EditTripState extends State<EditTrip> {
                           fieldTitle == 'วันที่เริ่มทริป'
                               ? "${_selectedStartDate.toLocal()}".split(' ')[0]
                               : "${_selectedEndDate.toLocal()}".split(' ')[0],
-                          style: TextStyle(fontSize: 16),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
                         ),
                         Icon(Icons.calendar_today),
                       ],
@@ -167,7 +169,8 @@ class _EditTripState extends State<EditTrip> {
         backgroundColor: Colors.grey[200],
         title: Text(
           "แก้ไขข้อมูลทริป",
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
@@ -206,10 +209,28 @@ class _EditTripState extends State<EditTrip> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
+                Text(
+                  "เปลี่ยนรูปทริป",
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(height: 20),
                 ListTile(
-                  title: Text('ชื่อทริป'),
-                  subtitle: Text('บ้านจา'),
+                  title: Text(
+                    'ชื่อทริป',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'บ้านจา',
+                    style: GoogleFonts.ibmPlexSansThai(),
+                  ),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
@@ -218,7 +239,12 @@ class _EditTripState extends State<EditTrip> {
                   ),
                 ),
                 ListTile(
-                  title: Text('วันที่เริ่มทริป'),
+                  title: Text(
+                    'วันที่เริ่มทริป',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle:
                       Text("${_selectedStartDate.toLocal()}".split(' ')[0]),
                   trailing: IconButton(
@@ -229,7 +255,12 @@ class _EditTripState extends State<EditTrip> {
                   ),
                 ),
                 ListTile(
-                  title: Text('วันที่สิ้นสุดทริป'),
+                  title: Text(
+                    'วันที่สิ้นสุดทริป',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle: Text("${_selectedEndDate.toLocal()}".split(' ')[0]),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
@@ -239,7 +270,12 @@ class _EditTripState extends State<EditTrip> {
                   ),
                 ),
                 ListTile(
-                  title: Text('จำนวนผู้ร่วมทริปสูงสุด'),
+                  title: Text(
+                    'จำนวนผู้ร่วมทริปสูงสุด',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle: Text(_selectedParticipants.toString() ?? ''),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/tripmanage.dart';
+
 import 'tripmanage/information.dart';
-import 'tripmanage/headbutton.dart';
 import 'tripmanage/userbutton.dart';
-import 'tripmanage/headplan.dart';
 import 'tripmanage/userplan.dart';
 
 class TestUserPage extends StatelessWidget {
@@ -26,7 +26,8 @@ class TestUserPage extends StatelessWidget {
               child: Text(
                 'แผนการเดินทาง',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),

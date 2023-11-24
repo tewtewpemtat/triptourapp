@@ -114,25 +114,25 @@ class _IntroducePageState extends State<IntroducePage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 17),
                     Text(
                       'แอปพลิเคชันวางแผนจัดทริปท่องเที่ยว',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       'ที่ช่วยให้คุณและกลุ่มเพื่อนของคุณท่อง',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       'เที่ยวกันเป็นกลุ่มได้อย่างสะดวกยิ่งขึ้น',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -157,7 +157,7 @@ class _IntroducePageState extends State<IntroducePage> {
                           'ดำเนินการต่อ',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

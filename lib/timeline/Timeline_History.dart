@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../placetimeline.dart';
 
@@ -8,7 +9,31 @@ class TripTimeLineHistory extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 3),
+        SizedBox(height: 10),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'ไทมไลน์ของคุณ',
+            style: GoogleFonts.ibmPlexSansThai(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: 2),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'แสดงประวัติทริปเเละไทมไลน์เเต่ละสถานที่ของคุณ',
+            style:
+                GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
+          ),
+        ),
+        SizedBox(height: 10),
         Container(
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -35,18 +60,6 @@ class TripTimeLineHistory extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
-        Container(
-          margin: EdgeInsets.only(
-            left: 10,
-          ), // Adjust the values as needed
-          child: Text(
-            'ไทมไลน์ของคุณ',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
         SizedBox(height: 7),
         buildTripItem(context),
         buildTripItem(context),
@@ -105,38 +118,39 @@ class TripTimeLineHistory extends StatelessWidget {
                     children: [
                       Text(
                         'ชื่อทริป: จา',
-                        style: TextStyle(
+                        style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Row(
                         children: [
                           Text(
                             'รีวิว: ดีมาก\t\t\t',
-                            style: TextStyle(fontSize: 12),
+                            style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
                           ),
                           Image.asset('assets/red.png', width: 14, height: 14),
                           Text('\t ทริปสิ้นสุดลงเเล้ว ',
-                              style: TextStyle(fontSize: 12)),
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                         ],
                       ),
                       Row(
                         children: [
                           Icon(Icons.location_on, size: 12),
-                          Text('100 เมตร', style: TextStyle(fontSize: 12)),
+                          Text('100 เมตร',
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                           SizedBox(width: 5),
                           Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
-                              style: TextStyle(fontSize: 12)),
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                         ],
                       ),
                       Text(
                         'วันที่เดินทาง: 11/08/66 - 13/08/66',
                       ),
                       Text('ผู้จัดทริป: ติว\t\t\t\t\t\t\t',
-                          style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                       Row(
                         children: [
                           Text('จำนวนผู้ร่วมทริป: 12 คน \t\t\t',
-                              style: TextStyle(fontSize: 12)),
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                         ],
                       ),
                     ],

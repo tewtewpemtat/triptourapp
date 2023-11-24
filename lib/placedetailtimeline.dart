@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/placetimeline.dart';
 
 class PlaceDetail extends StatelessWidget {
@@ -9,7 +10,8 @@ class PlaceDetail extends StatelessWidget {
         backgroundColor: Colors.grey[200],
         title: Text(
           "ไทมไลน์ย่อย",
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
@@ -39,7 +41,7 @@ class PlaceDetail extends StatelessWidget {
               ), // Adjust the values as needed
               child: Text(
                 'เเสดงเวลา เช็คอิน - เช็คเอาท์',
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -90,7 +92,7 @@ class PlaceDetail extends StatelessWidget {
                 children: [
                   Text(
                     '1.ร้านจาคอฟฟี',
-                    style: TextStyle(fontSize: 18),
+                    style: GoogleFonts.ibmPlexSansThai(fontSize: 18),
                   ),
                   SizedBox(height: 5),
                   Container(
@@ -101,7 +103,7 @@ class PlaceDetail extends StatelessWidget {
                     padding: EdgeInsets.all(3.0),
                     child: Text(
                       'กรุงเทพมหานคร',
-                      style: TextStyle(
+                      style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 10,
                         color: Colors.white, // สีของข้อความ
                         // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -119,7 +121,7 @@ class PlaceDetail extends StatelessWidget {
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           'เช็คอิน',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 10,
                             color: Colors.white, // สีของข้อความ
                             // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -130,7 +132,7 @@ class PlaceDetail extends StatelessWidget {
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           ': 13:21  ',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                               fontSize: 10,
                               color: Colors.black,
                               fontWeight: FontWeight.bold // สีของข้อความ
@@ -151,7 +153,7 @@ class PlaceDetail extends StatelessWidget {
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           'เช็คเอาท์',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 10,
                             color: Colors.white, // สีของข้อความ
                             // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -162,7 +164,7 @@ class PlaceDetail extends StatelessWidget {
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           ': 13:21  ',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                               fontSize: 10,
                               color: Colors.black,
                               fontWeight: FontWeight.bold // สีของข้อความ

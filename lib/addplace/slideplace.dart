@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SlidePlace extends StatefulWidget {
   @override
@@ -41,12 +42,12 @@ class _SlidePlaceState extends State<SlidePlace> {
         children: [
           Text(
             'ประเภทสถานที่',
-            style: TextStyle(
-              fontSize: 16.0,
+            style: GoogleFonts.ibmPlexSansThai(
+              fontSize: 18.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 8),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -79,7 +80,7 @@ class _SlidePlaceState extends State<SlidePlace> {
         ),
         child: Text(
           placeType,
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
             fontSize: 16.0,
             fontWeight: FontWeight.bold, // เพิ่มบรรทัดนี้เพื่อทำให้ตัวหนา
           ),

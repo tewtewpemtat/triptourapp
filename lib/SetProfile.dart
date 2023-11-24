@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:triptourapp/SetUser.dart';
 import 'package:triptourapp/authen/login.dart';
+import 'package:triptourapp/main.dart';
 
 class SetProfilePage extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "ตั้งโปรไฟล์ของคุณ",
+          "สร้างโปรไฟล์ของคุณ",
           style: GoogleFonts.ibmPlexSansThai(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -73,10 +73,50 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
+              Text(
+                "เพิ่มรูปโปรไฟล์",
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                style: GoogleFonts.ibmPlexSansThai(),
+                decoration: InputDecoration(
+                  labelText: "ชื่อ ",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                style: GoogleFonts.ibmPlexSansThai(),
+                decoration: InputDecoration(
+                  labelText: "นามสกุล ",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
               SizedBox(height: 20),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: "ชื่อเล่นของคุณ",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                style: GoogleFonts.ibmPlexSansThai(),
+                decoration: InputDecoration(
+                  labelText: "เบอร์ติดต่อ",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -110,7 +150,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SetUserPage(),
+                      builder: (context) => MyApp(),
                     ),
                   );
                 },

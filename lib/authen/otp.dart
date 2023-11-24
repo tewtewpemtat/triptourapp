@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/authen/login.dart';
 
 import 'newpassword.dart';
@@ -17,7 +18,7 @@ class OtpPage extends StatelessWidget {
               children: [
                 Text(
                   'Trip',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -26,7 +27,7 @@ class OtpPage extends StatelessWidget {
                 ),
                 Text(
                   'Tour',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFE59730),
@@ -49,7 +50,7 @@ class OtpPage extends StatelessWidget {
                     },
                     child: Text(
                       'ยืนยัน OTP',
-                      style: TextStyle(
+                      style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -59,7 +60,8 @@ class OtpPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Text('โปรดรอรับ OTP ภายใน 5 นาที', style: TextStyle(fontSize: 12)),
+            Text('โปรดรอรับ OTP ภายใน 5 นาที',
+                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
             SizedBox(height: 20),
             TextFormField(
               decoration: InputDecoration(
@@ -89,7 +91,7 @@ class OtpPage extends StatelessWidget {
                 },
                 child: Text(
                   'ดำเนินการต่อ',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -107,7 +109,13 @@ class OtpPage extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('ส่งรหัส OTP อีกครั้ง'),
+              child: Text(
+                'ส่งรหัส OTP อีกครั้ง',
+                style: GoogleFonts.ibmPlexSansThai(
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -119,7 +127,13 @@ class OtpPage extends StatelessWidget {
                           LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
                 );
               },
-              child: Text('กดที่นี่เพื่อกลับไปยังหน้าเข้าสู่ระบบ'),
+              child: Text(
+                'กดที่นี่เพื่อกลับไปยังหน้าเข้าสู่ระบบ',
+                style: GoogleFonts.ibmPlexSansThai(
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),

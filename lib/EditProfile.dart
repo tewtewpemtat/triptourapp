@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/main.dart';
 
@@ -89,6 +91,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   Navigator.of(context).pop();
                 },
               ),
+              ListTile(
+                title: Text('เพศทางเลือก'),
+                onTap: () {
+                  setState(() {
+                    _selectedGender = 'เพศทางเลือก';
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
             ],
           ),
           actions: <Widget>[
@@ -119,7 +130,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         title: Text("แก้ไขข้อมูลโปรไฟล์",
-            style: TextStyle(
+            style: GoogleFonts.ibmPlexSansThai(
+              fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
         centerTitle: true,
@@ -157,9 +169,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
+                Text(
+                  "เปลี่ยนรูปโปรไฟล์",
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(height: 20),
                 ListTile(
-                  title: Text('ชื่อจริง'),
+                  title: Text(
+                    'ชื่อจริง',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle: Text('ชยันโรต'),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
@@ -169,7 +196,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 ListTile(
-                  title: Text('นามสกุล'),
+                  title: Text(
+                    'นามสกุล',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle: Text('พงถาพร'),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
@@ -179,7 +211,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 ListTile(
-                  title: Text('ชื่อเล่น'),
+                  title: Text(
+                    'ชื่อเล่น',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle: Text('จรา'),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
@@ -189,7 +226,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 ListTile(
-                  title: Text('เบอร์ติดต่อ'),
+                  title: Text(
+                    'เบอร์ติดต่อ',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle: Text('123-456-7890'),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
@@ -199,7 +241,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 ListTile(
-                  title: Text('เพศ'),
+                  title: Text(
+                    'เพศ',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   subtitle: Text(
                       _selectedGender.isNotEmpty ? _selectedGender : 'ไม่ระบุ'),
                   trailing: IconButton(

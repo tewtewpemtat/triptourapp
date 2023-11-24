@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/testuser.dart';
-import 'tripmanage/information.dart';
+
 import 'tripmanage/headbutton.dart';
-import 'tripmanage/userbutton.dart';
 import 'tripmanage/headplan.dart';
-import 'tripmanage/userplan.dart';
-import 'infoplace.dart';
+import 'tripmanage/information.dart';
 
 class TripmanagePage extends StatelessWidget {
   @override
@@ -31,7 +30,8 @@ class TripmanagePage extends StatelessWidget {
               child: Text(
                 'แผนการเดินทาง',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),

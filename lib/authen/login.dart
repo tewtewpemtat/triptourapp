@@ -167,7 +167,10 @@ class LoginPage extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('ลืมรหัสผ่าน'),
+              child: Text(
+                'ลืมรหัสผ่าน',
+                style: GoogleFonts.ibmPlexSansThai(color: Colors.black),
+              ),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InformationPlan extends StatelessWidget {
   @override
@@ -41,7 +42,10 @@ class InformationPlan extends StatelessWidget {
                     children: [
                       Text(
                         '1.ร้านจาคอฟฟี',
-                        style: TextStyle(fontSize: 18),
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -55,7 +59,7 @@ class InformationPlan extends StatelessWidget {
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           'กรุงเทพมหานคร',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 8,
                             color: Colors.white, // สีของข้อความ
                             // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
@@ -75,7 +79,7 @@ class InformationPlan extends StatelessWidget {
                         padding: EdgeInsets.all(3.0),
                         child: Text(
                           'กำหนดการเวลา : 00:00',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 8,
                             color: Colors.white, // สีของข้อความ
                             fontWeight: FontWeight.bold, // หนา
@@ -85,9 +89,9 @@ class InformationPlan extends StatelessWidget {
                         ),
                       ),
                       Text('จำนวนผู้เข้าร่วม : 16',
-                          style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                       Text('ห่าง 15Km จากตำแหน่งของคุณ',
-                          style: TextStyle(fontSize: 12)),
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                       Row(
                         children: [
                           Expanded(
@@ -106,7 +110,7 @@ class InformationPlan extends StatelessWidget {
                                 ),
                                 child: Text(
                                   'นำทาง',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ibmPlexSansThai(
                                     fontWeight:
                                         FontWeight.bold, // ทำให้เป็นตัวหนา
                                     // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ

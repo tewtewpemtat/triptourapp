@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/timeplace/placesum.dart';
 import 'package:triptourapp/timeplace/slideplace.dart';
 import 'package:triptourapp/timeplace/slidetime.dart';
-import 'package:triptourapp/timeplace/placesum.dart';
 
 class TimePlacePage extends StatelessWidget {
   @override
@@ -21,7 +22,8 @@ class TimePlacePage extends StatelessWidget {
         title: Text(
           'จัดการเวลา',
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
@@ -35,7 +37,7 @@ class TimePlacePage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'เลือกสถานที่',
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -46,9 +48,8 @@ class TimePlacePage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'เลือกสถานที่เพื่อกำหนดเวลา',
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 14.0, color: Colors.grey),
               ),
             ),
             SlidePlace(),
@@ -56,7 +57,7 @@ class TimePlacePage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'กำหนดเวลา',
-                style: TextStyle(
+                style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -67,9 +68,8 @@ class TimePlacePage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'ระบุเวลาการเดินทางของแต่ละสถานที่',
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 14.0, color: Colors.grey),
               ),
             ),
             SizedBox(height: 7),
@@ -79,8 +79,8 @@ class TimePlacePage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'การกำหนดการเวลาแต่ละสถานที่',
-                style: TextStyle(
-                  fontSize: 20.0,
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
