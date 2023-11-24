@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/tripmanage.dart';
+import 'infoplace/groupchat.dart';
 import 'infoplace/headinfobutton.dart';
 import 'infoplace/infomationplace.dart';
 import 'infoplace/member.dart';
@@ -8,11 +10,15 @@ class InfoPlacePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => TripmanagePage()),
+            );
           },
         ),
         title: Row(
@@ -25,7 +31,12 @@ class InfoPlacePage extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.chat),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => GroupScreenPage()),
+                );
+              },
             ),
           ],
         ),

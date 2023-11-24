@@ -132,11 +132,30 @@ class UserPlan extends StatelessWidget {
                               fixedSize: Size(70, 10),
                             ),
                             child: Text(
+                              'เข้าร่วม',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12 // ทำให้เป็นตัวหนา
+                                  // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                                  ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 7),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // ทำอะไรเมื่อกดปุ่มกำหนดเวลาแต่ละสถานที่
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xffcfcfcf),
+                              onPrimary: Colors.black,
+                              fixedSize: Size(70, 10),
+                            ),
+                            child: Text(
                               'จุดนัดพบ',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold, // ทำให้เป็นตัวหนา
-                                // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
-                              ),
+                                  fontWeight: FontWeight.bold, fontSize: 12),
                             ),
                           ),
                         ),

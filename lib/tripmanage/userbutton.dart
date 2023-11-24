@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/groupchat.dart';
+import 'package:triptourapp/requestplace.dart';
 
 class UserButton extends StatelessWidget {
   @override
@@ -45,7 +47,12 @@ class UserButton extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // ทำอะไรเมื่อกดปุ่มแชท
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GroupScreenPage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white, // สีพื้นหลังของปุ่ม
@@ -58,12 +65,8 @@ class UserButton extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.chat),
-                        onPressed: () {
-                          // ทำอะไรสักอย่างเมื่อกด icon อีเมล
-                        },
-                      ),
+                      Icon(Icons.chat),
+
                       // รูปไอคอนแชท
                       SizedBox(width: 8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
                       Text('แชทกลุ่ม'),
@@ -80,7 +83,12 @@ class UserButton extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // ทำอะไรเมื่อกดปุ่มแชท
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RequestPage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white, // สีพื้นหลังของปุ่ม
@@ -93,12 +101,8 @@ class UserButton extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.mail),
-                        onPressed: () {
-                          // ทำอะไรสักอย่างเมื่อกด icon อีเมล
-                        },
-                      ),
+                      Icon(Icons.mail),
+
                       // รูปไอคอนแชท
                       SizedBox(width: 8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
                       Text('ร้องขอสถานที่'),

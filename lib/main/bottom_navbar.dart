@@ -26,7 +26,7 @@ class BottomNavbar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.timeline),
-          label: 'ไทมไลน์ทริป',
+          label: 'ประวัติทริป',
         ),
       ],
       currentIndex: selectedIndex,

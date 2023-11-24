@@ -150,19 +150,6 @@ class _HeadInfoButtonState extends State<HeadInfoButton> {
               ),
             ],
           ),
-          SizedBox(height: 15),
-          Row(
-            children: [
-              SizedBox(width: 10),
-              Text(
-                'สมาชิกที่เข้าร่วม',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

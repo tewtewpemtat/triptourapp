@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/tripmanage.dart';
 
 class TripHistory extends StatelessWidget {
   @override
@@ -63,92 +64,93 @@ class TripHistory extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
-        buildTripItem(),
-        buildTripItem(),
-        buildTripItem(),
+        buildTripItem(context),
+        buildTripItem(context),
+        buildTripItem(context),
       ],
     );
   }
 
-  Widget buildTripItem() {
+  Widget buildTripItem(BuildContext context) {
     return Material(
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-            width: 1.0,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    TripmanagePage()), // RegisterPage() คือหน้าที่คุณต้องไป
+          );
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey,
+              width: 1.0,
+            ),
+            borderRadius:
+                BorderRadius.circular(10), // กำหนด BorderRadius ที่ต้องการ
           ),
-          borderRadius:
-              BorderRadius.circular(10), // กำหนด BorderRadius ที่ต้องการ
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 5,
-              child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(10), // กำหนด BorderRadius ที่ต้องการ
-                child: Container(
-                  child: Image.asset(
-                    'assets/main/main_image1.png',
-                    width: 100.0,
-                    height: 170.0,
-                    fit: BoxFit.cover,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      10), // กำหนด BorderRadius ที่ต้องการ
+                  child: Container(
+                    child: Image.asset(
+                      'assets/main/main_image1.png',
+                      width: 100.0,
+                      height: 150.0,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(width: 13),
-            Expanded(
-              flex: 6,
-              child: Container(
-                margin: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'ชื่อทริป: จา',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text('สถานะทริป: กำลังดำเนินการ',
-                        style: TextStyle(fontSize: 12)),
-                    Row(
-                      children: [
-                        Text('รีวิว: ดีมาก\t\t\t',
-                            style: TextStyle(fontSize: 12)),
-                        Icon(Icons.location_on, size: 12),
-                        SizedBox(width: 5),
-                        Text('100 เมตร', style: TextStyle(fontSize: 12)),
-                      ],
-                    ),
-                    Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
-                        style: TextStyle(fontSize: 12)),
-                    Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
-                        style: TextStyle(fontSize: 12)),
-                    Text('ผู้จัดทริป: ติว', style: TextStyle(fontSize: 12)),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text('จำนวนผู้ร่วมทริป: 16 คน',
-                              style: TextStyle(fontSize: 12)),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Icon(Icons.delete, size: 16),
+              SizedBox(width: 13),
+              Expanded(
+                flex: 6,
+                child: Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'ชื่อทริป: จา',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          InkWell(
+                            onTap: () {},
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(Icons.cancel, size: 16),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text('สถานะทริป: กำลังดำเนินการ',
+                          style: TextStyle(fontSize: 12)),
+                      Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
+                          style: TextStyle(fontSize: 12)),
+                      Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
+                          style: TextStyle(fontSize: 12)),
+                      Text('ผู้จัดทริป: ติว', style: TextStyle(fontSize: 12)),
+                      Text('จำนวนผู้ร่วมทริป: 16 คน',
+                          style: TextStyle(fontSize: 12)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
