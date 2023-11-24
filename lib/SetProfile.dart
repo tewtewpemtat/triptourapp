@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/SetUser.dart';
 import 'package:triptourapp/authen/login.dart';
@@ -30,7 +31,13 @@ class _SetProfilePageState extends State<SetProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ตั้งโปรไฟล์ของคุณ"),
+        title: Text(
+          "ตั้งโปรไฟล์ของคุณ",
+          style: GoogleFonts.ibmPlexSansThai(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -117,7 +124,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
                 ),
                 child: Text(
                   "ดำเนินการต่อ",
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -135,7 +142,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
                 },
                 child: Text(
                   "ล้างข้อมูลเพื่อระบุข้อมูลการสร้างทริปใหม่",
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,
@@ -153,7 +160,9 @@ class _SetProfilePageState extends State<SetProfilePage> {
 }
 
 void main() {
-  runApp(MaterialApp(
-    home: SetProfilePage(),
-  ));
+  runApp(
+    MaterialApp(
+      home: SetProfilePage(),
+    ),
+  );
 }

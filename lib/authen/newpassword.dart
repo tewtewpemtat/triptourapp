@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'login.dart';
 
 class NewpasswordPage extends StatelessWidget {
@@ -11,13 +12,27 @@ class NewpasswordPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'TripTour',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.start, // จัดตำแหน่งให้ Text อยู่ตรงกลาง
+            Row(
+              children: [
+                Text(
+                  'Trip',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Text(
+                  'Tour',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFE59730),
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ],
             ),
             SizedBox(height: 20),
             Row(
@@ -49,7 +64,9 @@ class NewpasswordPage extends StatelessWidget {
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'รหัสผ่าน',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
             SizedBox(height: 15),
@@ -57,13 +74,43 @@ class NewpasswordPage extends StatelessWidget {
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'ยืนยันรหัสผ่าน',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
             SizedBox(height: 15),
-            ElevatedButton(
+            Container(
+              width: 184,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xffdb923c),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  // เพิ่มโค้ดสำหรับ Sign in
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'ดำเนินการต่อ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            TextButton(
               onPressed: () {
-                // เพิ่มโค้ด
+                // เพิ่มโค้ดสำหรับลืมรหัสผ่าน
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -71,9 +118,8 @@ class NewpasswordPage extends StatelessWidget {
                           LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
                 );
               },
-              child: Text('ดำเนินการต่อ'),
+              child: Text('กดที่นี่เพื่อกลับไปยังหน้าเข้าสู่ระบบ'),
             ),
-            SizedBox(height: 10),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/EditUser.dart';
 
@@ -25,7 +26,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Text(
                   'Jaguar',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 20,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -33,7 +34,8 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Text(
                   'จำนวนทริปที่เข้าร่วม : 2',
-                  style: TextStyle(fontSize: 13, color: Colors.black),
+                  style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 13, color: Colors.black),
                 ),
               ],
             ),

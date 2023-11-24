@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/SetProfile.dart';
 import 'package:triptourapp/main.dart';
 
@@ -7,7 +8,13 @@ class SetUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ข้อมูลส่วนตัวของคุณ"),
+        title: Text(
+          "ข้อมูลส่วนตัวของคุณ",
+          style: GoogleFonts.ibmPlexSansThai(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -68,7 +75,7 @@ class SetUserPage extends StatelessWidget {
                 ),
                 child: Text(
                   "ดำเนินการต่อ",
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -86,7 +93,7 @@ class SetUserPage extends StatelessWidget {
                 },
                 child: Text(
                   "ล้างข้อมูลเพื่อระบุข้อมูลการสร้างทริปใหม่",
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.blue,

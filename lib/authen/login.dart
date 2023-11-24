@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/SetProfile.dart';
 
 import '../main.dart';
@@ -19,7 +20,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 Text(
                   'Trip',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -28,7 +29,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 Text(
                   'Tour',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFE59730),
@@ -54,7 +55,7 @@ class LoginPage extends StatelessWidget {
                     },
                     child: Text(
                       'เข้าสู่ระบบ',
-                      style: TextStyle(
+                      style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -72,13 +73,14 @@ class LoginPage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text('สมัครสมาชิก', style: TextStyle(fontSize: 24)),
+                  child: Text('สมัครสมาชิก',
+                      style: GoogleFonts.ibmPlexSansThai(fontSize: 24)),
                 ),
               ],
             ),
             SizedBox(height: 5),
             Text('เข้าสู่ระบบเพื่อเข้าใช้งานแอปพลิเคชัน Trip Tour',
-                style: TextStyle(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
             SizedBox(height: 15),
             Container(
               width: 339,
@@ -146,7 +148,7 @@ class LoginPage extends StatelessWidget {
                 },
                 child: Text(
                   'เข้าสู่ระบบ',
-                  style: TextStyle(
+                  style: GoogleFonts.ibmPlexSansThai(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

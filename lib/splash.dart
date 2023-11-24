@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/authen/login.dart';
 
 void main() {
@@ -95,7 +96,7 @@ class _IntroducePageState extends State<IntroducePage> {
                       children: [
                         Text(
                           'Trip',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -104,7 +105,7 @@ class _IntroducePageState extends State<IntroducePage> {
                         ),
                         Text(
                           'Tour',
-                          style: TextStyle(
+                          style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFFE59730),
@@ -116,22 +117,22 @@ class _IntroducePageState extends State<IntroducePage> {
                     SizedBox(height: 10),
                     Text(
                       'แอปพลิเคชันวางแผนจัดทริปท่องเที่ยว',
-                      style: TextStyle(
-                        fontSize: 15,
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       'ที่ช่วยให้คุณและกลุ่มเพื่อนของคุณท่อง',
-                      style: TextStyle(
-                        fontSize: 15,
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       'เที่ยวกันเป็นกลุ่มได้อย่างสะดวกยิ่งขึ้น',
-                      style: TextStyle(
-                        fontSize: 15,
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
