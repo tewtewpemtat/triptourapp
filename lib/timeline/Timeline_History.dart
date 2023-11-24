@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../placetimeline.dart';
 
 class TripTimeLineHistory extends StatelessWidget {
@@ -87,7 +88,7 @@ class TripTimeLineHistory extends StatelessWidget {
                     child: Image.asset(
                       'assets/main/main_image1.png',
                       width: 100.0,
-                      height: 125.0,
+                      height: 130.0,
                       fit: BoxFit.cover,
                     ),
                   ),
