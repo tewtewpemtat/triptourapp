@@ -12,11 +12,17 @@ class Invite extends StatelessWidget {
       title: 'TripTour',
       home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blue,
-            title: Text("เชิญเพื่อน"),
+            backgroundColor: Colors.grey[200],
+            title: Text(
+              "เชิญเพื่อน",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
             centerTitle: true,
             automaticallyImplyLeading: true,
             leading: IconButton(
+              color: Colors.black,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -25,7 +31,9 @@ class Invite extends StatelessWidget {
                   ),
                 );
               },
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(
+                Icons.arrow_back,
+              ),
             ),
           ), // เรียกใช้ TopNavbar Widgetna
           resizeToAvoidBottomInset: false, // เพิ่มการตั้งค่านี้

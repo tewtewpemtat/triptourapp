@@ -28,11 +28,17 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("Tewthankyou"),
+        backgroundColor: Colors.grey[200],
+        title: Text(
+          "JaThankyou",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
+          color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
@@ -43,6 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         actions: [
           IconButton(
+            color: Colors.black,
             icon: Icon(Icons.menu),
             onPressed: () async {
               final result = await showMenu(

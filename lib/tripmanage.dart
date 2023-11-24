@@ -13,7 +13,7 @@ class TripmanagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.grey[200],
         automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () {
@@ -23,6 +23,7 @@ class TripmanagePage extends StatelessWidget {
             );
           },
           icon: Icon(Icons.arrow_back),
+          color: Colors.black,
         ),
         title: Row(
           children: [
@@ -30,10 +31,14 @@ class TripmanagePage extends StatelessWidget {
               child: Text(
                 'แผนการเดินทาง',
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
               ),
             ),
             IconButton(
               icon: Icon(Icons.person_add),
+              color: Colors.black,
               onPressed: () {
                 Navigator.push(
                   context,

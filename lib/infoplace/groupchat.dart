@@ -29,10 +29,17 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("แชทกลุ่ม"),
+        backgroundColor: Colors.grey[200],
+        title: Text(
+          "แชทกลุ่ม",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
+          color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(

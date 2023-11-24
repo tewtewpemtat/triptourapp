@@ -15,11 +15,17 @@ class AddFriend extends StatelessWidget {
       title: 'TripTour',
       home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blue,
-            title: Text("เพิ่มเพื่อน"),
+            backgroundColor: Colors.grey[200],
+            title: Text(
+              "เพิ่มเพื่อน",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
             centerTitle: true,
             automaticallyImplyLeading: true,
             leading: IconButton(
+              color: Colors.black,
               onPressed: () {
                 Navigator.push(
                   context,

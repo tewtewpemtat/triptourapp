@@ -117,8 +117,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("แก้ไขข้อมูลโปรไฟล์"),
+        backgroundColor: Colors.grey[200],
+        title: Text("แก้ไขข้อมูลโปรไฟล์",
+            style: TextStyle(
+              color: Colors.black,
+            )),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -129,6 +132,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             );
           },
           icon: Icon(Icons.arrow_back),
+          color: Colors.black,
         ),
       ),
       body: ListView(

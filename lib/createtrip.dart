@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:triptourapp/main.dart';
 import 'tripmanage.dart';
+import 'dart:io';
 
 class CreateTripPage extends StatefulWidget {
   @override
   _CreateTripPageState createState() => _CreateTripPageState();
 }
 
-Future<void> _pickImage() async {
-  final picker = ImagePicker();
-  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  if (pickedFile != null) {
-    // ทำบันทึกรูปภาพที่เลือก
-  }
-}
-
 class _CreateTripPageState extends State<CreateTripPage> {
+  File? _userProfileImage;
   DateTime selectedStartDate = DateTime.now();
   DateTime selectedEndDate = DateTime.now();
   int? selectedParticipants = 1;
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _userProfileImage = File(pickedFile.path);
+      });
+    }
+  }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
@@ -42,15 +47,24 @@ class _CreateTripPageState extends State<CreateTripPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("ระบุข้อมูลการสร้างทริป"),
+        backgroundColor: Colors.grey[200],
+        title: Text("ระบุข้อมูลการสร้างทริป",
+            style: TextStyle(
+              color: Colors.black,
+            )),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyApp(),
+              ),
+            );
           },
           icon: Icon(Icons.arrow_back),
+          color: Colors.black,
         ),
       ),
       body: SingleChildScrollView(
@@ -60,6 +74,30 @@ class _CreateTripPageState extends State<CreateTripPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              CircleAvatar(
+                radius: 100.0,
+                backgroundImage: _userProfileImage != null
+                    ? FileImage(_userProfileImage!) as ImageProvider<Object>?
+                    : AssetImage('assets/cat.jpg'),
+                child: InkWell(
+                  onTap: _pickImage,
+                  child: Icon(
+                    Icons.camera_alt,
+                    size: 40.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(height: 3),
+              Text(
+                "เพิ่มรูปทริป",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
               SizedBox(height: 10),
               TextFormField(
                 decoration: InputDecoration(
