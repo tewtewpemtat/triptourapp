@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:triptourapp/timeplace/slideplace.dart';
+import 'package:triptourapp/timeplace/slidetime.dart';
+import 'package:triptourapp/timeplace/placesum.dart';
 
 class TimePlacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -15,7 +18,7 @@ class TimePlacePage extends StatelessWidget {
           },
         ),
         title: Text(
-          'ร้านจาคอฟฟี',
+          'จัดการเวลา',
           textAlign: TextAlign.center,
         ),
       ),
@@ -23,8 +26,9 @@ class TimePlacePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 3),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'เลือกสถานที่',
                 style: TextStyle(
@@ -33,8 +37,9 @@ class TimePlacePage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 5),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(left: 10),
               child: Text(
                 'เลือกสถานที่เพื่อกำหนดเวลา',
                 style: TextStyle(
@@ -43,6 +48,40 @@ class TimePlacePage extends StatelessWidget {
               ),
             ),
             SlidePlace(),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'กำหนดเวลา',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'ระบุเวลาการเดินทางของแต่ละสถานที่',
+                style: TextStyle(
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+            SizedBox(height: 7),
+            SlideTime(),
+            SizedBox(height: 7),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'การกำหนดการเวลาแต่ละสถานที่',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            PlaceSum(),
           ],
         ),
       ),

@@ -11,6 +11,7 @@ class TestUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () {
@@ -27,7 +28,7 @@ class TestUserPage extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.mail),
+              icon: Icon(Icons.person_add),
               onPressed: () {
                 Navigator.push(
                   context,

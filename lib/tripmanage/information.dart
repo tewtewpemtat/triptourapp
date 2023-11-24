@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/edittrip.dart';
 
 class InformationPage extends StatelessWidget {
   @override
@@ -31,7 +32,12 @@ class InformationPage extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditTrip()),
+                  );
+                },
                 child: Align(
                   alignment: Alignment.centerRight,
                   child:
@@ -48,14 +54,6 @@ class InformationPage extends StatelessWidget {
               ),
               Image.asset('assets/green.png', width: 14, height: 14),
               Text('\t กำลังดำเนินการ ', style: TextStyle(fontSize: 16)),
-            ],
-          ),
-          Row(
-            children: [
-              Text('รีวิว: ดีมาก\t\t\t', style: TextStyle(fontSize: 16)),
-              Icon(Icons.location_on, size: 16), // ใช้ icon แสดงตำแหน่ง
-              SizedBox(width: 5),
-              Text('100 เมตร', style: TextStyle(fontSize: 16)),
             ],
           ),
           Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',

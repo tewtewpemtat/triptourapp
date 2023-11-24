@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/addfriend.dart';
 import '../placetimeline.dart';
 
 class FriendButton extends StatelessWidget {
@@ -67,7 +68,14 @@ class FriendButton extends StatelessWidget {
             children: [
               Expanded(
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFriend(),
+                      ),
+                    );
+                  },
                   child: Row(
                     children: [
                       Icon(Icons.add),

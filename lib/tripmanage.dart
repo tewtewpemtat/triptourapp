@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/main.dart';
 import 'package:triptourapp/testuser.dart';
 import 'tripmanage/information.dart';
 import 'tripmanage/headbutton.dart';
@@ -12,10 +13,14 @@ class TripmanagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MyApp()),
+            );
           },
           icon: Icon(Icons.arrow_back),
         ),
@@ -28,7 +33,7 @@ class TripmanagePage extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.mail),
+              icon: Icon(Icons.person_add),
               onPressed: () {
                 Navigator.push(
                   context,

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
 import 'tripmanage.dart';
 
 class CreateTripPage extends StatefulWidget {
   @override
   _CreateTripPageState createState() => _CreateTripPageState();
+}
+
+Future<void> _pickImage() async {
+  final picker = ImagePicker();
+  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  if (pickedFile != null) {
+    // ทำบันทึกรูปภาพที่เลือก
+  }
 }
 
 class _CreateTripPageState extends State<CreateTripPage> {
@@ -34,6 +42,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: Text("ระบุข้อมูลการสร้างทริป"),
         centerTitle: true,
         automaticallyImplyLeading: true,

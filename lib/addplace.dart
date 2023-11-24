@@ -8,6 +8,7 @@ class AddPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

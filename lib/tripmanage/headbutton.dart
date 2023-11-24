@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:triptourapp/addplace.dart';
+import 'package:triptourapp/groupchat.dart';
+import '../timeplace.dart';
 
 class HeadButton extends StatelessWidget {
   @override
@@ -46,7 +48,12 @@ class HeadButton extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // ทำอะไรเมื่อกดปุ่มแชท
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GroupScreenPage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white, // สีพื้นหลังของปุ่ม
@@ -87,14 +94,29 @@ class HeadButton extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child: Text('เพิ่มสถานที่'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.location_on), // รูปไอคอนแชท
+                      SizedBox(width: 2),
+                      Text(
+                        'เพิ่มสถานที่',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(width: 5),
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // ทำอะไรเมื่อกดปุ่มกำหนดเวลาแต่ละสถานที่
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TimePlacePage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
@@ -104,7 +126,19 @@ class HeadButton extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child: Text('กำหนดเวลาแต่ละสถานที่'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.access_time), // รูปไอคอนแชท
+                      SizedBox(width: 2),
+                      Text(
+                        'กำหนดเวลาแต่ละสถานที่',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

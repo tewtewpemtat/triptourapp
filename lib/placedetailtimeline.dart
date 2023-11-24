@@ -5,6 +5,7 @@ class PlaceDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: Text("ไทมไลน์ย่อย"),
         centerTitle: true,
       ),

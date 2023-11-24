@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/main.dart';
@@ -11,9 +10,11 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   File? _userProfileImage;
-  String? _selectedGender;
-
-  List<String> _genderOptions = ['ชาย', 'หญิง', 'เพศทางเลือก'];
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _nicknameController = TextEditingController();
+  TextEditingController _contactNumberController = TextEditingController();
+  String _selectedGender = '';
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -25,127 +26,189 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  Future<void> _showEditDialog(
+      String fieldTitle, TextEditingController controller) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('แก้ไข $fieldTitle'),
+          content: Column(
+            children: [
+              TextField(
+                controller: controller,
+                decoration: InputDecoration(labelText: fieldTitle),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('ยกเลิก'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('บันทึก'),
+              onPressed: () {
+                // ดำเนินการบันทึกข้อมูลที่ได้รับจาก TextField
+                // เช่นเก็บในตัวแปร, ส่งไปยังเซิร์ฟเวอร์, ฯลฯ
+                // ตัวอย่างนี้ยังไม่ได้ดำเนินการใดๆ เพียงแค่ปิด Popup
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showGenderDialog() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('เลือกเพศ'),
+          content: Column(
+            children: [
+              ListTile(
+                title: Text('ชาย'),
+                onTap: () {
+                  setState(() {
+                    _selectedGender = 'ชาย';
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: Text('หญิง'),
+                onTap: () {
+                  setState(() {
+                    _selectedGender = 'หญิง';
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('บันทึก'),
+              onPressed: () {
+                // ดำเนินการบันทึกข้อมูลที่ได้รับจากการเลือกเพศ
+                // เช่นเก็บในตัวแปร, ส่งไปยังเซิร์ฟเวอร์, ฯลฯ
+                // ตัวอย่างนี้ยังไม่ได้ดำเนินการใดๆ เพียงแค่ปิด Popup
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('ยกเลิก'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: Text("แก้ไขข้อมูลโปรไฟล์"),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) => MyApp(),
-              ),
+              MaterialPageRoute(builder: (context) => MyApp()),
             );
           },
           icon: Icon(Icons.arrow_back),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.white,
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CircleAvatar(
-                radius: 100.0,
-                backgroundImage: _userProfileImage != null
-                    ? FileImage(_userProfileImage!) as ImageProvider<Object>?
-                    : AssetImage('assets/cat.jpg'),
-                child: InkWell(
-                  onTap: _pickImage,
-                  child: Icon(
-                    Icons.camera_alt,
-                    size: 40.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: "แก้ไขชื่อเล่น",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: _selectedGender,
-                items: _genderOptions.map((String gender) {
-                  return DropdownMenuItem<String>(
-                    value: gender,
-                    child: Text(gender),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    _selectedGender = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: "แก้ไขเพศ",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // ทำงานเมื่อกดปุ่ม "ดำเนินการต่อ"
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyApp(),
+      body: ListView(
+        children: [
+          Container(
+            color: Colors.white,
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CircleAvatar(
+                  radius: 100.0,
+                  backgroundImage: _userProfileImage != null
+                      ? FileImage(_userProfileImage!) as ImageProvider<Object>?
+                      : AssetImage('assets/cat.jpg'),
+                  child: InkWell(
+                    onTap: _pickImage,
+                    child: Icon(
+                      Icons.camera_alt,
+                      size: 40.0,
+                      color: Colors.white,
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xffdb923c),
-                  onPrimary: Colors.white,
-                  fixedSize: Size(200, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
-                  "ดำเนินการต่อ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                SizedBox(height: 20),
+                ListTile(
+                  title: Text('ชื่อจริง'),
+                  subtitle: Text('ชยันโรต'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      _showEditDialog('ชื่อจริง', _firstNameController);
+                    },
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfilePage(),
-                    ),
-                  );
-                },
-                child: Text(
-                  "ล้างข้อมูลเพื่อระบุข้อมูลการสร้างทริปใหม่",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
+                ListTile(
+                  title: Text('นามสกุล'),
+                  subtitle: Text('พงถาพร'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      _showEditDialog('นามสกุล', _lastNameController);
+                    },
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-            ],
+                ListTile(
+                  title: Text('ชื่อเล่น'),
+                  subtitle: Text('จรา'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      _showEditDialog('ชื่อเล่น', _nicknameController);
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: Text('เบอร์ติดต่อ'),
+                  subtitle: Text('123-456-7890'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      _showEditDialog('เบอร์ติดต่อ', _contactNumberController);
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: Text('เพศ'),
+                  subtitle: Text(
+                      _selectedGender.isNotEmpty ? _selectedGender : 'ไม่ระบุ'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      _showGenderDialog();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

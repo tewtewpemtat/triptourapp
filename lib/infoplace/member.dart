@@ -6,6 +6,22 @@ class MemberPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+          padding: EdgeInsets.only(left: 8),
+          child: Row(
+            children: [
+              SizedBox(width: 10),
+              Text(
+                'สมาชิกที่เข้าร่วม',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 5),
         buildTripItem(),
         buildTripItem(),
       ],
