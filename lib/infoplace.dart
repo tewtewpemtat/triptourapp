@@ -10,10 +10,11 @@ class InfoPlacePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.grey[200],
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
+          color: Colors.black,
           onPressed: () {
             Navigator.pushReplacement(
               context,
@@ -27,9 +28,13 @@ class InfoPlacePage extends StatelessWidget {
               child: Text(
                 'แผนการเดินทาง',
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
               ),
             ),
             IconButton(
+              color: Colors.black,
               icon: Icon(Icons.chat),
               onPressed: () {
                 Navigator.pushReplacement(

@@ -8,10 +8,11 @@ class TimePlacePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.grey[200],
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
+          color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
@@ -20,6 +21,9 @@ class TimePlacePage extends StatelessWidget {
         title: Text(
           'จัดการเวลา',
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
       ),
       body: SingleChildScrollView(

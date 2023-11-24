@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/placetimeline.dart';
 
 class PlaceDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("ไทมไลน์ย่อย"),
+        backgroundColor: Colors.grey[200],
+        title: Text(
+          "ไทมไลน์ย่อย",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          color: Colors.black,
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => PlaceTimeline()),
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

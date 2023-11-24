@@ -8,8 +8,9 @@ class AddPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.grey[350],
         leading: IconButton(
+          color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();

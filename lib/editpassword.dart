@@ -14,21 +14,26 @@ class _EditUser extends State<EditUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("แก้ไขรหัสผ่าน"),
+        backgroundColor: Colors.grey[200],
+        title: Text("แก้ไขรหัสผ่าน",
+            style: TextStyle(
+              color: Colors.black,
+            )),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MyApp(),
-              ),
-            );
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyApp(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
       ),
       body: ListView(
         children: [

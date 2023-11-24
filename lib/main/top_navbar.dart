@@ -11,7 +11,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.grey[200],
       title: Padding(
         padding: EdgeInsets.all(0.0), // ปรับ margin ตามที่ต้องการ
         child: Row(
@@ -28,12 +28,12 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                   'Jaguar',
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
                 Text(
                   'จำนวนทริปที่เข้าร่วม : 2',
-                  style: TextStyle(fontSize: 13, color: Colors.white),
+                  style: TextStyle(fontSize: 13, color: Colors.black),
                 ),
               ],
             ),
@@ -43,6 +43,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.settings),
+          color: Colors.black,
           onPressed: () async {
             final result = await showMenu(
               context: context,

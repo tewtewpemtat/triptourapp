@@ -164,11 +164,17 @@ class _EditTripState extends State<EditTrip> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text("แก้ไขข้อมูลทริป"),
+        backgroundColor: Colors.grey[200],
+        title: Text(
+          "แก้ไขข้อมูลทริป",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
+          color: Colors.black,
           onPressed: () {
             Navigator.pushReplacement(
               context,
