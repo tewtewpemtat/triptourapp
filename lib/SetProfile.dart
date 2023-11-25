@@ -31,16 +31,19 @@ class _SetProfilePageState extends State<SetProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey[200],
         title: Text(
           "สร้างโปรไฟล์ของคุณ",
           style: GoogleFonts.ibmPlexSansThai(
             fontSize: 24,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
+          color: Colors.black,
           onPressed: () {
             Navigator.push(
               context,

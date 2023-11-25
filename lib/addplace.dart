@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/tripmanage.dart';
 
 import 'addplace/downplace.dart';
 import 'addplace/slideplace.dart';
@@ -14,7 +15,12 @@ class AddPage extends StatelessWidget {
           color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TripmanagePage(),
+              ),
+            );
           },
         ),
         title: Expanded(
