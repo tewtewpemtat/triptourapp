@@ -65,7 +65,7 @@ class RequestList extends StatelessWidget {
                 child: Image.asset(
                   'assets/userplan/userplan_image1.png',
                   width: 100.0,
-                  height: 140.0,
+                  height: 150.0,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -114,9 +114,23 @@ class RequestList extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 5),
                     Text(
                         '164/694 ถนนกาเน เขตหนองมา แขวงหนองลิง กรุงเทพมหานคร 15000',
                         style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                    SizedBox(height: 5),
+                    Container(
+                      child: Text(
+                        'ผู้ร้องขอ : จา',
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black, // สีของข้อความ
+                          // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5),
                   ],
                 ),
               ),

@@ -5,7 +5,7 @@ import 'package:triptourapp/testuser.dart';
 
 import 'tripmanage/headbutton.dart';
 import 'tripmanage/headplan.dart';
-import 'tripmanage/information.dart';
+import 'tripmanage/headinformation.dart';
 
 class TripmanagePage extends StatelessWidget {
   @override

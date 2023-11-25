@@ -73,7 +73,8 @@ class RegisterPage extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text('สมัครสมาชิกเพื่อเข้าใช้งานแอปพลิเคชัน Trip Tour',
-                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12, color: Colors.grey)),
             SizedBox(height: 15),
             Container(
               width: 339,

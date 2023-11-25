@@ -59,8 +59,9 @@ class NewpasswordPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Text('กรอกรหัสผ่านที่ท่านต้องการ',
-                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+            Text('ระบุรหัสผ่านใหม่ที่ท่านต้องการ',
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12, color: Colors.grey)),
             SizedBox(height: 20),
             TextFormField(
               obscureText: true,

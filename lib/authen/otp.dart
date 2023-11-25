@@ -61,7 +61,8 @@ class OtpPage extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text('โปรดรอรับ OTP ภายใน 5 นาที',
-                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12, color: Colors.grey)),
             SizedBox(height: 20),
             TextFormField(
               decoration: InputDecoration(

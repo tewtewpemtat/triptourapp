@@ -9,6 +9,30 @@ class TripHistory extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          margin: EdgeInsets.all(10), // ระยะห่างระหว่างปุ่ม
+          child: Align(
+            alignment: Alignment.centerLeft, // จัดตำแหน่งข้อความไปทางซ้าย
+
+            child: Text(
+              'ทริปของคุณ',
+              style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+          ), // Adjust the values as needed
+          child: Text(
+            'แสดงทริปของคุณที่กำลังดำเนินการอยู่หรือทริปที่ยังไม่เริ่ม',
+            style:
+                GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
+          ),
+        ),
+        Container(
           margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
