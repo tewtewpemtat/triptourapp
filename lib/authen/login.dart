@@ -80,7 +80,8 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text('เข้าสู่ระบบเพื่อเข้าใช้งานแอปพลิเคชัน Trip Tour',
-                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12, color: Colors.grey)),
             SizedBox(height: 15),
             Container(
               width: 339,
@@ -169,7 +170,8 @@ class LoginPage extends StatelessWidget {
               },
               child: Text(
                 'ลืมรหัสผ่าน',
-                style: GoogleFonts.ibmPlexSansThai(color: Colors.black),
+                style: GoogleFonts.ibmPlexSansThai(
+                    color: Colors.black, decoration: TextDecoration.underline),
               ),
             ),
           ],

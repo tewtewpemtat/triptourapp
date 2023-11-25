@@ -66,7 +66,7 @@ class FriendList extends StatelessWidget {
                           Expanded(
                             flex: 8,
                             child: Text(
-                              'JaGUARxKAI',
+                              'JaThankyou',
                               style: GoogleFonts.ibmPlexSansThai(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
