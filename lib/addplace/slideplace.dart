@@ -25,7 +25,7 @@ class _SlidePlaceState extends State<SlidePlace> {
     return Container(
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.all(0.0),
-      height: 100,
+      height: 120,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [

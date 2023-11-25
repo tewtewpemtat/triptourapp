@@ -140,13 +140,13 @@ class UserPlan extends StatelessWidget {
                               'เข้าร่วม',
                               style: GoogleFonts.ibmPlexSansThai(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 11 // ทำให้เป็นตัวหนา
+                                  fontSize: 10 // ทำให้เป็นตัวหนา
                                   // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
                                   ),
                             ),
                           ),
                         ),
-                        SizedBox(width: 7),
+                        SizedBox(width: 6),
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
@@ -160,7 +160,7 @@ class UserPlan extends StatelessWidget {
                             child: Text(
                               'จุดนัดพบ',
                               style: GoogleFonts.ibmPlexSansThai(
-                                  fontWeight: FontWeight.bold, fontSize: 9),
+                                  fontWeight: FontWeight.bold, fontSize: 10),
                             ),
                           ),
                         ),

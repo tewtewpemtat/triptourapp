@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/requestlist.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,7 +20,14 @@ class DownPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RequestList(),
+                    ),
+                  );
+                },
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
