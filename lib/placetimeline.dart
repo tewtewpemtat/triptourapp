@@ -103,7 +103,10 @@ class PlaceTimeline extends StatelessWidget {
                   children: [
                     Text(
                       '1.ร้านจาคอฟฟี',
-                      style: GoogleFonts.ibmPlexSansThai(fontSize: 18),
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Container(
                       decoration: BoxDecoration(

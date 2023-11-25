@@ -92,7 +92,10 @@ class PlaceDetail extends StatelessWidget {
                 children: [
                   Text(
                     '1.ร้านจาคอฟฟี',
-                    style: GoogleFonts.ibmPlexSansThai(fontSize: 18),
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 5),
                   Container(

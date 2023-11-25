@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../privatechat.dart';
 
 class FriendList extends StatelessWidget {
@@ -44,8 +46,8 @@ class FriendList extends StatelessWidget {
                   child: ClipOval(
                     child: Image.asset(
                       'assets/cat.jpg',
-                      width: 50.0,
-                      height: 60.0,
+                      width: 70.0,
+                      height: 70.0,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -65,26 +67,26 @@ class FriendList extends StatelessWidget {
                             flex: 8,
                             child: Text(
                               'JaGUARxKAI',
-                              style: TextStyle(
+                              style: GoogleFonts.ibmPlexSansThai(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: 5.0),
+                            margin: EdgeInsets.only(right: 10.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.white,
-                                width: 1.0,
+                                width: 3.0,
                               ),
-                              borderRadius: BorderRadius.circular(20.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               color: Color(0xffdc933c),
                             ),
                             padding: EdgeInsets.all(8.0),
                             child: Text(
                               '12',
-                              style: TextStyle(
+                              style: GoogleFonts.ibmPlexSansThai(
                                 fontSize: 16,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

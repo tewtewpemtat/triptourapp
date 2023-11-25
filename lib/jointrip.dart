@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/tripmanage.dart';
 
@@ -16,7 +17,8 @@ class JoinTripPage extends StatelessWidget {
         backgroundColor: Colors.grey[200],
         title: Text(
           "ตอบรับคำเชิญเพื่อเข้าร่วมทริป",
-          style: TextStyle(
+          style: GoogleFonts.ibmPlexSansThai(
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
@@ -71,7 +73,7 @@ class JoinTripPage extends StatelessWidget {
                             child: Image.asset(
                               'assets/jointrip/mail_image1.png',
                               width: 100.0,
-                              height: 80.0,
+                              height: 85.0,
                               fit: BoxFit.cover, // ขยายเต็มส่วน
                             ),
                           ),
@@ -90,10 +92,13 @@ class JoinTripPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('คุณได้รับคำเชิญจาก',
-                                  style: TextStyle(fontSize: 16)),
-                              Text('Jaguar', style: TextStyle(fontSize: 12)),
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 16)),
+                              Text('Jaguar',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 12)),
                               Text('ทริปเที่ยวกับจากั้ว',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ibmPlexSansThai(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   )),
