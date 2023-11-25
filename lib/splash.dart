@@ -136,7 +136,7 @@ class _IntroducePageState extends State<IntroducePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 70),
+                    SizedBox(height: 40),
                     Container(
                       width: 391,
                       height: 60,
