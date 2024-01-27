@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "371074619895",
+    "project_id": "triptour-63a6f",
+    "storage_bucket": "triptour-63a6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371074619895:android:ba7a93ebce94964967f6f2",
+        "android_client_info": {
+          "package_name": "com.example.triptourapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAazqqlq8d4i6W5J0wnYKaMCvBkJZNxqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
