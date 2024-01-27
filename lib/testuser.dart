@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/tripmanage.dart';
 
-import 'tripmanage/information.dart';
 import 'tripmanage/userbutton.dart';
+import 'tripmanage/userinfomation.dart';
 import 'tripmanage/userplan.dart';
 
 class TestUserPage extends StatelessWidget {
@@ -48,7 +48,7 @@ class TestUserPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            InformationPage(),
+            UserInfomationPage(),
             UserButton(),
             UserPlan(),
           ],

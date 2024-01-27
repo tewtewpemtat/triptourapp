@@ -41,6 +41,30 @@ class AddFriend extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 10),
+                Container(
+                  margin: EdgeInsets.only(
+                    left: 10,
+                  ), // Adjust the values as needed
+                  child: Text(
+                    'เพิ่มเพื่อนของคุณ',
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 2),
+                Container(
+                  margin: EdgeInsets.only(
+                    left: 10,
+                  ), // Adjust the values as needed
+                  child: Text(
+                    'กรอกชื่อเพื่อนคุณเพื่อค้นหาเพื่อนในเเอปพลิเคชั่น TripTour',
+                    style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 13, color: Colors.grey),
+                  ),
+                ),
                 SizedBox(height: 3),
                 Container(
                   margin: EdgeInsets.all(10),
@@ -99,8 +123,8 @@ class AddFriend extends StatelessWidget {
                   child: ClipOval(
                     child: Image.asset(
                       'assets/cat.jpg',
-                      width: 50.0,
-                      height: 60.0,
+                      width: 70.0,
+                      height: 70.0,
                       fit: BoxFit.cover,
                     ),
                   ),

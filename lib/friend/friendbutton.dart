@@ -27,7 +27,7 @@ class FriendButton extends StatelessWidget {
             left: 10,
           ), // Adjust the values as needed
           child: Text(
-            'แชทส่วนตัวเพื่อสนทนาในเเอปพลิเคชั่น Trip Tour',
+            'แชทส่วนตัวเพื่อสนทนาในเเอปพลิเคชั่น TripTour',
             style:
                 GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
           ),

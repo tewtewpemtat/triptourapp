@@ -1,4 +1,4 @@
-#Sat Jan 27 21:32:17 ICT 2024
+#Sat Jan 27 21:43:00 ICT 2024
 base.2=C\:\\Users\\tew00\\Desktop\\test firebase\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex
 path.2=classes3.dex
 base.1=C\:\\Users\\tew00\\Desktop\\test firebase\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex

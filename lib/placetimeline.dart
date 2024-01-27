@@ -44,9 +44,19 @@ class PlaceTimeline extends StatelessWidget {
               child: Text(
                 'จำนวนสถานที่ทั้งหมด',
                 style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 20,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                left: 10,
+              ), // Adjust the values as needed
+              child: Text(
+                'แสดงไทมไลน์ของเเต่ละสถานที่ของคุณ',
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 13, color: Colors.grey),
               ),
             ),
             buildTripItem(context),
@@ -103,7 +113,10 @@ class PlaceTimeline extends StatelessWidget {
                   children: [
                     Text(
                       '1.ร้านจาคอฟฟี',
-                      style: GoogleFonts.ibmPlexSansThai(fontSize: 18),
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Container(
                       decoration: BoxDecoration(

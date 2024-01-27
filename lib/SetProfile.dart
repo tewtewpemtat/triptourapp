@@ -188,7 +188,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: Colors.blue,
+                    color: Colors.black,
                     decoration: TextDecoration.underline,
                   ),
                   textAlign: TextAlign.center,

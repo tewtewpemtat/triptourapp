@@ -132,8 +132,8 @@ class UserPlan extends StatelessWidget {
                               // ทำอะไรเมื่อกดปุ่มเพิ่มสถานที่
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xffcfcfcf),
-                              onPrimary: Colors.black,
+                              primary: Color.fromARGB(255, 63, 177, 88),
+                              onPrimary: Colors.white,
                               fixedSize: Size(70, 10),
                             ),
                             child: Text(

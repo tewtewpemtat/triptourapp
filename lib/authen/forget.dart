@@ -61,9 +61,11 @@ class ForgetPage extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text('กรอกหมายเลขโทรศัพทที่ใช้สมัครสมาชิกกับ Trip Tour',
-                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12, color: Colors.grey)),
             Text('เราจะส่งOTPสำหรับเเก้ไขรหัสผ่านหมายเลขโทรศัพท์ของท่าน',
-                style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 12, color: Colors.grey)),
             SizedBox(height: 20),
             TextFormField(
               decoration: InputDecoration(

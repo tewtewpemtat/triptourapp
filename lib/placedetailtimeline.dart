@@ -42,9 +42,20 @@ class PlaceDetail extends StatelessWidget {
               child: Text(
                 'เเสดงเวลา เช็คอิน - เช็คเอาท์',
                 style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 20,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            SizedBox(height: 2),
+            Container(
+              margin: EdgeInsets.only(
+                left: 10,
+              ), // Adjust the values as needed
+              child: Text(
+                'แสดงเวลา เช็คอิน-เช็คเอาท์ ของเเต่ละสถานที่ของคุณ',
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 13, color: Colors.grey),
               ),
             ),
             buildTripItem(context),
@@ -92,7 +103,10 @@ class PlaceDetail extends StatelessWidget {
                 children: [
                   Text(
                     '1.ร้านจาคอฟฟี',
-                    style: GoogleFonts.ibmPlexSansThai(fontSize: 18),
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 5),
                   Container(
