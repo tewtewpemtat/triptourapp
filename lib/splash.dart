@@ -136,10 +136,10 @@ class _IntroducePageState extends State<IntroducePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: 20),
                     Container(
-                      width: 391,
-                      height: 60,
+                      width: 350,
+                      height: 55,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Color(0xffdb923c),
