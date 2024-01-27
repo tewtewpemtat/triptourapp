@@ -95,6 +95,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                       builder: (context) => EditUser(),
                     ),
                   );
+                  break;
                 case 'logout':
                   Navigator.pushReplacement(
                     context,
