@@ -34,7 +34,7 @@ class MyPage extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data == null) {
-            return Text('No data available');
+            return Text('No data availablea');
           }
 
           return ListView.builder(
