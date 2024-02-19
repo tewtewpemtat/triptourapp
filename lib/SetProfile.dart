@@ -41,19 +41,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           ),
         ),
         centerTitle: true,
-        automaticallyImplyLeading: true,
-        leading: IconButton(
-          color: Colors.black,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ),
-            );
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Container(

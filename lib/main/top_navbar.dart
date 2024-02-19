@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/editpassword.dart';
-
+import '../authen/firebase_auth_implementation/firebase_auth_services.dart';
 import '../authen/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -97,6 +98,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                   );
                   break;
                 case 'logout':
+                  FirebaseAuth.instance.signOut();
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-24:/values-mn/values-mn.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-25:/values-mn/values-mn.xml",
             "map": [
                 {
                     "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\0042fbb402a4b477d9fdf6d65daeaa21\\transformed\\jetified-play-services-base-18.0.1\\res\\values-mn\\values.xml",
@@ -30,11 +30,28 @@
                         "endOffsets": "148,250,351,449,554,666,785,886"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,27",
+                        "startLines": "2,3,4,5,6,7,8,31",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,356,454,559,671,3005",
+                        "startOffsets": "55,153,255,356,454,559,671,3427",
                         "endColumns": "97,101,100,97,104,111,118,100",
-                        "endOffsets": "148,250,351,449,554,666,785,3101"
+                        "endOffsets": "148,250,351,449,554,666,785,3523"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values-mn\\values-mn.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,160,264,369",
+                        "endColumns": "104,103,104,107",
+                        "endOffsets": "155,259,364,472"
+                    },
+                    "to": {
+                        "startLines": "27,28,29,30",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3005,3110,3214,3319",
+                        "endColumns": "104,103,104,107",
+                        "endOffsets": "3105,3209,3314,3422"
                     }
                 },
                 {

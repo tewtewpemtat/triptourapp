@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-24:/values-tr/values-tr.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-25:/values-tr/values-tr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\3d191cda8eba49ba1f6fa6f5eeaeb20a\\transformed\\core-1.10.1\\res\\values-tr\\values-tr.xml",
@@ -13,11 +13,28 @@
                         "endOffsets": "147,249,347,444,546,652,763,864"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,27",
+                        "startLines": "2,3,4,5,6,7,8,31",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,152,254,352,449,551,657,3019",
+                        "startOffsets": "55,152,254,352,449,551,657,3438",
                         "endColumns": "96,101,97,96,101,105,110,100",
-                        "endOffsets": "147,249,347,444,546,652,763,3115"
+                        "endOffsets": "147,249,347,444,546,652,763,3534"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values-tr\\values-tr.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,155,261,368",
+                        "endColumns": "99,105,106,105",
+                        "endOffsets": "150,256,363,469"
+                    },
+                    "to": {
+                        "startLines": "27,28,29,30",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3019,3119,3225,3332",
+                        "endColumns": "99,105,106,105",
+                        "endOffsets": "3114,3220,3327,3433"
                     }
                 },
                 {

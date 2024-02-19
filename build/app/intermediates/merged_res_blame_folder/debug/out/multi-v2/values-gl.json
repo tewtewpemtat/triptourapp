@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-24:/values-gl/values-gl.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-25:/values-gl/values-gl.xml",
             "map": [
                 {
                     "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\0042fbb402a4b477d9fdf6d65daeaa21\\transformed\\jetified-play-services-base-18.0.1\\res\\values-gl\\values.xml",
@@ -38,6 +38,23 @@
                     }
                 },
                 {
+                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values-gl\\values-gl.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,162,264,376",
+                        "endColumns": "106,101,111,105",
+                        "endOffsets": "157,259,371,477"
+                    },
+                    "to": {
+                        "startLines": "27,28,29,30",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3064,3171,3273,3385",
+                        "endColumns": "106,101,111,105",
+                        "endOffsets": "3166,3268,3380,3486"
+                    }
+                },
+                {
                     "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\3d191cda8eba49ba1f6fa6f5eeaeb20a\\transformed\\core-1.10.1\\res\\values-gl\\values-gl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
@@ -47,11 +64,11 @@
                         "endOffsets": "149,251,351,449,556,662,778,879"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,27",
+                        "startLines": "2,3,4,5,6,7,8,31",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,154,256,356,454,561,667,3064",
+                        "startOffsets": "55,154,256,356,454,561,667,3491",
                         "endColumns": "98,101,99,97,106,105,115,100",
-                        "endOffsets": "149,251,351,449,556,662,778,3160"
+                        "endOffsets": "149,251,351,449,556,662,778,3587"
                     }
                 }
             ]

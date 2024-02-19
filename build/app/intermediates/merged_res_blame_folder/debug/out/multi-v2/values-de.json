@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-24:/values-de/values-de.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-25:/values-de/values-de.xml",
             "map": [
                 {
                     "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\38012eb8442d2d8cf8e665ec432e1cb2\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-de\\values.xml",
@@ -18,6 +18,23 @@
                         "startOffsets": "1848",
                         "endColumns": "144",
                         "endOffsets": "1988"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values-de\\values-de.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,159,260,371",
+                        "endColumns": "103,100,110,99",
+                        "endOffsets": "154,255,366,466"
+                    },
+                    "to": {
+                        "startLines": "27,28,29,30",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3137,3241,3342,3453",
+                        "endColumns": "103,100,110,99",
+                        "endOffsets": "3236,3337,3448,3548"
                     }
                 },
                 {
@@ -47,11 +64,11 @@
                         "endOffsets": "148,250,350,450,558,663,781,882"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,27",
+                        "startLines": "2,3,4,5,6,7,8,31",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,355,455,563,668,3137",
+                        "startOffsets": "55,153,255,355,455,563,668,3553",
                         "endColumns": "97,101,99,99,107,104,117,100",
-                        "endOffsets": "148,250,350,450,558,663,781,3233"
+                        "endOffsets": "148,250,350,450,558,663,781,3649"
                     }
                 }
             ]

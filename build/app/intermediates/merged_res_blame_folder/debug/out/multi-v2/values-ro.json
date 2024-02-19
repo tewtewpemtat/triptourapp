@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-24:/values-ro/values-ro.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-25:/values-ro/values-ro.xml",
             "map": [
+                {
+                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values-ro\\values-ro.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,162,264,379",
+                        "endColumns": "106,101,114,104",
+                        "endOffsets": "157,259,374,479"
+                    },
+                    "to": {
+                        "startLines": "27,28,29,30",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3042,3149,3251,3366",
+                        "endColumns": "106,101,114,104",
+                        "endOffsets": "3144,3246,3361,3466"
+                    }
+                },
                 {
                     "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\3d191cda8eba49ba1f6fa6f5eeaeb20a\\transformed\\core-1.10.1\\res\\values-ro\\values-ro.xml",
                     "from": {
@@ -13,11 +30,11 @@
                         "endOffsets": "148,250,350,449,551,660,777,878"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,27",
+                        "startLines": "2,3,4,5,6,7,8,31",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,355,454,556,665,3042",
+                        "startOffsets": "55,153,255,355,454,556,665,3471",
                         "endColumns": "97,101,99,98,101,108,116,100",
-                        "endOffsets": "148,250,350,449,551,660,777,3138"
+                        "endOffsets": "148,250,350,449,551,660,777,3567"
                     }
                 },
                 {

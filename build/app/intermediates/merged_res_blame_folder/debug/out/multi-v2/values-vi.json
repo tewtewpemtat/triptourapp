@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-24:/values-vi/values-vi.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-25:/values-vi/values-vi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\3d191cda8eba49ba1f6fa6f5eeaeb20a\\transformed\\core-1.10.1\\res\\values-vi\\values-vi.xml",
@@ -13,11 +13,11 @@
                         "endOffsets": "147,249,348,448,551,664,780,881"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,27",
+                        "startLines": "2,3,4,5,6,7,8,31",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,152,254,353,453,556,669,3019",
+                        "startOffsets": "55,152,254,353,453,556,669,3466",
                         "endColumns": "96,101,98,99,102,112,115,100",
-                        "endOffsets": "147,249,348,448,551,664,780,3115"
+                        "endOffsets": "147,249,348,448,551,664,780,3562"
                     }
                 },
                 {
@@ -52,6 +52,23 @@
                         "startOffsets": "785,887,1049,1174,1283,1448,1578,1697,1929,2102,2209,2366,2496,2655,2804,2872,2936",
                         "endColumns": "101,161,124,108,164,129,118,103,172,106,156,129,158,148,67,63,82",
                         "endOffsets": "882,1044,1169,1278,1443,1573,1692,1796,2097,2204,2361,2491,2650,2799,2867,2931,3014"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values-vi\\values-vi.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,172,283,397",
+                        "endColumns": "116,110,113,104",
+                        "endOffsets": "167,278,392,497"
+                    },
+                    "to": {
+                        "startLines": "27,28,29,30",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3019,3136,3247,3361",
+                        "endColumns": "116,110,113,104",
+                        "endOffsets": "3131,3242,3356,3461"
                     }
                 }
             ]

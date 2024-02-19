@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/SetProfile.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import './firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:firebase_core/firebase_core.dart';
 import '../main.dart';
 import 'forget.dart';
 import 'register.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuthService auth = FirebaseAuthService();
+
+  bool _isSigningUp = false;
+
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -91,6 +111,7 @@ class LoginPage extends StatelessWidget {
                 color: Colors.white,
               ),
               child: TextFormField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'อีเมล',
                   border: OutlineInputBorder(
@@ -115,6 +136,7 @@ class LoginPage extends StatelessWidget {
               ),
               child: TextFormField(
                 obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'รหัสผ่าน',
                   border: OutlineInputBorder(
@@ -140,27 +162,23 @@ class LoginPage extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   // เพิ่มโค้ดสำหรับ Sign in
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SetProfilePage(),
-                    ),
-                  );
+                  _signIn(context);
                 },
-                child: Text(
-                  'เข้าสู่ระบบ',
-                  style: GoogleFonts.ibmPlexSansThai(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: _isSigningUp
+                    ? CircularProgressIndicator(color: Colors.white)
+                    : Text(
+                        'เข้าสู่ระบบ',
+                        style: GoogleFonts.ibmPlexSansThai(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
             ),
             SizedBox(height: 10),
             TextButton(
               onPressed: () {
-                // เพิ่มโค้ดสำหรับลืมรหัสผ่าน
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -179,9 +197,35 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+  void _signIn(BuildContext context) async {
+    setState(() {
+      _isSigningUp = true;
+    });
+
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    User? user = await auth.signInWithEmailAndPassword(email, password);
+
+    setState(() {
+      _isSigningUp = false;
+    });
+
+    if (user != null) {
+      print("Successfully signed In");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SetProfilePage(),
+        ),
+      );
+    }
+  }
 }
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MaterialApp(
       home: LoginPage(),

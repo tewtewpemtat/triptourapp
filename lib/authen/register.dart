@@ -1,10 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import './firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'login.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final FirebaseAuthService auth = FirebaseAuthService();
+
+  bool _isSigningUp = false;
+
+  TextEditingController _telController = new TextEditingController();
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+
+  @override
+  void dispose() {
+    _telController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -84,7 +106,7 @@ class RegisterPage extends StatelessWidget {
                 color: Colors.white,
               ),
               child: TextFormField(
-                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'อีเมล',
                   border: OutlineInputBorder(
@@ -109,6 +131,7 @@ class RegisterPage extends StatelessWidget {
               ),
               child: TextFormField(
                 obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'รหัสผ่าน',
                   border: OutlineInputBorder(
@@ -132,7 +155,7 @@ class RegisterPage extends StatelessWidget {
                 color: Colors.white,
               ),
               child: TextFormField(
-                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                controller: _telController,
                 decoration: InputDecoration(
                   labelText: 'เบอร์โทรศัพท์',
                   border: OutlineInputBorder(
@@ -157,21 +180,18 @@ class RegisterPage extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
+                  _signup(context);
                 },
-                child: Text(
-                  'ดำเนินการต่อ',
-                  style: GoogleFonts.ibmPlexSansThai(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: _isSigningUp
+                    ? CircularProgressIndicator(color: Colors.white)
+                    : Text(
+                        'ดำเนินการต่อ',
+                        style: GoogleFonts.ibmPlexSansThai(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
             ),
           ],
@@ -179,9 +199,34 @@ class RegisterPage extends StatelessWidget {
       ),
     );
   }
+
+  void _signup(BuildContext context) async {
+    setState(() {
+      _isSigningUp = true;
+    });
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    String tel = _telController.text;
+
+    User? user = await auth.signUpWithEmailAndPassword(email, password);
+    setState(() {
+      _isSigningUp = false;
+    });
+    if (user != null) {
+      print("Successfully signed up");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    }
+  }
 }
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MaterialApp(
       home: RegisterPage(),
