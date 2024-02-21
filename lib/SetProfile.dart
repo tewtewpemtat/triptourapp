@@ -1,9 +1,11 @@
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:triptourapp/authen/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:triptourapp/main.dart';
 
 class SetProfilePage extends StatefulWidget {
@@ -14,7 +16,10 @@ class SetProfilePage extends StatefulWidget {
 class _SetProfilePageState extends State<SetProfilePage> {
   File? _userProfileImage;
   String? _selectedGender;
-
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _nicknameController = TextEditingController();
+  TextEditingController _contactNumberController = TextEditingController();
   List<String> _genderOptions = ['ชาย', 'หญิง', 'เพศทางเลือก'];
 
   Future<void> _pickImage() async {
@@ -76,6 +81,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               ),
               SizedBox(height: 20),
               TextFormField(
+                controller: _firstNameController,
                 style: GoogleFonts.ibmPlexSansThai(),
                 decoration: InputDecoration(
                   labelText: "ชื่อ ",
@@ -86,6 +92,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               ),
               SizedBox(height: 20),
               TextFormField(
+                controller: _lastNameController,
                 style: GoogleFonts.ibmPlexSansThai(),
                 decoration: InputDecoration(
                   labelText: "นามสกุล ",
@@ -96,6 +103,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               ),
               SizedBox(height: 20),
               TextFormField(
+                controller: _nicknameController,
                 decoration: InputDecoration(
                   labelText: "ชื่อเล่นของคุณ",
                   border: OutlineInputBorder(
@@ -105,6 +113,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
               ),
               SizedBox(height: 20),
               TextFormField(
+                controller: _contactNumberController,
                 style: GoogleFonts.ibmPlexSansThai(),
                 decoration: InputDecoration(
                   labelText: "เบอร์ติดต่อ",
@@ -136,8 +145,9 @@ class _SetProfilePageState extends State<SetProfilePage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  // ทำงานเมื่อกดปุ่ม "ดำเนินการต่อ"
+                onPressed: () async {
+                  await _updateProfileStatus();
+                  await _uploadImage();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -162,31 +172,60 @@ class _SetProfilePageState extends State<SetProfilePage> {
                 ),
               ),
               SizedBox(height: 20),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SetProfilePage(),
-                    ),
-                  );
-                },
-                child: Text(
-                  "ล้างข้อมูลเพื่อระบุข้อมูลการสร้างทริปใหม่",
-                  style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                    decoration: TextDecoration.underline,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _updateProfileStatus() async {
+    try {
+      String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+      // Update profile data in Firestore
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'firstName': _firstNameController.text,
+        'lastName': _lastNameController.text,
+        'nickname': _nicknameController.text,
+        'contactNumber': _contactNumberController.text,
+        'gender': _selectedGender,
+        'triplist': 0,
+        'profileStatus': 'Completed',
+      });
+    } catch (e) {
+      print('Error updating profile: $e');
+    }
+  }
+
+  Future<void> _uploadImage() async {
+    try {
+      String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+      // กำหนด path ใน Firebase Storage
+      String storagePath = 'profilepic/$uid/profile.jpg';
+
+      // สร้าง Reference สำหรับอ้างถึง storagePath
+      Reference storageReference = FirebaseStorage.instance.ref(storagePath);
+
+      if (_userProfileImage != null) {
+        // อัปโหลดไฟล์รูปภาพ
+        await storageReference.putFile(_userProfileImage!);
+
+        // ดึง URL ของรูปภาพที่อัปโหลด
+        final String imageUrl = await storageReference.getDownloadURL();
+
+        // ทำอะไรกับ imageUrl ต่อไป
+
+        // Update the user document with the image URL
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .update({'profileImageUrl': imageUrl});
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
   }
 }
 

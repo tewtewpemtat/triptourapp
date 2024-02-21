@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/authen/login.dart';
 import 'main/bottom_navbar.dart';
 import 'main/top_navbar.dart';
 import 'main/tripbutton.dart';
 import 'main/triphistory.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'splash.dart';
 
-void main() {
-  runApp(splash());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(
+    MaterialApp(
+      home: LoginPage(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

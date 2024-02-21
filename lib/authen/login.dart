@@ -5,6 +5,7 @@ import 'package:triptourapp/SetProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../main.dart';
 import 'forget.dart';
 import 'register.dart';
@@ -213,12 +214,31 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       print("Successfully signed In");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SetProfilePage(),
-        ),
-      );
+      String? uid = user.uid;
+
+      // Query ข้อมูลจาก Firestore
+      DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      // ตรวจสอบค่า profileStatus
+      String profileStatus = userDoc.get('profileStatus');
+
+      // ตรวจสอบเงื่อนไข
+      if (profileStatus == 'None') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SetProfilePage(),
+          ),
+        );
+      } else if (profileStatus == 'Completed') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ),
+        );
+      }
     }
   }
 }

@@ -41,7 +41,7 @@ class MyPage extends StatelessWidget {
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               var document = snapshot.data!.docs[index];
-              var fieldName = document['username'] ?? 'N/A';
+              var fieldName = document['email'] ?? 'N/A';
 
               return ListTile(
                 title: Text(fieldName),

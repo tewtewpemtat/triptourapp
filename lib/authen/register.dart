@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'login.dart';
 
@@ -16,13 +17,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool _isSigningUp = false;
 
-  TextEditingController _telController = new TextEditingController();
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
 
   @override
   void dispose() {
-    _telController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
   }
@@ -146,30 +145,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            Container(
-              width: 339,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: TextFormField(
-                controller: _telController,
-                decoration: InputDecoration(
-                  labelText: 'เบอร์โทรศัพท์',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
-                    ),
-                  ),
-                ),
-              ),
-            ),
             SizedBox(height: 20),
             Container(
               width: 184,
@@ -206,7 +181,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
     String email = _emailController.text;
     String password = _passwordController.text;
-    String tel = _telController.text;
 
     User? user = await auth.signUpWithEmailAndPassword(email, password);
     setState(() {

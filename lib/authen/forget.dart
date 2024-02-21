@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/authen/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import './firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'otp.dart';
 
-class ForgetPage extends StatelessWidget {
+class ForgetPage extends StatefulWidget {
+  @override
+  _ForgetPageState createState() => _ForgetPageState();
+}
+
+class _ForgetPageState extends State<ForgetPage> {
+  final FirebaseAuthService auth = FirebaseAuthService();
+  TextEditingController forgetPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,16 +72,17 @@ class ForgetPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5),
-            Text('กรอกหมายเลขโทรศัพทที่ใช้สมัครสมาชิกกับ Trip Tour',
+            Text('กรอกอีเมลที่ใช้สมัครสมาชิกกับ Trip Tour',
                 style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 12, color: Colors.grey)),
-            Text('เราจะส่งOTPสำหรับเเก้ไขรหัสผ่านหมายเลขโทรศัพท์ของท่าน',
+            Text('เราจะส่งลิ้งสำหรับเเก้ไขรหัสผ่านอีเมลของท่าน',
                 style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 12, color: Colors.grey)),
             SizedBox(height: 20),
             TextFormField(
+              controller: forgetPasswordController,
               decoration: InputDecoration(
-                labelText: 'ระบุเบอร์โทรศัพท์',
+                labelText: 'ระบุอีเมล',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -85,13 +98,27 @@ class ForgetPage extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
-                  // เพิ่มโค้ดสำหรับ Sign in
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OtpPage(),
-                    ),
-                  );
+                  var forgotEmail = forgetPasswordController.text.trim();
+                  if (forgotEmail.isNotEmpty && isValidEmail(forgotEmail)) {
+                    try {
+                      FirebaseAuth.instance
+                          .sendPasswordResetEmail(email: forgotEmail)
+                          .then((value) {
+                        Fluttertoast.showToast(
+                            msg: 'ส่งลิ้งเเก้ไขรหัสผ่านเรียบร้อยเเล้ว');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      });
+                    } on FirebaseAuthException catch (e) {
+                      print("Error");
+                    }
+                  } else {
+                    Fluttertoast.showToast(msg: 'กรุณากรอกอีเมลให้ถูกต้อง');
+                  }
                 },
                 child: Text(
                   'ดำเนินการต่อ',
@@ -127,6 +154,14 @@ class ForgetPage extends StatelessWidget {
       ),
     );
   }
+}
+
+bool isValidEmail(String email) {
+  // ในที่นี้เราใช้ regex เพื่อตรวจสอบรูปแบบของอีเมล
+  // คุณสามารถปรับแต่งตามความต้องการของคุณ
+  String emailRegex = r'^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$';
+  RegExp regex = RegExp(emailRegex);
+  return regex.hasMatch(email);
 }
 
 void main() {

@@ -49,7 +49,7 @@ class OtpPage extends StatelessWidget {
                       // เพิ่มโค้ดสำหรับเข้าสู่ระบบ
                     },
                     child: Text(
-                      'ยืนยัน OTP',
+                      'ยืนยันรหัสที่ส่งไปในอีเมล',
                       style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
