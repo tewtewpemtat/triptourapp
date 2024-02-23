@@ -1,8 +1,11 @@
 import 'dart:io';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:triptourapp/main.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -17,13 +20,56 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController _nicknameController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   String _selectedGender = '';
+  String? uid; // Added to store user UID
+  String _profileImageUrl = '';
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid != null) {
+      DocumentSnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      if (userSnapshot.exists) {
+        setState(() {
+          _firstNameController.text = userSnapshot['firstName'];
+          _lastNameController.text = userSnapshot['lastName'];
+          _nicknameController.text = userSnapshot['nickname'];
+          _contactNumberController.text = userSnapshot['contactNumber'];
+          _selectedGender = userSnapshot['gender'];
+          _profileImageUrl = userSnapshot['profileImageUrl'] ?? '';
+        });
+      }
+    }
+  }
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
     if (pickedFile != null) {
       setState(() {
         _userProfileImage = File(pickedFile.path);
+      });
+
+      String storagePath = 'profilepic/$uid/profile.jpg';
+      UploadTask task = FirebaseStorage.instance
+          .ref()
+          .child(storagePath)
+          .putFile(_userProfileImage!);
+
+      task.whenComplete(() async {
+        String downloadUrl =
+            await FirebaseStorage.instance.ref(storagePath).getDownloadURL();
+
+        await FirebaseFirestore.instance.collection('users').doc(uid).update({
+          'profileImageUrl': downloadUrl,
+        });
       });
     }
   }
@@ -52,10 +98,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             TextButton(
               child: Text('บันทึก'),
-              onPressed: () {
-                // ดำเนินการบันทึกข้อมูลที่ได้รับจาก TextField
-                // เช่นเก็บในตัวแปร, ส่งไปยังเซิร์ฟเวอร์, ฯลฯ
-                // ตัวอย่างนี้ยังไม่ได้ดำเนินการใดๆ เพียงแค่ปิด Popup
+              onPressed: () async {
+                String fieldName = _getFieldName(fieldTitle);
+
+                // Update user data using the correct document ID (uid)
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(uid)
+                    .update({fieldName: controller.text});
+
+                // Refresh the user data after the update
+                await _fetchUserData();
                 Navigator.of(context).pop();
               },
             ),
@@ -63,6 +116,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
         );
       },
     );
+  }
+
+  String _getFieldName(String fieldTitle) {
+    switch (fieldTitle) {
+      case 'ชื่อจริง':
+        return 'firstName';
+      case 'นามสกุล':
+        return 'lastName';
+      case 'ชื่อเล่น':
+        return 'nickname';
+      case 'เบอร์ติดต่อ':
+        return 'contactNumber';
+      default:
+        return fieldTitle.toLowerCase();
+    }
   }
 
   Future<void> _showGenderDialog() async {
@@ -76,42 +144,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ListTile(
                 title: Text('ชาย'),
                 onTap: () {
-                  setState(() {
-                    _selectedGender = 'ชาย';
-                  });
+                  _updateGender('ชาย');
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
                 title: Text('หญิง'),
                 onTap: () {
-                  setState(() {
-                    _selectedGender = 'หญิง';
-                  });
+                  _updateGender('หญิง');
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
                 title: Text('เพศทางเลือก'),
                 onTap: () {
-                  setState(() {
-                    _selectedGender = 'เพศทางเลือก';
-                  });
+                  _updateGender('เพศทางเลือก');
                   Navigator.of(context).pop();
                 },
               ),
             ],
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('บันทึก'),
-              onPressed: () {
-                // ดำเนินการบันทึกข้อมูลที่ได้รับจากการเลือกเพศ
-                // เช่นเก็บในตัวแปร, ส่งไปยังเซิร์ฟเวอร์, ฯลฯ
-                // ตัวอย่างนี้ยังไม่ได้ดำเนินการใดๆ เพียงแค่ปิด Popup
-                Navigator.of(context).pop();
-              },
-            ),
             TextButton(
               child: Text('ยกเลิก'),
               onPressed: () {
@@ -124,16 +177,29 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+  Future<void> _updateGender(String selectedGender) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({'gender': selectedGender});
+
+    setState(() {
+      _selectedGender = selectedGender;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
-        title: Text("แก้ไขข้อมูลโปรไฟล์",
-            style: GoogleFonts.ibmPlexSansThai(
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            )),
+        title: Text(
+          "แก้ไขข้อมูลโปรไฟล์",
+          style: GoogleFonts.ibmPlexSansThai(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -158,8 +224,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 CircleAvatar(
                   radius: 100.0,
                   backgroundImage: _userProfileImage != null
-                      ? FileImage(_userProfileImage!) as ImageProvider<Object>?
-                      : AssetImage('assets/cat.jpg'),
+                      ? FileImage(_userProfileImage!)
+                      : _profileImageUrl.isNotEmpty
+                          ? NetworkImage(_profileImageUrl)
+                              as ImageProvider<Object>?
+                          : AssetImage('assets/cat.jpg'),
                   child: InkWell(
                     onTap: _pickImage,
                     child: Icon(
@@ -187,7 +256,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text('ชยันโรต'),
+                  subtitle: Text(_firstNameController.text),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
@@ -202,7 +271,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text('พงถาพร'),
+                  subtitle: Text(_lastNameController.text),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
@@ -217,7 +286,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text('จรา'),
+                  subtitle: Text(_nicknameController.text),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
@@ -232,7 +301,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text('123-456-7890'),
+                  subtitle: Text(_contactNumberController.text),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
@@ -265,7 +334,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 }
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MaterialApp(
     home: EditProfilePage(),
   ));

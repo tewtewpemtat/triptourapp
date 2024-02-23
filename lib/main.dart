@@ -20,6 +20,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   @override
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TripTour',

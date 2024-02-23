@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/editpassword.dart';
 import '../authen/firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../authen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,36 +14,61 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
     return AppBar(
       backgroundColor: Colors.grey[200],
       title: Padding(
-        padding: EdgeInsets.all(0.0), // ปรับ margin ตามที่ต้องการ
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 25.0,
-              backgroundImage: AssetImage('assets/cat.jpg'),
-            ),
-            SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.all(0.0),
+        child: FutureBuilder<DocumentSnapshot>(
+          future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator(); // หรือ Widget ที่คุณต้องการแสดงขณะโหลดข้อมูล
+            }
+
+            if (snapshot.hasError) {
+              return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+            }
+
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              return Text('ไม่พบข้อมูลผู้ใช้');
+            }
+
+            // ดึงข้อมูลจาก snapshot
+            var userData = snapshot.data!.data() as Map<String, dynamic>;
+
+            return Row(
               children: [
-                Text(
-                  'Jaguar',
-                  style: GoogleFonts.ibmPlexSansThai(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
+                CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: userData['profileImageUrl'] != null
+                      ? NetworkImage(userData['profileImageUrl'])
+                      : AssetImage('assets/cat.jpg') as ImageProvider,
                 ),
-                Text(
-                  'จำนวนทริปที่เข้าร่วม : 2',
-                  style: GoogleFonts.ibmPlexSansThai(
-                      fontSize: 13, color: Colors.black),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userData['nickname'] ?? '',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      'จำนวนทริปที่เข้าร่วม : ${userData['triplist'] ?? 0}',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 13,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
       actions: [

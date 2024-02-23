@@ -18,6 +18,7 @@ class Friend extends StatelessWidget {
         resizeToAvoidBottomInset: false, // เพิ่มการตั้งค่านี้
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FriendButton(),
               FriendList(),
