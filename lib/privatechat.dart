@@ -1,41 +1,123 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/friend.dart';
-
-void main() {
-  runApp(ChatScreenPage());
-}
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatScreenPage extends StatelessWidget {
+  final String friendUid;
+
+  ChatScreenPage({required this.friendUid});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ChatScreen(),
+      home: ChatScreen(friendUid: friendUid),
     );
   }
 }
 
 class ChatScreen extends StatefulWidget {
+  final String friendUid;
+
+  ChatScreen({required this.friendUid});
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
-
   List<Map<String, String>> _messages = [];
+
+  Future<Map<String, dynamic>?> getUserData(String uid) async {
+    try {
+      DocumentSnapshot snapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      return snapshot.data() as Map<String, dynamic>?; // Return user data
+    } catch (e) {
+      print("Error fetching user data: $e");
+      return null;
+    }
+  }
+
+  String getCurrentUserUid() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      return user.uid;
+    } else {
+      // Handle the case where the user is not authenticated
+      return '';
+    }
+  }
+
+  Future<void> removeFriendFromCurrentUser(
+      String currentUserUid, String friendUid) async {
+    try {
+      // Reference to the current user's document
+      DocumentReference currentUserRef =
+          FirebaseFirestore.instance.collection('users').doc(currentUserUid);
+
+      // Remove friendUid from the friendList array
+      await currentUserRef.update({
+        'friendList': FieldValue.arrayRemove([friendUid]),
+      });
+
+      print('Friend removed successfully');
+    } catch (e) {
+      print('Error removing friend: $e');
+    }
+  }
+
+  Future<void> removeCurrentUserFromFriend(
+      String currentUserUid, String friendUid) async {
+    try {
+      // Reference to the friend's document
+      DocumentReference friendRef =
+          FirebaseFirestore.instance.collection('users').doc(friendUid);
+
+      // Remove currentUserUid from the friend's friendList array
+      await friendRef.update({
+        'friendList': FieldValue.arrayRemove([currentUserUid]),
+      });
+
+      print('Current user removed from friend successfully');
+    } catch (e) {
+      print('Error removing current user from friend: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
-        title: Text(
-          "JaThankyou",
-          style: GoogleFonts.ibmPlexSansThai(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+        title: FutureBuilder<Map<String, dynamic>?>(
+          future: getUserData(widget.friendUid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading..."); // Show loading while fetching data
+            }
+
+            if (snapshot.hasError || !snapshot.hasData) {
+              return Text("Error fetching user data");
+            }
+
+            String friendFirstName =
+                (snapshot.data?['firstName'] as String?) ?? 'Unknown';
+            String friendLastName =
+                (snapshot.data?['lastName'] as String?) ?? 'Unknown';
+
+            return Text(
+              "$friendFirstName $friendLastName",
+              style: GoogleFonts.ibmPlexSansThai(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            );
+          },
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
@@ -75,13 +157,25 @@ class _ChatScreenState extends State<ChatScreen> {
                   // ),
                 ],
               );
-
               // ตรวจสอบผลลัพธ์และดำเนินการตามต้องการ
               if (result != null) {
                 switch (result) {
                   case 'deletefriend':
-                    break;
-                  case 'deletechat':
+                    // Get the current user's UID
+                    String currentUserUid =
+                        getCurrentUserUid(); // Implement getCurrentUserUid()
+
+                    // Remove friendUid from current user's friendList
+                    removeFriendFromCurrentUser(
+                        currentUserUid, widget.friendUid);
+                    removeCurrentUserFromFriend(
+                        currentUserUid, widget.friendUid);
+
+                    // Navigate back to the friend list or perform any other desired action
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => Friend()),
+                    );
                     break;
                 }
               }
