@@ -66,13 +66,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     value: 'deletefriend',
                   ),
-                  PopupMenuItem(
-                    child: Text(
-                      'ลบประวัติแชท',
-                      style: GoogleFonts.ibmPlexSansThai(),
-                    ),
-                    value: 'deletechat',
-                  ),
+                  // PopupMenuItem(
+                  //   child: Text(
+                  //     'ลบประวัติแชท',
+                  //     style: GoogleFonts.ibmPlexSansThai(),
+                  //   ),
+                  //   value: 'deletechat',
+                  // ),
                 ],
               );
 

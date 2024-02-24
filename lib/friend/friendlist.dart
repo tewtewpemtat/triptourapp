@@ -7,7 +7,15 @@ import 'package:triptourapp/addfriend.dart';
 import 'package:triptourapp/friendrequest.dart';
 import '../privatechat.dart';
 
-class FriendList extends StatelessWidget {
+class FriendList extends StatefulWidget {
+  @override
+  _FriendListState createState() => _FriendListState();
+}
+
+class _FriendListState extends State<FriendList> {
+  TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
+
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
@@ -26,7 +34,6 @@ class FriendList extends StatelessWidget {
         Map<String, dynamic>? userData =
             snapshot.data?.data() as Map<String, dynamic>?;
 
-        // Extract friendList from the user document
         List<dynamic> friendList = userData?['friendList'] ?? [];
 
         return Column(
@@ -46,6 +53,12 @@ class FriendList extends StatelessWidget {
                     SizedBox(width: 10),
                     Expanded(
                       child: TextField(
+                        controller: _searchController,
+                        onChanged: (value) {
+                          setState(() {
+                            _searchQuery = value.toLowerCase();
+                          });
+                        },
                         decoration: InputDecoration(
                           hintText: 'ค้นหาเพื่อนของคุณ',
                           border: InputBorder.none,
@@ -100,12 +113,9 @@ class FriendList extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            // Build a list of friend items
             if (friendList.isNotEmpty)
               for (String friendUid in friendList)
                 buildTripItem(context, friendUid),
-
-            // Move the Container and its child widgets here
           ],
         );
       },
@@ -113,125 +123,99 @@ class FriendList extends StatelessWidget {
   }
 
   Widget buildTripItem(BuildContext context, String friendUid) {
-    return Material(
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatScreenPage(),
+    return FutureBuilder<DocumentSnapshot>(
+      future:
+          FirebaseFirestore.instance.collection('users').doc(friendUid).get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        if (snapshot.hasError || !snapshot.hasData) {
+          return Icon(Icons.error);
+        }
+
+        Map<String, dynamic>? friendData =
+            snapshot.data?.data() as Map<String, dynamic>?;
+
+        String friendFirstName = friendData?['firstName'] ?? 'Unknown';
+        String friendLastName = friendData?['lastName'] ?? 'Unknown';
+
+        String fullName = '$friendFirstName $friendLastName'.toLowerCase();
+        bool matchesSearch = fullName.contains(_searchQuery);
+
+        if (_searchQuery.isEmpty || matchesSearch) {
+          return Material(
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreenPage(),
+                  ),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.all(0),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            margin: EdgeInsets.all(4.0),
+                            child: ClipOval(
+                              child: Image.network(
+                                friendData?['profileImageUrl'] ??
+                                    'https://example.com/default-profile-image.jpg',
+                                width: 70.0,
+                                height: 70.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          flex: 8,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '$friendFirstName $friendLastName',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
-        },
-        child: Container(
-          padding: EdgeInsets.all(0),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      margin: EdgeInsets.all(4.0),
-                      child: ClipOval(
-                        child: FutureBuilder<DocumentSnapshot>(
-                          future: FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(friendUid)
-                              .get(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return CircularProgressIndicator();
-                            }
-
-                            if (snapshot.hasError || !snapshot.hasData) {
-                              return Icon(Icons.error);
-                            }
-
-                            Map<String, dynamic>? friendData =
-                                snapshot.data?.data() as Map<String, dynamic>?;
-
-                            String profileImageUrl = friendData?[
-                                    'profileImageUrl'] ??
-                                'https://example.com/default-profile-image.jpg';
-
-                            return Image.network(
-                              profileImageUrl,
-                              width: 70.0,
-                              height: 70.0,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Expanded(
-                    flex: 8,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FutureBuilder<DocumentSnapshot>(
-                            future: FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(friendUid)
-                                .get(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              }
-
-                              if (snapshot.hasError || !snapshot.hasData) {
-                                return Text('Error fetching friend data');
-                              }
-
-                              Map<String, dynamic>? friendData = snapshot.data
-                                  ?.data() as Map<String, dynamic>?;
-
-                              String friendFirstName =
-                                  friendData?['firstName'] ?? 'Unknown';
-                              String friendLastName =
-                                  friendData?['lastName'] ?? 'Unknown';
-
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '$friendFirstName $friendLastName',
-                                    style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+        } else {
+          return Container(); // Don't show the item if it doesn't match the search query
+        }
+      },
     );
   }
 }
