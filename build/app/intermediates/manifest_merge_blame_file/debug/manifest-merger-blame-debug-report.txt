@@ -13,8 +13,8 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\triptourapp\android\app\src\debug\AndroidManifest.xml:6:5-66
-15-->C:\triptourapp\android\app\src\debug\AndroidManifest.xml:6:22-64
+15-->C:\Project\triptourapp\android\app\src\debug\AndroidManifest.xml:6:5-66
+15-->C:\Project\triptourapp\android\app\src\debug\AndroidManifest.xml:6:22-64
 16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 16-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:26:5-79
 16-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:26:22-76
@@ -74,37 +74,37 @@
 62            android:value="2" />
 63
 64        <service
-64-->[:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+64-->[:firebase_auth] C:\Project\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 65            android:name="com.google.firebase.components.ComponentDiscoveryService"
-65-->[:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+65-->[:firebase_auth] C:\Project\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
 66            android:directBootAware="true"
 66-->[com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:32:13-43
 67            android:exported="false" >
 67-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:68:13-37
 68            <meta-data
-68-->[:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+68-->[:firebase_auth] C:\Project\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 69                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-69-->[:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+69-->[:firebase_auth] C:\Project\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 70                android:value="com.google.firebase.components.ComponentRegistrar" />
-70-->[:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+70-->[:firebase_auth] C:\Project\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 71            <meta-data
-71-->[:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+71-->[:firebase_storage] C:\Project\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 72                android:name="com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar"
-72-->[:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
+72-->[:firebase_storage] C:\Project\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
 73                android:value="com.google.firebase.components.ComponentRegistrar" />
-73-->[:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+73-->[:firebase_storage] C:\Project\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 74            <meta-data
-74-->[:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+74-->[:cloud_firestore] C:\Project\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 75                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-75-->[:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
+75-->[:cloud_firestore] C:\Project\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 76                android:value="com.google.firebase.components.ComponentRegistrar" />
-76-->[:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+76-->[:cloud_firestore] C:\Project\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 77            <meta-data
-77-->[:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+77-->[:firebase_core] C:\Project\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 78                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-78-->[:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+78-->[:firebase_core] C:\Project\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 79                android:value="com.google.firebase.components.ComponentRegistrar" />
-79-->[:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+79-->[:firebase_core] C:\Project\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 80            <meta-data
 80-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:69:13-71:85
 81                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
@@ -162,21 +162,21 @@
 107        </service>
 108
 109        <provider
-109-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+109-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 110            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-110-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+110-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
 111            android:authorities="com.example.triptourapp.flutter.image_provider"
-111-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+111-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
 112            android:exported="false"
-112-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+112-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 113            android:grantUriPermissions="true" >
-113-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+113-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 114            <meta-data
-114-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+114-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
 115                android:name="android.support.FILE_PROVIDER_PATHS"
-115-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+115-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 116                android:resource="@xml/flutter_image_picker_file_paths" />
-116-->[:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+116-->[:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
 117        </provider>
 118
 119        <activity

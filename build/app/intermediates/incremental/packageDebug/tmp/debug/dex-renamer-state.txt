@@ -1,10 +1,10 @@
-#Sat Feb 24 23:58:22 ICT 2024
-base.0=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
-base.2=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.3=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
-base.4=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-base.5=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+#Mon Feb 26 16:56:45 ICT 2024
+base.0=C\:\\Project\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=C\:\\Project\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
+base.2=C\:\\Project\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.3=C\:\\Project\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
+base.4=C\:\\Project\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
+base.5=C\:\\Project\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=0/classes.dex
