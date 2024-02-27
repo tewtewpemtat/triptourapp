@@ -1,0 +1,15 @@
+# Target labels
+ nuget-populate
+# Source files and their labels
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/nuget-populate
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/4a28b5abfab95980fb18b83a21b96435/nuget-populate.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/93c65ab51f1a84507136b50ffa5e5ba0/nuget-populate-complete.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-build.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-configure.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-copyfile.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-download.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-install.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-mkdir.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-patch.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-test.rule
+C:/Project/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/b71daab37c9ac301719581b79bc5f44e/nuget-populate-update.rule

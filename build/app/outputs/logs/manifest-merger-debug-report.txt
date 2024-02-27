@@ -21,6 +21,8 @@ MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradl
 MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradle\caches\transforms-3\fa4abd7d5c8702ad79868e6890860261\transformed\jetified-firebase-appcheck-17.1.1\AndroidManifest.xml:21:5-32:19
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:8:5-16:19
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:8:5-16:19
+MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:15:5-16:19
+MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:15:5-16:19
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:22:5-39:19
@@ -62,13 +64,17 @@ MERGED from [:cloud_firestore] C:\Project\triptourapp\build\cloud_firestore\inte
 MERGED from [:firebase_core] C:\Project\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-21:12
 MERGED from [:flutter_plugin_android_lifecycle] C:\Project\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:audioplayers_android] C:\Project\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:fluttertoast] C:\Project\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:path_provider_android] C:\Project\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_sound] C:\Project\triptourapp\build\flutter_sound\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:17:1-75:12
 MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\wanla\.gradle\caches\transforms-3\7dcd842709acac3849bdae507ba8a6a4\transformed\jetified-firebase-firestore-24.10.1\AndroidManifest.xml:2:1-26:12
 MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\wanla\.gradle\caches\transforms-3\d27a8f484d74c1f4bdc69af7fb4be582\transformed\jetified-firebase-storage-20.3.0\AndroidManifest.xml:15:1-39:12
 MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradle\caches\transforms-3\fa4abd7d5c8702ad79868e6890860261\transformed\jetified-firebase-appcheck-17.1.1\AndroidManifest.xml:15:1-34:12
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:2:1-18:12
+MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:2:1-18:12
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\b85d0279c421905f7127b8e2bae6fbdd\transformed\appcompat-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:15:1-41:12
 MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\wanla\.gradle\caches\transforms-3\a8a52f411df247817a0619fd95fb69a3\transformed\jetified-play-services-auth-api-phone-17.4.0\AndroidManifest.xml:2:1-7:12
@@ -82,11 +88,16 @@ MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\wanla\.
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\f991ce6b85eff4aa323b4bb207830475\transformed\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.7.2] C:\Users\wanla\.gradle\caches\transforms-3\f525af8a77e2273af557a4cf540beb4b\transformed\jetified-activity-1.7.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\c2dd8c27d31a0a705c70a163438e1e14\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\86996caae9817dce72f99173e97b2196\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\7618162b1bab63b0dd965b6d163f32d0\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\49889895f29f4b74749a7b218c770c50\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\6dd35649ab9e05df02a37baa9069253f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\df87a6c35f74f0e9c3bc5cbd7ad6b3e2\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\be347bcea7ac4ff40b74b3ef563aee41\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\c175269730c46befdcf5a10e307789d9\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\3d191cda8eba49ba1f6fa6f5eeaeb20a\transformed\core-1.10.1\AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\wanla\.gradle\caches\transforms-3\de29db7cb8a1871ba868881b66a07d75\transformed\jetified-savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
@@ -99,8 +110,9 @@ MERGED from [androidx.exifinterface:exifinterface:1.3.6] C:\Users\wanla\.gradle\
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\wanla\.gradle\caches\transforms-3\d80a8f773a517fa67f9cb7957cb06008\transformed\jetified-profileinstaller-1.3.0\AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\wanla\.gradle\caches\transforms-3\78e2347136e4a93da86e12cf03f06b37\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\646664ce35b7d5b429ad473fca5d414b\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bdaffdb8f02da3d586edf7e4c0685086\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\wanla\.gradle\caches\transforms-3\91d5dc341c302c0d57fd9e9e5eae5c92\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bf355ddae274abe0d2321466d7564d1c\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bdaffdb8f02da3d586edf7e4c0685086\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\850c2f71047fc9ab2006281f38012c2a\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\wanla\.gradle\caches\transforms-3\205001736664b1067f8505738dccc663\transformed\jetified-firebase-components-17.1.5\AndroidManifest.xml:15:1-20:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\wanla\.gradle\caches\transforms-3\2c2181fcd66effa69f56b59c7dcd4bff\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
@@ -143,10 +155,14 @@ MERGED from [:image_picker_android] C:\Project\triptourapp\build\image_picker_an
 MERGED from [:image_picker_android] C:\Project\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_plugin_android_lifecycle] C:\Project\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_plugin_android_lifecycle] C:\Project\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:audioplayers_android] C:\Project\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:audioplayers_android] C:\Project\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:fluttertoast] C:\Project\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:fluttertoast] C:\Project\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\Project\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\Project\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_sound] C:\Project\triptourapp\build\flutter_sound\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_sound] C:\Project\triptourapp\build\flutter_sound\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:21:5-23:64
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:21:5-23:64
 MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\wanla\.gradle\caches\transforms-3\7dcd842709acac3849bdae507ba8a6a4\transformed\jetified-firebase-firestore-24.10.1\AndroidManifest.xml:6:5-44
@@ -157,6 +173,10 @@ MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradl
 MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradle\caches\transforms-3\fa4abd7d5c8702ad79868e6890860261\transformed\jetified-firebase-appcheck-17.1.1\AndroidManifest.xml:18:5-44
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
+MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\b85d0279c421905f7127b8e2bae6fbdd\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\b85d0279c421905f7127b8e2bae6fbdd\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:19:5-44
@@ -183,6 +203,14 @@ MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\wanla\.gradle\caches\tra
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\f991ce6b85eff4aa323b4bb207830475\transformed\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.7.2] C:\Users\wanla\.gradle\caches\transforms-3\f525af8a77e2273af557a4cf540beb4b\transformed\jetified-activity-1.7.2\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.7.2] C:\Users\wanla\.gradle\caches\transforms-3\f525af8a77e2273af557a4cf540beb4b\transformed\jetified-activity-1.7.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\c2dd8c27d31a0a705c70a163438e1e14\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\c2dd8c27d31a0a705c70a163438e1e14\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\86996caae9817dce72f99173e97b2196\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\86996caae9817dce72f99173e97b2196\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\7618162b1bab63b0dd965b6d163f32d0\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\7618162b1bab63b0dd965b6d163f32d0\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\49889895f29f4b74749a7b218c770c50\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
@@ -191,8 +219,10 @@ MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\wanla\.gradle\caches\
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\6dd35649ab9e05df02a37baa9069253f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
-MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\df87a6c35f74f0e9c3bc5cbd7ad6b3e2\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\df87a6c35f74f0e9c3bc5cbd7ad6b3e2\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\be347bcea7ac4ff40b74b3ef563aee41\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\be347bcea7ac4ff40b74b3ef563aee41\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\c175269730c46befdcf5a10e307789d9\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\c175269730c46befdcf5a10e307789d9\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\3d191cda8eba49ba1f6fa6f5eeaeb20a\transformed\core-1.10.1\AndroidManifest.xml:20:5-44
@@ -217,10 +247,12 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\wanla\.gradle\cach
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\wanla\.gradle\caches\transforms-3\78e2347136e4a93da86e12cf03f06b37\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\646664ce35b7d5b429ad473fca5d414b\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\646664ce35b7d5b429ad473fca5d414b\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bdaffdb8f02da3d586edf7e4c0685086\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bdaffdb8f02da3d586edf7e4c0685086\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\wanla\.gradle\caches\transforms-3\91d5dc341c302c0d57fd9e9e5eae5c92\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\wanla\.gradle\caches\transforms-3\91d5dc341c302c0d57fd9e9e5eae5c92\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bf355ddae274abe0d2321466d7564d1c\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bf355ddae274abe0d2321466d7564d1c\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bdaffdb8f02da3d586edf7e4c0685086\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\bdaffdb8f02da3d586edf7e4c0685086\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\850c2f71047fc9ab2006281f38012c2a\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\850c2f71047fc9ab2006281f38012c2a\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\wanla\.gradle\caches\transforms-3\205001736664b1067f8505738dccc663\transformed\jetified-firebase-components-17.1.5\AndroidManifest.xml:18:5-44
@@ -431,6 +463,18 @@ ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.grad
 		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:14:17-82
 	android:name
 		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:13:17-116
+uses-permission#android.permission.BLUETOOTH
+ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:11:5-68
+	android:name
+		ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:11:22-65
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:12:5-68
+	android:name
+		ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:12:22-65
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:13:5-80
+	android:name
+		ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:13:22-77
 provider#com.google.firebase.provider.FirebaseInitProvider
 ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:23:9-28:39
 	android:authorities
@@ -467,6 +511,14 @@ ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla
 		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
 	android:name
 		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+queries
+ADDED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:24:5-28:15
+intent#action:name:android.media.browse.MediaBrowserService
+ADDED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:25:9-27:18
+action#android.media.browse.MediaBrowserService
+ADDED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:26:13-79
+	android:name
+		ADDED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:26:21-76
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\6dd35649ab9e05df02a37baa9069253f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
 	android:required

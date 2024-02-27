@@ -30,7 +30,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   List<Map<String, dynamic>> _messages = [];
-
+  final ScrollController _scrollController = ScrollController();
   Future<Map<String, dynamic>?> getUserData(String uid) async {
     try {
       DocumentSnapshot snapshot =
@@ -49,12 +49,24 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+
     // Fetch and load messages when the screen is initially opened
     fetchMessages();
+
     getFriendData(widget.friendUid).then((data) {
       setState(() {
         friendData = data;
       });
+    });
+
+    // Scroll to the bottom after the frame has been painted
+  }
+
+  void scrollToBottom() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
     });
   }
 
@@ -155,6 +167,7 @@ class _ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       print('Error fetching messages: $e');
     }
+    scrollToBottom();
   }
 
   String getCurrentUserUid() {
@@ -212,7 +225,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
       final currentUserUid = getCurrentUserUid();
       final friendUid = widget.friendUid;
-
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
       try {
         // Add message to the Firestore collection
         await FirebaseFirestore.instance.collection('messages').add({
@@ -242,6 +261,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
             child: ListView.builder(
+              controller: _scrollController, // Add this line
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
