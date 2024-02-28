@@ -303,14 +303,6 @@ class _ChatScreenState extends State<ChatScreen> {
       final currentUserUid = getCurrentUserUid();
       final friendUid = widget.friendUid;
 
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      });
-
       try {
         await FirebaseFirestore.instance.collection('messages').add({
           'senderUid': currentUserUid,
@@ -319,10 +311,28 @@ class _ChatScreenState extends State<ChatScreen> {
           'timestampserver': FieldValue.serverTimestamp(),
         });
 
-        // No need to setState for messages as StreamBuilder takes care of it
+        // Fetch and load messages after sending a message
+        fetchMessages();
       } catch (e) {
         print('Error sending message: $e');
       }
+    }
+  }
+
+  Future<void> deleteChatHistory(String senderUid, String receiverUid) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('messages')
+          .where('senderUid', isEqualTo: senderUid)
+          .where('receiverUid', isEqualTo: receiverUid)
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+    } catch (e) {
+      print('Error deleting chat history: $e');
     }
   }
 
@@ -462,10 +472,13 @@ class _ChatScreenState extends State<ChatScreen> {
                 switch (result) {
                   case 'deletefriend':
                     String currentUserUid = getCurrentUserUid();
+                    String friendUid = widget.friendUid;
                     removeFriendFromCurrentUser(
                         currentUserUid, widget.friendUid);
                     removeCurrentUserFromFriend(
                         currentUserUid, widget.friendUid);
+                    deleteChatHistory(currentUserUid, friendUid);
+                    deleteChatHistory(friendUid, currentUserUid);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Friend()),
@@ -480,3 +493,33 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
+//  void _sendMessage() async {
+//     final messageText = _messageController.text;
+//     if (messageText.isNotEmpty) {
+//       _messageController.clear();
+
+//       final currentUserUid = getCurrentUserUid();
+//       final friendUid = widget.friendUid;
+
+//       WidgetsBinding.instance!.addPostFrameCallback((_) {
+//         _scrollController.animateTo(
+//           _scrollController.position.maxScrollExtent,
+//           duration: Duration(milliseconds: 300),
+//           curve: Curves.easeOut,
+//         );
+//       });
+
+//       try {
+//         await FirebaseFirestore.instance.collection('messages').add({
+//           'senderUid': currentUserUid,
+//           'receiverUid': friendUid,
+//           'message': messageText,
+//           'timestampserver': FieldValue.serverTimestamp(),
+//         });
+
+//         // No need to setState for messages as StreamBuilder takes care of it
+//       } catch (e) {
+//         print('Error sending message: $e');
+//       }
+//     }
+//   }
