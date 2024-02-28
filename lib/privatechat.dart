@@ -31,57 +31,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   List<Map<String, dynamic>> _messages = [];
   final ScrollController _scrollController = ScrollController();
-  Future<Map<String, dynamic>?> getUserData(String uid) async {
-    try {
-      DocumentSnapshot snapshot =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      return snapshot.data() as Map<String, dynamic>?; // Return user data
-    } catch (e) {
-      print("Error fetching user data: $e");
-      return null;
-    }
-  }
-
-  late Map<String, dynamic> yourUserData = {};
-  late Map<String, dynamic> friendUserData = {};
-  Map<String, dynamic>? friendData;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Fetch and load messages when the screen is initially opened
-    fetchMessages();
-
-    getFriendData(widget.friendUid).then((data) {
-      setState(() {
-        friendData = data;
-      });
-    });
-
-    // Scroll to the bottom after the frame has been painted
-  }
-
-  void scrollToBottom() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      }
-    });
-  }
-
-  Future<Map<String, dynamic>?> getFriendData(String friendUid) async {
-    try {
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(friendUid)
-          .get();
-      return snapshot.data() as Map<String, dynamic>?; // Return friend data
-    } catch (e) {
-      print("Error fetching friend data: $e");
-      return null;
-    }
-  }
 
   Future<void> fetchMessages() async {
     try {
@@ -170,6 +119,134 @@ class _ChatScreenState extends State<ChatScreen> {
     scrollToBottom();
   }
 
+  Stream<List<Map<String, dynamic>>> getMessagesStream() {
+    String currentUserUid = getCurrentUserUid();
+    String friendUid = widget.friendUid;
+
+    return FirebaseFirestore.instance
+        .collection('messages')
+        .where('receiverUid', isEqualTo: currentUserUid)
+        .where('senderUid', isEqualTo: friendUid)
+        .orderBy('timestampserver')
+        .snapshots()
+        .asyncMap((querySnapshot) async {
+      List<Map<String, dynamic>> sentMessages = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        final dynamic message = data['message'];
+        final dynamic timestamp = data['timestampserver'];
+
+        // Check if 'message' is a string
+        if (message is String) {
+          return {'user': 'Friend', 'message': message, 'timestamp': timestamp};
+        } else {
+          // Handle the case where 'message' is not a string
+          print('Warning: Message is not a string');
+          return {
+            'user': 'Friend',
+            'message': 'Invalid message',
+            'timestamp': timestamp
+          };
+        }
+      }).toList();
+
+      // Fetch messages where the current user is the receiver
+      QuerySnapshot<Map<String, dynamic>> receivedQuerySnapshot =
+          await FirebaseFirestore.instance
+              .collection('messages')
+              .where('receiverUid', isEqualTo: friendUid)
+              .where('senderUid', isEqualTo: currentUserUid)
+              .orderBy('timestampserver')
+              .get();
+
+      List<Map<String, dynamic>> receivedMessages =
+          receivedQuerySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        final dynamic message = data['message'];
+        final dynamic timestamp = data['timestampserver'];
+
+        // Check if 'message' is a string
+        if (message is String) {
+          return {'user': 'You', 'message': message, 'timestamp': timestamp};
+        } else {
+          // Handle the case where 'message' is not a string
+          print('Warning: Message is not a string');
+          return {
+            'user': 'You',
+            'message': 'Invalid message',
+            'timestamp': timestamp
+          };
+        }
+      }).toList();
+
+      // Combine sent and received messages
+      List<Map<String, dynamic>> allMessages = [
+        ...sentMessages,
+        ...receivedMessages
+      ];
+
+      // Sort messages by timestamp
+      allMessages.sort((a, b) {
+        final Timestamp timestampA = a['timestamp'];
+        final Timestamp timestampB = b['timestamp'];
+        return timestampA.compareTo(timestampB);
+      });
+
+      return allMessages;
+    });
+  }
+
+  Future<Map<String, dynamic>?> getUserData(String uid) async {
+    try {
+      DocumentSnapshot snapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      return snapshot.data() as Map<String, dynamic>?; // Return user data
+    } catch (e) {
+      print("Error fetching user data: $e");
+      return null;
+    }
+  }
+
+  late Map<String, dynamic> yourUserData = {};
+  late Map<String, dynamic> friendUserData = {};
+  Map<String, dynamic>? friendData;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Fetch and load messages when the screen is initially opened
+    fetchMessages();
+    getMessagesStream();
+    getFriendData(widget.friendUid).then((data) {
+      setState(() {
+        friendData = data;
+      });
+    });
+
+    // Scroll to the bottom after the frame has been painted
+  }
+
+  void scrollToBottom() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
+
+  Future<Map<String, dynamic>?> getFriendData(String friendUid) async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(friendUid)
+          .get();
+      return snapshot.data() as Map<String, dynamic>?; // Return friend data
+    } catch (e) {
+      print("Error fetching friend data: $e");
+      return null;
+    }
+  }
+
   String getCurrentUserUid() {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
@@ -225,6 +302,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       final currentUserUid = getCurrentUserUid();
       final friendUid = widget.friendUid;
+
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
@@ -232,8 +310,8 @@ class _ChatScreenState extends State<ChatScreen> {
           curve: Curves.easeOut,
         );
       });
+
       try {
-        // Add message to the Firestore collection
         await FirebaseFirestore.instance.collection('messages').add({
           'senderUid': currentUserUid,
           'receiverUid': friendUid,
@@ -241,13 +319,7 @@ class _ChatScreenState extends State<ChatScreen> {
           'timestampserver': FieldValue.serverTimestamp(),
         });
 
-        setState(() {
-          _messages.add({
-            'user': 'You',
-            'message': messageText,
-            'timestamp': FieldValue.serverTimestamp(),
-          });
-        });
+        // No need to setState for messages as StreamBuilder takes care of it
       } catch (e) {
         print('Error sending message: $e');
       }
@@ -260,52 +332,69 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              controller: _scrollController, // Add this line
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                final user = message['user'] ?? '';
-                final messageText = message['message'] ?? '';
+            child: StreamBuilder<List<Map<String, dynamic>>>(
+              stream: getMessagesStream(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Map<String, dynamic>> messages = snapshot.data!;
+                  return ListView.builder(
+                    controller: _scrollController,
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final message = messages[index];
+                      final user = message['user'] ?? '';
+                      final messageText = message['message'] ?? '';
+                      final isCurrentUser = user == 'You';
 
-                final isCurrentUser = user == 'You';
+                      final userData =
+                          isCurrentUser ? yourUserData : friendUserData;
+                      final profileImageUrl =
+                          userData?['profileImageUrl'] ?? '';
 
-                final userData = isCurrentUser ? yourUserData : friendUserData;
-                final profileImageUrl =
-                    userData?['profileImageUrl'] ?? ''; // แก้ตาม field ของคุณ
-                return ListTile(
-                  title: Container(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 0.0),
-                    child: Row(
-                      mainAxisAlignment: isCurrentUser
-                          ? MainAxisAlignment.end
-                          : MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // แสดงรูปโปรไฟล์
-                        if (!isCurrentUser)
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(profileImageUrl),
-                          ),
-                        SizedBox(
-                            width:
-                                8.0), // เพิ่มระยะห่างระหว่างรูปโปรไฟล์กับข้อความ
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: isCurrentUser ? Colors.blue : Colors.green,
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Text(
-                            messageText,
-                            style: TextStyle(color: Colors.white),
+                      return ListTile(
+                        title: Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 4.0, horizontal: 0.0),
+                          child: Row(
+                            mainAxisAlignment: isCurrentUser
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (!isCurrentUser)
+                                CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(profileImageUrl),
+                                ),
+                              SizedBox(width: 8.0),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  color: isCurrentUser
+                                      ? Colors.blue
+                                      : Colors.green,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Text(
+                                  messageText,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
               },
             ),
           ),
