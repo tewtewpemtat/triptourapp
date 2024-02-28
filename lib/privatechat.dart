@@ -310,12 +310,49 @@ class _ChatScreenState extends State<ChatScreen> {
           'message': messageText,
           'timestampserver': FieldValue.serverTimestamp(),
         });
-
+        await FirebaseFirestore.instance.collection('chats').add({
+          'lastMessage': messageText,
+          'senderUid': currentUserUid,
+          'receiverUid': friendUid,
+          'timestampserver': FieldValue.serverTimestamp(),
+        });
         // Fetch and load messages after sending a message
         fetchMessages();
       } catch (e) {
         print('Error sending message: $e');
       }
+    }
+  }
+
+  void deleteChats(String currentUserUid, String friendUid) async {
+    try {
+      // Delete chats where the current user is the sender
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .where('senderUid', isEqualTo: currentUserUid)
+          .where('receiverUid', isEqualTo: friendUid)
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+
+      // Delete chats where the current user is the receiver
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .where('receiverUid', isEqualTo: currentUserUid)
+          .where('senderUid', isEqualTo: friendUid)
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+
+      print('Chats deleted successfully');
+    } catch (e) {
+      print('Error deleting chats: $e');
     }
   }
 
@@ -479,6 +516,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         currentUserUid, widget.friendUid);
                     deleteChatHistory(currentUserUid, friendUid);
                     deleteChatHistory(friendUid, currentUserUid);
+                    deleteChats(currentUserUid, friendUid);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Friend()),

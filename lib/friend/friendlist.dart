@@ -134,16 +134,18 @@ class _FriendListState extends State<FriendList> {
         if (snapshot.hasError || !snapshot.hasData) {
           return Icon(Icons.error);
         }
-
         Map<String, dynamic>? friendData =
             snapshot.data?.data() as Map<String, dynamic>?;
 
-        String friendFirstName = friendData?['firstName'] ?? 'Unknown';
-        String friendLastName = friendData?['lastName'] ?? 'Unknown';
+        String fullName = '';
+        bool matchesSearch = false;
 
-        String fullName = '$friendFirstName $friendLastName'.toLowerCase();
-        bool matchesSearch = fullName.contains(_searchQuery);
-
+        if (friendData != null) {
+          fullName = '${friendData['firstName']} ${friendData['lastName']}'
+              .toLowerCase();
+          matchesSearch = fullName.contains(_searchQuery);
+        }
+        snapshot.data?.data() as Map<String, dynamic>?;
         if (_searchQuery.isEmpty || matchesSearch) {
           return Material(
             child: InkWell(
@@ -195,12 +197,14 @@ class _FriendListState extends State<FriendList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '$friendFirstName $friendLastName',
+                                  '${friendData?['firstName']} ${friendData?['lastName']}',
                                   style: GoogleFonts.ibmPlexSansThai(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                SizedBox(height: 5),
+                                buildLastMessageWidget(friendUid),
                               ],
                             ),
                           ),
@@ -215,6 +219,64 @@ class _FriendListState extends State<FriendList> {
         } else {
           return Container(); // Don't show the item if it doesn't match the search query
         }
+      },
+    );
+  }
+
+  Future<Widget> fetchLastMessageAndDisplay(String friendUid) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('chats')
+              .where('receiverUid', isEqualTo: myUid)
+              .where('senderUid', isEqualTo: friendUid)
+              .orderBy('timestampserver', descending: true)
+              .limit(1)
+              .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        // If no result, try the opposite order (friend as receiver, myUid as sender)
+        querySnapshot = await FirebaseFirestore.instance
+            .collection('chats')
+            .where('receiverUid', isEqualTo: friendUid)
+            .where('senderUid', isEqualTo: myUid)
+            .orderBy('timestampserver', descending: true)
+            .limit(1)
+            .get();
+      }
+
+      if (querySnapshot.docs.isNotEmpty) {
+        Map<String, dynamic> lastMessage = querySnapshot.docs[0].data();
+        String messageText = lastMessage['lastMessage'] ?? '';
+
+        return Text(
+          'ข้อความล่าสุด: $messageText',
+          style: TextStyle(color: Colors.grey),
+        );
+      } else {
+        return Text(
+          'No messages yet',
+          style: TextStyle(color: Colors.grey),
+        );
+      }
+    } catch (e) {
+      print('Error fetching last message: $e');
+      return Text(
+        'Error fetching last message',
+        style: TextStyle(color: Colors.grey),
+      );
+    }
+  }
+
+  Widget buildLastMessageWidget(String friendUid) {
+    return FutureBuilder(
+      future: fetchLastMessageAndDisplay(friendUid),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        return snapshot.data as Widget;
       },
     );
   }
