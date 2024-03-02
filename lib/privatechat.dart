@@ -116,7 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       print('Error fetching messages: $e');
     }
-    scrollToBottom();
+    scrollToBottomFirst();
   }
 
   Stream<List<Map<String, dynamic>>> getMessagesStream() {
@@ -227,6 +227,17 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void scrollToBottom() {
+    if (_scrollController.hasClients) {
+      final bottomOffset = _scrollController.position.maxScrollExtent;
+      _scrollController.animateTo(
+        bottomOffset,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  void scrollToBottomFirst() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
@@ -383,6 +394,9 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: getMessagesStream(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  WidgetsBinding.instance.addPostFrameCallback(
+                      (_) => scrollToBottom()); // Add this line
+
                   List<Map<String, dynamic>> messages = snapshot.data!;
                   return ListView.builder(
                     controller: _scrollController,
