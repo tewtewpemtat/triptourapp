@@ -139,13 +139,15 @@ class _AddFriendState extends State<AddFriend> {
       children: _searchResults.map((user) {
         String firstName = user['firstName'];
         String lastName = user['lastName'];
-        return buildFriendItem(context, firstName, lastName, user.id);
+        String proFilepic = user['profileImageUrl'];
+        return buildFriendItem(
+            context, firstName, lastName, user.id, proFilepic);
       }).toList(),
     );
   }
 
-  Widget buildFriendItem(
-      context, String firstName, String lastName, String uid) {
+  Widget buildFriendItem(context, String firstName, String lastName, String uid,
+      String profileImageUrl) {
     // ตรวจสอบว่าเป็น UID ของผู้ใช้ปัจจุบันหรือไม่
     if (uid != myUid) {
       return FutureBuilder<bool>(
@@ -183,12 +185,19 @@ class _AddFriendState extends State<AddFriend> {
                           child: Container(
                             margin: EdgeInsets.all(4.0),
                             child: ClipOval(
-                              child: Image.asset(
-                                'assets/cat.jpg',
-                                width: 70.0,
-                                height: 70.0,
-                                fit: BoxFit.cover,
-                              ),
+                              child: profileImageUrl.isNotEmpty
+                                  ? Image.network(
+                                      profileImageUrl,
+                                      width: 70.0,
+                                      height: 70.0,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/cat.jpg', // A default image in case there is no profile image.
+                                      width: 70.0,
+                                      height: 70.0,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                         ),

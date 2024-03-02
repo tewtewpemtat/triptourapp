@@ -314,20 +314,39 @@ class _ChatScreenState extends State<ChatScreen> {
       final currentUserUid = getCurrentUserUid();
       final friendUid = widget.friendUid;
 
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+
       try {
-        await FirebaseFirestore.instance.collection('messages').add({
-          'senderUid': currentUserUid,
-          'receiverUid': friendUid,
-          'message': messageText,
-          'timestampserver': FieldValue.serverTimestamp(),
-        });
-        await FirebaseFirestore.instance.collection('chats').add({
-          'lastMessage': messageText,
-          'senderUid': currentUserUid,
-          'receiverUid': friendUid,
-          'timestampserver': FieldValue.serverTimestamp(),
-        });
-        // Fetch and load messages after sending a message
+        if (messageText.length > 30) {
+          // Split message into chunks of maximum 20 characters
+          List<String> chunks = [];
+          for (int i = 0; i < messageText.length; i += 30) {
+            chunks.add(messageText.substring(
+                i, i + 30 < messageText.length ? i + 30 : messageText.length));
+          }
+          // Join chunks with newline character
+          String formattedMessage = chunks.join('\n');
+
+          await FirebaseFirestore.instance.collection('messages').add({
+            'senderUid': currentUserUid,
+            'receiverUid': friendUid,
+            'message': formattedMessage,
+            'timestampserver': FieldValue.serverTimestamp(),
+          });
+        } else {
+          await FirebaseFirestore.instance.collection('messages').add({
+            'senderUid': currentUserUid,
+            'receiverUid': friendUid,
+            'message': messageText,
+            'timestampserver': FieldValue.serverTimestamp(),
+          });
+        }
         fetchMessages();
       } catch (e) {
         print('Error sending message: $e');
@@ -469,6 +488,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     decoration: InputDecoration(
                       hintText: 'พิมข้อความ',
                     ),
+                    maxLines:
+                        null, // ทำให้ TextField สามารถเพิ่มบรรทัดได้โดยอัตโนมัติ
+                    textInputAction: TextInputAction.newline,
                   ),
                 ),
                 IconButton(
