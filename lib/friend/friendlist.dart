@@ -15,110 +15,116 @@ class FriendList extends StatefulWidget {
 class _FriendListState extends State<FriendList> {
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
-
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
+  late List<dynamic> friendList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFriendList();
+  }
+
+  void fetchFriendList() async {
+    try {
+      DocumentSnapshot userDataSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(myUid).get();
+
+      if (userDataSnapshot.exists) {
+        Map<String, dynamic>? userData =
+            userDataSnapshot.data() as Map<String, dynamic>?;
+
+        setState(() {
+          friendList = userData?['friendList'] ?? [];
+        });
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance.collection('users').doc(myUid).get(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        }
-
-        if (snapshot.hasError || !snapshot.hasData) {
-          return Text('Error fetching user data');
-        }
-
-        Map<String, dynamic>? userData =
-            snapshot.data?.data() as Map<String, dynamic>?;
-
-        List<dynamic> friendList = userData?['friendList'] ?? [];
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color(0xffeaeaea),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  children: [
-                    Icon(Icons.search, color: Colors.grey),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: (value) {
-                          setState(() {
-                            _searchQuery = value.toLowerCase();
-                          });
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'ค้นหาเพื่อนของคุณ',
-                          border: InputBorder.none,
-                          isDense: true,
-                        ),
-                      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color(0xffeaeaea),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: [
+                Icon(Icons.search, color: Colors.grey),
+                SizedBox(width: 10),
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value.toLowerCase();
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'ค้นหาเพื่อนของคุณ',
+                      border: InputBorder.none,
+                      isDense: true,
                     ),
-                  ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          margin: EdgeInsets.only(
+            left: 10,
+            right: 10,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddFriend(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.add),
+                      SizedBox(width: 10),
+                      Text('เพิ่มเพื่อน',
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 15)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              margin: EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddFriend(),
-                          ),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Icon(Icons.add),
-                          SizedBox(width: 10),
-                          Text('เพิ่มเพื่อน',
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 15)),
-                        ],
-                      ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FriendRequestPage(),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FriendRequestPage(),
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.mail),
-                  ),
-                ],
+                  );
+                },
+                child: Icon(Icons.mail),
               ),
-            ),
-            SizedBox(height: 10),
-            if (friendList.isNotEmpty)
-              for (String friendUid in friendList)
-                buildTripItem(context, friendUid),
-          ],
-        );
-      },
+            ],
+          ),
+        ),
+        SizedBox(height: 10),
+        if (friendList.isNotEmpty)
+          for (String friendUid in friendList)
+            buildTripItem(context, friendUid),
+      ],
     );
   }
 
@@ -145,7 +151,7 @@ class _FriendListState extends State<FriendList> {
               .toLowerCase();
           matchesSearch = fullName.contains(_searchQuery);
         }
-        snapshot.data?.data() as Map<String, dynamic>?;
+
         if (_searchQuery.isEmpty || matchesSearch) {
           return Material(
             child: InkWell(
