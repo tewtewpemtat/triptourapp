@@ -339,11 +339,23 @@ class _ChatScreenState extends State<ChatScreen> {
             'message': formattedMessage,
             'timestampserver': FieldValue.serverTimestamp(),
           });
+          await FirebaseFirestore.instance.collection('chats').add({
+            'lastMessage': messageText,
+            'senderUid': currentUserUid,
+            'receiverUid': friendUid,
+            'timestampserver': FieldValue.serverTimestamp(),
+          });
         } else {
           await FirebaseFirestore.instance.collection('messages').add({
             'senderUid': currentUserUid,
             'receiverUid': friendUid,
             'message': messageText,
+            'timestampserver': FieldValue.serverTimestamp(),
+          });
+          await FirebaseFirestore.instance.collection('chats').add({
+            'lastMessage': messageText,
+            'senderUid': currentUserUid,
+            'receiverUid': friendUid,
             'timestampserver': FieldValue.serverTimestamp(),
           });
         }
