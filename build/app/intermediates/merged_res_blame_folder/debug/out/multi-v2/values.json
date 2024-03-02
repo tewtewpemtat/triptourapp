@@ -1,27 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-6:/values/values.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-29:/values/values.xml",
             "map": [
-                {
-                    "source": "C:\\Project\\triptourapp\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,832",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "483,998"
-                    },
-                    "to": {
-                        "startLines": "1438,1442",
-                        "startColumns": "4,4",
-                        "startOffsets": "93252,93433",
-                        "endLines": "1441,1444",
-                        "endColumns": "12,12",
-                        "endOffsets": "93428,93597"
-                    }
-                },
                 {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\dec000a81eb64cdcbda1ecb11cc7abef\\transformed\\media-1.4.1\\res\\values\\values.xml",
                     "from": {
@@ -73,23 +54,6 @@
                         "startOffsets": "18564",
                         "endColumns": "42",
                         "endOffsets": "18602"
-                    }
-                },
-                {
-                    "source": "C:\\Project\\triptourapp\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "55,137,241,350,470,568",
-                        "endColumns": "81,103,108,119,97,74",
-                        "endOffsets": "132,236,345,465,563,638"
-                    },
-                    "to": {
-                        "startLines": "355,356,357,358,359,360",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "24281,24363,24467,24576,24696,24794",
-                        "endColumns": "81,103,108,119,97,74",
-                        "endOffsets": "24358,24462,24571,24691,24789,24864"
                     }
                 },
                 {
@@ -222,6 +186,25 @@
                     }
                 },
                 {
+                    "source": "C:\\triptourapp\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "176,832",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "483,998"
+                    },
+                    "to": {
+                        "startLines": "1438,1442",
+                        "startColumns": "4,4",
+                        "startOffsets": "93252,93433",
+                        "endLines": "1441,1444",
+                        "endColumns": "12,12",
+                        "endOffsets": "93428,93597"
+                    }
+                },
+                {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11",
@@ -287,6 +270,23 @@
                         "startOffsets": "18721",
                         "endColumns": "49",
                         "endOffsets": "18766"
+                    }
+                },
+                {
+                    "source": "C:\\triptourapp\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,137,241,350,470,568",
+                        "endColumns": "81,103,108,119,97,74",
+                        "endOffsets": "132,236,345,465,563,638"
+                    },
+                    "to": {
+                        "startLines": "355,356,357,358,359,360",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "24281,24363,24467,24576,24696,24794",
+                        "endColumns": "81,103,108,119,97,74",
+                        "endOffsets": "24358,24462,24571,24691,24789,24864"
                     }
                 }
             ]

@@ -225,32 +225,62 @@ class _FriendListState extends State<FriendList> {
 
   Future<Widget> fetchLastMessageAndDisplay(String friendUid) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> querySnapshot =
-          await FirebaseFirestore.instance
-              .collection('chats')
-              .where('receiverUid', isEqualTo: myUid)
-              .where('senderUid', isEqualTo: friendUid)
-              .orderBy('timestampserver', descending: true)
-              .limit(1)
-              .get();
+      // Fetch the last message where current user is the receiver
+      var querySnapshot1 = await FirebaseFirestore.instance
+          .collection('chats')
+          .where('receiverUid', isEqualTo: myUid)
+          .where('senderUid', isEqualTo: friendUid)
+          .orderBy('timestampserver', descending: true)
+          .limit(1)
+          .get();
 
-      if (querySnapshot.docs.isEmpty) {
-        // If no result, try the opposite order (friend as receiver, myUid as sender)
-        querySnapshot = await FirebaseFirestore.instance
-            .collection('chats')
-            .where('receiverUid', isEqualTo: friendUid)
-            .where('senderUid', isEqualTo: myUid)
-            .orderBy('timestampserver', descending: true)
-            .limit(1)
-            .get();
+      // Fetch the last message where current user is the sender
+      var querySnapshot2 = await FirebaseFirestore.instance
+          .collection('chats')
+          .where('receiverUid', isEqualTo: friendUid)
+          .where('senderUid', isEqualTo: myUid)
+          .orderBy('timestampserver', descending: true)
+          .limit(1)
+          .get();
+
+      // Compare timestamps and select the most recent message
+      Map<String, dynamic>? lastMessage;
+      if (querySnapshot1.docs.isNotEmpty && querySnapshot2.docs.isNotEmpty) {
+        final message1 = querySnapshot1.docs[0].data();
+        final message2 = querySnapshot2.docs[0].data();
+        lastMessage =
+            message1['timestampserver'].compareTo(message2['timestampserver']) >
+                    0
+                ? message1
+                : message2;
+      } else if (querySnapshot1.docs.isNotEmpty) {
+        lastMessage = querySnapshot1.docs[0].data();
+      } else if (querySnapshot2.docs.isNotEmpty) {
+        lastMessage = querySnapshot2.docs[0].data();
       }
 
-      if (querySnapshot.docs.isNotEmpty) {
-        Map<String, dynamic> lastMessage = querySnapshot.docs[0].data();
+      if (lastMessage != null) {
         String messageText = lastMessage['lastMessage'] ?? '';
+        String senderUid = lastMessage['senderUid'];
+        String displayMessage = senderUid == myUid
+            ? 'You: $messageText'
+            : 'ชื่อเพื่อน: $messageText'; // Adjust to include friend's name
+
+        // Fetch friend's name if needed
+        if (senderUid != myUid) {
+          DocumentSnapshot friendSnapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(friendUid)
+              .get();
+          Map<String, dynamic> friendData =
+              friendSnapshot.data() as Map<String, dynamic>;
+          String friendName =
+              '${friendData['firstName']} ${friendData['lastName']}';
+          displayMessage = '$friendName: $messageText';
+        }
 
         return Text(
-          'ข้อความล่าสุด: $messageText',
+          displayMessage,
           style: TextStyle(color: Colors.grey),
         );
       } else {
