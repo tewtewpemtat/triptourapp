@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:triptourapp/addfriend.dart';
 import 'package:triptourapp/friendrequest.dart';
 import '../privatechat.dart';
+import 'package:intl/intl.dart';
 
 class FriendList extends StatefulWidget {
   @override
@@ -267,11 +268,20 @@ class _FriendListState extends State<FriendList> {
 
       if (lastMessage != null) {
         String messageText = lastMessage['lastMessage'] ?? '';
-        String senderUid = lastMessage['senderUid'];
-        String displayMessage = senderUid == myUid
-            ? 'You: $messageText'
-            : 'ชื่อเพื่อน: $messageText'; // Adjust to include friend's name
+        String justmessage = messageText.length > 20
+            ? messageText.substring(0, 20)
+            : messageText;
+        if (justmessage.length > 17) {
+          justmessage += '...';
+        }
 
+        String senderUid = lastMessage['senderUid'];
+        Timestamp timestamp = lastMessage['timestampserver'];
+        String formattedTime = DateFormat('HH:mm').format(timestamp.toDate());
+
+        String displayMessage = senderUid == myUid
+            ? 'You: $justmessage $formattedTime'
+            : 'ชื่อเพื่อน: $justmessage $formattedTime'; // Adjust to include friend's name
         // Fetch friend's name if needed
         if (senderUid != myUid) {
           DocumentSnapshot friendSnapshot = await FirebaseFirestore.instance
@@ -282,7 +292,7 @@ class _FriendListState extends State<FriendList> {
               friendSnapshot.data() as Map<String, dynamic>;
           String friendName =
               '${friendData['firstName']} ${friendData['lastName']}';
-          displayMessage = '$friendName: $messageText';
+          displayMessage = '$friendName: $justmessage $formattedTime';
         }
 
         return Text(

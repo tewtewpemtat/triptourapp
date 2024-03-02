@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/friend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class ChatScreenPage extends StatelessWidget {
   final String friendUid;
@@ -321,47 +322,102 @@ class _ChatScreenState extends State<ChatScreen> {
           curve: Curves.easeOut,
         );
       });
+      final chatSnapshot = await FirebaseFirestore.instance
+          .collection('chats')
+          .where('senderUid', isEqualTo: currentUserUid)
+          .where('receiverUid', isEqualTo: friendUid)
+          .get();
+      if (chatSnapshot.docs.isNotEmpty) {
+        final chatDocId = chatSnapshot.docs.first.id;
+        try {
+          if (messageText.length > 20) {
+            // Split message into chunks of maximum 20 characters
+            List<String> chunks = [];
+            for (int i = 0; i < messageText.length; i += 20) {
+              chunks.add(messageText.substring(i,
+                  i + 20 < messageText.length ? i + 20 : messageText.length));
+            }
+            // Join chunks with newline character
+            String formattedMessage = chunks.join('\n');
 
-      try {
-        if (messageText.length > 30) {
-          // Split message into chunks of maximum 20 characters
-          List<String> chunks = [];
-          for (int i = 0; i < messageText.length; i += 30) {
-            chunks.add(messageText.substring(
-                i, i + 30 < messageText.length ? i + 30 : messageText.length));
+            await FirebaseFirestore.instance.collection('messages').add({
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'message': formattedMessage,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
+            await FirebaseFirestore.instance
+                .collection('chats')
+                .doc(chatDocId)
+                .update({
+              'lastMessage': messageText,
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
+          } else {
+            await FirebaseFirestore.instance.collection('messages').add({
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'message': messageText,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
+            await FirebaseFirestore.instance
+                .collection('chats')
+                .doc(chatDocId)
+                .update({
+              'lastMessage': messageText,
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
           }
-          // Join chunks with newline character
-          String formattedMessage = chunks.join('\n');
-
-          await FirebaseFirestore.instance.collection('messages').add({
-            'senderUid': currentUserUid,
-            'receiverUid': friendUid,
-            'message': formattedMessage,
-            'timestampserver': FieldValue.serverTimestamp(),
-          });
-          await FirebaseFirestore.instance.collection('chats').add({
-            'lastMessage': messageText,
-            'senderUid': currentUserUid,
-            'receiverUid': friendUid,
-            'timestampserver': FieldValue.serverTimestamp(),
-          });
-        } else {
-          await FirebaseFirestore.instance.collection('messages').add({
-            'senderUid': currentUserUid,
-            'receiverUid': friendUid,
-            'message': messageText,
-            'timestampserver': FieldValue.serverTimestamp(),
-          });
-          await FirebaseFirestore.instance.collection('chats').add({
-            'lastMessage': messageText,
-            'senderUid': currentUserUid,
-            'receiverUid': friendUid,
-            'timestampserver': FieldValue.serverTimestamp(),
-          });
+          fetchMessages();
+        } catch (e) {
+          print('Error sending message: $e');
         }
-        fetchMessages();
-      } catch (e) {
-        print('Error sending message: $e');
+      } else {
+        try {
+          if (messageText.length > 20) {
+            // Split message into chunks of maximum 20 characters
+            List<String> chunks = [];
+            for (int i = 0; i < messageText.length; i += 20) {
+              chunks.add(messageText.substring(i,
+                  i + 20 < messageText.length ? i + 20 : messageText.length));
+            }
+            // Join chunks with newline character
+            String formattedMessage = chunks.join('\n');
+
+            await FirebaseFirestore.instance.collection('messages').add({
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'message': formattedMessage,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
+            await FirebaseFirestore.instance.collection('chats').add({
+              'lastMessage': messageText,
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
+          } else {
+            await FirebaseFirestore.instance.collection('messages').add({
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'message': messageText,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
+            await FirebaseFirestore.instance.collection('chats').add({
+              'lastMessage': messageText,
+              'senderUid': currentUserUid,
+              'receiverUid': friendUid,
+              'timestampserver': FieldValue.serverTimestamp(),
+            });
+          }
+          fetchMessages();
+        } catch (e) {
+          print('Error sending message: $e');
+        }
       }
     }
   }
@@ -437,7 +493,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       final user = message['user'] ?? '';
                       final messageText = message['message'] ?? '';
                       final isCurrentUser = user == 'You';
-
+                      final messageTimestamp = message[
+                          'timestamp']; // เก็บ timestampserver จากข้อมูลข้อความ
+                      final timestamp = messageTimestamp != null
+                          ? (messageTimestamp as Timestamp).toDate()
+                          : null; // แปลง timestampserver เป็น DateTime
+                      final formattedTime = timestamp != null
+                          ? DateFormat('HH:mm').format(timestamp)
+                          : ''; // แปลง DateTime เป็นรูปแบบของเวลาที่ต้องการ
                       final userData =
                           isCurrentUser ? yourUserData : friendUserData;
                       final profileImageUrl =
@@ -451,26 +514,43 @@ class _ChatScreenState extends State<ChatScreen> {
                             mainAxisAlignment: isCurrentUser
                                 ? MainAxisAlignment.end
                                 : MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              if (!isCurrentUser)
-                                CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(profileImageUrl),
+                              if (!isCurrentUser && profileImageUrl.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 28.0),
+                                  child: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(profileImageUrl),
+                                  ),
                                 ),
                               SizedBox(width: 8.0),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: isCurrentUser
-                                      ? Colors.blue
-                                      : Colors.green,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: Text(
-                                  messageText,
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                              Column(
+                                crossAxisAlignment: isCurrentUser
+                                    ? CrossAxisAlignment.end
+                                    : CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      color: isCurrentUser
+                                          ? Colors.blue
+                                          : Colors.green,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Text(
+                                      messageText,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          4), // Add some space between message and timestamp
+                                  Text(
+                                    formattedTime, // Display formatted timestamp
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

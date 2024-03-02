@@ -368,6 +368,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/wanla/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "js",
       "rootUri": "file:///C:/Users/wanla/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
@@ -638,7 +644,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2024-03-02T10:44:53.123961Z",
+  "generated": "2024-03-02T15:23:03.478969Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
