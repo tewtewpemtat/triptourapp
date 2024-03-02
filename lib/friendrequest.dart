@@ -94,34 +94,31 @@ class FriendRequestPage extends StatelessWidget {
                           print('Tapped on friend request item');
                         },
                         child: Container(
-                          margin: EdgeInsets.all(8.0),
-                          padding: EdgeInsets.all(1.0),
+                          margin: EdgeInsets.all(10.0),
+                          padding: EdgeInsets.all(4.0),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(150),
                             border: Border.all(
-                              color: Colors.black,
-                              width: 1.0,
+                              color: Color.fromARGB(255, 168, 166, 166),
+                              width: 2.0,
                             ),
                           ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                flex: 4,
+                                flex: 3,
                                 child: Container(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
+                                  width: 70.0, // ความกว้างของ Container
+                                  height: 110.0, // ความสูงของ Container
+                                  child: ClipOval(
                                     child: profileImageUrl.isNotEmpty
                                         ? Image.network(
                                             profileImageUrl,
-                                            width: 100.0,
-                                            height: 100.0,
                                             fit: BoxFit.cover,
                                           )
                                         : Image.asset(
                                             'assets/jointrip/mail_image1.png',
-                                            width: 100.0,
-                                            height: 100.0,
                                             fit: BoxFit.cover,
                                           ),
                                   ),
@@ -130,7 +127,7 @@ class FriendRequestPage extends StatelessWidget {
                               Expanded(
                                 flex: 6,
                                 child: Container(
-                                  margin: EdgeInsets.all(12.0),
+                                  margin: EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
@@ -147,6 +144,7 @@ class FriendRequestPage extends StatelessWidget {
                                           style: GoogleFonts.ibmPlexSansThai(
                                             fontSize: 12,
                                           )),
+                                      SizedBox(height: 8),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
@@ -217,7 +215,7 @@ class FriendRequestPage extends StatelessWidget {
                                               style: ElevatedButton.styleFrom(
                                                 primary: Colors.green,
                                                 padding: EdgeInsets.symmetric(
-                                                  vertical: 8,
+                                                  vertical: 0,
                                                 ),
                                               ),
                                             ),
@@ -258,7 +256,7 @@ class FriendRequestPage extends StatelessWidget {
                                               style: ElevatedButton.styleFrom(
                                                 primary: Colors.red,
                                                 padding: EdgeInsets.symmetric(
-                                                  vertical: 8,
+                                                  vertical: 0,
                                                 ),
                                               ),
                                             ),
