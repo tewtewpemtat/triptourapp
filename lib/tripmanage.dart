@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/testuser.dart';
-
 import 'tripmanage/headbutton.dart';
 import 'tripmanage/headplan.dart';
 import 'tripmanage/headinformation.dart';
 
 class TripmanagePage extends StatelessWidget {
+  final String? tripUid;
+  const TripmanagePage({Key? key, this.tripUid})
+      : super(key: key); // Constructor ที่รับค่า UID
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +55,7 @@ class TripmanagePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            InformationPage(),
+            InformationPage(tripUid: tripUid),
             HeadButton(),
             HeadPlan(),
           ],

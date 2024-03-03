@@ -131,9 +131,10 @@ class _TripHistoryState extends State<TripHistory> {
                 .length, // ใช้ _tripDataList แทน snapshot.data!.docs
             itemBuilder: (context, index) {
               return buildTripItem(
-                  context,
-                  _tripDataList[
-                      index]); // ใช้ _tripDataList แทน snapshot.data!.docs
+                context,
+                _tripDataList[index],
+                _tripDataList[index].id,
+              ); // ใช้ _tripDataList แทน snapshot.data!.docs
             },
           ),
         ],
@@ -141,7 +142,15 @@ class _TripHistoryState extends State<TripHistory> {
     );
   }
 
-  Widget buildTripItem(BuildContext context, DocumentSnapshot document) {
+  int getTotalParticipants(DocumentSnapshot document) {
+    Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
+    List<dynamic> tripJoin =
+        tripData['tripJoin']; // รับค่าข้อมูลในฟิลด์ tripJoin
+    return tripJoin.length; // คืนค่าจำนวนผู้ร่วมทริป
+  }
+
+  Widget buildTripItem(
+      BuildContext context, DocumentSnapshot document, String tripUid) {
     Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
     DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     String startDate = dateFormat.format(tripData['tripStartDate'].toDate());
@@ -160,7 +169,8 @@ class _TripHistoryState extends State<TripHistory> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TripmanagePage()),
+              MaterialPageRoute(
+                  builder: (context) => TripmanagePage(tripUid: tripUid)),
             );
           },
           child: Container(
@@ -241,7 +251,8 @@ class _TripHistoryState extends State<TripHistory> {
                                     GoogleFonts.ibmPlexSansThai(fontSize: 12));
                           },
                         ),
-                        Text('จำนวนผู้ร่วมทริป: ${tripData['tripLimit']} คน',
+                        Text(
+                            'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
                             style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                       ],
                     ),

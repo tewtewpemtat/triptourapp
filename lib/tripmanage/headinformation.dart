@@ -1,78 +1,140 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:triptourapp/edittrip.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class InformationPage extends StatelessWidget {
+  final String? tripUid;
+
+  const InformationPage({Key? key, this.tripUid}) : super(key: key);
+  int getTotalParticipants(Map<String, dynamic> tripData) {
+    List<dynamic> tripJoin = tripData['tripJoin'];
+    return tripJoin.length;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(0.0),
-      padding: EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Colors.grey[200], // สีเทาอ่อน
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
-        borderRadius: BorderRadius.circular(0.0), // มุมเเหลม
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5), // สีและความโปร่งใสของเงา
-            spreadRadius: 3, // การกระจายขอบของเงา
-            blurRadius: 6, // ความเบลอของเงา
-            offset: Offset(0, 1), // ตำแหน่งของเงา (นอน, ตั้ง)
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'ชื่อทริป: จา',
-                  style: GoogleFonts.ibmPlexSansThai(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => EditTrip()),
-                  );
-                },
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child:
-                      Image.asset('assets/pencil.png', width: 18, height: 18),
-                ),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('trips')
+          .doc(tripUid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (!snapshot.hasData || snapshot.data == null) {
+          return Center(
+            child: Text('ไม่พบข้อมูลทริป'),
+          );
+        }
+
+        var tripData = snapshot.data?.data() as Map<String, dynamic>;
+        bool isTripCreator = uid == tripData['tripCreate'];
+
+        DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+        String startDate =
+            dateFormat.format(tripData['tripStartDate'].toDate());
+        String endDate = dateFormat.format(tripData['tripEndDate'].toDate());
+        return Container(
+          margin: EdgeInsets.all(0.0),
+          padding: EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(0.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 6,
+                offset: Offset(0, 1),
               ),
             ],
           ),
-          Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'จำนวนผู้ร่วมทริป: 16 คน \t\t\t\t\t\t\t\t\t\t',
-                style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'ชื่อทริป: ${tripData['tripName']}',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  if (isTripCreator) // เพิ่มการตรวจสอบนี้
+                    InkWell(
+                      onTap: () {
+                        // Add your edit function here
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset('assets/pencil.png',
+                            width: 18, height: 18),
+                      ),
+                    ),
+                ],
               ),
-              Image.asset('assets/green.png', width: 14, height: 14),
-              Text('\t กำลังดำเนินการ ',
+              Row(
+                children: [
+                  Text(
+                    'จำนวนผู้ร่วมทริป: ${getTotalParticipants(tripData)} คน ',
+                    style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
+                  ),
+                  Image.asset('assets/green.png', width: 14, height: 14),
+                  Text('\t สถานะ: ${tripData['tripStatus']}',
+                      style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
+                ],
+              ),
+              Text('วันที่เดินทาง: $startDate - $endDate',
                   style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
+              Row(
+                children: [
+                  FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(tripData['tripCreate'])
+                        .get(),
+                    builder:
+                        (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('กำลังโหลด...');
+                      }
+                      if (snapshot.hasError) {
+                        return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+                      }
+                      if (!snapshot.hasData || snapshot.data == null) {
+                        return Text('ไม่พบข้อมูลผู้ใช้');
+                      }
+                      var userData =
+                          snapshot.data!.data() as Map<String, dynamic>?;
+
+                      if (userData == null) {
+                        return Text('ไม่พบข้อมูลผู้ใช้');
+                      }
+
+                      return Text('ผู้จัดทริป: ${userData['nickname']} \t\t\t',
+                          style: GoogleFonts.ibmPlexSansThai(fontSize: 16));
+                    },
+                  ),
+                  Text('ผู้ร่วมทริปสูงสุด : ${tripData['tripLimit']}',
+                      style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
+                ],
+              ),
             ],
           ),
-          Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
-              style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
-          Text('วันที่เดินทาง: 11/08/66 - 13/08/66',
-              style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
-          Row(
-            children: [
-              Text('ผู้จัดทริป: ติว\t\t\t\t\t\t\t',
-                  style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
-              Text('ผู้ร่วมทริปสูงสุด : 12',
-                  style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
-            ],
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
