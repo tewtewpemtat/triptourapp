@@ -15,121 +15,126 @@ class _TripHistoryState extends State<TripHistory> {
   TextEditingController _searchController = TextEditingController();
   List<DocumentSnapshot> _tripDataList = [];
   String _searchQuery = "";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchTripList(); // เรียกใช้ method เพื่อดึงข้อมูลทริปตอนเริ่มต้น
+  }
+
+  void fetchTripList() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('trips')
+        .where('tripJoin', arrayContains: uid)
+        .where('tripStatus', isEqualTo: 'กำลังดำเนินการ')
+        .get();
+
+    setState(() {
+      _tripDataList = querySnapshot.docs;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('trips')
-          .where('tripJoin', arrayContains: uid)
-          .where('tripStatus', isEqualTo: 'กำลังดำเนินการ')
-          .snapshots(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // แสดง indicator ในระหว่างโหลดข้อมูล
-        }
-        if (snapshot.hasError) {
-          return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
-        }
-        if (snapshot.data!.docs.isEmpty) {
-          return Text('ไม่พบทริปที่กำลังดำเนินการ');
-        }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.all(10),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'ทริปของคุณ',
-                  style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.all(10),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'ทริปของคุณ',
+              style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 10),
+          child: Text(
+            'แสดงทริปของคุณที่กำลังดำเนินการอยู่หรือทริปที่ยังไม่เริ่ม',
+            style:
+                GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 7, // Changed flex to 7
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.grey), // Color of the border
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 5),
+                        Icon(Icons.search, color: Colors.grey),
+                        SizedBox(width: 5),
+                        Expanded(
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              setState(() {
+                                _searchQuery = value.toLowerCase();
+                              });
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'ค้นหาทริปของคุณ',
+                              border: InputBorder.none,
+                              isDense: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Text(
-                'แสดงทริปของคุณที่กำลังดำเนินการอยู่หรือทริปที่ยังไม่เริ่ม',
-                style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 13, color: Colors.grey),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 7, // Changed flex to 7
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.grey), // Color of the border
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 5),
-                            Icon(Icons.search, color: Colors.grey),
-                            SizedBox(width: 5),
-                            Expanded(
-                              child: TextField(
-                                controller: _searchController,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _searchQuery = value.toLowerCase();
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                  hintText: 'ค้นหาทริปของคุณ',
-                                  border: InputBorder.none,
-                                  isDense: true,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1, // หรือไม่ต้องใส่ flex เลย
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {},
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Icon(Icons.mail, color: Colors.grey),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 5),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                return buildTripItem(context, snapshot.data!.docs[index]);
-              },
-            ),
-          ],
-        );
-      },
+              // Expanded(
+              //   flex: 1, // หรือไม่ต้องใส่ flex เลย
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(vertical: 6),
+              //     child: Row(
+              //       children: [
+              //         Expanded(
+              //           child: InkWell(
+              //             onTap: () {},
+              //             child: Align(
+              //               alignment: Alignment.center,
+              //               child: Icon(Icons.mail, color: Colors.grey),
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // )
+            ],
+          ),
+        ),
+        SizedBox(height: 5),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount:
+              _tripDataList.length, // ใช้ _tripDataList แทน snapshot.data!.docs
+          itemBuilder: (context, index) {
+            return buildTripItem(
+                context,
+                _tripDataList[
+                    index]); // ใช้ _tripDataList แทน snapshot.data!.docs
+          },
+        ),
+      ],
     );
   }
 
