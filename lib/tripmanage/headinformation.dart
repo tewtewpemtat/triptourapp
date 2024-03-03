@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:triptourapp/edittrip.dart';
 
 class InformationPage extends StatelessWidget {
   final String? tripUid;
@@ -72,10 +73,16 @@ class InformationPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (isTripCreator) // เพิ่มการตรวจสอบนี้
+                  if (isTripCreator &&
+                      tripData['tripStatus'] ==
+                          'กำลังดำเนินการ') // เพิ่มการตรวจสอบนี้
                     InkWell(
                       onTap: () {
-                        // Add your edit function here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditTrip(tripUid: tripUid)),
+                        );
                       },
                       child: Align(
                         alignment: Alignment.centerRight,
