@@ -86,6 +86,9 @@ class _CreateTripPageState extends State<CreateTripPage> {
       int tripLimit = selectedParticipants ?? 1;
       String tripStatus = "กำลังดำเนินการ";
       List<String> tripJoin = [];
+      if (uid != null) {
+        tripJoin.add(uid!); // Add non-null uid to tripJoin
+      }
 
       // Add trip data to Firestore
       await FirebaseFirestore.instance.collection('trips').add({
