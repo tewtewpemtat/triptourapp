@@ -15,8 +15,6 @@ class EditTrip extends StatefulWidget {
   _EditTripState createState() => _EditTripState();
 }
 
-int nummax = 5;
-
 class _EditTripState extends State<EditTrip> {
   File? _userProfileImage;
   TextEditingController _tripName = TextEditingController();
@@ -24,6 +22,7 @@ class _EditTripState extends State<EditTrip> {
   DateTime _selectedEndDate = DateTime.now();
   int? _selectedLimit = 1;
   String _profileImageUrl = '';
+  int nummax = 0;
   @override
   void initState() {
     super.initState();
@@ -48,6 +47,25 @@ class _EditTripState extends State<EditTrip> {
           // ตัวอย่างเพิ่มเติม หากต้องการใช้ข้อมูลเพิ่มเติมจาก tripSnapshot
         });
       }
+    }
+    await _fetchTripJoinData();
+  }
+
+  Future<void> _fetchTripJoinData() async {
+    QuerySnapshot tripJoinSnapshot = await FirebaseFirestore.instance
+        .collection('trips')
+        .doc(widget.tripUid)
+        .collection('tripJoin')
+        .get();
+
+    if (tripJoinSnapshot.docs.isNotEmpty) {
+      // นับจำนวนข้อมูลและบวกค่าเพื่อกำหนดค่าให้กับ nummax
+      int sum = tripJoinSnapshot.docs
+          .map<int>((doc) => doc['value'] ?? 0)
+          .reduce((value, element) => value + element);
+      setState(() {
+        nummax = sum;
+      });
     }
   }
 
