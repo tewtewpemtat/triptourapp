@@ -16,6 +16,10 @@ class EditTrip extends StatefulWidget {
 }
 
 class _EditTripState extends State<EditTrip> {
+  int getTotalParticipants(List<dynamic> tripJoin) {
+    return tripJoin.length;
+  }
+
   File? _userProfileImage;
   TextEditingController _tripName = TextEditingController();
   DateTime _selectedStartDate = DateTime.now();
@@ -43,29 +47,15 @@ class _EditTripState extends State<EditTrip> {
           _selectedEndDate = tripSnapshot['tripEndDate'].toDate();
           _selectedLimit = tripSnapshot['tripLimit'];
           _profileImageUrl = tripSnapshot['tripProfileUrl'] ?? '';
+          List<dynamic> tripList = tripSnapshot['tripJoin'] ?? [];
+          nummax = tripList.fold<int>(
+              0,
+              (previous, tripData) =>
+                  previous + getTotalParticipants(tripData));
 
           // ตัวอย่างเพิ่มเติม หากต้องการใช้ข้อมูลเพิ่มเติมจาก tripSnapshot
         });
       }
-    }
-    await _fetchTripJoinData();
-  }
-
-  Future<void> _fetchTripJoinData() async {
-    QuerySnapshot tripJoinSnapshot = await FirebaseFirestore.instance
-        .collection('trips')
-        .doc(widget.tripUid)
-        .collection('tripJoin')
-        .get();
-
-    if (tripJoinSnapshot.docs.isNotEmpty) {
-      // นับจำนวนข้อมูลและบวกค่าเพื่อกำหนดค่าให้กับ nummax
-      int sum = tripJoinSnapshot.docs
-          .map<int>((doc) => doc['value'] ?? 0)
-          .reduce((value, element) => value + element);
-      setState(() {
-        nummax = sum;
-      });
     }
   }
 
