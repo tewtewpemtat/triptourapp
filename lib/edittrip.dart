@@ -16,9 +16,7 @@ class EditTrip extends StatefulWidget {
 }
 
 class _EditTripState extends State<EditTrip> {
-  int getTotalParticipants(List<dynamic> tripJoin) {
-    return tripJoin.length;
-  }
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   File? _userProfileImage;
   TextEditingController _tripName = TextEditingController();
@@ -47,14 +45,39 @@ class _EditTripState extends State<EditTrip> {
           _selectedEndDate = tripSnapshot['tripEndDate'].toDate();
           _selectedLimit = tripSnapshot['tripLimit'];
           _profileImageUrl = tripSnapshot['tripProfileUrl'] ?? '';
-          List<dynamic> tripList = tripSnapshot['tripJoin'] ?? [];
-          nummax = tripList.fold<int>(
-              0,
-              (previous, tripData) =>
-                  previous + getTotalParticipants(tripData));
+          nummax = tripSnapshot['tripJoin']?.length ?? 0;
 
           // ตัวอย่างเพิ่มเติม หากต้องการใช้ข้อมูลเพิ่มเติมจาก tripSnapshot
         });
+      }
+    }
+  }
+
+  Future<void> _uploadImageToStorage(String tripUid, String tripName) async {
+    if (_userProfileImage != null) {
+      try {
+        // Create a reference to the location where the image will be stored in Firebase Storage
+        final reference = FirebaseStorage.instance
+            .ref()
+            .child('trip/profiletrip/$uid/$tripName.jpg');
+
+        // Upload the file to Firebase Storage
+        await reference.putFile(_userProfileImage!);
+
+        // Get the download URL of the uploaded image
+        final imageUrl = await reference.getDownloadURL();
+
+        // Update the profile image URL in Firestore
+        await FirebaseFirestore.instance
+            .collection('trips')
+            .doc(tripUid)
+            .update({'tripProfileUrl': imageUrl});
+
+        // Show a success message or perform any other desired actions
+      } catch (error) {
+        // Handle any errors that occur during the process
+        print('Error uploading image: $error');
+        // Show an error message or perform any other desired actions
       }
     }
   }
@@ -67,6 +90,9 @@ class _EditTripState extends State<EditTrip> {
       setState(() {
         _userProfileImage = File(pickedFile.path);
       });
+
+      // Upload the selected image to Firebase Storage
+      await _uploadImageToStorage(widget.tripUid!, _tripName.text);
     }
   }
 
@@ -74,21 +100,25 @@ class _EditTripState extends State<EditTrip> {
     return DateFormat('dd/MM/yyyy').format(date);
   }
 
-  Future<void> _selectDate(BuildContext context, bool isStartDate) async {
+  Future<DateTime?> _selectDate(BuildContext context, bool isStartDate) async {
+    DateTime firstDate = DateTime.now();
+    DateTime initialDate = isStartDate ? _selectedStartDate : _selectedEndDate;
+
+    if (initialDate.isBefore(firstDate)) {
+      initialDate = firstDate;
+    }
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: isStartDate ? _selectedStartDate : _selectedEndDate,
-      firstDate: DateTime.now(),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime(2101),
     );
+
     if (picked != null) {
-      setState(() {
-        if (isStartDate) {
-          _selectedStartDate = picked;
-        } else {
-          _selectedEndDate = picked;
-        }
-      });
+      return picked;
+    } else {
+      return null;
     }
   }
 
@@ -122,6 +152,12 @@ class _EditTripState extends State<EditTrip> {
         setState(() {
           _selectedLimit = selectedValue;
         });
+
+        // Update the tripLimit in Firestore
+        await FirebaseFirestore.instance
+            .collection('trips')
+            .doc(widget.tripUid)
+            .update({'tripLimit': selectedValue});
       } else {
         // Show a warning
         showDialog(
@@ -153,12 +189,36 @@ class _EditTripState extends State<EditTrip> {
         return AlertDialog(
           title: Text('แก้ไข $fieldTitle'),
           content: Column(
+            mainAxisSize: MainAxisSize.min, // Use min size for the content
             children: [
               if (fieldTitle == 'วันที่เริ่มทริป' ||
                   fieldTitle == 'วันที่สิ้นสุดทริป')
                 InkWell(
-                  onTap: () =>
-                      _selectDate(context, fieldTitle == 'วันที่เริ่มทริป'),
+                  onTap: () async {
+                    DateTime? picked = await _selectDate(
+                        context, fieldTitle == 'วันที่เริ่มทริป');
+                    if (picked != null) {
+                      setState(() {
+                        if (fieldTitle == 'วันที่เริ่มทริป') {
+                          _selectedStartDate = picked;
+                        } else {
+                          _selectedEndDate = picked;
+                        }
+                      });
+                    }
+                    if (fieldTitle == 'วันที่เริ่มทริป') {
+                      await FirebaseFirestore.instance
+                          .collection('trips')
+                          .doc(widget.tripUid)
+                          .update({'tripStartDate': _selectedStartDate});
+                    } else if (fieldTitle == 'วันที่สิ้นสุดทริป') {
+                      await FirebaseFirestore.instance
+                          .collection('trips')
+                          .doc(widget.tripUid)
+                          .update({'tripEndDate': _selectedEndDate});
+                    }
+                    Navigator.pop(context); // Close the dialog
+                  },
                   child: InputDecorator(
                     decoration: InputDecoration(
                       labelText: fieldTitle,
@@ -186,21 +246,35 @@ class _EditTripState extends State<EditTrip> {
             ],
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('ยกเลิก'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('บันทึก'),
-              onPressed: () {
-                // ดำเนินการบันทึกข้อมูลที่ได้รับจาก TextField
-                // เช่นเก็บในตัวแปร, ส่งไปยังเซิร์ฟเวอร์, ฯลฯ
-                // ตัวอย่างนี้ยังไม่ได้ดำเนินการใดๆ เพียงแค่ปิด Popup
-                Navigator.of(context).pop();
-              },
-            ),
+            if (fieldTitle != 'วันที่เริ่มทริป' &&
+                fieldTitle != 'วันที่สิ้นสุดทริป') ...[
+              TextButton(
+                child: Text('ยกเลิก'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('บันทึก'),
+                onPressed: () async {
+                  // Update Firestore if necessary
+                  if (fieldTitle == 'ชื่อทริป') {
+                    await FirebaseFirestore.instance
+                        .collection('trips')
+                        .doc(widget.tripUid)
+                        .update({'tripName': controller.text});
+
+                    // Update the _tripName variable
+                    setState(() {
+                      _tripName.text = controller.text;
+                    });
+                  }
+
+                  // Close the dialog
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ],
         );
       },
@@ -242,20 +316,37 @@ class _EditTripState extends State<EditTrip> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CircleAvatar(
-                  radius: 100.0,
-                  backgroundImage: _userProfileImage != null
-                      ? FileImage(_userProfileImage!)
-                      : _profileImageUrl.isNotEmpty
-                          ? NetworkImage(_profileImageUrl)
-                              as ImageProvider<Object>?
-                          : AssetImage('assets/cat.jpg'),
+                Container(
+                  height: 200.0, // Define a fixed height for the container
+                  width:
+                      double.infinity, // Make the container take the full width
+                  decoration: BoxDecoration(
+                    // Use BoxDecoration to customize the appearance
+                    color:
+                        Colors.grey[300], // Background color for the container
+                    image: DecorationImage(
+                      // Background image
+                      image: _userProfileImage != null
+                          ? FileImage(_userProfileImage!)
+                          : _profileImageUrl.isNotEmpty
+                              ? NetworkImage(_profileImageUrl) as ImageProvider
+                              : AssetImage(
+                                  'assets/cat.jpg'), // Default image if no profile image
+                      fit: BoxFit.cover, // Cover the entire widget area
+                    ),
+                  ),
                   child: InkWell(
-                    onTap: _pickImage,
-                    child: Icon(
-                      Icons.camera_alt,
-                      size: 40.0,
-                      color: Colors.white,
+                    onTap: _pickImage, // Function to pick image
+                    child: Container(
+                      alignment: Alignment
+                          .center, // Center the icon inside the container
+                      color: Color.fromARGB(
+                          0, 19, 19, 19), // Semi-transparent overlay
+                      child: Icon(
+                        Icons.camera_alt,
+                        size: 40.0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
