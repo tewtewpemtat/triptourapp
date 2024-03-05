@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/invite.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/testuser.dart';
 import 'tripmanage/headbutton.dart';
@@ -45,7 +46,8 @@ class TripmanagePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TestUserPage()),
+                  MaterialPageRoute(
+                      builder: (context) => Invite(tripUid: tripUid)),
                 );
               },
             ),

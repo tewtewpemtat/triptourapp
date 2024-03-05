@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/tripmanage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -9,7 +11,50 @@ void main() {
   ));
 }
 
-class JoinTripPage extends StatelessWidget {
+class JoinTripPage extends StatefulWidget {
+  @override
+  _JoinTripPageState createState() => _JoinTripPageState();
+}
+
+class _JoinTripPageState extends State<JoinTripPage> {
+  String? myUid = FirebaseAuth.instance.currentUser?.uid;
+  late List<String> friendList = []; // เพิ่มตัวแปร friendList ที่นี่
+
+  void acceptRequest(String requestId) {
+    // โค้ดสำหรับยอมรับคำเชิญ
+  }
+
+  void declineRequest(String requestId) {
+    // โค้ดสำหรับปฏิเสธคำเชิญ
+  }
+  @override
+  void initState() {
+    super.initState();
+    fetchFriendList(); // เรียกใช้เมธอดเมื่อโหลดหน้าเสร็จสิ้น
+  }
+
+  void fetchFriendList() async {
+    try {
+      DocumentSnapshot userDataSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(myUid).get();
+
+      if (userDataSnapshot.exists) {
+        Map<String, dynamic>? userData =
+            userDataSnapshot.data() as Map<String, dynamic>?;
+
+        if (userData != null &&
+            userData['friendList'] != null &&
+            (userData['friendList'] as Iterable).isNotEmpty) {
+          setState(() {
+            friendList = List<String>.from(userData['friendList']);
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,51 +107,73 @@ class JoinTripPage extends StatelessWidget {
                     ),
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 4, // กำหนดขนาดของส่วนทางซ้าย (30%)
-                        child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              'assets/jointrip/mail_image1.png',
-                              width: 100.0,
-                              height: 85.0,
-                              fit: BoxFit.cover, // ขยายเต็มส่วน
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('triprequest')
+                        .where('senderUid', whereIn: friendList)
+                        .where('receiverUid', isEqualTo: myUid)
+                        .where('status', isEqualTo: 'Waiting')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+                      }
+                      if (snapshot.data!.docs.isEmpty) {
+                        return Text('ไม่มีคำเชิญที่รอการตอบรับ');
+                      }
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          var request = snapshot.data!.docs[index];
+                          return ListTile(
+                            title: Text('คำเชิญจาก: ${request['senderUid']}'),
+                            subtitle: Text('สถานะ: ${request['status']}'),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    acceptRequest(request.id);
+                                  },
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                        Size(20, 10)), // กำหนดขนาดของปุ่ม
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Color.fromARGB(255, 255, 156,
+                                            8)), // กำหนดสีพื้นหลังของปุ่ม
+                                  ),
+                                  child: Text(
+                                    'ยอมรับ',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                TextButton(
+                                  onPressed: () {
+                                    declineRequest(request.id);
+                                  },
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                        Size(20, 10)), // กำหนดขนาดของปุ่ม
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Color.fromARGB(255, 255, 156,
+                                            8)), // กำหนดสีพื้นหลังของปุ่ม
+                                  ),
+                                  child: Text(
+                                    'ปฏิเสธ',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
-                        child: Container(
-                          margin: EdgeInsets.all(12.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('คุณได้รับคำเชิญจาก',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 16)),
-                              Text('Jaguar',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 12)),
-                              Text('ทริปเที่ยวกับจากั้ว',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
