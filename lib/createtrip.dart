@@ -107,7 +107,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TripmanagePage(),
+          builder: (context) => MyApp(),
         ),
       );
     } else {

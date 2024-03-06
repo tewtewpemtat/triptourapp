@@ -80,6 +80,7 @@ class InviteState extends State<Invite> {
       if (tripRequestSnapshot.docs.isEmpty) {
         // ไม่มีเอกสารที่ตรงตามเงื่อนไข จึงสร้างเอกสารใหม่
         await FirebaseFirestore.instance.collection('triprequest').add({
+          'tripUid': widget.tripUid,
           'senderUid': myUid,
           'receiverUid': friendUid,
           'status': 'Waiting',

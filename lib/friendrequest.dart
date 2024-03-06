@@ -192,9 +192,7 @@ class FriendRequestPage extends StatelessWidget {
                                                       .collection(
                                                           'friendrequest')
                                                       .doc(friendRequestId)
-                                                      .update({
-                                                    'status': 'Accepted',
-                                                  });
+                                                      .delete();
 
                                                   // Log success or perform any other actions
                                                   print(
