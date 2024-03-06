@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/invite.dart';
 import 'package:triptourapp/main.dart';
-import 'package:triptourapp/testuser.dart';
 import 'tripmanage/headbutton.dart';
 import 'tripmanage/headplan.dart';
 import 'tripmanage/headinformation.dart';
@@ -58,7 +57,7 @@ class TripmanagePage extends StatelessWidget {
         child: Column(
           children: [
             InformationPage(tripUid: tripUid),
-            HeadButton(),
+            HeadButton(tripUid: tripUid),
             HeadPlan(),
           ],
         ),
