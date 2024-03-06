@@ -30,6 +30,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
+  String? myUid = FirebaseAuth.instance.currentUser?.uid;
   List<Map<String, dynamic>> _messages = [];
   final ScrollController _scrollController = ScrollController();
 
@@ -118,6 +119,81 @@ class _ChatScreenState extends State<ChatScreen> {
       print('Error fetching messages: $e');
     }
     scrollToBottomFirst();
+  }
+
+  void removeMyfromFriendTrip(String friendUid) async {
+    try {
+      // 1. Remove the friendUid from the friendList of the current user
+      await FirebaseFirestore.instance.collection('users').doc(myUid).update({
+        'friendList': FieldValue.arrayRemove([friendUid]),
+      });
+
+      // 2. Fetch all trips where the friendUid is the trip creator
+      QuerySnapshot tripsSnapshot = await FirebaseFirestore.instance
+          .collection('trips')
+          .where('tripCreate', isEqualTo: friendUid)
+          .get();
+
+      // 3. Loop through each trip and remove the current user from tripJoin if exists
+      tripsSnapshot.docs.forEach((tripDoc) async {
+        String tripId = tripDoc.id;
+        DocumentSnapshot tripDataSnapshot = tripDoc as DocumentSnapshot;
+        List<dynamic> tripJoinList = tripDataSnapshot['tripJoin'];
+
+        if (tripJoinList.contains(myUid)) {
+          tripJoinList.remove(myUid);
+          await FirebaseFirestore.instance
+              .collection('trips')
+              .doc(tripId)
+              .update({'tripJoin': tripJoinList});
+        }
+      });
+
+      // Log success or perform any other actions
+      print('Friend removed successfully');
+    } catch (error) {
+      // Handle errors (e.g., Firestore errors, network errors, etc.)
+      print('Error removing friend: $error');
+    }
+  }
+
+  void removeFriendfromMyTrip(String friendUid) async {
+    try {
+      // 1. Remove the friendUid from the friendList of the current user
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(friendUid)
+          .update({
+        'friendList': FieldValue.arrayRemove([myUid]),
+      });
+
+      // 2. Fetch all trips where the friendUid is the trip creator
+      QuerySnapshot tripsSnapshot = await FirebaseFirestore.instance
+          .collection('trips')
+          .where('tripCreate', isEqualTo: myUid)
+          .get();
+
+      // 3. Loop through each trip and remove the current user from tripJoin if exists
+      tripsSnapshot.docs.forEach((tripDoc) async {
+        String tripId = tripDoc.id;
+        DocumentSnapshot tripDataSnapshot = tripDoc as DocumentSnapshot;
+        List<dynamic> tripJoinList = tripDataSnapshot['tripJoin'];
+
+        if (tripJoinList.contains(friendUid)) {
+          tripJoinList.remove(friendUid);
+          await FirebaseFirestore.instance
+              .collection('trips')
+              .doc(tripId)
+              .update({'tripJoin': tripJoinList});
+        }
+      });
+
+      // Log success or perform any other actions
+      print('Friend removed successfully');
+    } catch (error) {
+      // Handle errors (e.g., Firestore errors, network errors, etc.)
+      print('Error removing friend: $error');
+    }
   }
 
   Stream<List<Map<String, dynamic>>> getMessagesStream() {
@@ -638,6 +714,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   case 'deletefriend':
                     String currentUserUid = getCurrentUserUid();
                     String friendUid = widget.friendUid;
+                    removeFriendfromMyTrip(friendUid);
+                    removeMyfromFriendTrip(friendUid);
                     removeFriendFromCurrentUser(
                         currentUserUid, widget.friendUid);
                     removeCurrentUserFromFriend(
