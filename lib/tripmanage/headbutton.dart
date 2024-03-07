@@ -2,10 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/groupchat.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:triptourapp/main.dart';
+import 'package:triptourapp/tripmanage.dart';
 import '../timeplace.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class HeadButton extends StatelessWidget {
+class HeadButton extends StatefulWidget {
+  @override
+  _HeadButtonState createState() => _HeadButtonState();
+  final String? tripUid;
+  const HeadButton({Key? key, this.tripUid}) : super(key: key);
+}
+
+void cancelTrip(BuildContext context, String tripUid) async {
+  try {
+    DocumentSnapshot tripSnapshot =
+        await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
+
+    if (!tripSnapshot.exists) {
+      print('Trip not found');
+      return;
+    }
+
+    List<dynamic> tripJoin = tripSnapshot['tripJoin'];
+
+    if (tripJoin.length > 1) {
+      await Fluttertoast.showToast(
+          msg: 'จำนวนผู้ร่วมต้องไม่เกิน 1 คนจึงจะสามารถลบทริปได้');
+      return;
+    }
+    await FirebaseFirestore.instance.collection('trips').doc(tripUid).delete();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TripmanagePage(),
+      ),
+    );
+    print('Trip canceled successfully');
+  } catch (e) {
+    print('Error canceling trip: $e');
+  }
+}
+
+class _HeadButtonState extends State<HeadButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +66,7 @@ class HeadButton extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    // ทำสิ่งที่ต้องการเมื่อคลิกที่ปุ่ม
+                    cancelTrip(context, widget.tripUid.toString());
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/edittrip.dart';
+import 'package:triptourapp/main.dart';
 
 class InformationPage extends StatelessWidget {
   final String? tripUid;
@@ -32,12 +33,14 @@ class InformationPage extends StatelessWidget {
         }
 
         if (!snapshot.hasData || snapshot.data == null) {
-          return Center(
-            child: Text('ไม่พบข้อมูลทริป'),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyApp()),
           );
+          // หรือส่วนที่คุณต้องการทำต่อไป
         }
-
         var tripData = snapshot.data?.data() as Map<String, dynamic>;
+
         bool isTripCreator = uid == tripData['tripCreate'];
 
         DateFormat dateFormat = DateFormat('dd/MM/yyyy');
