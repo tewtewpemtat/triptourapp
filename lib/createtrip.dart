@@ -273,7 +273,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _isLoading
+                onPressed: _isLoading || _userProfileImage == null
                     ? null
                     : () {
                         if (_tripNameController.text.isEmpty) {
@@ -281,7 +281,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                'กรุณากรอกชื่อทริป',
+                                'กรุณากรอกชื่อทริป เเละ เลือกรูปทริป',
                                 textAlign: TextAlign.center,
                               ),
                               backgroundColor: Color.fromARGB(255, 2, 2, 2),
