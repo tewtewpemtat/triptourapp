@@ -7,6 +7,8 @@ import 'package:triptourapp/main.dart';
 import 'package:triptourapp/tripmanage.dart';
 import '../timeplace.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class HeadButton extends StatefulWidget {
   @override
@@ -32,11 +34,17 @@ void cancelTrip(BuildContext context, String tripUid) async {
           msg: 'จำนวนผู้ร่วมต้องไม่เกิน 1 คนจึงจะสามารถลบทริปได้');
       return;
     }
+    // ลบภาพใน Firebase Storage
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    String tripName = tripSnapshot['tripName'];
+    String imagePath = 'trip/profiletrip/$uid/$tripName.jpg';
+    Reference ref = FirebaseStorage.instance.ref().child(imagePath);
+    await ref.delete();
     await FirebaseFirestore.instance.collection('trips').doc(tripUid).delete();
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TripmanagePage(),
+        builder: (context) => MyApp(),
       ),
     );
     print('Trip canceled successfully');
