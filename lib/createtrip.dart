@@ -281,7 +281,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                'กรุณากรอกชื่อทริป เเละ เลือกรูปทริป',
+                                'กรุณากรอกชื่อทริป',
                                 textAlign: TextAlign.center,
                               ),
                               backgroundColor: Color.fromARGB(255, 2, 2, 2),
