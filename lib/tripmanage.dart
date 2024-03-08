@@ -5,14 +5,41 @@ import 'package:triptourapp/main.dart';
 import 'tripmanage/headbutton.dart';
 import 'tripmanage/headplan.dart';
 import 'tripmanage/headinformation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TripmanagePage extends StatelessWidget {
   final String? tripUid;
   const TripmanagePage({Key? key, this.tripUid})
       : super(key: key); // Constructor ที่รับค่า UID
 
+  Future<bool> _checkGroupChatExist(String tripUid) async {
+    QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('groupmessages')
+        .where('tripChatUid', isEqualTo: tripUid)
+        .limit(1)
+        .get();
+    return query.docs.isNotEmpty;
+  }
+
+  Future<void> _createGroupChat(String tripUid) async {
+    await FirebaseFirestore.instance.collection('groupmessages').add({
+      'tripChatUid': tripUid,
+      'timestampserver': FieldValue.serverTimestamp(),
+
+      // Add other necessary fields
+    });
+  }
+
+  Future<void> _initializeGroupChat() async {
+    bool isGroupChatExist = await _checkGroupChatExist(tripUid!);
+    if (!isGroupChatExist) {
+      await _createGroupChat(tripUid!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _initializeGroupChat();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[200],

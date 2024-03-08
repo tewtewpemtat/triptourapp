@@ -17,6 +17,7 @@ class HeadButton extends StatefulWidget {
   const HeadButton({Key? key, this.tripUid}) : super(key: key);
 }
 
+final String tripUidsend = 'Uid';
 void cancelTrip(BuildContext context, String tripUid) async {
   try {
     DocumentSnapshot tripSnapshot =
@@ -102,7 +103,8 @@ class _HeadButtonState extends State<HeadButton> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GroupScreenPage(),
+                        builder: (context) =>
+                            GroupScreenPage(tripUid: widget.tripUid ?? ''),
                       ),
                     );
                   },

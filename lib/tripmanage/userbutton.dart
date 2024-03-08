@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:triptourapp/requestplace.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class UserButton extends StatelessWidget {
+class Userbutton extends StatefulWidget {
+  @override
+  final String? tripUid;
+  const Userbutton({Key? key, this.tripUid}) : super(key: key);
+  UserbuttonState createState() => UserbuttonState();
+}
+
+class UserbuttonState extends State<Userbutton> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +59,8 @@ class UserButton extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GroupScreenPage(),
+                        builder: (context) =>
+                            GroupScreenPage(tripUid: widget.tripUid!),
                       ),
                     );
                   },
@@ -134,7 +141,7 @@ class UserButton extends StatelessWidget {
 void main() {
   runApp(
     MaterialApp(
-      home: UserButton(),
+      home: Userbutton(),
     ),
   );
 }
