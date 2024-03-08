@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Project\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\4a28b5abfab95980fb18b83a21b96435\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E557D0A4-247C-378F-AC93-13A31ED78071}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
