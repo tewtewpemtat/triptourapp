@@ -62,8 +62,14 @@ class _CreateTripPageState extends State<CreateTripPage> {
       setState(() {
         if (isStartDate) {
           selectedStartDate = picked;
+          if (selectedEndDate.isBefore(selectedStartDate)) {
+            selectedEndDate = selectedStartDate;
+          }
         } else {
           selectedEndDate = picked;
+          if (selectedEndDate.isBefore(selectedStartDate)) {
+            selectedStartDate = selectedEndDate;
+          }
         }
       });
     }

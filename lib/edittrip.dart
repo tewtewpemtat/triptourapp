@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EditTrip extends StatefulWidget {
   @override
@@ -116,6 +117,12 @@ class _EditTripState extends State<EditTrip> {
     );
 
     if (picked != null) {
+      if (!isStartDate && picked.isBefore(_selectedStartDate)) {
+        Fluttertoast.showToast(
+          msg: 'โปรดเลือกวันสิ้นสุดทริปมากกว่าวันเริ่มต้นทริป',
+        );
+        return null;
+      }
       return picked;
     } else {
       return null;
