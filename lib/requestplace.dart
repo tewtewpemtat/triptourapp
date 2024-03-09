@@ -75,13 +75,13 @@ class RequestPage extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(1.0),
-              child: SlidePlace(),
-            ),
-            Expanded(
-              child: DownPage(),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(1.0),
+            //   // child: SlidePlace(),
+            // ),
+            // Expanded(
+            //   child: DownPage(),
+            // ),
           ],
         ),
       ),

@@ -83,12 +83,8 @@ class AddPage extends StatelessWidget {
                     fontSize: 14.0, color: Colors.grey),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(1.0),
-              child: SlidePlace(),
-            ),
             Expanded(
-              child: DownPage(),
+              child: DownPage(tripUid: tripUid),
             ),
           ],
         ),

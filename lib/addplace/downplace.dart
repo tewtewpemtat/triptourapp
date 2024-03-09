@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/addplace/slideplace.dart';
 import 'package:triptourapp/requestlist.dart';
 
 void main() {
@@ -9,16 +10,23 @@ void main() {
 }
 
 class DownPage extends StatelessWidget {
+  final String? tripUid;
+  const DownPage({Key? key, this.tripUid}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           color: Color(0xFFF0F0F0), // สีพื้นหลังของหน้า
-          padding: EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(0.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: SlidePlace(tripUid: tripUid),
+              ),
+              SizedBox(height: 10),
               InkWell(
                 onTap: () {
                   Navigator.push(

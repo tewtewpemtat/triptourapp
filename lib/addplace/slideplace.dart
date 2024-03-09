@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SlidePlace extends StatefulWidget {
   @override
+  final String? tripUid;
+  const SlidePlace({Key? key, this.tripUid}) : super(key: key);
   _SlidePlaceState createState() => _SlidePlaceState();
 }
 
