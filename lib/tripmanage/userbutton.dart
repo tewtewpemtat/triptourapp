@@ -1,16 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/groupchat.dart';
+import 'package:triptourapp/main.dart';
 import 'package:triptourapp/requestplace.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Userbutton extends StatefulWidget {
   @override
   final String? tripUid;
   const Userbutton({Key? key, this.tripUid}) : super(key: key);
+
   UserbuttonState createState() => UserbuttonState();
 }
 
 class UserbuttonState extends State<Userbutton> {
+  final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+  Future<void> _removeUserFromTrip() async {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      await FirebaseFirestore.instance
+          .collection('trips')
+          .doc(widget.tripUid)
+          .update({
+        'tripJoin': FieldValue.arrayRemove([uid]),
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyApp(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +55,7 @@ class UserbuttonState extends State<Userbutton> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // ทำสิ่งที่ต้องการเมื่อคลิกที่ปุ่ม
+                    _removeUserFromTrip();
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง

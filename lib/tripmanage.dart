@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/invite.dart';
 import 'package:triptourapp/main.dart';
+import 'package:triptourapp/tripmanage/userbutton.dart';
 import 'tripmanage/headbutton.dart';
 import 'tripmanage/headplan.dart';
 import 'tripmanage/headinformation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class TripmanagePage extends StatelessWidget {
   final String? tripUid;
@@ -28,6 +31,24 @@ class TripmanagePage extends StatelessWidget {
 
       // Add other necessary fields
     });
+  }
+
+  Future<bool> _checkTripUidExist(String tripUid) async {
+    DocumentSnapshot tripSnapshot =
+        await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
+
+    if (tripSnapshot.exists) {
+      // เช็คว่าเอกสาร trip นั้นมีอยู่หรือไม่
+      String? tripCreate =
+          (tripSnapshot.data() as Map<String, dynamic>?)?['tripCreate'];
+      String? uid = FirebaseAuth.instance.currentUser?.uid;
+      if (tripCreate == uid) {
+        // ถ้าเท่ากัน ให้สร้างหน้า HeadButton
+        return true;
+      }
+    }
+    // ถ้าไม่เท่ากัน หรือไม่มีข้อมูล ให้สร้างหน้า UserButton
+    return false;
   }
 
   Future<void> _initializeGroupChat() async {
@@ -84,7 +105,24 @@ class TripmanagePage extends StatelessWidget {
         child: Column(
           children: [
             InformationPage(tripUid: tripUid),
-            HeadButton(tripUid: tripUid),
+            FutureBuilder<bool>(
+              future: _checkTripUidExist(
+                  tripUid!), // เรียกใช้ฟังก์ชันตรวจสอบ tripUid
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  bool tripUidExists = snapshot.data ?? false;
+                  if (tripUidExists) {
+                    return HeadButton(tripUid: tripUid);
+                  } else {
+                    return Userbutton(tripUid: tripUid);
+                  }
+                }
+              },
+            ),
             HeadPlan(),
           ],
         ),
