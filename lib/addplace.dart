@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/tripmanage.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'tripmanage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'addplace/downplace.dart';
 import 'addplace/slideplace.dart';
 
 class AddPage extends StatelessWidget {
+  final String? tripUid;
+  const AddPage({Key? key, this.tripUid}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +24,7 @@ class AddPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TripmanagePage(),
+                builder: (context) => TripmanagePage(tripUid: tripUid),
               ),
             );
           },

@@ -142,7 +142,9 @@ class _HeadButtonState extends State<HeadButton> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddPage()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AddPage(tripUid: widget.tripUid ?? '')),
                     );
                   },
                   style: ElevatedButton.styleFrom(
