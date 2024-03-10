@@ -15,13 +15,11 @@ class SlidePlace extends StatefulWidget {
 class _SlidePlaceState extends State<SlidePlace> {
   List<String> placeTypes = [
     'ร้านกาแฟ',
-    'ทะเล',
     'ธรรมชาติ',
     'สวนสนุก',
     'อาหาร',
-    'ร้านสตรีทฟู้ด',
+    'สตรีทฟู้ด',
     'วัดโบส',
-    'ภูเขา',
   ];
 
   String selectedPlaceType = 'ร้านกาแฟ';

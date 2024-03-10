@@ -38,7 +38,7 @@ class _DownPageState extends State<DownPage> {
                     setState(() {
                       placeType = type;
                       // Call the function to fetch cafes when placeType changes
-                      fetchCafesNearLocation();
+                      _checkLocationPermission();
                     });
                   },
                 ),
@@ -170,6 +170,7 @@ class _DownPageState extends State<DownPage> {
       ),
       1000, // Search radius in meters (adjust as needed)
       type: placeType,
+      keyword: placeType, // Set the keyword to the placeType
     );
 
     // Iterate through the results and print the names of the cafes

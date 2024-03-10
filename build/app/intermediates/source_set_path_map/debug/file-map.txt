@@ -39,7 +39,9 @@ com.example.triptourapp-packaged_res-37 C:\triptourapp\build\firebase_storage\in
 com.example.triptourapp-packaged_res-38 C:\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\packaged_res\debug
 com.example.triptourapp-packaged_res-39 C:\triptourapp\build\flutter_sound\intermediates\packaged_res\debug
 com.example.triptourapp-packaged_res-40 C:\triptourapp\build\fluttertoast\intermediates\packaged_res\debug
-com.example.triptourapp-packaged_res-41 C:\triptourapp\build\google_maps_flutter_android\intermediates\packaged_res\debug
-com.example.triptourapp-packaged_res-42 C:\triptourapp\build\image_picker_android\intermediates\packaged_res\debug
-com.example.triptourapp-packaged_res-43 C:\triptourapp\build\path_provider_android\intermediates\packaged_res\debug
-com.example.triptourapp-packaged_res-44 C:\triptourapp\build\shared_preferences_android\intermediates\packaged_res\debug
+com.example.triptourapp-packaged_res-41 C:\triptourapp\build\geolocator_android\intermediates\packaged_res\debug
+com.example.triptourapp-packaged_res-42 C:\triptourapp\build\google_maps_flutter_android\intermediates\packaged_res\debug
+com.example.triptourapp-packaged_res-43 C:\triptourapp\build\image_picker_android\intermediates\packaged_res\debug
+com.example.triptourapp-packaged_res-44 C:\triptourapp\build\path_provider_android\intermediates\packaged_res\debug
+com.example.triptourapp-packaged_res-45 C:\triptourapp\build\permission_handler_android\intermediates\packaged_res\debug
+com.example.triptourapp-packaged_res-46 C:\triptourapp\build\shared_preferences_android\intermediates\packaged_res\debug
