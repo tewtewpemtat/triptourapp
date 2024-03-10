@@ -47,7 +47,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.13.1
   image_picker: ^1.0.4
-  google_fonts: ^6.1.0
+  google_maps_flutter: ^2.5.3
+  google_maps_webservice: ^0.0.20-nullsafety.5
+  permission_handler: ^11.3.0
+  google_fonts: 4.0.4
+  geolocator: ^8.0.1
 
 dev_dependencies:
   flutter_test:

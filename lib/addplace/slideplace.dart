@@ -75,7 +75,7 @@ class _SlidePlaceState extends State<SlidePlace> {
         setState(() {
           selectedPlaceType = placeType;
           if (widget.onPlaceTypeChanged != null) {
-            // เรียกใช้ Callback function เมื่อมีการเลือก placeType
+            // เรียก callback function เพื่อส่งค่า placeType ไปยัง DownPage
             widget.onPlaceTypeChanged!(placeType);
           }
         });

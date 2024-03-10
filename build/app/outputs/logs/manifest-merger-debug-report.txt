@@ -1,14 +1,16 @@
 -- Merging decision tree log ---
 application
-INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:3:5-33:19
+INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:5:5-35:19
+MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
-MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-17:19
+MERGED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-17:19
 MERGED from [:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
 MERGED from [:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:28:5-73:19
@@ -21,18 +23,24 @@ MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradl
 MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradle\caches\transforms-3\fa4abd7d5c8702ad79868e6890860261\transformed\jetified-firebase-appcheck-17.1.1\AndroidManifest.xml:21:5-32:19
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:8:5-16:19
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:36:5-42:19
 MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:15:5-16:19
 MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:15:5-16:19
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:22:5-39:19
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:22:5-39:19
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:5:5-6:19
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\8e0920c335713a31a88036fe7bfc99fd\transformed\jetified-play-services-location-17.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\8e0920c335713a31a88036fe7bfc99fd\transformed\jetified-play-services-location-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\wanla\.gradle\caches\transforms-3\8a6aa6452e86c2338f5d3c5338613c55\transformed\jetified-firebase-appcheck-interop-17.1.0\AndroidManifest.xml:21:5-20
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\wanla\.gradle\caches\transforms-3\8a6aa6452e86c2338f5d3c5338613c55\transformed\jetified-firebase-appcheck-interop-17.1.0\AndroidManifest.xml:21:5-20
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:19:5-23:19
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\937c107adf3df489bcac040d7ae26333\transformed\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\937c107adf3df489bcac040d7ae26333\transformed\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:5:5-6:19
 MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\wanla\.gradle\caches\transforms-3\a31036a410c6bbba56b6ec026a7a620e\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
 MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\wanla\.gradle\caches\transforms-3\a31036a410c6bbba56b6ec026a7a620e\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
@@ -52,37 +60,43 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\wa
 	android:name
 		INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml
 manifest
-ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-34:12
-INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-34:12
-INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-34:12
-INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-34:12
-MERGED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-34:12
-MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-36:12
+INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-36:12
+MERGED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-36:12
+MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
-MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-19:12
+MERGED from [:google_maps_flutter_android] C:\triptourapp\build\google_maps_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-21:12
 MERGED from [:flutter_plugin_android_lifecycle] C:\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:audioplayers_android] C:\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:fluttertoast] C:\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:path_provider_android] C:\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:permission_handler_android] C:\triptourapp\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:fluttertoast] C:\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:flutter_sound] C:\triptourapp\build\flutter_sound\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:17:1-75:12
 MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\wanla\.gradle\caches\transforms-3\7dcd842709acac3849bdae507ba8a6a4\transformed\jetified-firebase-firestore-24.10.1\AndroidManifest.xml:2:1-26:12
 MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\wanla\.gradle\caches\transforms-3\d27a8f484d74c1f4bdc69af7fb4be582\transformed\jetified-firebase-storage-20.3.0\AndroidManifest.xml:15:1-39:12
 MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradle\caches\transforms-3\fa4abd7d5c8702ad79868e6890860261\transformed\jetified-firebase-appcheck-17.1.1\AndroidManifest.xml:15:1-34:12
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:2:1-18:12
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:17:1-44:12
 MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:2:1-18:12
 MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\b85d0279c421905f7127b8e2bae6fbdd\transformed\appcompat-1.2.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\8e0920c335713a31a88036fe7bfc99fd\transformed\jetified-play-services-location-17.0.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\wanla\.gradle\caches\transforms-3\a8a52f411df247817a0619fd95fb69a3\transformed\jetified-play-services-auth-api-phone-17.4.0\AndroidManifest.xml:2:1-7:12
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:2:1-11:12
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\59847e44849803bed3b7c55c5c12f4b3\transformed\jetified-firebase-database-collection-18.0.1\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\wanla\.gradle\caches\transforms-3\8a6aa6452e86c2338f5d3c5338613c55\transformed\jetified-firebase-appcheck-interop-17.1.0\AndroidManifest.xml:15:1-23:12
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\937c107adf3df489bcac040d7ae26333\transformed\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\63d9d4ede6c389fc1df17e2c8b841dd4\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
 MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\wanla\.gradle\caches\transforms-3\a31036a410c6bbba56b6ec026a7a620e\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:2:1-6:12
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
@@ -92,10 +106,10 @@ MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transform
 MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\c2dd8c27d31a0a705c70a163438e1e14\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\86996caae9817dce72f99173e97b2196\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\7618162b1bab63b0dd965b6d163f32d0\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\49889895f29f4b74749a7b218c770c50\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\6dd35649ab9e05df02a37baa9069253f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:17:1-33:12
-MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\df87a6c35f74f0e9c3bc5cbd7ad6b3e2\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\be347bcea7ac4ff40b74b3ef563aee41\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\c175269730c46befdcf5a10e307789d9\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -129,38 +143,52 @@ INJECTED from C:\triptourapp\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 		INJECTED from C:\triptourapp\android\app\src\debug\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-34:12
+		ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-36:12
 		INJECTED from C:\triptourapp\android\app\src\debug\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-34:12
+		ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:1-36:12
 		INJECTED from C:\triptourapp\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:1:11-69
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:3:5-79
+	android:name
+		ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:3:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:4:5-81
+	android:name
+		ADDED from C:\triptourapp\android\app\src\main\AndroidManifest.xml:4:22-78
 uses-sdk
 INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\triptourapp\android\app\src\main\AndroidManifest.xml
-MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:google_maps_flutter_android] C:\triptourapp\build\google_maps_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:google_maps_flutter_android] C:\triptourapp\build\google_maps_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_plugin_android_lifecycle] C:\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_plugin_android_lifecycle] C:\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:audioplayers_android] C:\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:audioplayers_android] C:\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:fluttertoast] C:\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:fluttertoast] C:\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] C:\triptourapp\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] C:\triptourapp\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:fluttertoast] C:\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:fluttertoast] C:\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_sound] C:\triptourapp\build\flutter_sound\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_sound] C:\triptourapp\build\flutter_sound\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:21:5-23:64
@@ -173,26 +201,32 @@ MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradl
 MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\wanla\.gradle\caches\transforms-3\fa4abd7d5c8702ad79868e6890860261\transformed\jetified-firebase-appcheck-17.1.1\AndroidManifest.xml:18:5-44
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:20:5-44
 MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:7:5-9:41
 MERGED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\b85d0279c421905f7127b8e2bae6fbdd\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\b85d0279c421905f7127b8e2bae6fbdd\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:19:5-44
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:19:5-44
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\8e0920c335713a31a88036fe7bfc99fd\transformed\jetified-play-services-location-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\8e0920c335713a31a88036fe7bfc99fd\transformed\jetified-play-services-location-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\wanla\.gradle\caches\transforms-3\a8a52f411df247817a0619fd95fb69a3\transformed\jetified-play-services-auth-api-phone-17.4.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\wanla\.gradle\caches\transforms-3\a8a52f411df247817a0619fd95fb69a3\transformed\jetified-play-services-auth-api-phone-17.4.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:4:5-44
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:4:5-44
 MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\59847e44849803bed3b7c55c5c12f4b3\transformed\jetified-firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\59847e44849803bed3b7c55c5c12f4b3\transformed\jetified-firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\wanla\.gradle\caches\transforms-3\8a6aa6452e86c2338f5d3c5338613c55\transformed\jetified-firebase-appcheck-interop-17.1.0\AndroidManifest.xml:18:5-44
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\wanla\.gradle\caches\transforms-3\8a6aa6452e86c2338f5d3c5338613c55\transformed\jetified-firebase-appcheck-interop-17.1.0\AndroidManifest.xml:18:5-44
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:18:5-43
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\wanla\.gradle\caches\transforms-3\82d5921b543795477de33554a95b7908\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:19:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\937c107adf3df489bcac040d7ae26333\transformed\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\wanla\.gradle\caches\transforms-3\937c107adf3df489bcac040d7ae26333\transformed\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\802d5ba2720f9cc3401e610735a61475\transformed\jetified-integrity-1.2.0\AndroidManifest.xml:4:5-44
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\63d9d4ede6c389fc1df17e2c8b841dd4\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\63d9d4ede6c389fc1df17e2c8b841dd4\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
 MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\wanla\.gradle\caches\transforms-3\a31036a410c6bbba56b6ec026a7a620e\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
@@ -211,14 +245,14 @@ MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\wanla\.gradle\ca
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\86996caae9817dce72f99173e97b2196\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-ktx:1.10.1] C:\Users\wanla\.gradle\caches\transforms-3\85eac7778131f41fe5c5243ebb80a350\transformed\jetified-core-ktx-1.10.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\7618162b1bab63b0dd965b6d163f32d0\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\7618162b1bab63b0dd965b6d163f32d0\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\49889895f29f4b74749a7b218c770c50\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\49889895f29f4b74749a7b218c770c50\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\6dd35649ab9e05df02a37baa9069253f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\wanla\.gradle\caches\transforms-3\6dd35649ab9e05df02a37baa9069253f\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.browser:browser:1.4.0] C:\Users\wanla\.gradle\caches\transforms-3\12a033dba5adaec31d9d4fcec7e8bdae\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\df87a6c35f74f0e9c3bc5cbd7ad6b3e2\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\df87a6c35f74f0e9c3bc5cbd7ad6b3e2\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\be347bcea7ac4ff40b74b3ef563aee41\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
@@ -283,16 +317,18 @@ MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\wanla\.gra
 MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\wanla\.gradle\caches\transforms-3\7dcd842709acac3849bdae507ba8a6a4\transformed\jetified-firebase-firestore-24.10.1\AndroidManifest.xml:11:5-67
 MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\wanla\.gradle\caches\transforms-3\d27a8f484d74c1f4bdc69af7fb4be582\transformed\jetified-firebase-storage-20.3.0\AndroidManifest.xml:24:5-67
 MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\wanla\.gradle\caches\transforms-3\d27a8f484d74c1f4bdc69af7fb4be582\transformed\jetified-firebase-storage-20.3.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:7:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:7:5-67
 	android:name
 		ADDED from C:\triptourapp\android\app\src\debug\AndroidManifest.xml:6:22-64
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
-MERGED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\wanla\.gradle\caches\transforms-3\989f6df3965fb3504ea4439d38a28e09\transformed\jetified-firebase-auth-22.3.1\AndroidManifest.xml:66:9-72:19
@@ -314,7 +350,13 @@ MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:32:13-43
 	android:name
-		ADDED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+		ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
+ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+	android:value
+		ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+	android:name
+		ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
 ADDED from [:firebase_auth] C:\triptourapp\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
@@ -327,18 +369,26 @@ ADDED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediat
 		ADDED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
 		ADDED from [:firebase_storage] C:\triptourapp\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
-meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
-	android:value
-		ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
-	android:name
-		ADDED from [:cloud_firestore] C:\triptourapp\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
 ADDED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
 		ADDED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
 		ADDED from [:firebase_core] C:\triptourapp\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-77
+	android:name
+		ADDED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-74
+service#com.baseflow.geolocator.GeolocatorLocationService
+ADDED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-16:56
+	android:enabled
+		ADDED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-35
+	android:exported
+		ADDED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-37
+	android:foregroundServiceType
+		ADDED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-53
+	android:name
+		ADDED from [:geolocator_android] C:\triptourapp\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-77
 provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
 ADDED from [:image_picker_android] C:\triptourapp\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 	android:grantUriPermissions
@@ -361,6 +411,8 @@ MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\wanla\.gra
 MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\wanla\.gradle\caches\transforms-3\7dcd842709acac3849bdae507ba8a6a4\transformed\jetified-firebase-firestore-24.10.1\AndroidManifest.xml:10:5-79
 MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\wanla\.gradle\caches\transforms-3\d27a8f484d74c1f4bdc69af7fb4be582\transformed\jetified-firebase-storage-20.3.0\AndroidManifest.xml:23:5-79
 MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\wanla\.gradle\caches\transforms-3\d27a8f484d74c1f4bdc69af7fb4be582\transformed\jetified-firebase-storage-20.3.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:23:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:8:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:8:5-79
 MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\wanla\.gradle\caches\transforms-3\37f98d233ae0afdf54e0b4f0a88fa0e1\transformed\jetified-grpc-android-1.57.2\AndroidManifest.xml:7:5-79
@@ -463,6 +515,26 @@ ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.grad
 		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:14:17-82
 	android:name
 		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\2311c2bf731160adfc6b27ab49039901\transformed\jetified-firebase-common-ktx-20.4.2\AndroidManifest.xml:13:17-116
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:26:5-28:35
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:27:9-41
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:28:9-32
+queries
+ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:30:5-34:15
+MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:24:5-28:15
+MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:24:5-28:15
+package#com.google.android.apps.maps
+ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:9-64
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:18-61
+uses-library#org.apache.http.legacy
+ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:39:9-41:40
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:41:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.2.0] C:\Users\wanla\.gradle\caches\transforms-3\ce24062048eaf4bd1af39d3b2ac4854a\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:40:13-50
 uses-permission#android.permission.BLUETOOTH
 ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:11:5-68
 	android:name
@@ -475,6 +547,14 @@ uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
 ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:13:5-80
 	android:name
 		ADDED from [com.github.canardoux:flutter_sound_core:9.2.13] C:\Users\wanla\.gradle\caches\transforms-3\7b340c49ea328876a01877ebc39eb875\transformed\jetified-flutter_sound_core-9.2.13\AndroidManifest.xml:13:22-77
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
 provider#com.google.firebase.provider.FirebaseInitProvider
 ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\wanla\.gradle\caches\transforms-3\acd3d4361703d975a0afc09421a9fd63\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:23:9-28:39
 	android:authorities
@@ -497,22 +577,12 @@ uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
 ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:9:5-98
 	android:name
 		ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\wanla\.gradle\caches\transforms-3\ce150e013bd5a8fbd0f4a401a69e81ee\transformed\jetified-recaptcha-18.4.0\AndroidManifest.xml:9:22-95
-activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
-	android:exported
-		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
-	android:theme
-		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
-	android:name
-		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\wanla\.gradle\caches\transforms-3\0042fbb402a4b477d9fdf6d65daeaa21\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
 meta-data#com.google.android.gms.version
 ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
 	android:value
 		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
 	android:name
 		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
-queries
-ADDED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:24:5-28:15
 intent#action:name:android.media.browse.MediaBrowserService
 ADDED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:25:9-27:18
 action#android.media.browse.MediaBrowserService

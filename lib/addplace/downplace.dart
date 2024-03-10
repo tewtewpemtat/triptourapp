@@ -1,6 +1,9 @@
-// downpage.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
 import 'package:triptourapp/requestlist.dart';
 
@@ -14,6 +17,8 @@ class DownPage extends StatefulWidget {
 
 class _DownPageState extends State<DownPage> {
   String? placeType;
+  GoogleMapsPlaces _places =
+      GoogleMapsPlaces(apiKey: 'AIzaSyDAazqqlq8d4i6W5J0wnYKaMCvBkJZNxqE');
 
   @override
   Widget build(BuildContext context) {
@@ -28,127 +33,14 @@ class _DownPageState extends State<DownPage> {
               Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: SlidePlace(
-                  tripUid: 'YOUR_TRIP_UID',
+                  tripUid: widget.tripUid,
                   onPlaceTypeChanged: (type) {
                     setState(() {
                       placeType = type;
+                      // Call the function to fetch cafes when placeType changes
+                      fetchCafesNearLocation();
                     });
                   },
-                ),
-              ),
-              SizedBox(height: 10),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RequestList(),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.all(0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.0,
-                    ),
-                  ),
-                  margin: EdgeInsets.symmetric(horizontal: 0.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              'assets/addplace/addplace_image1.png',
-                              width: 100.0,
-                              height: 80.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Expanded(
-                        flex: 7,
-                        child: Container(
-                          margin: EdgeInsets.all(12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('เพิ่มจากคำร้องขอ',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Text('เพิ่มสถานที่จากคำร้องขอ',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 12)),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: EdgeInsets.all(0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.0,
-                    ),
-                  ),
-                  margin: EdgeInsets.symmetric(horizontal: 0.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              'assets/addplace/addplace_image2.png',
-                              width: 100.0,
-                              height: 80.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Expanded(
-                        flex: 7,
-                        child: Container(
-                          margin: EdgeInsets.all(12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('กำหนดเอง',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Text('กำหนดสถานที่ของคุณเอง',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 12)),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
               SizedBox(height: 10),
@@ -236,5 +128,59 @@ class _DownPageState extends State<DownPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _checkLocationPermission() async {
+    // Check if permission is already granted
+    PermissionStatus status = await Permission.location.request();
+
+    // Check if permission is granted
+    if (status.isGranted) {
+      // Permission is granted, proceed with fetching location
+      fetchCafesNearLocation();
+    } else if (status.isDenied) {
+      // Permission is denied, show a message to the user
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Location Permission Denied'),
+          content: Text('Please grant permission to access your location.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<void> fetchCafesNearLocation() async {
+    // Get current position
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    // Perform a nearby search for cafes using Google Places API
+    PlacesSearchResponse response = await _places.searchNearbyWithRadius(
+      Location(
+        lat: position.latitude,
+        lng: position.longitude,
+      ),
+      1000, // Search radius in meters (adjust as needed)
+      type: placeType,
+    );
+
+    // Iterate through the results and print the names of the cafes
+    for (PlacesSearchResult result in response.results) {
+      print(result.name);
+    }
+  }
+
+  @override
+  void dispose() {
+    _places.dispose();
+    super.dispose();
   }
 }
