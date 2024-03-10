@@ -1,30 +1,40 @@
+// downpage.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
 import 'package:triptourapp/requestlist.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: DownPage(),
-  ));
-}
-
-class DownPage extends StatelessWidget {
+class DownPage extends StatefulWidget {
   final String? tripUid;
   const DownPage({Key? key, this.tripUid}) : super(key: key);
+
+  @override
+  _DownPageState createState() => _DownPageState();
+}
+
+class _DownPageState extends State<DownPage> {
+  String? placeType;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Color(0xFFF0F0F0), // สีพื้นหลังของหน้า
+          color: Color(0xFFF0F0F0),
           padding: EdgeInsets.all(0.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
                 padding: const EdgeInsets.all(0.0),
-                child: SlidePlace(tripUid: tripUid),
+                child: SlidePlace(
+                  tripUid: 'YOUR_TRIP_UID',
+                  onPlaceTypeChanged: (type) {
+                    setState(() {
+                      placeType = type;
+                    });
+                  },
+                ),
               ),
               SizedBox(height: 10),
               InkWell(
@@ -39,10 +49,10 @@ class DownPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), // เพิ่มบรรทัดนี้
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.grey, // สีของเส้นกรอบ
-                      width: 1.0, // ความหนาของเส้นกรอบ
+                      color: Colors.grey,
+                      width: 1.0,
                     ),
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 0.0),
@@ -93,10 +103,10 @@ class DownPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), // เพิ่มบรรทัดนี้
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.grey, // สีของเส้นกรอบ
-                      width: 1.0, // ความหนาของเส้นกรอบ
+                      color: Colors.grey,
+                      width: 1.0,
                     ),
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 0.0),
@@ -143,14 +153,14 @@ class DownPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               InkWell(
-                onTap: () {}, // ใส่โค้ดตอนคลิก
+                onTap: () {}, // Placeholder onTap function
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.grey, // สีของเส้นกรอบ
-                      width: 1.0, // ความหนาของเส้นกรอบ
+                      color: Colors.grey,
+                      width: 1.0,
                     ),
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 0.0),
@@ -158,7 +168,7 @@ class DownPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 3, // กำหนดขนาดของส่วนทางซ้าย (30%)
+                        flex: 3,
                         child: Container(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
@@ -173,13 +183,13 @@ class DownPage extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Expanded(
-                        flex: 6, // กำหนดขนาดของส่วนทางขวา (70%)
+                        flex: 6,
                         child: Container(
                           margin: EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('ร้านกาเเฟ WhiteCafe',
+                              Text('ร้านกาแฟ WhiteCafe',
                                   style: GoogleFonts.ibmPlexSansThai(
                                     fontSize: 16,
                                   )),
@@ -210,10 +220,9 @@ class DownPage extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.add,
-                                size: 24.0, // ปรับขนาดไอคอนตามที่ต้องการ
-                                color: Colors.blue, // เลือกสีตามที่ต้องการ
+                                size: 24.0,
+                                color: Colors.blue,
                               ),
-                              // เพิ่มวิดเจ็ตอื่น ๆ ที่คุณต้องการที่นี่
                             ],
                           ),
                         ),

@@ -4,7 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 class SlidePlace extends StatefulWidget {
   @override
   final String? tripUid;
-  const SlidePlace({Key? key, this.tripUid}) : super(key: key);
+  final ValueChanged<String>?
+      onPlaceTypeChanged; // เพิ่ม callback function เพื่อส่งค่า placeType ไปยัง DownPage
+
+  const SlidePlace({Key? key, this.tripUid, this.onPlaceTypeChanged})
+      : super(key: key);
   _SlidePlaceState createState() => _SlidePlaceState();
 }
 
@@ -70,6 +74,10 @@ class _SlidePlaceState extends State<SlidePlace> {
       onTap: () {
         setState(() {
           selectedPlaceType = placeType;
+          if (widget.onPlaceTypeChanged != null) {
+            // เรียกใช้ Callback function เมื่อมีการเลือก placeType
+            widget.onPlaceTypeChanged!(placeType);
+          }
         });
       },
       child: Container(
