@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class SlidePlace extends StatefulWidget {
   @override
   final String? tripUid;
-  final ValueChanged<String>?
-      onPlaceTypeChanged; // เพิ่ม callback function เพื่อส่งค่า placeType ไปยัง DownPage
+  final ValueChanged<String>? onPlaceTypeChanged;
+  // เพิ่ม callback function เพื่อส่งค่า placeType ไปยัง DownPage
 
   const SlidePlace({Key? key, this.tripUid, this.onPlaceTypeChanged})
       : super(key: key);
@@ -23,6 +23,7 @@ class _SlidePlaceState extends State<SlidePlace> {
   ];
 
   String selectedPlaceType = 'ร้านกาแฟ';
+  String selectedOption = 'จากตำแหน่งใกล้ฉัน';
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +45,38 @@ class _SlidePlaceState extends State<SlidePlace> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'ประเภทสถานที่',
-            style: GoogleFonts.ibmPlexSansThai(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceBetween, // จัดการวางจากขวาไปซ้าย
+            children: [
+              Text(
+                'ประเภทสถานที่',
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                  width: 10), // เพิ่มระยะห่างระหว่าง DropdownButton กับข้อความ
+              DropdownButton<String>(
+                value: selectedOption,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedOption = newValue ??
+                        ''; // ถ้าค่าเป็น null ให้เปลี่ยนเป็น string ว่าง
+                  });
+                },
+                items: <String>['จากตำแหน่งใกล้ฉัน', 'จากตำแหน่งบนแผนที่']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 5),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
