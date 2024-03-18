@@ -9,6 +9,7 @@ import 'package:triptourapp/requestlist.dart';
 
 class DownPage extends StatefulWidget {
   final String? tripUid;
+
   const DownPage({Key? key, this.tripUid}) : super(key: key);
 
   @override
@@ -17,6 +18,7 @@ class DownPage extends StatefulWidget {
 
 class _DownPageState extends State<DownPage> {
   String? placeType;
+  String? selectedOption;
   GoogleMapsPlaces _places =
       GoogleMapsPlaces(apiKey: 'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4');
 
@@ -34,10 +36,12 @@ class _DownPageState extends State<DownPage> {
                 padding: const EdgeInsets.all(0.0),
                 child: SlidePlace(
                   tripUid: widget.tripUid,
-                  onPlaceTypeChanged: (type) {
+                  onPlaceTypeChanged: (values) {
                     setState(() {
-                      placeType = type;
-                      // Call the function to fetch cafes when placeType changes
+                      placeType =
+                          values['placeType']; // เข้าถึงค่า placeType ใน values
+                      selectedOption = values[
+                          'selectedOption']; // เข้าถึงค่า selectedOption ใน values
                       _checkLocationPermission();
                     });
                   },
@@ -137,7 +141,15 @@ class _DownPageState extends State<DownPage> {
     // Check if permission is granted
     if (status.isGranted) {
       // Permission is granted, proceed with fetching location
-      fetchCafesNearLocation();
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Check if selectedOption is "จากตำแหน่งใกล้ฉัน"
+      if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
+        // Perform a nearby search for places using Google Places API
+        await fetchNearLocation(position.latitude, position.longitude);
+      }
     } else if (status.isDenied) {
       // Permission is denied, show a message to the user
       showDialog(
@@ -156,7 +168,7 @@ class _DownPageState extends State<DownPage> {
     }
   }
 
-  Future<void> fetchCafesNearLocation() async {
+  Future<void> fetchNearLocation(double latitude, double longitude) async {
     // Get current position
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
@@ -168,7 +180,7 @@ class _DownPageState extends State<DownPage> {
         lat: position.latitude,
         lng: position.longitude,
       ),
-      1000, // Search radius in meters (adjust as needed)
+      500, // Search radius in meters (adjust as needed)
       type: placeType,
       keyword: placeType, // Set the keyword to the placeType
     );

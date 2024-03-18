@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class SlidePlace extends StatefulWidget {
   @override
   final String? tripUid;
-  final ValueChanged<String>? onPlaceTypeChanged;
-  // เพิ่ม callback function เพื่อส่งค่า placeType ไปยัง DownPage
+  final ValueChanged<Map<String, String>>? onPlaceTypeChanged;
+  // เพิ่ม callback function เพื่อส่งค่า placeType และ selectedOption ไปยัง DownPage
 
   const SlidePlace({Key? key, this.tripUid, this.onPlaceTypeChanged})
       : super(key: key);
@@ -64,6 +64,7 @@ class _SlidePlaceState extends State<SlidePlace> {
                   setState(() {
                     selectedOption = newValue ??
                         ''; // ถ้าค่าเป็น null ให้เปลี่ยนเป็น string ว่าง
+                    _sendDataToDownPage(); // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง DownPage
                   });
                 },
                 items: <String>['จากตำแหน่งใกล้ฉัน', 'จากตำแหน่งบนแผนที่']
@@ -97,10 +98,7 @@ class _SlidePlaceState extends State<SlidePlace> {
       onTap: () {
         setState(() {
           selectedPlaceType = placeType;
-          if (widget.onPlaceTypeChanged != null) {
-            // เรียก callback function เพื่อส่งค่า placeType ไปยัง DownPage
-            widget.onPlaceTypeChanged!(placeType);
-          }
+          _sendDataToDownPage(); // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง DownPage
         });
       },
       child: Container(
@@ -120,6 +118,16 @@ class _SlidePlaceState extends State<SlidePlace> {
         ),
       ),
     );
+  }
+
+  void _sendDataToDownPage() {
+    if (widget.onPlaceTypeChanged != null) {
+      // เรียก callback function เพื่อส่งค่า placeType และ selectedOption ไปยัง DownPage
+      widget.onPlaceTypeChanged!({
+        'placeType': selectedPlaceType,
+        'selectedOption': selectedOption,
+      });
+    }
   }
 }
 
