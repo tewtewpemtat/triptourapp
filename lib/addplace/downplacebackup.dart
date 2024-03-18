@@ -31,7 +31,7 @@ class _DownPageState extends State<DownPage> {
                   tripUid: widget.tripUid,
                   onPlaceTypeChanged: (type) {
                     setState(() {
-                      placeType = type;
+                      placeType = type['placeType'];
                     });
                   },
                 ),

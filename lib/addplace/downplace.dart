@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
+import 'mapselect.dart'; // ต้องแก้ไขตามชื่อไฟล์ของหน้า MapSelectionPage จริงๆ
 import 'package:permission_handler/permission_handler.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
 import 'package:triptourapp/requestlist.dart';
@@ -43,6 +44,7 @@ class _DownPageState extends State<DownPage> {
                       selectedOption = values[
                           'selectedOption']; // เข้าถึงค่า selectedOption ใน values
                       _checkLocationPermission();
+                      _handleSelectedOptionChange(selectedOption ?? "");
                     });
                   },
                 ),
@@ -165,6 +167,29 @@ class _DownPageState extends State<DownPage> {
           ],
         ),
       );
+    }
+  }
+
+  void _handleSelectedOptionChange(String newOption) {
+    setState(() {
+      selectedOption = newOption;
+      if (selectedOption == "จากตำแหน่งบนแผนที่") {
+        _openMapSelectionPage();
+      }
+    });
+  }
+
+  void _openMapSelectionPage() async {
+    final selectedPosition = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MapSelectionPage(),
+      ),
+    );
+    // Do something with the selected position (if needed)
+    if (selectedPosition != null) {
+      // Handle the selected position
+      print('Selected position: $selectedPosition');
     }
   }
 
