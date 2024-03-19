@@ -26,6 +26,7 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
           target: LatLng(13.736717, 100.523186), // Default position
           zoom: 12,
         ),
+        markers: _selectedPosition != null ? _createMarkers() : Set<Marker>(),
       ),
       floatingActionButton: _selectedPosition != null
           ? FloatingActionButton(
@@ -38,6 +39,14 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
           : null,
     );
   }
-}
 
-// เรียกใช้ MapSelectionPage ใน DownPage หรือที่ต้องการ
+  Set<Marker> _createMarkers() {
+    return <Marker>{
+      Marker(
+        markerId: MarkerId('selected_position'),
+        position: _selectedPosition!,
+        draggable: false,
+      ),
+    };
+  }
+}

@@ -75,6 +75,7 @@ MERGED from [:image_picker_android] C:\triptourapp\build\image_picker_android\in
 MERGED from [:flutter_plugin_android_lifecycle] C:\triptourapp\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:audioplayers_android] C:\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:path_provider_android] C:\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:webview_flutter_android] C:\triptourapp\build\webview_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:permission_handler_android] C:\triptourapp\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:fluttertoast] C:\triptourapp\build\fluttertoast\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
@@ -102,6 +103,7 @@ MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\wanla\.
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\wanla\.gradle\caches\transforms-3\38012eb8442d2d8cf8e665ec432e1cb2\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\f991ce6b85eff4aa323b4bb207830475\transformed\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.7.2] C:\Users\wanla\.gradle\caches\transforms-3\f525af8a77e2273af557a4cf540beb4b\transformed\jetified-activity-1.7.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.webkit:webkit:1.7.0] C:\Users\wanla\.gradle\caches\transforms-3\100a5615ecb61f8d7e5a83f92b1bbfa1\transformed\webkit-1.7.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\c2dd8c27d31a0a705c70a163438e1e14\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\wanla\.gradle\caches\transforms-3\86996caae9817dce72f99173e97b2196\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -183,6 +185,8 @@ MERGED from [:audioplayers_android] C:\triptourapp\build\audioplayers_android\in
 MERGED from [:audioplayers_android] C:\triptourapp\build\audioplayers_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\triptourapp\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:webview_flutter_android] C:\triptourapp\build\webview_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:webview_flutter_android] C:\triptourapp\build\webview_flutter_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:shared_preferences_android] C:\triptourapp\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:permission_handler_android] C:\triptourapp\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
@@ -237,6 +241,8 @@ MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\wanla\.gradle\caches\tra
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\wanla\.gradle\caches\transforms-3\f991ce6b85eff4aa323b4bb207830475\transformed\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.7.2] C:\Users\wanla\.gradle\caches\transforms-3\f525af8a77e2273af557a4cf540beb4b\transformed\jetified-activity-1.7.2\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.7.2] C:\Users\wanla\.gradle\caches\transforms-3\f525af8a77e2273af557a4cf540beb4b\transformed\jetified-activity-1.7.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.webkit:webkit:1.7.0] C:\Users\wanla\.gradle\caches\transforms-3\100a5615ecb61f8d7e5a83f92b1bbfa1\transformed\webkit-1.7.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.webkit:webkit:1.7.0] C:\Users\wanla\.gradle\caches\transforms-3\100a5615ecb61f8d7e5a83f92b1bbfa1\transformed\webkit-1.7.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.media:media:1.4.1] C:\Users\wanla\.gradle\caches\transforms-3\dec000a81eb64cdcbda1ecb11cc7abef\transformed\media-1.4.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\wanla\.gradle\caches\transforms-3\c2dd8c27d31a0a705c70a163438e1e14\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41

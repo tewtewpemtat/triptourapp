@@ -20,6 +20,8 @@ class DownPage extends StatefulWidget {
 class _DownPageState extends State<DownPage> {
   String? placeType;
   String? selectedOption;
+  LatLng? markedPosition;
+  LatLng? selectedPosition = null;
   GoogleMapsPlaces _places =
       GoogleMapsPlaces(apiKey: 'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4');
 
@@ -151,6 +153,7 @@ class _DownPageState extends State<DownPage> {
       if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
         // Perform a nearby search for places using Google Places API
         await fetchNearLocation(position.latitude, position.longitude);
+        selectedPosition = null;
       }
     } else if (status.isDenied) {
       // Permission is denied, show a message to the user
@@ -173,47 +176,53 @@ class _DownPageState extends State<DownPage> {
   void _handleSelectedOptionChange(String newOption) {
     setState(() {
       selectedOption = newOption;
-      if (selectedOption == "จากตำแหน่งบนแผนที่") {
+      if (selectedOption == "จากตำแหน่งบนแผนที่" && selectedPosition == null) {
         _openMapSelectionPage();
+      } else {
+        fetchNearLocation(selectedPosition?.latitude ?? 0.0,
+            selectedPosition?.longitude ?? 0.0);
       }
     });
   }
 
   void _openMapSelectionPage() async {
-    final selectedPosition = await Navigator.push(
+    selectedPosition = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => MapSelectionPage(),
       ),
     );
-    // Do something with the selected position (if needed)
-    if (selectedPosition != null) {
-      // Handle the selected position
-      print('Selected position: $selectedPosition');
+
+    // เก็บตำแหน่งที่มาร์คบนแผนที่เมื่อผู้ใช้เลือก
+    if (selectedPosition == null) {
+      setState(() {
+        this.markedPosition = selectedPosition;
+      });
     }
   }
 
   Future<void> fetchNearLocation(double latitude, double longitude) async {
-    // Get current position
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-
-    // Perform a nearby search for cafes using Google Places API
+    // Perform a nearby search for places using Google Places API
     PlacesSearchResponse response = await _places.searchNearbyWithRadius(
       Location(
-        lat: position.latitude,
-        lng: position.longitude,
+        lat: latitude,
+        lng: longitude,
       ),
-      500, // Search radius in meters (adjust as needed)
+      100, // Search radius in meters (adjust as needed)
       type: placeType,
       keyword: placeType, // Set the keyword to the placeType
     );
 
-    // Iterate through the results and print the names of the cafes
+    // Create a list to store the names of the places found
+    List<String> placeNames = [];
+
+    // Iterate through the results and add the names to the list
     for (PlacesSearchResult result in response.results) {
-      print(result.name);
+      placeNames.add(result.name);
     }
+
+    // Print the names of the places found
+    print('Places near your location: $placeNames');
   }
 
   @override

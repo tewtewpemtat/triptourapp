@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-30:/values-fr/values-fr.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-31:/values-fr/values-fr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\b85d0279c421905f7127b8e2bae6fbdd\\transformed\\appcompat-1.2.0\\res\\values-fr\\values-fr.xml",
