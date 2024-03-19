@@ -8,6 +8,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
 import 'package:triptourapp/requestlist.dart';
 
+class Place {
+  final String name;
+  final String province;
+  final String imageUrl;
+
+  Place({required this.name, required this.province, required this.imageUrl});
+}
+
 class DownPage extends StatefulWidget {
   final String? tripUid;
 
@@ -22,117 +30,127 @@ class _DownPageState extends State<DownPage> {
   String? selectedOption;
   LatLng? markedPosition;
   LatLng? selectedPosition = null;
+
   GoogleMapsPlaces _places =
       GoogleMapsPlaces(apiKey: 'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4');
-
+  List<Place> places = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          color: Color(0xFFF0F0F0),
-          padding: EdgeInsets.all(0.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: SlidePlace(
-                  tripUid: widget.tripUid,
-                  onPlaceTypeChanged: (values) {
-                    setState(() {
-                      placeType =
-                          values['placeType']; // เข้าถึงค่า placeType ใน values
-                      selectedOption = values[
-                          'selectedOption']; // เข้าถึงค่า selectedOption ใน values
-                      _checkLocationPermission();
-                      _handleSelectedOptionChange(selectedOption ?? "");
-                    });
-                  },
-                ),
+      body: Container(
+        color: Color(0xFFF0F0F0),
+        padding: EdgeInsets.all(0.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: SlidePlace(
+                tripUid: widget.tripUid,
+                onPlaceTypeChanged: (values) {
+                  setState(() {
+                    placeType =
+                        values['placeType']; // เข้าถึงค่า placeType ใน values
+                    selectedOption = values[
+                        'selectedOption']; // เข้าถึงค่า selectedOption ใน values
+                    _checkLocationPermission();
+                    _handleSelectedOptionChange(selectedOption ?? "");
+                  });
+                },
               ),
-              SizedBox(height: 10),
-              InkWell(
-                onTap: () {}, // Placeholder onTap function
-                child: Container(
-                  padding: EdgeInsets.all(0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.0,
-                    ),
-                  ),
-                  margin: EdgeInsets.symmetric(horizontal: 0.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              'assets/userplan/userplan_image1.png',
-                              width: 100.0,
-                              height: 80.0,
-                              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: places.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.all(0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 0.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  places[index].imageUrl,
+                                  width: 100.0,
+                                  height: 80.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Expanded(
-                        flex: 6,
-                        child: Container(
-                          margin: EdgeInsets.all(12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('ร้านกาแฟ WhiteCafe',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 16,
-                                  )),
-                              SizedBox(height: 5),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  color: Color(0xFF1E30D7),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 1.0),
-                                child: Text(
-                                  'นนทบุรี',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 11, color: Colors.white),
-                                ),
+                          SizedBox(width: 4),
+                          Expanded(
+                            flex: 6,
+                            child: Container(
+                              margin: EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    places[index].name,
+                                    style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      color: Color(0xFF1E30D7),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20.0, vertical: 1.0),
+                                    child: Text(
+                                      places[index].province,
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                          fontSize: 11, color: Colors.white),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 30.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                size: 24.0,
-                                color: Colors.blue,
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              margin: EdgeInsets.only(top: 30.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    size: 24.0,
+                                    color: Colors.blue,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -210,19 +228,29 @@ class _DownPageState extends State<DownPage> {
       ),
       100, // Search radius in meters (adjust as needed)
       type: placeType,
-      keyword: placeType, // Set the keyword to the placeType
+      keyword: placeType,
+      // ตัวอย่างค้นหาร้านอาหาร
     );
+    print(placeType);
+    // Clear existing places
+    places.clear();
 
-    // Create a list to store the names of the places found
-    List<String> placeNames = [];
-
-    // Iterate through the results and add the names to the list
+    // Iterate through the results and add them to the list
     for (PlacesSearchResult result in response.results) {
-      placeNames.add(result.name);
+      places.add(Place(
+        name: result.name ?? 'Unknown',
+        province: 'Province Name', // ตัวอย่างการกำหนดชื่อจังหวัด
+        imageUrl: result.photos != null && result.photos!.isNotEmpty
+            ? _places.buildPhotoUrl(
+                photoReference: result.photos![0].photoReference!,
+                maxWidth: 400,
+              )
+            : 'https://via.placeholder.com/400', // URL ของรูปภาพตัวอย่าง
+      ));
     }
 
-    // Print the names of the places found
-    print('Places near your location: $placeNames');
+    // Update the UI
+    setState(() {});
   }
 
   @override
