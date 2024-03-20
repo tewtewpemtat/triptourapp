@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'mapselect.dart'; // ต้องแก้ไขตามชื่อไฟล์ของหน้า MapSelectionPage จริงๆ
 import 'package:permission_handler/permission_handler.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:triptourapp/requestlist.dart';
 
 class Place {
@@ -61,99 +63,136 @@ class _DownPageState extends State<DownPage> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: places.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: places.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.all(0),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 0.0, vertical: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
                         ),
-                      ),
-                      margin: EdgeInsets.symmetric(horizontal: 0.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  places[index].imageUrl,
-                                  width: 100.0,
-                                  height: 80.0,
-                                  fit: BoxFit.cover,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    places[index].imageUrl,
+                                    width: 100.0,
+                                    height: 80.0,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: 4),
-                          Expanded(
-                            flex: 6,
-                            child: Container(
-                              margin: EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    places[index].name,
-                                    style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      color: Color(0xFF1E30D7),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 1.0),
-                                    child: Text(
-                                      places[index].province,
+                            SizedBox(width: 4),
+                            Expanded(
+                              flex: 6,
+                              child: Container(
+                                margin: EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      places[index].name,
                                       style: GoogleFonts.ibmPlexSansThai(
-                                          fontSize: 11, color: Colors.white),
+                                        fontSize: 16,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(height: 5),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        color: Color(0xFF1E30D7),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.0, vertical: 1.0),
+                                      child: Text(
+                                        places[index].province,
+                                        style: GoogleFonts.ibmPlexSansThai(
+                                            fontSize: 11, color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              margin: EdgeInsets.only(top: 30.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    size: 24.0,
-                                    color: Colors.blue,
-                                  ),
-                                ],
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 30.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      size: 24.0,
+                                      color: Colors.blue,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<String?> fetchAddress(double latitude, double longitude) async {
+    final apiKey = 'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4';
+    final apiUrl =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final results = data['results'] as List<dynamic>;
+      if (results.isNotEmpty) {
+        final addressComponents =
+            results[0]['address_components'] as List<dynamic>;
+        for (final component in addressComponents) {
+          final types = component['types'] as List<dynamic>;
+          if (types.contains('administrative_area_level_1')) {
+            return component['long_name'] as String?;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  String? extractProvince(String address) {
+    // Split address into parts using commas
+    List<String> parts = address.split(',');
+
+    // Province usually comes before the last part
+    return parts.isNotEmpty ? parts[parts.length - 2].trim() : null;
   }
 
   Future<void> _checkLocationPermission() async {
@@ -236,17 +275,22 @@ class _DownPageState extends State<DownPage> {
     places.clear();
 
     // Iterate through the results and add them to the list
-    for (PlacesSearchResult result in response.results) {
-      places.add(Place(
-        name: result.name ?? 'Unknown',
-        province: 'Province Name', // ตัวอย่างการกำหนดชื่อจังหวัด
-        imageUrl: result.photos != null && result.photos!.isNotEmpty
-            ? _places.buildPhotoUrl(
-                photoReference: result.photos![0].photoReference!,
-                maxWidth: 400,
-              )
-            : 'https://via.placeholder.com/400', // URL ของรูปภาพตัวอย่าง
-      ));
+    if (response.results != null) {
+      // Iterate through the results and add them to the list
+      for (PlacesSearchResult result in response.results!) {
+        String? address = result.vicinity;
+        String? province = extractProvince(address ?? '');
+        places.add(Place(
+          name: result.name ?? 'Unknown',
+          province: province ?? 'Unknown', // ตัวอย่างการกำหนดชื่อจังหวัด
+          imageUrl: result.photos != null && result.photos!.isNotEmpty
+              ? _places.buildPhotoUrl(
+                  photoReference: result.photos![0].photoReference!,
+                  maxWidth: 400,
+                )
+              : 'https://via.placeholder.com/400', // URL ของรูปภาพตัวอย่าง
+        ));
+      }
     }
 
     // Update the UI

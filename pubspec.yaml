@@ -53,7 +53,9 @@ dependencies:
   google_fonts: 4.0.4
   geolocator: ^8.0.1
   webview_flutter: ^2.0.13
-
+  http: ^0.13.3
+  geocoding: ^2.0.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
