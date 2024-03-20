@@ -194,6 +194,7 @@ class _DownPageState extends State<DownPage> {
 
   Future<String?> fetchAddress(double latitude, double longitude) async {
     final apiKey = 'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4';
+
     final apiUrl =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
 
@@ -203,31 +204,57 @@ class _DownPageState extends State<DownPage> {
       final data = json.decode(response.body);
       final results = data['results'] as List<dynamic>;
       if (results.isNotEmpty) {
-        final addressComponents =
-            results[0]['address_components'] as List<dynamic>;
-        for (final component in addressComponents) {
-          final types = component['types'] as List<dynamic>;
-          if (types.contains('administrative_area_level_1')) {
-            return component['long_name'] as String?;
-          }
-        }
+        final addressComponents = results[0]['formatted_address'];
+        return addressComponents as String?;
       }
     }
 
     return null;
   }
 
-  String? extractProvince(String address) {
-    // Split address into parts using commas
+  Future<String?> fetchProvinceFromAddress(String address) async {
     List<String> parts = address.split(',');
-
-    // Province usually comes before the last part
-    return parts.isNotEmpty ? parts[parts.length - 2].trim() : null;
+    // ถ้ามีส่วนที่อยู่จังหวัด
+    if (parts.length >= 2) {
+      // นำส่วนที่อยู่จังหวัดมาใช้งาน
+      String provincePart = parts[parts.length - 2].trim();
+      return provincePart;
+    } else {
+      // ถ้าไม่มีส่วนที่อยู่จังหวัด ให้คืนค่า null
+      return null;
+    }
   }
 
   Future<void> searchPlaces(String query) async {
-    print(query);
+    PlacesSearchResponse response = await _places.searchByText(query);
+    if (response.isOkay) {
+      // Clear existing places first
+      places.clear();
+      if (response.results != null) {
+        // Iterate through the results and add them to the list
+        for (PlacesSearchResult result in response.results!) {
+          // Get place details using placeId
+          PlacesDetailsResponse detailsResponse =
+              await _places.getDetailsByPlaceId(result.placeId!);
+          String? placeAddress = detailsResponse.result?.formattedAddress;
+          String? province = await fetchProvinceFromAddress(placeAddress ?? '');
+          places.add(Place(
+            name: result.name ?? 'Unknown',
+            province: province ?? 'Unknown',
+            imageUrl: result.photos != null && result.photos!.isNotEmpty
+                ? _places.buildPhotoUrl(
+                    photoReference: result.photos![0].photoReference!,
+                    maxWidth: 400,
+                  )
+                : 'https://via.placeholder.com/400',
+          ));
+        }
+      }
+      setState(() {}); // Update UI
+    }
   }
+
+// Function to fetch province from address
 
   Future<void> _checkLocationPermission() async {
     // Check if permission is already granted
@@ -312,8 +339,10 @@ class _DownPageState extends State<DownPage> {
     if (response.results != null) {
       // Iterate through the results and add them to the list
       for (PlacesSearchResult result in response.results!) {
-        String? address = result.vicinity;
-        String? province = extractProvince(address ?? '');
+        PlacesDetailsResponse detailsResponse =
+            await _places.getDetailsByPlaceId(result.placeId!);
+        String? placeAddress = detailsResponse.result?.formattedAddress;
+        String? province = await fetchProvinceFromAddress(placeAddress ?? '');
         places.add(Place(
           name: result.name ?? 'Unknown',
           province: province ?? 'Unknown', // ตัวอย่างการกำหนดชื่อจังหวัด
