@@ -20,8 +20,8 @@ class Place {
 
 class DownPage extends StatefulWidget {
   final String? tripUid;
-
-  const DownPage({Key? key, this.tripUid}) : super(key: key);
+  final String? query;
+  const DownPage({Key? key, this.tripUid, this.query}) : super(key: key);
 
   @override
   _DownPageState createState() => _DownPageState();
@@ -32,6 +32,13 @@ class _DownPageState extends State<DownPage> {
   String? selectedOption;
   LatLng? markedPosition;
   LatLng? selectedPosition = null;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.query != null) {
+      searchPlaces(widget.query!);
+    }
+  }
 
   GoogleMapsPlaces _places =
       GoogleMapsPlaces(apiKey: 'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4');
@@ -45,6 +52,29 @@ class _DownPageState extends State<DownPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextField(
+                onSubmitted: (value) {
+                  searchPlaces(value);
+                },
+                decoration: InputDecoration(
+                  hintText: 'ค้นหาสถานที่',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: 5, horizontal: 15), // ปรับขนาดของช่องค้นหา
+                  prefixIcon: Icon(Icons.search,
+                      color: const Color.fromARGB(255, 21, 21, 21)),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(0.0),
               child: SlidePlace(
@@ -193,6 +223,10 @@ class _DownPageState extends State<DownPage> {
 
     // Province usually comes before the last part
     return parts.isNotEmpty ? parts[parts.length - 2].trim() : null;
+  }
+
+  Future<void> searchPlaces(String query) async {
+    print(query);
   }
 
   Future<void> _checkLocationPermission() async {
