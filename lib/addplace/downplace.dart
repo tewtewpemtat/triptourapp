@@ -9,13 +9,25 @@ import 'package:triptourapp/addplace/slideplace.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:triptourapp/requestlist.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Place {
   final String name;
   final String province;
   final String imageUrl;
-
-  Place({required this.name, required this.province, required this.imageUrl});
+  final double latitude; // Add latitude field
+  final double longitude; // Add longitude field
+  Place({
+    required this.name,
+    required this.province,
+    required this.imageUrl,
+    required this.latitude,
+    required this.longitude,
+  });
 }
 
 class DownPage extends StatefulWidget {
@@ -28,6 +40,7 @@ class DownPage extends StatefulWidget {
 }
 
 class _DownPageState extends State<DownPage> {
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
   String? placeType;
   String? selectedOption;
   LatLng? markedPosition;
@@ -164,17 +177,40 @@ class _DownPageState extends State<DownPage> {
                             ),
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                margin: EdgeInsets.only(top: 30.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      size: 24.0,
-                                      color: Colors.blue,
-                                    ),
-                                  ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  addPlaceToFirestore(
+                                    userUid:
+                                        uid ?? '', // Use the current user's UID
+                                    placeTripId: widget.tripUid ??
+                                        '', // Use the trip UID from the widget property
+                                    placeName: places[index]
+                                        .name, // Use the name of the place
+                                    placePicUrl: places[index]
+                                        .imageUrl, // Use the image URL of the place
+                                    placeAddress: places[index]
+                                        .province, // You can leave this empty or provide an address if available
+                                    placeStart:
+                                        '', // You can leave this empty or provide a start time if available
+                                    placeTimeEnd:
+                                        '', // You can leave this empty or provide an end time if available
+                                    placeTimeStart:
+                                        '', // You can leave this empty or provide a start time if available
+                                    placeLatitude: places[index]
+                                        .latitude, // Use latitude field
+                                    placeLongitude: places[index]
+                                        .longitude, // Use longitude field
+
+                                    // Use the location of the place
+                                    placeWhoGo: [
+                                      uid ?? ''
+                                    ], // Initially, no one goes to this place, so it's an empty array
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  size: 24.0,
+                                  color: Colors.blue,
                                 ),
                               ),
                             ),
@@ -190,6 +226,67 @@ class _DownPageState extends State<DownPage> {
         ),
       ),
     );
+  }
+
+  Future<void> addPlaceToFirestore({
+    required String userUid,
+    required String placeTripId,
+    required String placeName,
+    required String placePicUrl,
+    required String placeAddress,
+    required String placeStart,
+    required String placeTimeEnd,
+    required String placeTimeStart,
+    required double placeLatitude, // Change parameter name to placeLatitude
+    required double placeLongitude, // Change parameter name to placeLongitude
+    required List<String> placeWhoGo,
+  }) async {
+    try {
+      // Check if the place already exists in the trip
+      QuerySnapshot tripPlaces = await FirebaseFirestore.instance
+          .collection('places')
+          .where('placetripid', isEqualTo: placeTripId)
+          .where('placename', isEqualTo: placeName)
+          .get();
+
+      // If the place already exists in the trip, do not add it again
+      if (tripPlaces.docs.isNotEmpty) {
+        // Place already exists in the trip, show a message or handle accordingly
+        Fluttertoast.showToast(msg: 'มีสถานที่นี้อยู่บนทริปเเล้ว');
+        // You can show a message to the user or handle it as needed
+        return;
+      }
+
+      // Upload image to Firebase Storage
+      Reference storageReference = FirebaseStorage.instance.ref().child(
+            'trip/places/profilepic/$placeTripId/$placeName.jpg',
+          );
+      UploadTask uploadTask = storageReference.putData(
+        await http.get(Uri.parse(placePicUrl)).then((res) => res.bodyBytes),
+      );
+      TaskSnapshot storageTaskSnapshot = await uploadTask;
+      String downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+
+      // Add place data to Firestore
+      await FirebaseFirestore.instance.collection('places').doc().set({
+        'useruid': userUid,
+        'placetripid': placeTripId,
+        'placename': placeName,
+        'placepicUrl': downloadUrl,
+        'placeaddress': placeAddress,
+        'placestart': placeStart,
+        'placetimeend': placeTimeEnd,
+        'placeLatitude': placeLatitude, // แก้เป็น placeLatitude
+        'placeLongitude':
+            placeLongitude, // แก้เป็น placeLongitudeUse new latitude and longitude fields
+        'placewhogo': placeWhoGo,
+      });
+
+      // Notify the user that the place has been successfully added
+      Fluttertoast.showToast(msg: 'เพิ่มสถานที่สำเร็จ');
+    } catch (error) {
+      print('Error adding place to Firestore: $error');
+    }
   }
 
   Future<String?> fetchAddress(double latitude, double longitude) async {
@@ -238,6 +335,10 @@ class _DownPageState extends State<DownPage> {
               await _places.getDetailsByPlaceId(result.placeId!);
           String? placeAddress = detailsResponse.result?.formattedAddress;
           String? province = await fetchProvinceFromAddress(placeAddress ?? '');
+          double latitude =
+              detailsResponse.result?.geometry?.location.lat ?? 0.0;
+          double longitude =
+              detailsResponse.result?.geometry?.location.lng ?? 0.0;
           places.add(Place(
             name: result.name ?? 'Unknown',
             province: province ?? 'Unknown',
@@ -247,6 +348,9 @@ class _DownPageState extends State<DownPage> {
                     maxWidth: 400,
                   )
                 : 'https://via.placeholder.com/400',
+            latitude:
+                latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
+            longitude: longitude,
           ));
         }
       }
@@ -343,6 +447,9 @@ class _DownPageState extends State<DownPage> {
             await _places.getDetailsByPlaceId(result.placeId!);
         String? placeAddress = detailsResponse.result?.formattedAddress;
         String? province = await fetchProvinceFromAddress(placeAddress ?? '');
+        double latitude = detailsResponse.result?.geometry?.location.lat ?? 0.0;
+        double longitude =
+            detailsResponse.result?.geometry?.location.lng ?? 0.0;
         places.add(Place(
           name: result.name ?? 'Unknown',
           province: province ?? 'Unknown', // ตัวอย่างการกำหนดชื่อจังหวัด
@@ -352,6 +459,9 @@ class _DownPageState extends State<DownPage> {
                   maxWidth: 400,
                 )
               : 'https://via.placeholder.com/400', // URL ของรูปภาพตัวอย่าง
+          latitude: latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
+          longitude:
+              longitude, // เพิ่มพารามิเตอร์ longitude ให้กับอ็อบเจกต์ Place
         ));
       }
     }
