@@ -112,110 +112,106 @@ class _DownPageState extends State<DownPage> {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: places.length,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.all(0),
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 0.0, vertical: 5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1.0,
+                    return Container(
+                      padding: EdgeInsets.all(0),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  places[index].imageUrl,
+                                  width: 100.0,
+                                  height: 80.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    places[index].imageUrl,
-                                    width: 100.0,
-                                    height: 80.0,
-                                    fit: BoxFit.cover,
+                          SizedBox(width: 4),
+                          Expanded(
+                            flex: 6,
+                            child: Container(
+                              margin: EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    places[index].name,
+                                    style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 4),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                margin: EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      places[index].name,
+                                  SizedBox(height: 5),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      color: Color(0xFF1E30D7),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20.0, vertical: 1.0),
+                                    child: Text(
+                                      places[index].province,
                                       style: GoogleFonts.ibmPlexSansThai(
-                                        fontSize: 16,
-                                      ),
+                                          fontSize: 11, color: Colors.white),
                                     ),
-                                    SizedBox(height: 5),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        color: Color(0xFF1E30D7),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0, vertical: 1.0),
-                                      child: Text(
-                                        places[index].province,
-                                        style: GoogleFonts.ibmPlexSansThai(
-                                            fontSize: 11, color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: GestureDetector(
-                                onTap: () {
-                                  addPlaceToFirestore(
-                                    userUid:
-                                        uid ?? '', // Use the current user's UID
-                                    placeTripId: widget.tripUid ??
-                                        '', // Use the trip UID from the widget property
-                                    placeName: places[index]
-                                        .name, // Use the name of the place
-                                    placePicUrl: places[index]
-                                        .imageUrl, // Use the image URL of the place
-                                    placeAddress: places[index]
-                                        .province, // You can leave this empty or provide an address if available
-                                    placeStart:
-                                        '', // You can leave this empty or provide a start time if available
-                                    placeTimeEnd:
-                                        '', // You can leave this empty or provide an end time if available
-                                    placeTimeStart:
-                                        '', // You can leave this empty or provide a start time if available
-                                    placeLatitude: places[index]
-                                        .latitude, // Use latitude field
-                                    placeLongitude: places[index]
-                                        .longitude, // Use longitude field
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: GestureDetector(
+                              onTap: () {
+                                addPlaceToFirestore(
+                                  userUid:
+                                      uid ?? '', // Use the current user's UID
+                                  placeTripId: widget.tripUid ??
+                                      '', // Use the trip UID from the widget property
+                                  placeName: places[index]
+                                      .name, // Use the name of the place
+                                  placePicUrl: places[index]
+                                      .imageUrl, // Use the image URL of the place
+                                  placeAddress: places[index]
+                                      .province, // You can leave this empty or provide an address if available
+                                  placeStart:
+                                      '', // You can leave this empty or provide a start time if available
+                                  placeTimeEnd:
+                                      '', // You can leave this empty or provide an end time if available
+                                  placeTimeStart:
+                                      '', // You can leave this empty or provide a start time if available
+                                  placeLatitude: places[index]
+                                      .latitude, // Use latitude field
+                                  placeLongitude: places[index]
+                                      .longitude, // Use longitude field
 
-                                    // Use the location of the place
-                                    placeWhoGo: [uid ?? ''],
-                                    placeStatus:
-                                        'Added', // Initially, no one goes to this place, so it's an empty array
-                                  );
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  size: 24.0,
-                                  color: Colors.blue,
-                                ),
+                                  // Use the location of the place
+                                  placeWhoGo: [uid ?? ''],
+                                  placeStatus:
+                                      'Added', // Initially, no one goes to this place, so it's an empty array
+                                );
+                              },
+                              child: Icon(
+                                Icons.add,
+                                size: 24.0,
+                                color: Colors.blue,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   },
