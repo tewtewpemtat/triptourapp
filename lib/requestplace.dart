@@ -1,58 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/tripmanage.dart';
 
 import 'requestplace/downplace.dart';
 import 'addplace/slideplace.dart';
 
-class RequestPage extends StatelessWidget {
+class RequestPage extends StatefulWidget {
+  @override
+  final String? tripUid;
+  // เพิ่ม callback function เพื่อส่งค่า placeType และ selectedOption ไปยัง DownPage
+
+  const RequestPage({Key? key, this.tripUid}) : super(key: key);
+  _RequestPageState createState() => _RequestPageState();
+}
+
+class _RequestPageState extends State<RequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.grey[350],
         leading: IconButton(
           color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TripmanagePage()),
+              MaterialPageRoute(
+                builder: (context) => AddPage(tripUid: widget.tripUid),
+              ),
             );
           },
         ),
-        title: Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(0),
-            child: Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color(0xffeaeaea),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  children: [
-                    Icon(Icons.search, color: Colors.grey),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'ค้นหาสถานที่',
-                          border: InputBorder.none,
-                          isDense: true,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
+        title: Text('คำร้องขอ'),
       ),
       body: Container(
-        color: Color(0xFFF0F0F0), // เพิ่มบรรทัดนี้
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -75,13 +58,6 @@ class RequestPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(1.0),
-            //   // child: SlidePlace(),
-            // ),
-            // Expanded(
-            //   child: DownPage(),
-            // ),
           ],
         ),
       ),

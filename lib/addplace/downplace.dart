@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:triptourapp/requestplace.dart';
 import 'mapselect.dart'; // ต้องแก้ไขตามชื่อไฟล์ของหน้า MapSelectionPage จริงๆ
 import 'package:permission_handler/permission_handler.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
@@ -98,8 +99,7 @@ class _DownPageState extends State<DownPage> {
                         values['placeType']; // เข้าถึงค่า placeType ใน values
                     selectedOption = values[
                         'selectedOption']; // เข้าถึงค่า selectedOption ใน values
-                    _checkLocationPermission();
-                    _handleSelectedOptionChange(selectedOption ?? "");
+                    _checkLocationPermission(selectedOption ?? "");
                   });
                 },
               ),
@@ -202,9 +202,9 @@ class _DownPageState extends State<DownPage> {
                                         .longitude, // Use longitude field
 
                                     // Use the location of the place
-                                    placeWhoGo: [
-                                      uid ?? ''
-                                    ], // Initially, no one goes to this place, so it's an empty array
+                                    placeWhoGo: [uid ?? ''],
+                                    placeStatus:
+                                        'Added', // Initially, no one goes to this place, so it's an empty array
                                   );
                                 },
                                 child: Icon(
@@ -240,6 +240,7 @@ class _DownPageState extends State<DownPage> {
     required double placeLatitude, // Change parameter name to placeLatitude
     required double placeLongitude, // Change parameter name to placeLongitude
     required List<String> placeWhoGo,
+    required String placeStatus,
   }) async {
     try {
       // Check if the place already exists in the trip
@@ -280,6 +281,7 @@ class _DownPageState extends State<DownPage> {
         'placeLongitude':
             placeLongitude, // แก้เป็น placeLongitudeUse new latitude and longitude fields
         'placewhogo': placeWhoGo,
+        'placestatus': placeStatus,
       });
 
       // Notify the user that the place has been successfully added
@@ -360,7 +362,7 @@ class _DownPageState extends State<DownPage> {
 
 // Function to fetch province from address
 
-  Future<void> _checkLocationPermission() async {
+  Future<void> _checkLocationPermission(String newOption) async {
     // Check if permission is already granted
     PermissionStatus status = await Permission.location.request();
 
@@ -372,11 +374,28 @@ class _DownPageState extends State<DownPage> {
       );
 
       // Check if selectedOption is "จากตำแหน่งใกล้ฉัน"
-      if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
-        // Perform a nearby search for places using Google Places API
-        await fetchNearLocation(position.latitude, position.longitude);
-        selectedPosition = null;
-      }
+      setState(() {
+        selectedOption = newOption;
+        if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
+          // Perform a nearby search for places using Google Places API
+          fetchNearLocation(position.latitude, position.longitude);
+          selectedPosition = null;
+        }
+        if (selectedOption == "จากตำแหน่งบนแผนที่" &&
+            selectedPosition == null) {
+          _openMapSelectionPage();
+        } else if (selectedOption == "จากคำร้องขอสถานที่") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RequestPage(tripUid: widget.tripUid),
+            ),
+          );
+        } else {
+          fetchNearLocation(selectedPosition?.latitude ?? 0.0,
+              selectedPosition?.longitude ?? 0.0);
+        }
+      });
     } else if (status.isDenied) {
       // Permission is denied, show a message to the user
       showDialog(
@@ -395,17 +414,25 @@ class _DownPageState extends State<DownPage> {
     }
   }
 
-  void _handleSelectedOptionChange(String newOption) {
-    setState(() {
-      selectedOption = newOption;
-      if (selectedOption == "จากตำแหน่งบนแผนที่" && selectedPosition == null) {
-        _openMapSelectionPage();
-      } else {
-        fetchNearLocation(selectedPosition?.latitude ?? 0.0,
-            selectedPosition?.longitude ?? 0.0);
-      }
-    });
-  }
+  // void _handleSelectedOptionChange(String newOption) {
+  //   setState(() {
+  //     selectedOption = newOption;
+  //     if (selectedOption == "จากตำแหน่งบนแผนที่" && selectedPosition == null) {
+  //       _openMapSelectionPage();
+  //     } else if (selectedOption == "จากคำร้องขอสถานที่") {
+  //       // Navigate push ไปยังหน้า RequestPage พร้อมส่ง tripUid มาด้วย
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => RequestPage(tripUid: widget.tripUid),
+  //         ),
+  //       );
+  //     } else {
+  //       fetchNearLocation(selectedPosition?.latitude ?? 0.0,
+  //           selectedPosition?.longitude ?? 0.0);
+  //     }
+  //   });
+  // }
 
   void _openMapSelectionPage() async {
     selectedPosition = await Navigator.push(

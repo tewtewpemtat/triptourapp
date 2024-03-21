@@ -67,8 +67,11 @@ class _SlidePlaceState extends State<SlidePlace> {
                     _sendDataToDownPage(); // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง DownPage
                   });
                 },
-                items: <String>['จากตำแหน่งใกล้ฉัน', 'จากตำแหน่งบนแผนที่']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: <String>[
+                  'จากตำแหน่งใกล้ฉัน',
+                  'จากตำแหน่งบนแผนที่',
+                  'จากคำร้องขอสถานที่'
+                ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
