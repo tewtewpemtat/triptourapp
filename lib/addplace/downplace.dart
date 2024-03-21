@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:triptourapp/addplace/mapselectown.dart';
 import 'package:triptourapp/requestplace.dart';
 import 'mapselect.dart'; // ต้องแก้ไขตามชื่อไฟล์ของหน้า MapSelectionPage จริงๆ
 import 'package:permission_handler/permission_handler.dart';
@@ -272,6 +273,7 @@ class _DownPageState extends State<DownPage> {
         'placepicUrl': downloadUrl,
         'placeaddress': placeAddress,
         'placestart': placeStart,
+        'placetimestart': placeTimeStart,
         'placetimeend': placeTimeEnd,
         'placeLatitude': placeLatitude, // แก้เป็น placeLatitude
         'placeLongitude':
@@ -376,8 +378,7 @@ class _DownPageState extends State<DownPage> {
           // Perform a nearby search for places using Google Places API
           fetchNearLocation(position.latitude, position.longitude);
           selectedPosition = null;
-        }
-        if (selectedOption == "จากตำแหน่งบนแผนที่" &&
+        } else if (selectedOption == "จากตำแหน่งบนแผนที่" &&
             selectedPosition == null) {
           _openMapSelectionPage();
         } else if (selectedOption == "จากคำร้องขอสถานที่") {
@@ -385,6 +386,14 @@ class _DownPageState extends State<DownPage> {
             context,
             MaterialPageRoute(
               builder: (context) => RequestPage(tripUid: widget.tripUid),
+            ),
+          );
+        } else if (selectedOption == "เพิ่มสถานที่เอง") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  MapSelectionOwnPage(tripUid: widget.tripUid),
             ),
           );
         } else {

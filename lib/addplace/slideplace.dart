@@ -70,7 +70,8 @@ class _SlidePlaceState extends State<SlidePlace> {
                 items: <String>[
                   'จากตำแหน่งใกล้ฉัน',
                   'จากตำแหน่งบนแผนที่',
-                  'จากคำร้องขอสถานที่'
+                  'จากคำร้องขอสถานที่',
+                  'เพิ่มสถานที่เอง'
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
