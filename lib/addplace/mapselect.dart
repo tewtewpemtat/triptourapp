@@ -37,6 +37,8 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
               child: Icon(Icons.save),
             )
           : null,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.startFloat, // ตำแหน่ง FAB ที่กำหนด
     );
   }
 
