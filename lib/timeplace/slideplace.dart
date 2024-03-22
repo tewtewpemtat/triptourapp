@@ -10,8 +10,6 @@ class SlidePlace extends StatelessWidget {
       child: PageView(
         children: [
           buildTripItem(context),
-          buildTripItem(context),
-          buildTripItem(context),
         ],
       ),
     );

@@ -3,16 +3,19 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../infoplace.dart';
 
-class HeadPlan extends StatelessWidget {
+class HeadPlan extends StatefulWidget {
+  @override
+  final String? tripUid;
+  const HeadPlan({Key? key, this.tripUid}) : super(key: key);
+  _HeadPlanPageState createState() => _HeadPlanPageState();
+}
+
+class _HeadPlanPageState extends State<HeadPlan> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildTripItem(context),
-        buildTripItem(context),
-        buildTripItem(context),
-      ],
+      children: [buildTripItem(context)],
     );
   }
 

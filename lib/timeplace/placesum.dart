@@ -8,8 +8,6 @@ class PlaceSum extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildTripItem(context),
-        buildTripItem(context),
-        buildTripItem(context),
       ],
     );
   }

@@ -155,7 +155,7 @@ class TripmanagePage extends StatelessWidget {
                 }
               },
             ),
-            HeadPlan(),
+            HeadPlan(tripUid: tripUid),
           ],
         ),
       ),
