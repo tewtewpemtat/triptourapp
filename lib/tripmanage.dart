@@ -24,6 +24,18 @@ class TripmanagePage extends StatelessWidget {
     return query.docs.isNotEmpty;
   }
 
+  Future<bool> _checkTripCreate(String tripUid, String myUid) async {
+    DocumentSnapshot tripSnapshot =
+        await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
+
+    if (tripSnapshot.exists) {
+      String? tripCreate =
+          (tripSnapshot.data() as Map<String, dynamic>?)?['tripCreate'];
+      return tripCreate == myUid;
+    }
+    return false;
+  }
+
   Future<void> _createGroupChat(String tripUid) async {
     await FirebaseFirestore.instance.collection('groupmessages').add({
       'tripChatUid': tripUid,
@@ -60,9 +72,11 @@ class TripmanagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? myUid = FirebaseAuth.instance.currentUser?.uid;
     _initializeGroupChat();
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.grey[200],
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -81,21 +95,39 @@ class TripmanagePage extends StatelessWidget {
               child: Text(
                 'แผนการเดินทาง',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.ibmPlexSansThai(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
             ),
-            IconButton(
-              icon: Icon(Icons.person_add),
-              color: Colors.black,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Invite(tripUid: tripUid)),
-                );
+            FutureBuilder<bool>(
+              future: _checkTripCreate(tripUid!, myUid!),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  bool isTripCreator = snapshot.data ?? false;
+                  if (isTripCreator) {
+                    return IconButton(
+                      icon: Icon(Icons.person_add),
+                      color: Colors.black,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Invite(tripUid: tripUid),
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return SizedBox
+                        .shrink(); // ไม่แสดงอะไรเลยถ้าไม่ใช่ผู้สร้างทริป
+                  }
+                }
               },
             ),
           ],

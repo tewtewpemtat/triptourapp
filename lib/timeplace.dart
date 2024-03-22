@@ -4,7 +4,14 @@ import 'package:triptourapp/timeplace/placesum.dart';
 import 'package:triptourapp/timeplace/slideplace.dart';
 import 'package:triptourapp/timeplace/slidetime.dart';
 
-class TimePlacePage extends StatelessWidget {
+class TimePlacePage extends StatefulWidget {
+  @override
+  final String? tripUid;
+  const TimePlacePage({Key? key, this.tripUid}) : super(key: key);
+  _TimePlacePageState createState() => _TimePlacePageState();
+}
+
+class _TimePlacePageState extends State<TimePlacePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
