@@ -1,4 +1,4 @@
-#Fri Mar 22 21:08:04 ICT 2024
+#Sat Mar 23 00:40:51 ICT 2024
 base.0=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
 base.2=C\:\\triptourapp\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex

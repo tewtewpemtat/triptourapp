@@ -220,50 +220,58 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
   }
 
   void _savePlace() async {
-    final placeName = _placeNameController.text;
-    final placeLatitude = _selectedPosition!.latitude;
-    final placeLongitude = _selectedPosition!.longitude;
-    final placeStart = placestart;
-    final placetimeStart = placetimestart;
-    final placetimeEnd = placetimeend;
-    final placeTripid = widget.tripUid;
-    final placeWhoGo = placewhogo;
-    final placeStatus = placestatus;
-    final userUid = FirebaseAuth.instance.currentUser?.uid;
-    // Fetch address from coordinates
+    try {
+      final placeName = _placeNameController.text;
+      final placeLatitude = _selectedPosition!.latitude;
+      final placeLongitude = _selectedPosition!.longitude;
+      final placeStart = placestart;
+      final placetimeStart = placetimestart;
+      final placetimeEnd = placetimeend;
+      final placeTripid = widget.tripUid;
+      final placeWhoGo = placewhogo;
+      final placeStatus = placestatus;
+      final userUid = FirebaseAuth.instance.currentUser?.uid;
 
-    final placeProvince = await getProvinceFromCoordinates(_selectedPosition!);
-    final placeDistrict = await getDistrictFromCoordinates(_selectedPosition!);
-    final placeAddress = '$placeProvince $placeDistrict';
-    final imageName = '$placeName.jpg';
-    final firebaseStorageRef = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('trip/places/profilepicown/${widget.tripUid}/$imageName');
-    await firebaseStorageRef.putFile(_selectedImage!);
+      final placeProvince =
+          await getProvinceFromCoordinates(_selectedPosition!);
+      final placeDistrict =
+          await getDistrictFromCoordinates(_selectedPosition!);
+      final placeAddress = '$placeProvince $placeDistrict';
+      final imageName = '$placeName.jpg';
+      final firebaseStorageRef = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('trip/places/profilepicown/${widget.tripUid}/$imageName');
+      await firebaseStorageRef.putFile(_selectedImage!);
 
-    final downloadURL = await firebaseStorageRef.getDownloadURL();
+      final downloadURL = await firebaseStorageRef.getDownloadURL();
 
-    // Save place information to Firestore
-    final placesCollection = FirebaseFirestore.instance.collection('places');
-    await placesCollection.add({
-      'placeLatitude': placeLatitude,
-      'placeLongitude': placeLongitude,
-      'placeaddress': placeAddress,
-      'placename': placeName,
-      'placePicUrl': downloadURL,
-      'placeStart': placeStart,
-      'placetimestart': placetimeStart,
-      'placetimeend': placetimeEnd,
-      'placetripid': placeTripid,
-      'placewhoGo': placeWhoGo,
-      'userUid': userUid,
-      'placeStatus': placeStatus
-    });
-    setState(() {
-      _selectedImage = null;
-      _placeNameController.clear();
-      _selectedPosition = null;
-    });
-    Fluttertoast.showToast(msg: 'เพิ่มสถานที่เรียบร้อยเเล้ว');
+      final placesCollection = FirebaseFirestore.instance.collection('places');
+      await placesCollection.add({
+        'placeLatitude': placeLatitude,
+        'placeLongitude': placeLongitude,
+        'placeaddress': placeAddress,
+        'placename': placeName,
+        'placepicUrl': downloadURL,
+        'placestart': placeStart,
+        'placetimestart': placetimeStart,
+        'placetimeend': placetimeEnd,
+        'placetripid': placeTripid,
+        'placewhoGo': placeWhoGo,
+        'useruid': userUid,
+        'placestatus': placeStatus,
+        'placeprovince': placeProvince
+      });
+
+      setState(() {
+        _selectedImage = null;
+        _placeNameController.clear();
+        _selectedPosition = null;
+      });
+
+      Fluttertoast.showToast(msg: 'เพิ่มสถานที่เรียบร้อยแล้ว');
+    } catch (e) {
+      print('Error: $e'); // แสดง error message ใน console
+      Fluttertoast.showToast(msg: 'เกิดข้อผิดพลาดในการเพิ่มสถานที่');
+    }
   }
 }

@@ -11,6 +11,7 @@ import 'package:triptourapp/addplace/slideplace.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:triptourapp/requestlist.dart';
+import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,13 +23,16 @@ class Place {
   final String province;
   final String imageUrl;
   final double latitude; // Add latitude field
-  final double longitude; // Add longitude field
+  final double longitude;
+  final String? placeprovince;
+// Add longitude field
   Place({
     required this.name,
     required this.province,
     required this.imageUrl,
     required this.latitude,
     required this.longitude,
+    required this.placeprovince,
   });
 }
 
@@ -201,8 +205,9 @@ class _DownPageState extends State<DownPage> {
 
                                   // Use the location of the place
                                   placeWhoGo: [uid ?? ''],
-                                  placeStatus:
-                                      'Added', // Initially, no one goes to this place, so it's an empty array
+                                  placeStatus: 'Added',
+                                  placeProvince: places[index].placeprovince ??
+                                      '', // Initially, no one goes to this place, so it's an empty array
                                 );
                               },
                               child: Icon(
@@ -238,6 +243,7 @@ class _DownPageState extends State<DownPage> {
     required double placeLongitude, // Change parameter name to placeLongitude
     required List<String> placeWhoGo,
     required String placeStatus,
+    required String placeProvince,
   }) async {
     try {
       // Check if the place already exists in the trip
@@ -280,6 +286,7 @@ class _DownPageState extends State<DownPage> {
             placeLongitude, // แก้เป็น placeLongitudeUse new latitude and longitude fields
         'placewhogo': placeWhoGo,
         'placestatus': placeStatus,
+        'placeprovince': placeProvince,
       });
 
       // Notify the user that the place has been successfully added
@@ -335,29 +342,46 @@ class _DownPageState extends State<DownPage> {
               await _places.getDetailsByPlaceId(result.placeId!);
           String? placeAddress = detailsResponse.result?.formattedAddress;
           String? province = await fetchProvinceFromAddress(placeAddress ?? '');
+          LatLng position = LatLng(
+            detailsResponse.result?.geometry?.location.lat ?? 0.0,
+            detailsResponse.result?.geometry?.location.lng ?? 0.0,
+          );
+          String? placeProvince = await getProvinceFromCoordinates(position);
           double latitude =
               detailsResponse.result?.geometry?.location.lat ?? 0.0;
           double longitude =
               detailsResponse.result?.geometry?.location.lng ?? 0.0;
           places.add(Place(
-            name: result.name ?? 'Unknown',
-            province: province ?? 'Unknown',
-            imageUrl: result.photos != null && result.photos!.isNotEmpty
-                ? _places.buildPhotoUrl(
-                    photoReference: result.photos![0].photoReference!,
-                    maxWidth: 400,
-                  )
-                : 'https://via.placeholder.com/400',
-            latitude:
-                latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
-            longitude: longitude,
-          ));
+              name: result.name ?? 'Unknown',
+              province: province ?? 'Unknown',
+              imageUrl: result.photos != null && result.photos!.isNotEmpty
+                  ? _places.buildPhotoUrl(
+                      photoReference: result.photos![0].photoReference!,
+                      maxWidth: 400,
+                    )
+                  : 'https://via.placeholder.com/400',
+              latitude:
+                  latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
+              longitude: longitude,
+              placeprovince: placeProvince));
         }
       }
       setState(() {}); // Update UI
     }
   }
 
+  Future<String?> getProvinceFromCoordinates(LatLng position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    if (placemarks != null && placemarks.isNotEmpty) {
+      Placemark placemark = placemarks.first;
+      return placemark
+          .administrativeArea; // หรือจะใช้ .subAdministrativeArea ก็ได้
+    } else {
+      return null;
+    }
+  }
 // Function to fetch province from address
 
   Future<void> _checkLocationPermission(String newOption) async {
@@ -473,28 +497,34 @@ class _DownPageState extends State<DownPage> {
 
     // Iterate through the results and add them to the list
     if (response.results != null) {
-      // Iterate through the results and add them to the list
       for (PlacesSearchResult result in response.results!) {
         PlacesDetailsResponse detailsResponse =
             await _places.getDetailsByPlaceId(result.placeId!);
+        LatLng position = LatLng(
+          detailsResponse.result?.geometry?.location.lat ?? 0.0,
+          detailsResponse.result?.geometry?.location.lng ?? 0.0,
+        );
+        String? placeProvince = await getProvinceFromCoordinates(position);
         String? placeAddress = detailsResponse.result?.formattedAddress;
         String? province = await fetchProvinceFromAddress(placeAddress ?? '');
         double latitude = detailsResponse.result?.geometry?.location.lat ?? 0.0;
         double longitude =
             detailsResponse.result?.geometry?.location.lng ?? 0.0;
         places.add(Place(
-          name: result.name ?? 'Unknown',
-          province: province ?? 'Unknown', // ตัวอย่างการกำหนดชื่อจังหวัด
-          imageUrl: result.photos != null && result.photos!.isNotEmpty
-              ? _places.buildPhotoUrl(
-                  photoReference: result.photos![0].photoReference!,
-                  maxWidth: 400,
-                )
-              : 'https://via.placeholder.com/400', // URL ของรูปภาพตัวอย่าง
-          latitude: latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
-          longitude:
-              longitude, // เพิ่มพารามิเตอร์ longitude ให้กับอ็อบเจกต์ Place
-        ));
+            name: result.name ?? 'Unknown',
+            province: province ?? 'Unknown', // ตัวอย่างการกำหนดชื่อจังหวัด
+            imageUrl: result.photos != null && result.photos!.isNotEmpty
+                ? _places.buildPhotoUrl(
+                    photoReference: result.photos![0].photoReference!,
+                    maxWidth: 400,
+                  )
+                : 'https://via.placeholder.com/400', // URL ของรูปภาพตัวอย่าง
+            latitude:
+                latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
+            longitude: longitude,
+            placeprovince:
+                placeProvince // เพิ่มพารามิเตอร์ longitude ให้กับอ็อบเจกต์ Place
+            ));
       }
     }
 

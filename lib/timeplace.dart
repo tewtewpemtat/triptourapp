@@ -59,7 +59,7 @@ class _TimePlacePageState extends State<TimePlacePage> {
                     fontSize: 14.0, color: Colors.grey),
               ),
             ),
-            SlidePlace(),
+            SlidePlace(tripUid: widget.tripUid),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
