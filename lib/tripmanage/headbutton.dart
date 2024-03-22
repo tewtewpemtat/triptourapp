@@ -36,11 +36,11 @@ void cancelTrip(BuildContext context, String tripUid) async {
       return;
     }
     // ลบภาพใน Firebase Storage
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    String tripName = tripSnapshot['tripName'];
-    String imagePath = 'trip/profiletrip/$uid/$tripName.jpg';
-    Reference ref = FirebaseStorage.instance.ref().child(imagePath);
+    String tripProfileUrl = tripSnapshot['tripProfileUrl'];
+    Reference ref = FirebaseStorage.instance.refFromURL(tripProfileUrl);
     await ref.delete();
+
+    // ลบเอกสารที่อ้างอิงถึงทริปออกจาก Firestore
     await FirebaseFirestore.instance.collection('trips').doc(tripUid).delete();
     Navigator.push(
       context,

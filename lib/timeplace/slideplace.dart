@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SlidePlace extends StatefulWidget {
   final String? tripUid;
@@ -46,7 +49,7 @@ class _SlidePlaceState extends State<SlidePlace> {
             );
           } else {
             return Center(
-              child: Text('No places found.'),
+              child: Text('ไม่พบสถานที่'),
             );
           }
         },
@@ -56,81 +59,133 @@ class _SlidePlaceState extends State<SlidePlace> {
 
   Widget buildTripItem(BuildContext context, DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-
+    String placeName = data['placename'];
+    int maxChars = 16;
+    String displayedName = placeName.length > maxChars
+        ? placeName.substring(0, maxChars) +
+            '\n' +
+            placeName.substring(maxChars)
+        : placeName;
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: InkWell(
-        onTap: () {
-          // Handle tap action
-        },
-        child: Container(
-          padding: EdgeInsets.all(5.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Image.network(
-                      data['placepicUrl'] != null
-                          ? data['placepicUrl']
-                          : 'assets/cat.jpg',
-                      width: 100.0,
-                      height: 100.0,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 8),
-              Expanded(
-                flex: 6,
-                child: Container(
-                  margin: EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data['placename'], // อ้างอิงชื่อสถานที่จาก Firestore
-                        style: GoogleFonts.ibmPlexSansThai(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1.0,
-                          ),
+          onTap: () {
+            // Handle tap action
+          },
+          child: Container(
+            padding: EdgeInsets.all(5.0),
+            child: Stack(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0),
-                          color: Color(0xFF1E30D7),
-                        ),
-                        padding: EdgeInsets.all(3.0),
-                        child: Text(
-                          data['placeprovince'],
-                          style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 8,
-                            color: Colors.white,
+                          child: Image.network(
+                            data['placepicUrl'] != null
+                                ? data['placepicUrl']
+                                : 'assets/cat.jpg',
+                            width: 100.0,
+                            height: 100.0,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      SizedBox(width: 5),
-                      Text(
-                        data[
-                            'placeaddress'], // อ้างอิงที่อยู่ของสถานที่จาก Firestore
-                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      flex: 6,
+                      child: Container(
+                        margin: EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              displayedName, // อ้างอิงชื่อสถานที่จาก Firestore
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(16.0),
+                                color: Color(0xFF1E30D7),
+                              ),
+                              padding: EdgeInsets.all(3.0),
+                              child: Text(
+                                data['placeprovince'],
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontSize: 8,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              data[
+                                  'placeaddress'], // อ้างอิงที่อยู่ของสถานที่จาก Firestore
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: IconButton(
+                    onPressed: () async {
+                      String placeId = document.id; // รหัสสถานที่ (Document ID)
+                      String placeName = data['placename']; // ชื่อสถานที่
+                      String tripId =
+                          data['placetripid']; // รหัสการท่องเที่ยวของสถานที่
+                      String imageUrl = data['placepicUrl']; // URL ของรูปภาพ
+
+                      try {
+                        // ลบข้อมูลสถานที่ออกจาก Firestore
+                        await FirebaseFirestore.instance
+                            .collection('places')
+                            .doc(placeId)
+                            .delete();
+
+                        // ลบรูปภาพออกจาก Firebase Storage
+                        if (imageUrl != null) {
+                          // ลิงก์ไปยังรูปภาพใน Firebase Storage
+                          Reference imageRef =
+                              FirebaseStorage.instance.refFromURL(imageUrl);
+                          // ลบรูปภาพ
+                          await imageRef.delete();
+                        }
+
+                        // แจ้งเตือนว่าการลบสถานที่เสร็จสิ้น
+                        Fluttertoast.showToast(msg: 'ลบสถานที่สำเร็จ');
+                        setState(() {});
+                      } catch (error) {
+                        // แจ้งเตือนเมื่อเกิดข้อผิดพลาดในการลบ
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content:
+                                  Text('Error deleting $placeName: $error')),
+                        );
+                      }
+                    },
+                    icon: Icon(Icons.delete),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              ],
+            ),
+          )),
     );
   }
 }
