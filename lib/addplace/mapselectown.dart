@@ -171,7 +171,6 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
                     Navigator.of(context).pop();
                     setState(() {
                       _selectedImage = null;
-                      _placeNameController.clear();
                       _selectedPosition = null;
                     });
                   },

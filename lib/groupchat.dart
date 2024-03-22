@@ -136,7 +136,6 @@ class _ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       print('Error fetching messages: $e');
     }
-    scrollToBottomFirst();
   }
 
   void removeMyfromFriendTrip(String friendUid) async {
@@ -346,25 +345,15 @@ class _ChatScreenState extends State<ChatScreen> {
         tripname = tripSnapshot['tripName'];
       });
     });
-    // Scroll to the bottom after the frame has been painted
   }
 
   void scrollToBottom() {
-    if (_scrollController.hasClients) {
-      final bottomOffset = _scrollController.position.maxScrollExtent;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       _scrollController.animateTo(
-        bottomOffset,
+        0.0, // Scroll to the top
         duration: Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
-    }
-  }
-
-  void scrollToBottomFirst() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      }
     });
   }
 
@@ -454,7 +443,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
+          0.0, // Scroll to the top
           duration: Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
@@ -493,7 +482,6 @@ class _ChatScreenState extends State<ChatScreen> {
           });
         }
       }
-
       // After sending the message, fetch updated messages
       fetchMessages();
     }
@@ -558,15 +546,17 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: getMessagesStream(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  WidgetsBinding.instance.addPostFrameCallback(
-                      (_) => scrollToBottom()); // Add this line
+                  WidgetsBinding.instance
+                      .addPostFrameCallback((_) => scrollToBottom());
+                  // Add this line
 
                   List<Map<String, dynamic>> messages = snapshot.data!;
                   return ListView.builder(
                     controller: _scrollController,
+                    reverse: true,
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      final message = messages[index];
+                      final message = messages[messages.length - index - 1];
                       final user = message['user'] ?? '';
                       final messageText = message['message'] ?? '';
                       final isCurrentUser = user == 'You';
