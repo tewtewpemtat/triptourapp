@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import './slidetime.dart';
 
 class SlidePlace extends StatefulWidget {
   final String? tripUid;
@@ -20,40 +21,55 @@ class SlidePlace extends StatefulWidget {
 class _SlidePlaceState extends State<SlidePlace> {
   late String uid = FirebaseAuth.instance.currentUser!.uid;
 
+  String? selectedPlaceUid; // เพิ่มตัวแปรสำหรับเก็บ UID ที่เลือก
+
+  void updateSelectedPlaceUid(String uid) {
+    setState(() {
+      selectedPlaceUid = uid; // อัปเดตค่า UID
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 140.0,
-      child: FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance
-            .collection('places')
-            .where('placetripid', isEqualTo: widget.tripUid)
-            .where('placestatus', isEqualTo: 'Added')
-            .get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
-          if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-            return PageView(
-              children: snapshot.data!.docs.map((document) {
-                return buildTripItem(context, document);
-              }).toList(),
-            );
-          } else {
-            return Center(
-              child: Text('ไม่พบสถานที่'),
-            );
-          }
-        },
-      ),
+    return Column(
+      children: [
+        Container(
+          height: 140.0,
+          child: FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('places')
+                .where('placetripid', isEqualTo: widget.tripUid)
+                .where('placestatus', isEqualTo: 'Added')
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+              if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                return PageView(
+                  children: snapshot.data!.docs.map((document) {
+                    return buildTripItem(context, document);
+                  }).toList(),
+                );
+              } else {
+                return Center(
+                  child: Text('ไม่พบสถานที่'),
+                );
+              }
+            },
+          ),
+        ),
+        SlideTime(
+            selectedPlaceUid:
+                selectedPlaceUid), // ส่งค่า UID ไปยัง SlideTime widget
+      ],
     );
   }
 
@@ -70,7 +86,8 @@ class _SlidePlaceState extends State<SlidePlace> {
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: InkWell(
           onTap: () {
-            // Handle tap action
+            updateSelectedPlaceUid(
+                document.id); // เรียกใช้ฟังก์ชันเพื่ออัปเดตค่า UID
           },
           child: Container(
             padding: EdgeInsets.all(5.0),
@@ -104,7 +121,7 @@ class _SlidePlaceState extends State<SlidePlace> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              displayedName, // อ้างอิงชื่อสถานที่จาก Firestore
+                              displayedName,
                               style: GoogleFonts.ibmPlexSansThai(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -131,8 +148,7 @@ class _SlidePlaceState extends State<SlidePlace> {
                             ),
                             SizedBox(height: 2),
                             Text(
-                              data[
-                                  'placeaddress'], // อ้างอิงที่อยู่ของสถานที่จาก Firestore
+                              data['placeaddress'],
                               style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
                             ),
                           ],
@@ -146,33 +162,26 @@ class _SlidePlaceState extends State<SlidePlace> {
                   right: 0,
                   child: IconButton(
                     onPressed: () async {
-                      String placeId = document.id; // รหัสสถานที่ (Document ID)
-                      String placeName = data['placename']; // ชื่อสถานที่
-                      String tripId =
-                          data['placetripid']; // รหัสการท่องเที่ยวของสถานที่
-                      String imageUrl = data['placepicUrl']; // URL ของรูปภาพ
+                      String placeId = document.id;
+                      String placeName = data['placename'];
+                      String tripId = data['placetripid'];
+                      String imageUrl = data['placepicUrl'];
 
                       try {
-                        // ลบข้อมูลสถานที่ออกจาก Firestore
                         await FirebaseFirestore.instance
                             .collection('places')
                             .doc(placeId)
                             .delete();
 
-                        // ลบรูปภาพออกจาก Firebase Storage
                         if (imageUrl != null) {
-                          // ลิงก์ไปยังรูปภาพใน Firebase Storage
                           Reference imageRef =
                               FirebaseStorage.instance.refFromURL(imageUrl);
-                          // ลบรูปภาพ
                           await imageRef.delete();
                         }
 
-                        // แจ้งเตือนว่าการลบสถานที่เสร็จสิ้น
                         Fluttertoast.showToast(msg: 'ลบสถานที่สำเร็จ');
                         setState(() {});
                       } catch (error) {
-                        // แจ้งเตือนเมื่อเกิดข้อผิดพลาดในการลบ
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               content:
@@ -188,12 +197,4 @@ class _SlidePlaceState extends State<SlidePlace> {
           )),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      body: SlidePlace(),
-    ),
-  ));
 }

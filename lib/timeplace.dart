@@ -60,27 +60,26 @@ class _TimePlacePageState extends State<TimePlacePage> {
               ),
             ),
             SlidePlace(tripUid: widget.tripUid),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'กำหนดเวลา',
-                style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'ระบุเวลาการเดินทางของแต่ละสถานที่',
-                style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 14.0, color: Colors.grey),
-              ),
-            ),
-            SizedBox(height: 7),
-            SlideTime(),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 10),
+            //   child: Text(
+            //     'กำหนดเวลา',
+            //     style: GoogleFonts.ibmPlexSansThai(
+            //       fontSize: 24.0,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 5),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 10),
+            //   child: Text(
+            //     'ระบุเวลาการเดินทางของแต่ละสถานที่',
+            //     style: GoogleFonts.ibmPlexSansThai(
+            //         fontSize: 14.0, color: Colors.grey),
+            //   ),
+            // ),
+
             SizedBox(height: 7),
             Padding(
               padding: const EdgeInsets.only(left: 10),

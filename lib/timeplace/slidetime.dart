@@ -4,52 +4,30 @@ import 'package:google_fonts/google_fonts.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: SlideTime(),
+      home: SlideTime(), // นำ MyApp() ไปเป็นหน้าจอหลัก
     ),
   );
 }
 
 class SlideTime extends StatefulWidget {
+  final String? selectedPlaceUid; // รับค่า UID จาก SlidePlace widget
+
+  const SlideTime({Key? key, this.selectedPlaceUid}) : super(key: key);
+
   @override
   _SlideTimeState createState() => _SlideTimeState();
 }
 
 class _SlideTimeState extends State<SlideTime> {
-  List<String> placeTypes = [
-    '01:00',
-    '01:30',
-    '02:00',
-    '02:30',
-    '03:00',
-    '03:30',
-    '04:00',
-    '04:30',
-    '05:00',
-    '05:30',
-    '06:00',
-    '06:30',
-    '07:00',
-    '07:30',
-    '08:00',
-    '08:30',
-    '09:00',
-    '09:30',
-    '10:00',
-    '10:30',
-    '11:00',
-    '11:30',
-    '12:00',
-  ];
-
-  List<String> selectedPlaceTypes = [];
   List<String> availableDays = ['24', '25', '26'];
   String? selectedDay;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.all(0.0),
-      height: 190,
+      height: 180,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -91,71 +69,15 @@ class _SlideTimeState extends State<SlideTime> {
               ),
             ],
           ),
-          SizedBox(height: 10),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: placeTypes.map((type) {
-                return _buildPlaceType(type);
-              }).toList(),
-            ),
-          ),
-          SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              // Save the selected time slots
-              print('Selected Time Slots: $selectedPlaceTypes');
-              setState(() {
-                // Perform any other action you want after saving
-                selectedPlaceTypes
-                    .clear(); // Clear the selectedPlaceTypes list after saving
-              });
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: Color(0xffdb923c),
-              primary: Colors.white,
-            ),
-            child: Text(
-              'บันทึก',
-              style: GoogleFonts.ibmPlexSansThai(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+          SizedBox(height: 10), // เพิ่มระยะห่างระหว่าง DropdownButton และ Text
+          Text(
+            'UID ของสถานที่: ${widget.selectedPlaceUid ?? "ไม่พบ"}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPlaceType(String timeType) {
-    bool isSelected = selectedPlaceTypes.contains(timeType);
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          if (isSelected) {
-            selectedPlaceTypes.remove(timeType);
-          } else {
-            selectedPlaceTypes.add(timeType);
-          }
-        });
-      },
-      child: Container(
-        padding: EdgeInsets.all(9.0),
-        margin: EdgeInsets.only(right: 10.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 2.0),
-          borderRadius: BorderRadius.circular(5.0),
-          color: isSelected ? Colors.yellow : Colors.white,
-        ),
-        child: Text(
-          timeType,
-          style: GoogleFonts.ibmPlexSansThai(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
     );
   }
