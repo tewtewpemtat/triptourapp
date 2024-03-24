@@ -66,6 +66,7 @@ class _SlidePlaceState extends State<SlidePlace> {
             },
           ),
         ),
+
         SlideTime(
             selectedPlaceUid:
                 selectedPlaceUid), // ส่งค่า UID ไปยัง SlideTime widget
@@ -86,8 +87,8 @@ class _SlidePlaceState extends State<SlidePlace> {
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: InkWell(
           onTap: () {
-            updateSelectedPlaceUid(
-                document.id); // เรียกใช้ฟังก์ชันเพื่ออัปเดตค่า UID
+            updateSelectedPlaceUid(document.id);
+            // เรียกใช้ฟังก์ชันเพื่ออัปเดตค่า UID
           },
           child: Container(
             padding: EdgeInsets.all(5.0),
