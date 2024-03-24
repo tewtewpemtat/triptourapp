@@ -35,7 +35,7 @@ class _SlideTimeState extends State<SlideTime> {
   TimeOfDay? _endTime;
   String? formattedTime;
   String? formattedTimeEnd; // ย้ายตัวแปร formattedTime มาที่นี่
-
+  List<DateTime> tripDates = [];
   TimeOfDay? _convertToTimeOfDay(String? timeString) {
     if (timeString != null && timeString.isNotEmpty) {
       final List<String> parts = timeString.split(':');
@@ -76,13 +76,21 @@ class _SlideTimeState extends State<SlideTime> {
             if (!tripSnapshot.hasData || !tripSnapshot.data!.exists) {
               return Text('ไม่พบข้อมูล');
             }
+
             final tripData = tripSnapshot.data!;
             DateTime tripStartDate = tripData['tripStartDate'].toDate();
             DateTime tripEndDate = tripData['tripEndDate'].toDate();
+
             placetimestart = placeData['placetimestart'];
             placetimeend = placeData['placetimeend'];
             tripStartDateFormatted =
                 DateFormat('yyyy-MM-dd').format(tripStartDate);
+            for (DateTime date = tripStartDate;
+                date.isBefore(tripEndDate) ||
+                    date.isAtSameMomentAs(tripEndDate);
+                date = date.add(Duration(days: 1))) {
+              tripDates.add(date);
+            }
 
             tripEndDateFormatted = DateFormat('yyyy-MM-dd').format(tripEndDate);
 
@@ -108,18 +116,6 @@ class _SlideTimeState extends State<SlideTime> {
   }
 
   Widget buildSlideTime() {
-    List<int> daysInRange = [];
-    if (tripStartDateFormatted != null && tripEndDateFormatted != null) {
-      DateTime startDate = DateTime.parse(tripStartDateFormatted!);
-      DateTime endDate = DateTime.parse(tripEndDateFormatted!);
-
-      // หาวันที่ระหว่าง startdate และ enddate
-      for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
-        DateTime day = startDate.add(Duration(days: i));
-        daysInRange.add(day.day); // เพิ่มวันที่ลงในรายการวันที่
-      }
-    }
-
     return Container(
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.all(0.0),
@@ -153,12 +149,10 @@ class _SlideTimeState extends State<SlideTime> {
                 value: selectedDay != null
                     ? DateFormat('yyyy-MM-dd').parse(selectedDay!)
                     : null,
-                items: daysInRange.map((day) {
-                  DateTime currentDate = DateTime.parse(tripStartDateFormatted!)
-                      .add(Duration(days: day - 1));
+                items: tripDates.map((day) {
                   return DropdownMenuItem<DateTime>(
-                    value: currentDate,
-                    child: Text(DateFormat('yyyy-MM-dd').format(currentDate)),
+                    value: day,
+                    child: Text(DateFormat('yyyy-MM-dd').format(day)),
                   );
                 }).toList(),
                 onChanged: (DateTime? value) {
