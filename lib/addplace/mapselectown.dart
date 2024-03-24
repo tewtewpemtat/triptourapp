@@ -26,8 +26,8 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
   String? uid;
   LatLng? _selectedPosition;
   String placestart = '';
-  String placetimeend = '';
-  String placetimestart = '';
+  DateTime? placetimeend = null;
+  DateTime? placetimestart = null;
   String placestatus = 'Added';
   String? placetripid;
   File? _selectedImage;

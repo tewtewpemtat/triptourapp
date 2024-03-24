@@ -195,9 +195,9 @@ class _DownPageState extends State<DownPage> {
                                   placeStart:
                                       '', // You can leave this empty or provide a start time if available
                                   placeTimeEnd:
-                                      '', // You can leave this empty or provide an end time if available
+                                      null, // You can leave this empty or provide an end time if available
                                   placeTimeStart:
-                                      '', // You can leave this empty or provide a start time if available
+                                      null, // You can leave this empty or provide a start time if available
                                   placeLatitude: places[index]
                                       .latitude, // Use latitude field
                                   placeLongitude: places[index]
@@ -237,8 +237,8 @@ class _DownPageState extends State<DownPage> {
     required String placePicUrl,
     required String placeAddress,
     required String placeStart,
-    required String placeTimeEnd,
-    required String placeTimeStart,
+    required DateTime? placeTimeEnd, // เปลี่ยนให้เป็น DateTime?
+    required DateTime? placeTimeStart, // เปลี่ยนให้เป็น DateTime?
     required double placeLatitude, // Change parameter name to placeLatitude
     required double placeLongitude, // Change parameter name to placeLongitude
     required List<String> placeWhoGo,

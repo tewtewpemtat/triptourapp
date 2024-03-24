@@ -29,6 +29,24 @@ class _SlideTimeState extends State<SlideTime> {
   String? tripEndDate = 'ไม่พบข้อมูล';
   String? tripStartDateFormatted;
   String? tripEndDateFormatted;
+  Timestamp? placetimestart;
+  Timestamp? placetimeend;
+  TimeOfDay? _startTime;
+  TimeOfDay? _endTime;
+  String? formattedTime;
+  String? formattedTimeEnd; // ย้ายตัวแปร formattedTime มาที่นี่
+
+  TimeOfDay? _convertToTimeOfDay(String? timeString) {
+    if (timeString != null && timeString.isNotEmpty) {
+      final List<String> parts = timeString.split(':');
+      if (parts.length == 2) {
+        final int hour = int.tryParse(parts[0]) ?? 0;
+        final int minute = int.tryParse(parts[1]) ?? 0;
+        return TimeOfDay(hour: hour, minute: minute);
+      }
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +79,27 @@ class _SlideTimeState extends State<SlideTime> {
             final tripData = tripSnapshot.data!;
             DateTime tripStartDate = tripData['tripStartDate'].toDate();
             DateTime tripEndDate = tripData['tripEndDate'].toDate();
+            placetimestart = placeData['placetimestart'];
+            placetimeend = placeData['placetimeend'];
             tripStartDateFormatted =
                 DateFormat('yyyy-MM-dd').format(tripStartDate);
+
             tripEndDateFormatted = DateFormat('yyyy-MM-dd').format(tripEndDate);
+
+            if (placetimestart == null) {
+              formattedTime = '00:00';
+            } else if (placetimestart != null) {
+              DateTime placetimestartnew = placetimestart!.toDate();
+
+              formattedTime = DateFormat('HH:mm').format(placetimestartnew);
+            }
+            if (placetimeend == null) {
+              formattedTimeEnd = '00:00';
+            } else if (placetimeend != null) {
+              DateTime placetimeendnew = placetimeend!.toDate();
+
+              formattedTimeEnd = DateFormat('HH:mm').format(placetimeendnew);
+            }
             return buildSlideTime();
           },
         );
@@ -80,7 +116,7 @@ class _SlideTimeState extends State<SlideTime> {
       // หาวันที่ระหว่าง startdate และ enddate
       for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
         DateTime day = startDate.add(Duration(days: i));
-        daysInRange.add(day.day);
+        daysInRange.add(day.day); // เพิ่มวันที่ลงในรายการวันที่
       }
     }
 
@@ -112,25 +148,214 @@ class _SlideTimeState extends State<SlideTime> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              DropdownButton<int>(
+              DropdownButton<DateTime>(
                 hint: Text('วันที่'),
-                value: int.tryParse(selectedDay ?? ''),
-                items: daysInRange.map((int day) {
-                  return DropdownMenuItem<int>(
-                    value: day,
-                    child: Text(day.toString()),
+                value: selectedDay != null
+                    ? DateFormat('yyyy-MM-dd').parse(selectedDay!)
+                    : null,
+                items: daysInRange.map((day) {
+                  DateTime currentDate = DateTime.parse(tripStartDateFormatted!)
+                      .add(Duration(days: day - 1));
+                  return DropdownMenuItem<DateTime>(
+                    value: currentDate,
+                    child: Text(DateFormat('yyyy-MM-dd').format(currentDate)),
                   );
                 }).toList(),
-                onChanged: (int? value) {
+                onChanged: (DateTime? value) {
                   setState(() {
-                    selectedDay = value.toString();
+                    if (value != null) {
+                      selectedDay = DateFormat('yyyy-MM-dd').format(value);
+                      print(selectedDay);
+                    }
                   });
                 },
               ),
             ],
           ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'เวลาเริ่มต้น: ${formattedTime ?? ''}', // แสดงเวลาเริ่มต้นที่ถูกเลือก (ถ้ามี)
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _selectStartTime(context);
+                    },
+                    child: Text('เลือกเวลาเริ่มต้น'),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'เวลาสิ้นสุด: ${formattedTimeEnd ?? ''}', // แสดงเวลาเริ่มต้นที่ถูกเลือก (ถ้ามี)
+                    style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _selectEndTime(context);
+                    },
+                    child: Text('เลือกเวลาเริ่มต้น'),
+                  ),
+                ],
+              ),
+            ],
+          ), // เพิ่มระยะห่างระหว่าง DropdownButton และเวลาเริ่มต้น
         ],
       ),
+    );
+  }
+
+  void _selectStartTime(BuildContext context) async {
+    final TimeOfDay? pickedStartTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedStartTime != null && selectedDay != null) {
+      // แปลง TimeOfDay เป็น DateTime
+      DateTime selectedDateTime = DateTime.parse(selectedDay!);
+      selectedDateTime = selectedDateTime.add(Duration(
+          hours: pickedStartTime.hour, minutes: pickedStartTime.minute));
+
+      // แปลง DateTime เป็น Timestamp
+      Timestamp timestamp = Timestamp.fromDate(selectedDateTime);
+
+      setState(() {
+        placetimestart = timestamp;
+        print(placetimestart); // กำหนด placetimestart เป็น Timestamp
+      });
+      _saveStartTimeToFirestore(placetimestart!);
+    } else {
+      _AlertSelectDate(context);
+    }
+  }
+
+  void _saveStartTimeToFirestore(Timestamp startTime) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('places') // ใช้คอลเล็กชัน "places"
+          .doc(widget
+              .selectedPlaceUid) // เอกสารที่มี UID เท่ากับ widget.selectedPlaceUid
+          .update({
+        'placetimestart': startTime, // ส่ง Timestamp ไปยัง Firestore
+      });
+      print('Start time saved successfully!');
+    } catch (error) {
+      print('Error saving start time: $error');
+    }
+  }
+
+  void _saveEndTimeToFirestore(Timestamp endTime) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('places') // ใช้คอลเล็กชัน "places"
+          .doc(widget
+              .selectedPlaceUid) // เอกสารที่มี UID เท่ากับ widget.selectedPlaceUid
+          .update({
+        'placetimeend': endTime, // ส่ง Timestamp ไปยัง Firestore
+      });
+      print('Start time saved successfully!');
+    } catch (error) {
+      print('Error saving start time: $error');
+    }
+  }
+
+  void _selectEndTime(BuildContext context) async {
+    final TimeOfDay? pickedEndTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedEndTime != null && selectedDay != null) {
+      // แปลง TimeOfDay เป็น DateTime
+      DateTime selectedDateTime = DateTime.parse(selectedDay!);
+      selectedDateTime = selectedDateTime.add(
+          Duration(hours: pickedEndTime.hour, minutes: pickedEndTime.minute));
+
+      // แปลง DateTime เป็น Timestamp
+      Timestamp timestamp = Timestamp.fromDate(selectedDateTime);
+
+      setState(() {
+        placetimeend = timestamp;
+        print(placetimeend); // กำหนด placetimestart เป็น Timestamp
+      });
+      _saveEndTimeToFirestore(placetimeend!);
+    } else {
+      _AlertSelectDate(context);
+    }
+  }
+
+  void _showInvalidTimeAlertStart(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('เเจ้งเตือน'),
+          content: Text('โปรดเลือกเวลามากกว่าเวลาสิ้นสุด'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showInvalidTimeAlertEnd(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('เเจ้งเตือน'),
+          content: Text('โปรดเลือกเวลามากกว่าเวลาเริ่มต้น'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _AlertSelectDate(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('เเจ้งเตือน'),
+          content: Text('โปรดเลือกวันที่'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
