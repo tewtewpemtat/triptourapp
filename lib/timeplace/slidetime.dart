@@ -40,6 +40,20 @@ class _SlideTimeState extends State<SlideTime> {
   List<DateTime> tripDatesNew = [];
 
   @override
+  void didUpdateWidget(covariant SlideTime oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedPlaceUid != oldWidget.selectedPlaceUid) {
+      setState(() {
+        // เมื่อ selectedPlaceUid เปลี่ยนค่า กำหนด startTime และ endTime เป็น null
+        startTime = null;
+        endTime = null;
+        selectedDay = null;
+        selectdate = null;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance
@@ -103,6 +117,7 @@ class _SlideTimeState extends State<SlideTime> {
 
               formattedTimeEnd = DateFormat('HH:mm').format(placetimeendnew);
             }
+
             return buildSlideTime();
           },
         );
