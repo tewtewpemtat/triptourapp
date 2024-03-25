@@ -23,12 +23,6 @@ class _SlidePlaceState extends State<SlidePlace> {
 
   String? selectedPlaceUid; // เพิ่มตัวแปรสำหรับเก็บ UID ที่เลือก
 
-  void updateSelectedPlaceUid(String uid) {
-    setState(() {
-      selectedPlaceUid = uid; // อัปเดตค่า UID
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,6 +51,9 @@ class _SlidePlaceState extends State<SlidePlace> {
                   children: snapshot.data!.docs.map((document) {
                     return buildTripItem(context, document);
                   }).toList(),
+                  controller: PageController(
+                    initialPage: _findInitialPageIndex(snapshot.data!.docs),
+                  ),
                 );
               } else {
                 return Center(
@@ -74,6 +71,17 @@ class _SlidePlaceState extends State<SlidePlace> {
     );
   }
 
+  int _findInitialPageIndex(List<DocumentSnapshot> docs) {
+    if (selectedPlaceUid != null) {
+      for (int i = 0; i < docs.length; i++) {
+        if (docs[i].id == selectedPlaceUid) {
+          return i;
+        }
+      }
+    }
+    return 0;
+  }
+
   Widget buildTripItem(BuildContext context, DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     String placeName = data['placename'];
@@ -87,8 +95,9 @@ class _SlidePlaceState extends State<SlidePlace> {
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: InkWell(
           onTap: () {
-            updateSelectedPlaceUid(document.id);
-            // เรียกใช้ฟังก์ชันเพื่ออัปเดตค่า UID
+            setState(() {
+              selectedPlaceUid = document.id;
+            });
           },
           child: Container(
             padding: EdgeInsets.all(5.0),

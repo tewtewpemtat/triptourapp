@@ -100,7 +100,7 @@ class _SlideTimeState extends State<SlideTime> {
             }
 
             // อัปเดตค่าของตัวแปร tripDates หลังจากสร้างรายการเสร็จสมบูรณ์
-
+            print(widget.selectedPlaceUid);
             tripEndDateFormatted = DateFormat('yyyy-MM-dd').format(tripEndDate);
 
             if (placetimestart == null) {
