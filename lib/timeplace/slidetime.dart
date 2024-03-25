@@ -170,6 +170,7 @@ class _SlideTimeState extends State<SlideTime> {
                     if (value != null) {
                       selectedDay = DateFormat('yyyy-MM-dd').format(value);
                       selectdate = value;
+
                       print(selectdate);
                     }
                   });
@@ -439,19 +440,21 @@ class _SlideTimeState extends State<SlideTime> {
   }
 
   void _saveTime() async {
+    // ตรวจสอบว่า startTime มากกว่า endTime หรือไม่
     if (startTime!.isAfter(endTime!)) {
       _showInvalidTimeAlertStart(context);
-    } else if (endTime!.isBefore(startTime!)) {
+    }
+    // ตรวจสอบว่า endTime มากกว่า startTime หรือไม่
+    else if (endTime!.isBefore(startTime!)) {
       _showInvalidTimeAlertEnd(context);
-    } else {
-      // Your Firebase Firestore code
+    }
+    // กรณีที่เวลาถูกต้องทั้งสอง
+    else {
       final placeData = await FirebaseFirestore.instance
           .collection('places')
           .doc(widget.selectedPlaceUid)
           .get();
-
       final placetripid = placeData['placetripid'];
-
       final tripData = await FirebaseFirestore.instance
           .collection('trips')
           .doc(placetripid)
@@ -465,6 +468,8 @@ class _SlideTimeState extends State<SlideTime> {
           .where('placetripid', isEqualTo: placetripid)
           .get();
 
+      bool isOverlapping = false; // ตั้งค่าตรวจสอบการทับซ้อนเป็นเท็จเริ่มต้น
+
       for (final doc in querySnapshot.docs) {
         final existingPlaceData = doc.data();
         final existingStartTime = existingPlaceData['placetimestart'];
@@ -475,20 +480,31 @@ class _SlideTimeState extends State<SlideTime> {
                   startTime!.isBefore(existingEndTime.toDate())) ||
               (endTime!.isAfter(existingStartTime.toDate()) &&
                   endTime!.isBefore(existingEndTime.toDate()))) {
-            print('Invalid time: Overlapping with existing time');
-          } else {
-            Timestamp endTimestamp = Timestamp.fromDate(endTime!);
-            Timestamp startTimestamp = Timestamp.fromDate(startTime!);
-            _saveStarAndEndtTimeToFirestore(startTimestamp, endTimestamp);
-            print('Time is okay');
+            // หากมีการทับซ้อนเวลากับสถานที่อื่น ๆ
+            isOverlapping = true;
+            _showInvalidTimeRangeAlert(context);
+            break; // หยุดการตรวจสอบเมื่อพบการทับซ้อน
           }
-        } else {
-          Timestamp endTimestamp = Timestamp.fromDate(endTime!);
-          Timestamp startTimestamp = Timestamp.fromDate(startTime!);
-          _saveStarAndEndtTimeToFirestore(startTimestamp, endTimestamp);
         }
       }
-      _Saved(context);
+
+      // ถ้าไม่มีการทับซ้อนและเวลาสิ้นสุดไม่มากกว่า tripEndDate
+      if (!isOverlapping && endTime!.isBefore(tripEndDate)) {
+        Timestamp endTimestamp = Timestamp.fromDate(endTime!);
+        Timestamp startTimestamp = Timestamp.fromDate(startTime!);
+        _saveStarAndEndtTimeToFirestore(startTimestamp, endTimestamp);
+        _Saved(context);
+      }
+      // หากมีการทับซ้อนหรือเวลาสิ้นสุดมากกว่า tripEndDate
+      else {
+        if (isOverlapping) {
+          print('Invalid time: Overlapping with existing time');
+        }
+        if (endTime!.isAfter(tripEndDate)) {
+          // แสดง Alert dialog หากเวลาสิ้นสุดมากกว่า tripEndDate
+          _showTimeMore(context);
+        }
+      }
     }
   }
 
@@ -549,6 +565,26 @@ class _SlideTimeState extends State<SlideTime> {
         return AlertDialog(
           title: Text('เเจ้งเตือน'),
           content: Text('โปรดเลือกวันเวลาที่ไม่อยู่ในช่วงของสถานที่อื่น ๆ'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showTimeMore(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('เเจ้งเตือน'),
+          content: Text('ระยะเวลาทริปเกินวันสิ้นสุดทริป'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
