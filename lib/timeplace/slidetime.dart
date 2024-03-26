@@ -92,9 +92,12 @@ class _SlideTimeState extends State<SlideTime> {
                 DateFormat('yyyy-MM-dd').format(tripStartDate);
 
             tripDates = []; // ล้างรายการเดิมก่อนที่จะสร้างรายการใหม่
-            for (DateTime date = tripStartDate;
-                date.isBefore(tripEndDate) ||
-                    date.isAtSameMomentAs(tripEndDate);
+            for (DateTime date = DateTime(
+                    tripStartDate.year, tripStartDate.month, tripStartDate.day);
+                date.isBefore(DateTime(tripEndDate.year, tripEndDate.month,
+                        tripEndDate.day)) ||
+                    date.isAtSameMomentAs(DateTime(
+                        tripEndDate.year, tripEndDate.month, tripEndDate.day));
                 date = date.add(Duration(days: 1))) {
               tripDates.add(date);
             }
@@ -183,7 +186,7 @@ class _SlideTimeState extends State<SlideTime> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     startTime != null
@@ -203,12 +206,12 @@ class _SlideTimeState extends State<SlideTime> {
                 ],
               ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     endTime != null
                         ? 'เวลาสิ้นสุด: ${DateFormat('HH:mm').format(endTime!)}'
-                        : 'โปรดเลือกเวลาเริ่มต้น',
+                        : 'โปรดเลือกเวลาสิ้นสุด',
                     style: GoogleFonts.ibmPlexSansThai(
                       fontSize: 15.0,
                       fontWeight: FontWeight.w500,
@@ -235,6 +238,10 @@ class _SlideTimeState extends State<SlideTime> {
                     _showTimeAlert(context);
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue, // สีพื้นหลัง
+                  onPrimary: Colors.white, // สีของตัวอักษร
+                ),
                 child: Text('บันทึกเวลา '),
               ),
               SizedBox(width: 5),
@@ -245,7 +252,11 @@ class _SlideTimeState extends State<SlideTime> {
                     endTime = null;
                   });
                 },
-                child: Text('ล้างเวลา'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue, // สีพื้นหลัง
+                  onPrimary: Colors.white, // สีของตัวอักษร
+                ),
+                child: Text('รีเซ็ตเวลา'),
               ),
             ],
           )
@@ -306,7 +317,8 @@ class _SlideTimeState extends State<SlideTime> {
               .selectedPlaceUid) // เอกสารที่มี UID เท่ากับ widget.selectedPlaceUid
           .update({
         'placetimestart': startTime,
-        'placetimeend': endTime // ส่ง Timestamp ไปยัง Firestore
+        'placetimeend': endTime,
+        'placeadd': 'Yes' // ส่ง Timestamp ไปยัง Firestore
       });
 
       print('Start time saved successfully!');
@@ -499,7 +511,6 @@ class _SlideTimeState extends State<SlideTime> {
       else {
         if (isOverlapping) {
           print('Invalid time: Overlapping with existing time');
-          _showInvalidTimeRangeAlert(context);
         }
         if (endTime!.isAfter(tripEndDate)) {
           // แสดง Alert dialog หากเวลาสิ้นสุดมากกว่า tripEndDate

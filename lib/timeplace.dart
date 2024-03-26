@@ -91,7 +91,9 @@ class _TimePlacePageState extends State<TimePlacePage> {
                 ),
               ),
             ),
-            PlaceSum(),
+            SingleChildScrollView(
+              child: PlaceSum(tripUid: widget.tripUid),
+            )
           ],
         ),
       ),

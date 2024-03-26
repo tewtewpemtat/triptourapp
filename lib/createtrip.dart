@@ -198,7 +198,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
                   image: DecorationImage(
                     image: _userProfileImage != null
                         ? FileImage(_userProfileImage!)
-                        : AssetImage('assets/cat.jpg') as ImageProvider,
+                        : AssetImage('assets/trips.jpg') as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -182,33 +182,35 @@ class _DownPageState extends State<DownPage> {
                             child: GestureDetector(
                               onTap: () {
                                 addPlaceToFirestore(
-                                  userUid:
-                                      uid ?? '', // Use the current user's UID
-                                  placeTripId: widget.tripUid ??
-                                      '', // Use the trip UID from the widget property
-                                  placeName: places[index]
-                                      .name, // Use the name of the place
-                                  placePicUrl: places[index]
-                                      .imageUrl, // Use the image URL of the place
-                                  placeAddress: places[index]
-                                      .province, // You can leave this empty or provide an address if available
-                                  placeStart:
-                                      '', // You can leave this empty or provide a start time if available
-                                  placeTimeEnd:
-                                      null, // You can leave this empty or provide an end time if available
-                                  placeTimeStart:
-                                      null, // You can leave this empty or provide a start time if available
-                                  placeLatitude: places[index]
-                                      .latitude, // Use latitude field
-                                  placeLongitude: places[index]
-                                      .longitude, // Use longitude field
+                                    userUid:
+                                        uid ?? '', // Use the current user's UID
+                                    placeTripId: widget.tripUid ??
+                                        '', // Use the trip UID from the widget property
+                                    placeName: places[index]
+                                        .name, // Use the name of the place
+                                    placePicUrl: places[index]
+                                        .imageUrl, // Use the image URL of the place
+                                    placeAddress: places[index]
+                                        .province, // You can leave this empty or provide an address if available
+                                    placeStart:
+                                        '', // You can leave this empty or provide a start time if available
+                                    placeTimeEnd:
+                                        null, // You can leave this empty or provide an end time if available
+                                    placeTimeStart:
+                                        null, // You can leave this empty or provide a start time if available
+                                    placeLatitude: places[index]
+                                        .latitude, // Use latitude field
+                                    placeLongitude: places[index]
+                                        .longitude, // Use longitude field
 
-                                  // Use the location of the place
-                                  placeWhoGo: [uid ?? ''],
-                                  placeStatus: 'Added',
-                                  placeProvince: places[index].placeprovince ??
-                                      '', // Initially, no one goes to this place, so it's an empty array
-                                );
+                                    // Use the location of the place
+                                    placeWhoGo: [uid ?? ''],
+                                    placeStatus: 'Added',
+                                    placeProvince:
+                                        places[index].placeprovince ?? '',
+                                    placeAdd: 'No' ??
+                                        '' // Initially, no one goes to this place, so it's an empty array
+                                    );
                               },
                               child: Icon(
                                 Icons.add,
@@ -244,6 +246,7 @@ class _DownPageState extends State<DownPage> {
     required List<String> placeWhoGo,
     required String placeStatus,
     required String placeProvince,
+    required String placeAdd,
   }) async {
     try {
       // Check if the place already exists in the trip
@@ -287,6 +290,7 @@ class _DownPageState extends State<DownPage> {
         'placewhogo': placeWhoGo,
         'placestatus': placeStatus,
         'placeprovince': placeProvince,
+        'placeadd': placeAdd
       });
 
       // Notify the user that the place has been successfully added

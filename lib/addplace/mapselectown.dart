@@ -29,6 +29,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
   DateTime? placetimeend = null;
   DateTime? placetimestart = null;
   String placestatus = 'Added';
+  String placeAdd = 'No';
   String? placetripid;
   File? _selectedImage;
   List<String> placewhogo = [];
@@ -259,7 +260,8 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
         'placewhoGo': placeWhoGo,
         'useruid': userUid,
         'placestatus': placeStatus,
-        'placeprovince': placeProvince
+        'placeprovince': placeProvince,
+        'placeadd': placeAdd
       });
 
       setState(() {

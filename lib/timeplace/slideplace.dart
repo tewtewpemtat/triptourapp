@@ -29,12 +29,13 @@ class _SlidePlaceState extends State<SlidePlace> {
       children: [
         Container(
           height: 140.0,
-          child: FutureBuilder<QuerySnapshot>(
-            future: FirebaseFirestore.instance
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
                 .collection('places')
                 .where('placetripid', isEqualTo: widget.tripUid)
                 .where('placestatus', isEqualTo: 'Added')
-                .get(),
+                .where('placeadd', isEqualTo: 'No')
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -57,7 +58,7 @@ class _SlidePlaceState extends State<SlidePlace> {
                 );
               } else {
                 return Center(
-                  child: Text('ไม่พบสถานที่'),
+                  child: Text('No places found.'),
                 );
               }
             },
@@ -85,12 +86,34 @@ class _SlidePlaceState extends State<SlidePlace> {
   Widget buildTripItem(BuildContext context, DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     String placeName = data['placename'];
-    int maxChars = 16;
-    String displayedName = placeName.length > maxChars
-        ? placeName.substring(0, maxChars) +
-            '\n' +
-            placeName.substring(maxChars)
+    String placeAddress = data['placeaddress'];
+    int maxCharsFirstLine = 16; // จำนวนตัวอักษรสูงสุดในบรรทัดแรก
+    int maxCharsTotal = 30; // จำนวนตัวอักษรสูงสุดที่ต้องการให้แสดงทั้งหมด
+    int maxCharsFirstLine2 = 60; // จำนวนตัวอักษรสูงสุดในบรรทัดแรก
+    int maxCharsTotal2 = 60; // จำนวนตัวอักษรสูงสุดที่ต้องการให้แสดงทั้งหมด
+    String displayedName = placeName.length > maxCharsFirstLine
+        ? (placeName.length > maxCharsTotal
+            ? placeName.substring(0, maxCharsFirstLine) +
+                '...' // ใส่ ... หลังจากตัดข้อความในบรรทัดแรก
+            : placeName.substring(0, maxCharsFirstLine) +
+                '\n' +
+                (placeName.length > maxCharsTotal
+                    ? placeName.substring(maxCharsFirstLine, maxCharsTotal) +
+                        '...'
+                    : placeName.substring(maxCharsFirstLine)))
         : placeName;
+    String displayedName2 = placeAddress.length > maxCharsFirstLine2
+        ? (placeAddress.length > maxCharsTotal2
+            ? placeAddress.substring(0, maxCharsFirstLine2) +
+                '...' // ใส่ ... หลังจากตัดข้อความในบรรทัดแรก
+            : placeAddress.substring(0, maxCharsFirstLine2) +
+                '\n' +
+                (placeAddress.length > maxCharsTotal2
+                    ? placeAddress.substring(
+                            maxCharsFirstLine2, maxCharsTotal2) +
+                        '...'
+                    : placeAddress.substring(maxCharsFirstLine2)))
+        : placeAddress;
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: InkWell(
@@ -158,7 +181,7 @@ class _SlidePlaceState extends State<SlidePlace> {
                             ),
                             SizedBox(height: 2),
                             Text(
-                              data['placeaddress'],
+                              displayedName2,
                               style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
                             ),
                           ],
