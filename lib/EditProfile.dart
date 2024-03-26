@@ -228,7 +228,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       : _profileImageUrl.isNotEmpty
                           ? NetworkImage(_profileImageUrl)
                               as ImageProvider<Object>?
-                          : AssetImage('assets/cat.jpg'),
+                          : AssetImage('assets/profile.jpg'),
                   child: InkWell(
                     onTap: _pickImage,
                     child: Icon(

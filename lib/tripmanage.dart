@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/invite.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/tripmanage/userbutton.dart';
+import 'package:triptourapp/tripmanage/userplan.dart';
 import 'tripmanage/headbutton.dart';
 import 'tripmanage/headplan.dart';
 import 'tripmanage/headinformation.dart';
@@ -146,8 +147,8 @@ class TripmanagePage extends StatelessWidget {
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  bool tripUidExists = snapshot.data ?? false;
-                  if (tripUidExists) {
+                  bool isTripCreator = snapshot.data ?? false;
+                  if (isTripCreator) {
                     return HeadButton(tripUid: tripUid);
                   } else {
                     return Userbutton(tripUid: tripUid);
@@ -155,7 +156,24 @@ class TripmanagePage extends StatelessWidget {
                 }
               },
             ),
-            HeadPlan(tripUid: tripUid),
+            FutureBuilder<bool>(
+              future: _checkTripCreate(
+                  tripUid!, myUid!), // เรียกใช้ฟังก์ชันตรวจสอบ tripUid
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  bool tripUidExists = snapshot.data ?? false;
+                  if (tripUidExists) {
+                    return HeadPlan(tripUid: tripUid);
+                  } else {
+                    return UserPlan(tripUid: tripUid);
+                  }
+                }
+              },
+            ),
           ],
         ),
       ),

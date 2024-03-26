@@ -59,7 +59,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
                 radius: 100.0,
                 backgroundImage: _userProfileImage != null
                     ? FileImage(_userProfileImage!) as ImageProvider<Object>?
-                    : AssetImage('assets/cat.jpg'),
+                    : AssetImage('assets/profile.jpg'),
                 child: InkWell(
                   onTap: _pickImage,
                   child: Icon(

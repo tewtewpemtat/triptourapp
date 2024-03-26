@@ -27,6 +27,14 @@ void cancelTrip(BuildContext context, String tripUid) async {
       print('Trip not found');
       return;
     }
+
+    List<dynamic> tripJoin = tripSnapshot['tripJoin'];
+
+    if (tripJoin.length > 1) {
+      await Fluttertoast.showToast(
+          msg: 'จำนวนผู้ร่วมต้องไม่เกิน 1 คนจึงจะสามารถลบทริปได้');
+      return;
+    }
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('places')
         .where('placetripid', isEqualTo: tripUid)
@@ -44,14 +52,6 @@ void cancelTrip(BuildContext context, String tripUid) async {
           .doc(document.id)
           .delete();
     });
-
-    List<dynamic> tripJoin = tripSnapshot['tripJoin'];
-
-    if (tripJoin.length > 1) {
-      await Fluttertoast.showToast(
-          msg: 'จำนวนผู้ร่วมต้องไม่เกิน 1 คนจึงจะสามารถลบทริปได้');
-      return;
-    }
     // ลบภาพใน Firebase Storage
     String tripProfileUrl = tripSnapshot['tripProfileUrl'];
     Reference ref = FirebaseStorage.instance.refFromURL(tripProfileUrl);

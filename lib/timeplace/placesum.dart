@@ -62,7 +62,7 @@ class _PlaceSumState extends State<PlaceSum> {
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
     String placeAddress = placeData['placeaddress'];
-    int maxCharsFirstLine = 15; // Maximum characters for the first line
+    int maxCharsFirstLine = 20; // Maximum characters for the first line
     int maxCharsTotal = 30; // Maximum characters to display in total
     int maxCharsFirstLine2 = 50; // Maximum characters for the first line
     int maxCharsTotal2 = 60; // Maximum characters to display in total
@@ -111,7 +111,7 @@ class _PlaceSumState extends State<PlaceSum> {
                   placeData['placepicUrl'] ??
                       'assets/userplan/userplan_image1.png',
                   width: 100.0,
-                  height: 200.0,
+                  height: 250.0,
                   fit: BoxFit.cover,
                 ),
               ),

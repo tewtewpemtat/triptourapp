@@ -79,6 +79,7 @@ flutter:
   assets:
     - assets/cat.jpg
     - assets/trips.jpg
+    - assets/profile.jpg
     - assets/00.jpg
     - assets/green.png
     - assets/red.png
