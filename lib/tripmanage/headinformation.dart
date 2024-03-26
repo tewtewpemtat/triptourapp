@@ -40,7 +40,7 @@ class InformationPage extends StatelessWidget {
         if (tripData != null) {
           bool isTripCreator = uid == tripData['tripCreate'];
 
-          DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+          DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
           String startDate =
               dateFormat.format(tripData['tripStartDate'].toDate());
           String endDate = dateFormat.format(tripData['tripEndDate'].toDate());

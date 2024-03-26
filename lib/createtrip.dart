@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'tripmanage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart'; // Import intl package
 
 class CreateTripPage extends StatefulWidget {
   @override
@@ -248,10 +249,13 @@ class _CreateTripPageState extends State<CreateTripPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "${selectedStartDate.toLocal()}".split(' ')[0],
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
+                              "${DateFormat('dd/MM/yyyy HH:mm').format(selectedStartDate.toLocal())}",
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 14),
                             ),
-                            Icon(Icons.calendar_today),
+                            Icon(
+                              Icons.calendar_today,
+                              size: 22,
+                            ),
                           ],
                         ),
                       ),
@@ -272,10 +276,13 @@ class _CreateTripPageState extends State<CreateTripPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "${selectedEndDate.toLocal()}".split(' ')[0],
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
+                              "${DateFormat('dd/MM/yyyy HH:mm').format(selectedEndDate.toLocal())}",
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 14),
                             ),
-                            Icon(Icons.calendar_today),
+                            Icon(
+                              Icons.calendar_today,
+                              size: 22,
+                            ),
                           ],
                         ),
                       ),

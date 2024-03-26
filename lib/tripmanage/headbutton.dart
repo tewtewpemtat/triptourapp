@@ -27,6 +27,23 @@ void cancelTrip(BuildContext context, String tripUid) async {
       print('Trip not found');
       return;
     }
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('places')
+        .where('placetripid', isEqualTo: tripUid)
+        .get();
+
+    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+    querySnapshot.docs.forEach((document) async {
+      String placePicUrl = document['placepicUrl'];
+      // ลบรูปภาพใน Firebase Storage
+      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+      await ref.delete();
+      // ลบเอกสารที่พบเจอออกจาก Firestore
+      await FirebaseFirestore.instance
+          .collection('places')
+          .doc(document.id)
+          .delete();
+    });
 
     List<dynamic> tripJoin = tripSnapshot['tripJoin'];
 
