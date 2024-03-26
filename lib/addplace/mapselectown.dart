@@ -133,7 +133,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
                                       )
                                     : DecorationImage(
                                         image: AssetImage(
-                                          'assets/cat.jpg',
+                                          'assets/trips.jpg',
                                         ),
                                         fit: BoxFit.cover,
                                       ),

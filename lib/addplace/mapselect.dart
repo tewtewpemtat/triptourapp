@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:triptourapp/addplace.dart';
 
 class MapSelectionPage extends StatefulWidget {
   @override
+  final String? tripUid;
+  const MapSelectionPage({Key? key, this.tripUid}) : super(key: key);
   _MapSelectionPageState createState() => _MapSelectionPageState();
 }
 
@@ -13,6 +16,22 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('กำหนดสถานที่'),
+        automaticallyImplyLeading: false, // ไม่แสดงปุ่ม Back อัตโนมัติ
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddPage(tripUid: widget.tripUid),
+              ),
+            ); // กลับไปที่หน้า AddPage
+          },
+        ),
+      ),
       body: GoogleMap(
         onMapCreated: (controller) {
           _controller = controller;

@@ -471,7 +471,7 @@ class _DownPageState extends State<DownPage> {
     selectedPosition = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MapSelectionPage(),
+        builder: (context) => MapSelectionPage(tripUid: widget.tripUid),
       ),
     );
 

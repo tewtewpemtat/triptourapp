@@ -137,7 +137,7 @@ class _EditTripState extends State<EditTrip> {
 
         if (combinedDateTime.isBefore(now)) {
           Fluttertoast.showToast(
-            msg: 'ไม่สามารถเลือกวันและเวลาที่มากกว่าปัจจุบัน',
+            msg: 'ไม่สามารถเลือกวันและเวลาที่น้อยกว่าวันเวลาปัจจุบัน',
           );
           return null;
         }
