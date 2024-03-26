@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class EditTrip extends StatefulWidget {
   @override
@@ -98,33 +99,68 @@ class _EditTripState extends State<EditTrip> {
   }
 
   String _formatDate(DateTime date) {
-    return DateFormat('dd/MM/yyyy').format(date);
+    initializeDateFormatting('th_TH');
+    return DateFormat('dd MMMM yyyy HH:mm', 'th_TH').format(date);
   }
 
   Future<DateTime?> _selectDate(BuildContext context, bool isStartDate) async {
-    DateTime firstDate = DateTime.now();
+    DateTime now = DateTime.now();
+    DateTime firstDate = DateTime(now.year - 1);
     DateTime initialDate = isStartDate ? _selectedStartDate : _selectedEndDate;
 
     if (initialDate.isBefore(firstDate)) {
       initialDate = firstDate;
     }
 
-    final DateTime? picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: firstDate,
+      firstDate: now,
       lastDate: DateTime(2101),
     );
 
-    if (picked != null) {
-      if (!isStartDate && picked.isBefore(_selectedStartDate)) {
-        Fluttertoast.showToast(
-          msg: 'โปรดเลือกวันสิ้นสุดทริปมากกว่าวันเริ่มต้นทริป',
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(now),
+      );
+
+      if (pickedTime != null) {
+        // Combine pickedDate and pickedTime into a single DateTime object
+        DateTime combinedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
         );
+
+        if (combinedDateTime.isBefore(now)) {
+          Fluttertoast.showToast(
+            msg: 'ไม่สามารถเลือกวันและเวลาที่มากกว่าปัจจุบัน',
+          );
+          return null;
+        }
+
+        if (!isStartDate && combinedDateTime.isBefore(_selectedStartDate)) {
+          Fluttertoast.showToast(
+            msg: 'โปรดเลือกวันสิ้นสุดทริปมากกว่าวันเริ่มต้นทริป',
+          );
+          return null;
+        }
+        if (isStartDate && combinedDateTime.isAfter(_selectedEndDate)) {
+          Fluttertoast.showToast(
+            msg: 'โปรดเลือกวันเริ่มต้นทริปมากกว่าวันสิ้นสุดทริป',
+          );
+          return null;
+        }
+        return combinedDateTime;
+      } else {
+        // User canceled picking time, return null
         return null;
       }
-      return picked;
     } else {
+      // User canceled picking date, return null
       return null;
     }
   }
@@ -445,6 +481,7 @@ class _EditTripState extends State<EditTrip> {
 }
 
 void main() {
+  initializeDateFormatting('th_TH');
   runApp(MaterialApp(
     home: EditTrip(),
   ));

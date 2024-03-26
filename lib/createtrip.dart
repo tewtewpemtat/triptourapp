@@ -52,26 +52,60 @@ class _CreateTripPageState extends State<CreateTripPage> {
   }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime now = DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: isStartDate ? selectedStartDate : selectedEndDate,
-      firstDate: DateTime.now(),
+      firstDate: DateTime(now.year, now.month, now.day), // เวลาปัจจุบัน
       lastDate: DateTime(2101),
     );
-    if (picked != null) {
-      setState(() {
-        if (isStartDate) {
-          selectedStartDate = picked;
-          if (selectedEndDate.isBefore(selectedStartDate)) {
-            selectedEndDate = selectedStartDate;
-          }
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (pickedTime != null) {
+        final DateTime combinedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        if (combinedDateTime.isAfter(now)) {
+          setState(() {
+            if (isStartDate) {
+              selectedStartDate = combinedDateTime;
+              if (selectedEndDate.isBefore(selectedStartDate)) {
+                selectedEndDate = selectedStartDate;
+              }
+            } else {
+              selectedEndDate = combinedDateTime;
+              if (selectedEndDate.isBefore(selectedStartDate)) {
+                selectedStartDate = selectedEndDate;
+              }
+            }
+          });
         } else {
-          selectedEndDate = picked;
-          if (selectedEndDate.isBefore(selectedStartDate)) {
-            selectedStartDate = selectedEndDate;
-          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('เวลาไม่ถูกต้อง'),
+                content: Text('กรุณาเลือกวันที่และเวลาที่มากกว่าเวลาปัจจุบัน'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('ตกลง'),
+                  ),
+                ],
+              );
+            },
+          );
         }
-      });
+      }
     }
   }
 

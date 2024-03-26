@@ -499,6 +499,7 @@ class _SlideTimeState extends State<SlideTime> {
       else {
         if (isOverlapping) {
           print('Invalid time: Overlapping with existing time');
+          _showInvalidTimeRangeAlert(context);
         }
         if (endTime!.isAfter(tripEndDate)) {
           // แสดง Alert dialog หากเวลาสิ้นสุดมากกว่า tripEndDate
