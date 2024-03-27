@@ -29,7 +29,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
   String placestart = '';
   DateTime? placetimeend = null;
   DateTime? placetimestart = null;
-  String placestatus = 'Added';
+  String placestatus = 'Wait';
   String placeAdd = 'No';
   String? placetripid;
   File? _selectedImage;

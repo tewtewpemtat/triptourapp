@@ -15,6 +15,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:math';
 
 class Place {
   final String name;
@@ -184,42 +185,35 @@ class _DownPageState extends State<DownPage> {
                                   toastLength: Toast.LENGTH_LONG,
                                 );
                                 addPlaceToFirestore(
-                                        userUid: uid ??
-                                            '', // Use the current user's UID
-                                        placeTripId: widget.tripUid ??
-                                            '', // Use the trip UID from the widget property
-                                        placeName: places[index]
-                                            .name, // Use the name of the place
-                                        placePicUrl: places[index]
-                                            .imageUrl, // Use the image URL of the place
-                                        placeAddress: places[index]
-                                            .province, // You can leave this empty or provide an address if available
-                                        placeStart:
-                                            '', // You can leave this empty or provide a start time if available
-                                        placeTimeEnd:
-                                            null, // You can leave this empty or provide an end time if available
-                                        placeTimeStart:
-                                            null, // You can leave this empty or provide a start time if available
-                                        placeLatitude: places[index]
-                                            .latitude, // Use latitude field
-                                        placeLongitude: places[index]
-                                            .longitude, // Use longitude field
+                                    userUid:
+                                        uid ?? '', // Use the current user's UID
+                                    placeTripId: widget.tripUid ??
+                                        '', // Use the trip UID from the widget property
+                                    placeName: places[index]
+                                        .name, // Use the name of the place
+                                    placePicUrl: places[index]
+                                        .imageUrl, // Use the image URL of the place
+                                    placeAddress: places[index]
+                                        .province, // You can leave this empty or provide an address if available
+                                    placeStart:
+                                        '', // You can leave this empty or provide a start time if available
+                                    placeTimeEnd:
+                                        null, // You can leave this empty or provide an end time if available
+                                    placeTimeStart:
+                                        null, // You can leave this empty or provide a start time if available
+                                    placeLatitude: places[index]
+                                        .latitude, // Use latitude field
+                                    placeLongitude: places[index]
+                                        .longitude, // Use longitude field
 
-                                        // Use the location of the place
-                                        placeWhoGo: [],
-                                        placeStatus: 'Wait',
-                                        placeProvince:
-                                            places[index].placeprovince ?? '',
-                                        placeAdd: 'No' ??
-                                            '' // Initially, no one goes to this place, so it's an empty array
-                                        )
-                                    .then((_) {
-                                  Fluttertoast.cancel();
-                                  Fluttertoast.showToast(
-                                    msg: "เพิ่มสถานที่สำเร็จ",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                  ); // ปิด FlutterToast เมื่อการเพิ่มสถานที่เสร็จสิ้น
-                                });
+                                    // Use the location of the place
+                                    placeWhoGo: [],
+                                    placeStatus: 'Wait',
+                                    placeProvince:
+                                        places[index].placeprovince ?? '',
+                                    placeAdd: 'No' ??
+                                        '' // Initially, no one goes to this place, so it's an empty array
+                                    );
                               },
                               child: Icon(
                                 Icons.add,
@@ -239,6 +233,12 @@ class _DownPageState extends State<DownPage> {
         ),
       ),
     );
+  }
+
+  String generateRandomNumber() {
+    Random random = Random();
+    int randomNumber = random.nextInt(999999999 - 100000000) + 100000000;
+    return randomNumber.toString();
   }
 
   Future<void> addPlaceToFirestore({
@@ -263,6 +263,8 @@ class _DownPageState extends State<DownPage> {
           .collection('places')
           .where('placetripid', isEqualTo: placeTripId)
           .where('placename', isEqualTo: placeName)
+          .where('placeLatitude', isEqualTo: placeLatitude) // Check latitude
+          .where('placeLongitude', isEqualTo: placeLongitude)
           .get();
 
       // If the place already exists in the trip, do not add it again
@@ -272,10 +274,10 @@ class _DownPageState extends State<DownPage> {
         // You can show a message to the user or handle it as needed
         return;
       }
-
+      final randomImg = generateRandomNumber();
       // Upload image to Firebase Storage
       Reference storageReference = FirebaseStorage.instance.ref().child(
-            'trip/places/profilepic/$placeTripId/$placeName.jpg',
+            'trip/places/profilepic/$placeTripId/$placeName$randomImg.jpg',
           );
       UploadTask uploadTask = storageReference.putData(
         await http.get(Uri.parse(placePicUrl)).then((res) => res.bodyBytes),

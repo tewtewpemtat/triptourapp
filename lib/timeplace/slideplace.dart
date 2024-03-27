@@ -137,7 +137,7 @@ class _SlidePlaceState extends State<SlidePlace> {
                           child: Image.network(
                             data['placepicUrl'] != null
                                 ? data['placepicUrl']
-                                : 'assets/cat.jpg',
+                                : 'assets/trips.jpg',
                             width: 100.0,
                             height: 100.0,
                             fit: BoxFit.cover,
@@ -212,7 +212,6 @@ class _SlidePlaceState extends State<SlidePlace> {
                           await imageRef.delete();
                         }
 
-                        Fluttertoast.showToast(msg: 'ลบสถานที่สำเร็จ');
                         setState(() {});
                       } catch (error) {
                         ScaffoldMessenger.of(context).showSnackBar(

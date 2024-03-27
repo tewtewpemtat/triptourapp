@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SlidePlace extends StatefulWidget {
   @override
@@ -100,6 +101,10 @@ class _SlidePlaceState extends State<SlidePlace> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          Fluttertoast.showToast(
+            msg: "กำลังโหลดสถานที่...",
+            toastLength: Toast.LENGTH_LONG,
+          );
           selectedPlaceType = placeType;
           _sendDataToDownPage(); // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง DownPage
         });
