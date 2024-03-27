@@ -11,6 +11,7 @@ import 'package:triptourapp/addplace.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
+import 'dart:math';
 
 class MapSelectionOwnPage extends StatefulWidget {
   final String? tripUid;
@@ -161,8 +162,8 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
                       Fluttertoast.showToast(
                           msg: 'กรุณากรอกชื่อสถานที่และเลือกรูปสถานที่');
                     } else {
-                      _savePlace();
                       Navigator.of(context).pop();
+                      _PlaceAdd();
                     }
                   },
                 ),
@@ -173,6 +174,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
                     setState(() {
                       _selectedImage = null;
                       _selectedPosition = null;
+                      _placeNameController.clear();
                     });
                   },
                 ),
@@ -220,7 +222,13 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
     }
   }
 
-  void _savePlace() async {
+  String generateRandomNumber() {
+    Random random = Random();
+    int randomNumber = random.nextInt(999999999 - 100000000) + 100000000;
+    return randomNumber.toString();
+  }
+
+  Future<void> _PlaceAdd() async {
     try {
       final placeName = _placeNameController.text;
       final placeLatitude = _selectedPosition!.latitude;
@@ -232,13 +240,13 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
       final placeWhoGo = placewhogo;
       final placeStatus = placestatus;
       final userUid = FirebaseAuth.instance.currentUser?.uid;
-
+      final randomImg = generateRandomNumber();
       final placeProvince =
           await getProvinceFromCoordinates(_selectedPosition!);
       final placeDistrict =
           await getDistrictFromCoordinates(_selectedPosition!);
       final placeAddress = '$placeProvince $placeDistrict';
-      final imageName = '$placeName.jpg';
+      final imageName = '$placeName$randomImg.jpg';
       final firebaseStorageRef = firebase_storage.FirebaseStorage.instance
           .ref()
           .child('trip/places/profilepicown/${widget.tripUid}/$imageName');
