@@ -14,6 +14,7 @@ import 'package:triptourapp/requestlist.dart';
 import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -51,6 +52,7 @@ class _DownPageState extends State<DownPage> {
   String? selectedOption;
   LatLng? markedPosition;
   LatLng? selectedPosition = null;
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -181,36 +183,47 @@ class _DownPageState extends State<DownPage> {
                             flex: 1,
                             child: GestureDetector(
                               onTap: () {
+                                Fluttertoast.showToast(
+                                  msg: "กำลังเพิ่มสถานที่...",
+                                  toastLength: Toast.LENGTH_LONG,
+                                );
                                 addPlaceToFirestore(
-                                    userUid:
-                                        uid ?? '', // Use the current user's UID
-                                    placeTripId: widget.tripUid ??
-                                        '', // Use the trip UID from the widget property
-                                    placeName: places[index]
-                                        .name, // Use the name of the place
-                                    placePicUrl: places[index]
-                                        .imageUrl, // Use the image URL of the place
-                                    placeAddress: places[index]
-                                        .province, // You can leave this empty or provide an address if available
-                                    placeStart:
-                                        '', // You can leave this empty or provide a start time if available
-                                    placeTimeEnd:
-                                        null, // You can leave this empty or provide an end time if available
-                                    placeTimeStart:
-                                        null, // You can leave this empty or provide a start time if available
-                                    placeLatitude: places[index]
-                                        .latitude, // Use latitude field
-                                    placeLongitude: places[index]
-                                        .longitude, // Use longitude field
+                                        userUid: uid ??
+                                            '', // Use the current user's UID
+                                        placeTripId: widget.tripUid ??
+                                            '', // Use the trip UID from the widget property
+                                        placeName: places[index]
+                                            .name, // Use the name of the place
+                                        placePicUrl: places[index]
+                                            .imageUrl, // Use the image URL of the place
+                                        placeAddress: places[index]
+                                            .province, // You can leave this empty or provide an address if available
+                                        placeStart:
+                                            '', // You can leave this empty or provide a start time if available
+                                        placeTimeEnd:
+                                            null, // You can leave this empty or provide an end time if available
+                                        placeTimeStart:
+                                            null, // You can leave this empty or provide a start time if available
+                                        placeLatitude: places[index]
+                                            .latitude, // Use latitude field
+                                        placeLongitude: places[index]
+                                            .longitude, // Use longitude field
 
-                                    // Use the location of the place
-                                    placeWhoGo: [uid ?? ''],
-                                    placeStatus: 'Added',
-                                    placeProvince:
-                                        places[index].placeprovince ?? '',
-                                    placeAdd: 'No' ??
-                                        '' // Initially, no one goes to this place, so it's an empty array
-                                    );
+                                        // Use the location of the place
+                                        placeWhoGo: [uid ?? ''],
+                                        placeStatus: 'Added',
+                                        placeProvince:
+                                            places[index].placeprovince ?? '',
+                                        placeAdd: 'No' ??
+                                            '' // Initially, no one goes to this place, so it's an empty array
+                                        )
+                                    .then((_) {
+                                  Fluttertoast.cancel();
+                                  Fluttertoast.showToast(
+                                    msg: "เพิ่มสถานที่สำเร็จ",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                  ); // ปิด FlutterToast เมื่อการเพิ่มสถานที่เสร็จสิ้น
+                                });
                               },
                               child: Icon(
                                 Icons.add,

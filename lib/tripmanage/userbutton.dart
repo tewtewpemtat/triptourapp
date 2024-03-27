@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/addplaceuser.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/requestplace.dart';
@@ -255,7 +256,8 @@ class UserbuttonState extends State<Userbutton> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RequestPage(),
+                                builder: (context) =>
+                                    (AddPage(tripUid: widget.tripUid)),
                               ),
                             );
                           },

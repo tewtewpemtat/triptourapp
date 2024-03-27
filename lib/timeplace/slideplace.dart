@@ -58,7 +58,7 @@ class _SlidePlaceState extends State<SlidePlace> {
                 );
               } else {
                 return Center(
-                  child: Text('No places found.'),
+                  child: Text('ไม่พบสถานที่'),
                 );
               }
             },

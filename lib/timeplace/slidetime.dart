@@ -65,7 +65,7 @@ class _SlideTimeState extends State<SlideTime> {
           return CircularProgressIndicator();
         }
         if (!snapshot.hasData || !snapshot.data!.exists) {
-          return Text('ไม่พบข้อมูล');
+          return Text('');
         }
         final placeData = snapshot.data!;
         final placetripid = placeData['placetripid'];
@@ -79,7 +79,7 @@ class _SlideTimeState extends State<SlideTime> {
               return CircularProgressIndicator();
             }
             if (!tripSnapshot.hasData || !tripSnapshot.data!.exists) {
-              return Text('ไม่พบข้อมูล');
+              return Text('');
             }
 
             final tripData = tripSnapshot.data!;

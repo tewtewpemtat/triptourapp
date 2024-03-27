@@ -37,23 +37,29 @@ class _UserPlanState extends State<UserPlan> {
           );
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(
-            child: Text('ยังไม่มีการกำหนดสถานที่'),
-          );
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            Center(
+              child: Text('ยังไม่มีการกำหนดสถานที่'),
+            );
+          });
         }
         final places = snapshot.data!.docs;
-        places.sort((a, b) {
-          final aEndTime = a['placetimeend'] as Timestamp;
-          final bEndTime = b['placetimeend'] as Timestamp;
-          return aEndTime.compareTo(bEndTime);
-        });
+        if (places != null) {
+          places.sort((a, b) {
+            final aEndTime = a['placetimeend'] as Timestamp;
+            final bEndTime = b['placetimeend'] as Timestamp;
+            return aEndTime.compareTo(bEndTime);
+          });
 
-        return Column(
-          children: places.map((place) {
-            final placeData = place.data() as Map<String, dynamic>;
-            return buildPlaceItem(context, placeData, place);
-          }).toList(),
-        );
+          return Column(
+            children: places.map((place) {
+              final placeData = place.data() as Map<String, dynamic>;
+              return buildPlaceItem(context, placeData, place);
+            }).toList(),
+          );
+        } else {
+          return Container();
+        }
       },
     );
   }

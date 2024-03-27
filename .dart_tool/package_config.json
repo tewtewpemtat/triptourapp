@@ -290,6 +290,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_spinkit",
+      "rootUri": "file:///C:/Users/wanla/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_spinkit-5.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///C:/src/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -662,6 +668,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "rxdart",
+      "rootUri": "file:///C:/Users/wanla/AppData/Local/Pub/Cache/hosted/pub.dev/rxdart-0.27.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sanitize_html",
       "rootUri": "file:///C:/Users/wanla/AppData/Local/Pub/Cache/hosted/pub.dev/sanitize_html-2.1.0",
       "packageUri": "lib/",
@@ -842,7 +854,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2024-03-27T12:24:44.482565Z",
+  "generated": "2024-03-27T15:08:08.376418Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

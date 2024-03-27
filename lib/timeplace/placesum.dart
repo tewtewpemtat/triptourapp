@@ -38,7 +38,7 @@ class _PlaceSumState extends State<PlaceSum> {
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return Center(
-            child: Text('ยังไม่มีการกำหนดสถานที่'),
+            child: Text(''),
           );
         }
         final places = snapshot.data!.docs;
