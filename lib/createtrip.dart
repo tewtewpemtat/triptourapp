@@ -125,7 +125,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
       DateTime tripStartDate = selectedStartDate;
       DateTime tripEndDate = selectedEndDate;
       int tripLimit = selectedParticipants ?? 1;
-      String tripStatus = "กำลังดำเนินการ";
+      String tripStatus = "ยังไม่เริ่มต้น";
       List<String> tripJoin = [];
       if (uid != null) {
         tripJoin.add(uid!); // Add non-null uid to tripJoin

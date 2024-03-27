@@ -26,8 +26,8 @@ class _TripHistoryState extends State<TripHistory> {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('trips')
         .where('tripJoin', arrayContains: uid)
-        .where('tripStatus', isEqualTo: 'กำลังดำเนินการ')
-        .get();
+        .where('tripStatus',
+            whereIn: ['ยังไม่เริ่มต้น', 'กำลังดำเนินการ']).get();
 
     setState(() {
       _tripDataList = querySnapshot.docs;

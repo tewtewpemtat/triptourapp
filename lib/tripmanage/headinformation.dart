@@ -11,6 +11,7 @@ class InformationPage extends StatelessWidget {
   final String? tripUid;
 
   const InformationPage({Key? key, this.tripUid}) : super(key: key);
+
   int getTotalParticipants(Map<String, dynamic> tripData) {
     List<dynamic> tripJoin = tripData['tripJoin'];
     return tripJoin.length;
@@ -36,6 +37,7 @@ class InformationPage extends StatelessWidget {
           return Container();
           // หรือส่วนที่คุณต้องการทำต่อไป
         }
+
         var tripData = snapshot.data?.data() as Map<String, dynamic>?;
         if (tripData != null) {
           bool isTripCreator = uid == tripData['tripCreate'];
@@ -44,6 +46,13 @@ class InformationPage extends StatelessWidget {
           String startDate =
               dateFormat.format(tripData['tripStartDate'].toDate());
           String endDate = dateFormat.format(tripData['tripEndDate'].toDate());
+
+          // ตรวจสอบสถานะของทริปเพื่อกำหนดรูปภาพ
+          String status = tripData['tripStatus'];
+          String statusImage = status == 'ยังไม่เริ่มต้น'
+              ? 'assets/green.png'
+              : 'assets/yellow.png';
+
           return Container(
             margin: EdgeInsets.all(0.0),
             padding: EdgeInsets.all(20.0),
@@ -75,7 +84,7 @@ class InformationPage extends StatelessWidget {
                     ),
                     if (isTripCreator &&
                         tripData['tripStatus'] ==
-                            'กำลังดำเนินการ') // เพิ่มการตรวจสอบนี้
+                            'ยังไม่เริ่มต้น') // เพิ่มการตรวจสอบนี้
                       InkWell(
                         onTap: () {
                           Navigator.push(
@@ -99,7 +108,8 @@ class InformationPage extends StatelessWidget {
                       'จำนวนผู้ร่วมทริป: ${getTotalParticipants(tripData)} คน ',
                       style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
                     ),
-                    Image.asset('assets/green.png', width: 14, height: 14),
+                    Image.asset(statusImage,
+                        width: 14, height: 14), // ใช้รูปภาพตามสถานะ
                     Text('\t สถานะ: ${tripData['tripStatus']}',
                         style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
                   ],

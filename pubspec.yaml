@@ -83,6 +83,7 @@ flutter:
     - assets/00.jpg
     - assets/green.png
     - assets/red.png
+    - assets/yellow.png
     - assets/pencil.png
     - assets/splash/splash_image1.png
     - assets/splash/splash_image2.png
