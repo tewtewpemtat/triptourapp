@@ -65,6 +65,7 @@ void cancelTrip(BuildContext context, String tripUid) async {
         builder: (context) => MyApp(),
       ),
     );
+    Fluttertoast.showToast(msg: 'ลบทริปสำเร็จ');
     print('Trip canceled successfully');
   } catch (e) {
     print('Error canceling trip: $e');

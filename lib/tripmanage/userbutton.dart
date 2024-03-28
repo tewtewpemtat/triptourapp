@@ -6,6 +6,7 @@ import 'package:triptourapp/main.dart';
 import 'package:triptourapp/requestplace.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Userbutton extends StatefulWidget {
   @override
@@ -33,6 +34,7 @@ class UserbuttonState extends State<Userbutton> {
           builder: (context) => MyApp(),
         ),
       );
+      Fluttertoast.showToast(msg: 'ออกจากทริปเรียบร้อยเเล้ว');
     }
   }
 

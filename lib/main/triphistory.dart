@@ -157,6 +157,7 @@ class _TripHistoryState extends State<TripHistory> {
             );
           },
           child: Container(
+            height: 140,
             margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
               border: Border.all(
@@ -175,7 +176,6 @@ class _TripHistoryState extends State<TripHistory> {
                     child: Container(
                       child: Image.network(
                         tripData['tripProfileUrl'],
-                        width: 100.0,
                         height: 140.0,
                         fit: BoxFit.cover,
                       ),
@@ -185,66 +185,70 @@ class _TripHistoryState extends State<TripHistory> {
                 SizedBox(width: 13),
                 Expanded(
                   flex: 6,
-                  child: Container(
-                    margin: EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'ชื่อทริป: ${tripData['tripName']}',
-                                style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'ชื่อทริป: ${tripData['tripName']}',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(statusImage, width: 12, height: 12),
-                            SizedBox(width: 3),
-                            Text('สถานะ: ${tripData['tripStatus']}',
-                                style:
-                                    GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                          ],
-                        ),
-                        Text('วันที่เดินทาง: $startDate - $endDate',
-                            style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                        FutureBuilder<DocumentSnapshot>(
-                          future: FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(tripData['tripCreate'])
-                              .get(),
-                          builder: (context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Text('กำลังโหลด...');
-                            }
-                            if (snapshot.hasError) {
-                              return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
-                            }
-                            if (!snapshot.hasData || snapshot.data == null) {
-                              return Text('ไม่พบข้อมูลผู้ใช้');
-                            }
-                            var userData =
-                                snapshot.data!.data() as Map<String, dynamic>?;
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(statusImage, width: 12, height: 12),
+                              SizedBox(width: 3),
+                              Text('สถานะ: ${tripData['tripStatus']}',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 12)),
+                            ],
+                          ),
+                          Text('วันที่เดินทาง: $startDate - $endDate',
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                          FutureBuilder<DocumentSnapshot>(
+                            future: FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(tripData['tripCreate'])
+                                .get(),
+                            builder: (context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Text('กำลังโหลด...');
+                              }
+                              if (snapshot.hasError) {
+                                return Text(
+                                    'เกิดข้อผิดพลาด: ${snapshot.error}');
+                              }
+                              if (!snapshot.hasData || snapshot.data == null) {
+                                return Text('ไม่พบข้อมูลผู้ใช้');
+                              }
+                              var userData = snapshot.data!.data()
+                                  as Map<String, dynamic>?;
 
-                            if (userData == null) {
-                              return Text('ไม่พบข้อมูลผู้ใช้');
-                            }
+                              if (userData == null) {
+                                return Text('ไม่พบข้อมูลผู้ใช้');
+                              }
 
-                            return Text('ผู้จัดทริป: ${userData['nickname']}',
-                                style:
-                                    GoogleFonts.ibmPlexSansThai(fontSize: 12));
-                          },
-                        ),
-                        Text(
-                            'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
-                            style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                      ],
+                              return Text('ผู้จัดทริป: ${userData['nickname']}',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 12));
+                            },
+                          ),
+                          Text(
+                              'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
+                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
