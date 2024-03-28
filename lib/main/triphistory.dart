@@ -13,26 +13,7 @@ class TripHistory extends StatefulWidget {
 class _TripHistoryState extends State<TripHistory> {
   final String? uid = FirebaseAuth.instance.currentUser?.uid;
   TextEditingController _searchController = TextEditingController();
-  List<DocumentSnapshot> _tripDataList = [];
   String _searchQuery = "";
-
-  @override
-  void initState() {
-    super.initState();
-    fetchTripList(); // เรียกใช้ method เพื่อดึงข้อมูลทริปตอนเริ่มต้น
-  }
-
-  void fetchTripList() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('trips')
-        .where('tripJoin', arrayContains: uid)
-        .where('tripStatus',
-            whereIn: ['ยังไม่เริ่มต้น', 'กำลังดำเนินการ']).get();
-
-    setState(() {
-      _tripDataList = querySnapshot.docs;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +48,7 @@ class _TripHistoryState extends State<TripHistory> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 7, // Changed flex to 7
+                  flex: 7,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: Container(
@@ -101,40 +82,41 @@ class _TripHistoryState extends State<TripHistory> {
                     ),
                   ),
                 ),
-                // Expanded(
-                //   flex: 1, // หรือไม่ต้องใส่ flex เลย
-                //   child: Padding(
-                //     padding: const EdgeInsets.symmetric(vertical: 6),
-                //     child: Row(
-                //       children: [
-                //         Expanded(
-                //           child: InkWell(
-                //             onTap: () {},
-                //             child: Align(
-                //               alignment: Alignment.center,
-                //               child: Icon(Icons.mail, color: Colors.grey),
-                //             ),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // )
               ],
             ),
           ),
           SizedBox(height: 5),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: _tripDataList
-                .length, // ใช้ _tripDataList แทน snapshot.data!.docs
-            itemBuilder: (context, index) {
-              return buildTripItem(
-                context,
-                _tripDataList[index],
-                _tripDataList[index].id,
-              ); // ใช้ _tripDataList แทน snapshot.data!.docs
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('trips')
+                .where('tripJoin', arrayContains: uid)
+                .where('tripStatus',
+                    whereIn: ['ยังไม่เริ่มต้น', 'กำลังดำเนินการ']).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('เกิดข้อผิดพลาด: ${snapshot.error}'));
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Center(child: Text('ไม่พบข้อมูลทริป'));
+              }
+
+              List<DocumentSnapshot> tripDataList = snapshot.data!.docs;
+
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: tripDataList.length,
+                itemBuilder: (context, index) {
+                  return buildTripItem(
+                    context,
+                    tripDataList[index],
+                    tripDataList[index].id,
+                  );
+                },
+              );
             },
           ),
         ],
@@ -144,9 +126,8 @@ class _TripHistoryState extends State<TripHistory> {
 
   int getTotalParticipants(DocumentSnapshot document) {
     Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
-    List<dynamic> tripJoin =
-        tripData['tripJoin']; // รับค่าข้อมูลในฟิลด์ tripJoin
-    return tripJoin.length; // คืนค่าจำนวนผู้ร่วมทริป
+    List<dynamic> tripJoin = tripData['tripJoin'];
+    return tripJoin.length;
   }
 
   Widget buildTripItem(
@@ -264,11 +245,13 @@ class _TripHistoryState extends State<TripHistory> {
         ),
       );
     } else {
-      return Container(); // Don't show the item if it doesn't match the search query
+      return Container();
     }
   }
 }
 
 void main() {
-  runApp(TripHistory());
+  runApp(MaterialApp(
+    home: TripHistory(),
+  ));
 }
