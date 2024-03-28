@@ -107,6 +107,7 @@ class _HeadPlanPageState extends State<HeadPlan> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        height: 200.0,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey, // Border color
@@ -125,8 +126,7 @@ class _HeadPlanPageState extends State<HeadPlan> {
                 child: Image.network(
                   placeData['placepicUrl'] ??
                       'assets/userplan/userplan_image1.png',
-                  width: 100.0,
-                  height: 220.0,
+                  height: 200.0,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -134,166 +134,169 @@ class _HeadPlanPageState extends State<HeadPlan> {
             SizedBox(width: 13),
             Expanded(
               flex: 6,
-              child: Container(
-                margin: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            displayedName ?? '',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              displayedName ?? '',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black, // Border color
-                          width: 1.0, // Border width
-                        ),
-                        borderRadius: BorderRadius.circular(16.0),
-                        color: Color(0xFF1E30D7), // Background color
+                        ],
                       ),
-                      padding: EdgeInsets.all(3.0),
-                      child: Text(
-                        placeData['placeprovince'] ?? '',
+                      SizedBox(height: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black, // Border color
+                            width: 1.0, // Border width
+                          ),
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: Color(0xFF1E30D7), // Background color
+                        ),
+                        padding: EdgeInsets.all(3.0),
+                        child: Text(
+                          placeData['placeprovince'] ?? '',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontSize: 10,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Color(0xffdb923c),
+                            ),
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              'วันเวลาเริ่มต้น',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              DateFormat('dd-MM-yyy HH:mm').format(
+                                      (placeData['placetimestart'] as Timestamp)
+                                          .toDate()) ??
+                                  '',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Color(0xffc21111),
+                            ),
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              'วันเวลาสิ้นสุด',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              DateFormat('dd-MM-yyy HH:mm').format(
+                                      (placeData['placetimeend'] as Timestamp)
+                                          .toDate()) ??
+                                  '',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'จำนวนผู้เข้าร่วม : $countTrip',
                         style: GoogleFonts.ibmPlexSansThai(
-                          fontSize: 10,
-                          color: Colors.white,
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Color(0xffdb923c),
-                          ),
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            'วันเวลาเริ่มต้น',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            DateFormat('dd-MM-yyy HH:mm').format(
-                                    (placeData['placetimestart'] as Timestamp)
-                                        .toDate()) ??
-                                '',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Color(0xffc21111),
-                          ),
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            'วันเวลาสิ้นสุด',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            DateFormat('dd-MM-yyy HH:mm').format(
-                                    (placeData['placetimeend'] as Timestamp)
-                                        .toDate()) ??
-                                '',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'จำนวนผู้เข้าร่วม : $countTrip',
-                      style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: isPlaceTimeValid
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => InfoPlacePage(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: isPlaceTimeValid
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                InfoPlacePage(),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xffcfcfcf),
+                                        onPrimary: Colors.black,
+                                        fixedSize: Size(70, 10),
+                                      ),
+                                      child: Text(
+                                        'จุดนัดพบ',
+                                        style: GoogleFonts.ibmPlexSansThai(
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color(0xffcfcfcf),
-                                      onPrimary: Colors.black,
-                                      fixedSize: Size(70, 10),
+                                      ),
                                     ),
-                                    child: Text(
-                                      'จุดนัดพบ',
-                                      style: GoogleFonts.ibmPlexSansThai(
-                                        fontWeight: FontWeight.bold,
+                                  )
+                                : Container(
+                                    width: 70,
+                                    height: 40,
+                                    child: TextButton(
+                                      onPressed: null,
+                                      child: Text(
+                                        'จุดนัดพบ',
+                                        style: GoogleFonts.ibmPlexSansThai(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: Colors.grey,
                                       ),
                                     ),
                                   ),
-                                )
-                              : Container(
-                                  width: 70,
-                                  height: 40,
-                                  child: TextButton(
-                                    onPressed: null,
-                                    child: Text(
-                                      'จุดนัดพบ',
-                                      style: GoogleFonts.ibmPlexSansThai(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

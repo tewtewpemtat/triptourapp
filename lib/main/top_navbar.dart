@@ -43,7 +43,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                   radius: 25.0,
                   backgroundImage: userData['profileImageUrl'] != null
                       ? NetworkImage(userData['profileImageUrl'])
-                      : AssetImage('assets/cat.jpg') as ImageProvider,
+                      : AssetImage('assets/profile.jpg') as ImageProvider,
                 ),
                 SizedBox(width: 10),
                 Column(

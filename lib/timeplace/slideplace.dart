@@ -148,51 +148,54 @@ class _SlidePlaceState extends State<SlidePlace> {
                     SizedBox(width: 8),
                     Expanded(
                       flex: 6,
-                      child: Container(
-                        margin: EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              displayedName,
-                              style: GoogleFonts.ibmPlexSansThai(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 2),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(16.0),
-                                color: Color(0xFF1E30D7),
-                              ),
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                data['placeprovince'],
+                      child: SingleChildScrollView(
+                        child: Container(
+                          margin: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                displayedName,
                                 style: GoogleFonts.ibmPlexSansThai(
-                                  fontSize: 8,
-                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 2),
-                            Text(
-                              displayedName2,
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
-                            ),
-                          ],
+                              SizedBox(height: 2),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  color: Color(0xFF1E30D7),
+                                ),
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  data['placeprovince'],
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 8,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                displayedName2,
+                                style:
+                                    GoogleFonts.ibmPlexSansThai(fontSize: 12),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
                 Positioned(
-                  top: 0,
-                  right: 0,
+                  top: -5,
+                  right: -5,
                   child: IconButton(
                     onPressed: () async {
                       String placeId = document.id;

@@ -19,11 +19,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
-
+  TextEditingController _passwordController2 = new TextEditingController();
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _passwordController2.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -145,6 +146,31 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
+            Container(
+              width: 339,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: TextFormField(
+                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                controller: _passwordController2,
+                decoration: InputDecoration(
+                  labelText: 'ยืนยันรหัสผ่าน',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: 20),
             Container(
               width: 184,
@@ -176,24 +202,33 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _signup(BuildContext context) async {
-    setState(() {
-      _isSigningUp = true;
-    });
     String email = _emailController.text;
     String password = _passwordController.text;
-
-    User? user = await auth.signUpWithEmailAndPassword(email, password);
-    setState(() {
-      _isSigningUp = false;
-    });
-    if (user != null) {
-      print("Successfully signed up");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ),
-      );
+    String confirmPassword = _passwordController2.text;
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      Fluttertoast.showToast(msg: 'โปรดกรอกข้อมูลให้ครบถ้วน');
+    } else if (password.length < 6) {
+      Fluttertoast.showToast(msg: 'รหัสผ่านต้องมากกว่า 6 ตัวขึ้นไป');
+    } else if (password != confirmPassword) {
+      Fluttertoast.showToast(msg: 'รหัสผ่านไม่ตรงกัน');
+    } else {
+      setState(() {
+        _isSigningUp = true;
+      });
+      User? user = await auth.signUpWithEmailAndPassword(email, password);
+      setState(() {
+        _isSigningUp = false;
+      });
+      if (user != null) {
+        print("Successfully signed up");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+        Fluttertoast.showToast(msg: 'สร้างบัญชีสำเร็จ');
+      }
     }
   }
 }

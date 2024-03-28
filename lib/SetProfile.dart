@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:triptourapp/main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SetProfilePage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
   TextEditingController _nicknameController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   List<String> _genderOptions = ['ชาย', 'หญิง', 'เพศทางเลือก'];
-
+  bool _isSigningUp = false;
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -147,13 +148,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
               ElevatedButton(
                 onPressed: () async {
                   await _updateProfileStatus();
-                  await _uploadImage();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyApp(),
-                    ),
-                  );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xffdb923c),
@@ -163,13 +157,15 @@ class _SetProfilePageState extends State<SetProfilePage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
-                  "ดำเนินการต่อ",
-                  style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: _isSigningUp
+                    ? CircularProgressIndicator(color: Colors.white)
+                    : Text(
+                        "ดำเนินการต่อ",
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
               SizedBox(height: 20),
             ],
@@ -179,20 +175,49 @@ class _SetProfilePageState extends State<SetProfilePage> {
     );
   }
 
+  bool isNumeric(String str) {
+    if (str == null) {
+      return false;
+    }
+    return double.tryParse(str) != null;
+  }
+
   Future<void> _updateProfileStatus() async {
     try {
-      String? uid = FirebaseAuth.instance.currentUser?.uid;
-
-      // Update profile data in Firestore
-      await FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'firstName': _firstNameController.text,
-        'lastName': _lastNameController.text,
-        'nickname': _nicknameController.text,
-        'contactNumber': _contactNumberController.text,
-        'gender': _selectedGender,
-        'triplist': 0,
-        'profileStatus': 'Completed',
-      });
+      if (_userProfileImage == null ||
+          _selectedGender == 'null' ||
+          _firstNameController.text.isEmpty ||
+          _nicknameController.text.isEmpty ||
+          _contactNumberController.text.isEmpty) {
+        Fluttertoast.showToast(msg: 'โปรดกรอกข้อมูลให้ครบถ้วน');
+      } else if (!isNumeric(_contactNumberController.text)) {
+        Fluttertoast.showToast(msg: 'โปรดกรอกเบอร์ติดต่อเป็นตัวเลข');
+      } else {
+        setState(() {
+          _isSigningUp = true;
+        });
+        _uploadImage();
+        String? uid = FirebaseAuth.instance.currentUser?.uid;
+        // Update profile data in Firestore
+        await FirebaseFirestore.instance.collection('users').doc(uid).set({
+          'firstName': _firstNameController.text,
+          'lastName': _lastNameController.text,
+          'nickname': _nicknameController.text,
+          'contactNumber': _contactNumberController.text,
+          'gender': _selectedGender,
+          'triplist': 0,
+          'profileStatus': 'Completed',
+        });
+        setState(() {
+          _isSigningUp = false;
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ),
+        );
+      }
     } catch (e) {
       print('Error updating profile: $e');
     }

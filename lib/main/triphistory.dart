@@ -133,12 +133,14 @@ class _TripHistoryState extends State<TripHistory> {
   Widget buildTripItem(
       BuildContext context, DocumentSnapshot document, String tripUid) {
     Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
-    DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
     String startDate = dateFormat.format(tripData['tripStartDate'].toDate());
     String endDate = dateFormat.format(tripData['tripEndDate'].toDate());
 
     bool matchesSearch = false;
-
+    String status = tripData['tripStatus'];
+    String statusImage =
+        status == 'ยังไม่เริ่มต้น' ? 'assets/green.png' : 'assets/yellow.png';
     if (tripData['tripName'] != null) {
       String fullName = tripData['tripName'].toLowerCase();
       matchesSearch = fullName.contains(_searchQuery);
@@ -199,8 +201,15 @@ class _TripHistoryState extends State<TripHistory> {
                             ),
                           ],
                         ),
-                        Text('สถานะทริป: ${tripData['tripStatus']}',
-                            style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                        Row(
+                          children: [
+                            Image.asset(statusImage, width: 12, height: 12),
+                            SizedBox(width: 3),
+                            Text('สถานะ: ${tripData['tripStatus']}',
+                                style:
+                                    GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                          ],
+                        ),
                         Text('วันที่เดินทาง: $startDate - $endDate',
                             style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
                         FutureBuilder<DocumentSnapshot>(

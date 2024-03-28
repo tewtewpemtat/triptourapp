@@ -35,9 +35,9 @@ class FirebaseAuthService {
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        Fluttertoast.showToast(msg: 'อีเมลหรือรหัสผ่านผิดพลาด');
+        Fluttertoast.showToast(msg: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
       } else {
-        Fluttertoast.showToast(msg: 'โปรดกรอกข้อมูลให้ถูกต้อง');
+        Fluttertoast.showToast(msg: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
       }
     }
     return null;

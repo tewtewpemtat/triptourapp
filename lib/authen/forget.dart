@@ -105,7 +105,7 @@ class _ForgetPageState extends State<ForgetPage> {
                           .sendPasswordResetEmail(email: forgotEmail)
                           .then((value) {
                         Fluttertoast.showToast(
-                            msg: 'ส่งลิ้งเเก้ไขรหัสผ่านเรียบร้อยเเล้ว');
+                            msg: 'ส่งลิ้งไปบนอีเมลเรียบร้อยเเล้ว');
                         Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/SetProfile.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -200,44 +201,45 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signIn(BuildContext context) async {
-    setState(() {
-      _isSigningUp = true;
-    });
-
     String email = _emailController.text;
     String password = _passwordController.text;
-    User? user = await auth.signInWithEmailAndPassword(email, password);
 
-    setState(() {
-      _isSigningUp = false;
-    });
+    if (email.isEmpty || password.isEmpty) {
+      Fluttertoast.showToast(msg: 'โปรดกรอกข้อมูลให้ครบถ้วน');
+    } else {
+      setState(() {
+        _isSigningUp = true;
+      });
+      User? user = await auth.signInWithEmailAndPassword(email, password);
+      setState(() {
+        _isSigningUp = false;
+      });
+      if (user != null) {
+        print("Successfully signed In");
+        String? uid = user.uid;
 
-    if (user != null) {
-      print("Successfully signed In");
-      String? uid = user.uid;
+        // Query ข้อมูลจาก Firestore
+        DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-      // Query ข้อมูลจาก Firestore
-      DocumentSnapshot<Map<String, dynamic>> userDoc =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        // ตรวจสอบค่า profileStatus
+        String profileStatus = userDoc.get('profileStatus');
 
-      // ตรวจสอบค่า profileStatus
-      String profileStatus = userDoc.get('profileStatus');
-
-      // ตรวจสอบเงื่อนไข
-      if (profileStatus == 'None') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SetProfilePage(),
-          ),
-        );
-      } else if (profileStatus == 'Completed') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyApp(),
-          ),
-        );
+        if (profileStatus == 'None') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SetProfilePage(),
+            ),
+          );
+        } else if (profileStatus == 'Completed') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyApp(),
+            ),
+          );
+        }
       }
     }
   }

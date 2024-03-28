@@ -62,7 +62,7 @@ class _PlaceSumState extends State<PlaceSum> {
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
     String placeAddress = placeData['placeaddress'];
-    int maxCharsFirstLine = 20; // Maximum characters for the first line
+    int maxCharsFirstLine = 25; // Maximum characters for the first line
     int maxCharsTotal = 30; // Maximum characters to display in total
     int maxCharsFirstLine2 = 50; // Maximum characters for the first line
     int maxCharsTotal2 = 60; // Maximum characters to display in total
@@ -92,6 +92,8 @@ class _PlaceSumState extends State<PlaceSum> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        // Set the width to your desired value
+        height: 120.0,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey, // Border color
@@ -100,6 +102,7 @@ class _PlaceSumState extends State<PlaceSum> {
           borderRadius: BorderRadius.circular(10),
         ),
         margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -110,157 +113,160 @@ class _PlaceSumState extends State<PlaceSum> {
                 child: Image.network(
                   placeData['placepicUrl'] ??
                       'assets/userplan/userplan_image1.png',
-                  width: 100.0,
-                  height: 250.0,
+                  width: 120.0,
+                  height: 120.0,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(width: 13),
+            SizedBox(width: 10),
             Expanded(
               flex: 6,
-              child: Container(
-                margin: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            displayedName ?? '',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                reverse: true,
+                child: Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              displayedName ?? '',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                              onPressed: () async {
-                                String placeId = place.reference.id;
+                          InkWell(
+                            onTap: () {},
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                onPressed: () async {
+                                  String placeId = place.reference.id;
 
-                                try {
-                                  await FirebaseFirestore.instance
-                                      .collection('places')
-                                      .doc(placeId)
-                                      .update({
-                                    'placetimestart': null,
-                                    'placetimeend': null,
-                                    'placeadd': 'No',
-                                  });
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('places')
+                                        .doc(placeId)
+                                        .update({
+                                      'placetimestart': null,
+                                      'placetimeend': null,
+                                      'placeadd': 'No',
+                                    });
 
-                                  Fluttertoast.showToast(
-                                      msg: 'ลบสถานที่สำเร็จ');
-                                  setState(() {});
-                                } catch (error) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            'Error deleting $placeName: $error')),
-                                  );
-                                }
-                              },
-                              icon: Icon(Icons.remove),
+                                    Fluttertoast.showToast(
+                                        msg: 'ลบสถานที่สำเร็จ');
+                                    setState(() {});
+                                  } catch (error) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Error deleting $placeName: $error')),
+                                    );
+                                  }
+                                },
+                                icon: Icon(Icons.remove),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black, // Border color
-                          width: 1.0, // Border width
-                        ),
-                        borderRadius: BorderRadius.circular(16.0),
-                        color: Color(0xFF1E30D7), // Background color
+                        ],
                       ),
-                      padding: EdgeInsets.all(3.0),
-                      child: Text(
-                        placeData['placeprovince'] ?? '',
-                        style: GoogleFonts.ibmPlexSansThai(
-                          fontSize: 10,
-                          color: Colors.white,
+                      SizedBox(height: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black, // Border color
+                            width: 1.0, // Border width
+                          ),
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: Color(0xFF1E30D7), // Background color
+                        ),
+                        padding: EdgeInsets.all(3.0),
+                        child: Text(
+                          placeData['placeprovince'] ?? '',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontSize: 10,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      displayedName2 ?? '',
-                      style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Color(0xffdb923c),
-                          ),
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            'วันเวลาเริ่มต้น',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.white,
+                      SizedBox(height: 5),
+                      Text(
+                        displayedName2 ?? '',
+                        style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Color(0xffdb923c),
+                            ),
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              'วันเวลาเริ่มต้น',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            DateFormat('dd-MM-yyy HH:mm').format(
-                                    (placeData['placetimestart'] as Timestamp)
-                                        .toDate()) ??
-                                '',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              DateFormat('dd-MM-yyy HH:mm').format(
+                                      (placeData['placetimestart'] as Timestamp)
+                                          .toDate()) ??
+                                  '',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Color(0xffc21111),
-                          ),
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            'วันเวลาสิ้นสุด',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.white,
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Color(0xffc21111),
+                            ),
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              'วันเวลาสิ้นสุด',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            DateFormat('dd-MM-yyy HH:mm').format(
-                                    (placeData['placetimeend'] as Timestamp)
-                                        .toDate()) ??
-                                '',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            padding: EdgeInsets.all(3.0),
+                            child: Text(
+                              DateFormat('dd-MM-yyy HH:mm').format(
+                                      (placeData['placetimeend'] as Timestamp)
+                                          .toDate()) ??
+                                  '',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 10,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -163,6 +163,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
                           msg: 'กรุณากรอกชื่อสถานที่และเลือกรูปสถานที่');
                     } else {
                       Navigator.of(context).pop();
+                      Fluttertoast.showToast(msg: 'กำลังบันทึกสถานที่...');
                       _PlaceAdd();
                     }
                   },
