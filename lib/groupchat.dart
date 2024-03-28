@@ -649,15 +649,103 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    // Handle add icon tap
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          margin: EdgeInsets.all(10),
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  // Handle camera icon tap
+                                  Navigator.pop(context);
+                                  // Add your camera logic here
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.camera_alt, size: 25.0),
+                                    Text('ถ่ายรูป',
+                                        style: GoogleFonts.ibmPlexSansThai()),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 0.1,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  // Handle camera icon tap
+                                  Navigator.pop(context);
+                                  // Add your camera logic here
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.image, size: 25.0),
+                                    Text('รูปภาพ',
+                                        style: GoogleFonts.ibmPlexSansThai()),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  // Handle camera icon tap
+                                  Navigator.pop(context);
+                                  // Add your camera logic here
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.place, size: 25.0),
+                                    Text('มารค์จุดนัดพบ',
+                                        style: GoogleFonts.ibmPlexSansThai()),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  // Handle camera icon tap
+                                  Navigator.pop(context);
+                                  // Add your camera logic here
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.star, size: 25.0),
+                                    Text('แนะนำสิ่งน่าสนใจ',
+                                        style: GoogleFonts.ibmPlexSansThai()),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
                 Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'พิมข้อความ',
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    maxLines:
-                        null, // ทำให้ TextField สามารถเพิ่มบรรทัดได้โดยอัตโนมัติ
-                    textInputAction: TextInputAction.newline,
+                    child: Expanded(
+                      child: TextField(
+                        controller: _messageController,
+                        decoration: InputDecoration(
+                          hintText: 'พิมข้อความ',
+                          border: InputBorder.none, // Remove the border
+                        ),
+                        maxLines: null, // Allow multiline input
+                        textInputAction: TextInputAction.newline,
+                      ),
+                    ),
                   ),
                 ),
                 IconButton(
