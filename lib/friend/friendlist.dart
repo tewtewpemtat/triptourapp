@@ -17,31 +17,6 @@ class _FriendListState extends State<FriendList> {
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
-  late List<dynamic> friendList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    fetchFriendList();
-  }
-
-  void fetchFriendList() async {
-    try {
-      DocumentSnapshot userDataSnapshot =
-          await FirebaseFirestore.instance.collection('users').doc(myUid).get();
-
-      if (userDataSnapshot.exists) {
-        Map<String, dynamic>? userData =
-            userDataSnapshot.data() as Map<String, dynamic>?;
-
-        setState(() {
-          friendList = userData?['friendList'] ?? [];
-        });
-      }
-    } catch (e) {
-      print('Error fetching user data: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,36 +97,72 @@ class _FriendListState extends State<FriendList> {
           ),
         ),
         SizedBox(height: 10),
-        if (friendList.isNotEmpty)
-          for (String friendUid in friendList)
-            buildTripItem(context, friendUid),
+        StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(myUid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              return Center(child: Text('No friend data found'));
+            }
+
+            Map<String, dynamic>? userData =
+                snapshot.data!.data() as Map<String, dynamic>?;
+
+            if (userData == null || !userData.containsKey('friendList')) {
+              return Center(child: Text('No friend data found'));
+            }
+
+            List<dynamic> friendList = userData['friendList'];
+
+            if (friendList.isEmpty) {
+              return Center(child: Text('No friends added yet'));
+            }
+
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: friendList.length,
+              itemBuilder: (context, index) {
+                String friendUid = friendList[index];
+                return buildFriendItem(context, friendUid);
+              },
+            );
+          },
+        ),
       ],
     );
   }
 
-  Widget buildTripItem(BuildContext context, String friendUid) {
-    return FutureBuilder<DocumentSnapshot>(
-      future:
-          FirebaseFirestore.instance.collection('users').doc(friendUid).get(),
+  Widget buildFriendItem(BuildContext context, String friendUid) {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(friendUid)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         }
 
-        if (snapshot.hasError || !snapshot.hasData) {
+        if (!snapshot.hasData || !snapshot.data!.exists) {
           return Icon(Icons.error);
         }
+
         Map<String, dynamic>? friendData =
-            snapshot.data?.data() as Map<String, dynamic>?;
+            snapshot.data!.data() as Map<String, dynamic>?;
 
-        String fullName = '';
-        bool matchesSearch = false;
-
-        if (friendData != null) {
-          fullName = '${friendData['firstName']} ${friendData['lastName']}'
-              .toLowerCase();
-          matchesSearch = fullName.contains(_searchQuery);
+        if (friendData == null) {
+          return Icon(Icons.error);
         }
+
+        String fullName = '${friendData['firstName']} ${friendData['lastName']}'
+            .toLowerCase();
+        bool matchesSearch = fullName.contains(_searchQuery);
 
         if (_searchQuery.isEmpty || matchesSearch) {
           return Material(
@@ -186,7 +197,7 @@ class _FriendListState extends State<FriendList> {
                             margin: EdgeInsets.all(4.0),
                             child: ClipOval(
                               child: Image.network(
-                                friendData?['profileImageUrl'] ??
+                                friendData['profileImageUrl'] ??
                                     'https://example.com/default-profile-image.jpg',
                                 width: 70.0,
                                 height: 70.0,
@@ -204,7 +215,7 @@ class _FriendListState extends State<FriendList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${friendData?['firstName']} ${friendData?['lastName']}',
+                                  '${friendData['firstName']} ${friendData['lastName']}',
                                   style: GoogleFonts.ibmPlexSansThai(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -230,93 +241,80 @@ class _FriendListState extends State<FriendList> {
     );
   }
 
-  Future<Widget> fetchLastMessageAndDisplay(String friendUid) async {
+  Stream<Widget> streamLastMessageAndDisplay(String friendUid) async* {
     try {
-      // Fetch the last message where current user is the receiver
-      var querySnapshot1 = await FirebaseFirestore.instance
-          .collection('chats')
-          .where('receiverUid', isEqualTo: myUid)
-          .where('senderUid', isEqualTo: friendUid)
-          .orderBy('timestampserver', descending: true)
-          .limit(1)
-          .get();
+      final collection = FirebaseFirestore.instance.collection('chats');
 
-      // Fetch the last message where current user is the sender
-      var querySnapshot2 = await FirebaseFirestore.instance
-          .collection('chats')
+      // Stream for messages where current user is the receiver
+      final stream1 = collection
           .where('receiverUid', isEqualTo: friendUid)
           .where('senderUid', isEqualTo: myUid)
           .orderBy('timestampserver', descending: true)
-          .limit(1)
-          .get();
+          .snapshots();
 
-      // Compare timestamps and select the most recent message
-      Map<String, dynamic>? lastMessage;
-      if (querySnapshot1.docs.isNotEmpty && querySnapshot2.docs.isNotEmpty) {
-        final message1 = querySnapshot1.docs[0].data();
-        final message2 = querySnapshot2.docs[0].data();
-        lastMessage =
-            message1['timestampserver'].compareTo(message2['timestampserver']) >
-                    0
-                ? message1
-                : message2;
-      } else if (querySnapshot1.docs.isNotEmpty) {
-        lastMessage = querySnapshot1.docs[0].data();
-      } else if (querySnapshot2.docs.isNotEmpty) {
-        lastMessage = querySnapshot2.docs[0].data();
-      }
+      // Stream for messages where current user is the sender
+      final stream2 = collection
+          .where('receiverUid', isEqualTo: myUid)
+          .where('senderUid', isEqualTo: friendUid)
+          .orderBy('timestampserver', descending: true)
+          .snapshots();
 
-      if (lastMessage != null) {
-        String messageText = lastMessage['lastMessage'] ?? '';
-        String justmessage = messageText.length > 20
-            ? messageText.substring(0, 20)
-            : messageText;
-        if (justmessage.length > 17) {
-          justmessage += '...';
+      // Combine the streams
+      await for (QuerySnapshot querySnapshot1 in stream1) {
+        await for (QuerySnapshot querySnapshot2 in stream2) {
+          List<DocumentSnapshot> documents = [
+            ...querySnapshot1.docs,
+            ...querySnapshot2.docs,
+          ];
+
+          documents.sort((a, b) {
+            Timestamp timestampA = a['timestampserver'];
+            Timestamp timestampB = b['timestampserver'];
+            return timestampB.compareTo(timestampA);
+          });
+
+          if (documents.isNotEmpty) {
+            DocumentSnapshot latestMessage = documents.first;
+            String messageText = latestMessage['lastMessage'] ?? '';
+            String justmessage = messageText.length > 20
+                ? messageText.substring(0, 20)
+                : messageText;
+            if (justmessage.length > 17) {
+              justmessage += '...';
+            }
+
+            String senderUid = latestMessage['senderUid'];
+            Timestamp timestamp = latestMessage['timestampserver'];
+            String formattedTime =
+                DateFormat('HH:mm').format(timestamp.toDate());
+
+            String displayMessage = senderUid != myUid
+                ? 'เพื่อน: $justmessage $formattedTime'
+                : 'คุณ: $justmessage $formattedTime';
+            yield Text(
+              displayMessage,
+              style: TextStyle(color: Colors.grey),
+            );
+          } else {
+            yield Text(
+              'No messages yet',
+              style: TextStyle(color: Colors.grey),
+            );
+          }
         }
-
-        String senderUid = lastMessage['senderUid'];
-        Timestamp timestamp = lastMessage['timestampserver'];
-        String formattedTime = DateFormat('HH:mm').format(timestamp.toDate());
-
-        String displayMessage = senderUid == myUid
-            ? 'You: $justmessage $formattedTime'
-            : 'ชื่อเพื่อน: $justmessage $formattedTime'; // Adjust to include friend's name
-        // Fetch friend's name if needed
-        if (senderUid != myUid) {
-          DocumentSnapshot friendSnapshot = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(friendUid)
-              .get();
-          Map<String, dynamic> friendData =
-              friendSnapshot.data() as Map<String, dynamic>;
-          String friendName =
-              '${friendData['firstName']} ${friendData['lastName']}';
-          displayMessage = '$friendName: $justmessage $formattedTime';
-        }
-
-        return Text(
-          displayMessage,
-          style: TextStyle(color: Colors.grey),
-        );
-      } else {
-        return Text(
-          'No messages yet',
-          style: TextStyle(color: Colors.grey),
-        );
       }
     } catch (e) {
-      print('Error fetching last message: $e');
-      return Text(
-        'Error fetching last message',
+      print('Error streaming last message: $e');
+      yield Text(
+        'Error streaming last message',
         style: TextStyle(color: Colors.grey),
       );
     }
   }
 
   Widget buildLastMessageWidget(String friendUid) {
-    return FutureBuilder(
-      future: fetchLastMessageAndDisplay(friendUid),
+    return StreamBuilder(
+      stream: streamLastMessageAndDisplay(friendUid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
@@ -326,12 +324,10 @@ class _FriendListState extends State<FriendList> {
       },
     );
   }
-}
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MaterialApp(
-    home: FriendList(),
-  ));
+  void main() async {
+    runApp(MaterialApp(
+      home: FriendList(),
+    ));
+  }
 }
