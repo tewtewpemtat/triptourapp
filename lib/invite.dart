@@ -8,6 +8,7 @@ import 'package:triptourapp/friendrequest.dart';
 import 'package:triptourapp/tripmanage.dart';
 import '../privatechat.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Invite extends StatefulWidget {
   @override
@@ -89,6 +90,7 @@ class InviteState extends State<Invite> {
       } else {
         print('Friend request already sent');
       }
+      Fluttertoast.showToast(msg: 'ส่งคำเชิญเเล้ว');
     } catch (e) {
       print('Error sending friend request: $e');
     }

@@ -18,59 +18,74 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.grey[200],
       title: Padding(
-        padding: EdgeInsets.all(0.0),
-        child: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // หรือ Widget ที่คุณต้องการแสดงขณะโหลดข้อมูล
-            }
+          padding: EdgeInsets.all(0.0),
+          child: FutureBuilder<DocumentSnapshot>(
+            future:
+                FirebaseFirestore.instance.collection('users').doc(uid).get(),
+            builder: (context, userSnapshot) {
+              if (userSnapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+              if (userSnapshot.hasError) {
+                return Text('Error: ${userSnapshot.error}');
+              }
+              if (!userSnapshot.hasData || !userSnapshot.data!.exists) {
+                return Text('User data not found');
+              }
 
-            if (snapshot.hasError) {
-              return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
-            }
+              var userData = userSnapshot.data!.data() as Map<String, dynamic>;
+              String? nickname = userData['nickname'];
 
-            if (!snapshot.hasData || !snapshot.data!.exists) {
-              return Text('ไม่พบข้อมูลผู้ใช้');
-            }
+              return FutureBuilder<QuerySnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('trips')
+                    .where('tripJoin', arrayContains: uid)
+                    .get(),
+                builder: (context, tripSnapshot) {
+                  if (tripSnapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (tripSnapshot.hasError) {
+                    return Text('Error: ${tripSnapshot.error}');
+                  }
 
-            // ดึงข้อมูลจาก snapshot
-            var userData = snapshot.data!.data() as Map<String, dynamic>;
+                  List<DocumentSnapshot> trips = tripSnapshot.data!.docs;
 
-            return Row(
-              children: [
-                CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: userData['profileImageUrl'] != null
-                      ? NetworkImage(userData['profileImageUrl'])
-                      : AssetImage('assets/profile.jpg') as ImageProvider,
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userData['nickname'] ?? '',
-                      style: GoogleFonts.ibmPlexSansThai(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black,
+                  return Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 25.0,
+                        backgroundImage: userData['profileImageUrl'] != null
+                            ? NetworkImage(userData['profileImageUrl'])
+                            : AssetImage('assets/profile.jpg') as ImageProvider,
                       ),
-                    ),
-                    Text(
-                      'จำนวนทริปที่เข้าร่วม : ${userData['triplist'] ?? 0}',
-                      style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 13,
-                        color: Colors.black,
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            nickname ?? '',
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'จำนวนทริปที่เข้าร่วม : ${trips.length}',
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 13,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
-        ),
-      ),
+                    ],
+                  );
+                },
+              );
+            },
+          )),
       actions: [
         IconButton(
           icon: Icon(Icons.settings),
