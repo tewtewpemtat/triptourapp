@@ -239,6 +239,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
       final placetimeEnd = placetimeend;
       final placeTripid = widget.tripUid;
       final placeWhoGo = placewhogo;
+      final placeRun = 'Start';
       final placeStatus = placestatus;
       final userUid = FirebaseAuth.instance.currentUser?.uid;
       final randomImg = generateRandomNumber();
@@ -266,11 +267,12 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
         'placetimestart': placetimeStart,
         'placetimeend': placetimeEnd,
         'placetripid': placeTripid,
-        'placewhoGo': placeWhoGo,
+        'placewhogo': placeWhoGo,
         'useruid': userUid,
         'placestatus': placeStatus,
         'placeprovince': placeProvince,
-        'placeadd': placeAdd
+        'placeadd': placeAdd,
+        'placerun': placeRun
       });
 
       setState(() {

@@ -1,0 +1,10 @@
+^C:\TRIPTOURAPP\BUILD\WINDOWS\X64\CMAKEFILES\B38B3B1DE86F47300045EAA0773721A3\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/triptourapp/windows -BC:/triptourapp/build/windows/x64 --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/triptourapp/build/windows/x64/triptourapp.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

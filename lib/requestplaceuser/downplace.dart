@@ -211,7 +211,8 @@ class _DownPageState extends State<DownPage> {
                                     placeStatus: 'Wait',
                                     placeProvince:
                                         places[index].placeprovince ?? '',
-                                    placeAdd: 'No' ??
+                                    placeAdd: 'No' ?? '',
+                                    placeRun: 'Start' ??
                                         '' // Initially, no one goes to this place, so it's an empty array
                                     );
                               },
@@ -256,6 +257,7 @@ class _DownPageState extends State<DownPage> {
     required String placeStatus,
     required String placeProvince,
     required String placeAdd,
+    required String placeRun,
   }) async {
     try {
       // Check if the place already exists in the trip
@@ -301,7 +303,8 @@ class _DownPageState extends State<DownPage> {
         'placewhogo': placeWhoGo,
         'placestatus': placeStatus,
         'placeprovince': placeProvince,
-        'placeadd': placeAdd
+        'placeadd': placeAdd,
+        'placerun': placeRun
       });
 
       // Notify the user that the place has been successfully added
