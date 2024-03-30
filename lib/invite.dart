@@ -76,6 +76,7 @@ class InviteState extends State<Invite> {
               .where('senderUid', isEqualTo: myUid)
               .where('receiverUid', isEqualTo: friendUid)
               .where('status', isEqualTo: 'Waiting')
+              .where('tripUid', isEqualTo: widget.tripUid)
               .get();
 
       if (tripRequestSnapshot.docs.isEmpty) {

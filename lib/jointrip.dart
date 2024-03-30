@@ -4,6 +4,7 @@ import 'package:triptourapp/main.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -45,11 +46,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
           List<dynamic> tripJoin = tripData['tripJoin'] ?? [];
           if (tripJoin.length >= tripLimit) {
             // Trip is full, notify and remove request
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('ทริปนี้เต็มแล้ว'),
-              ),
-            );
+            Fluttertoast.showToast(msg: 'ทริปนี้เต็มเเล้ว');
             await FirebaseFirestore.instance
                 .collection('triprequest')
                 .doc(requestId)
@@ -65,6 +62,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
                 .collection('triprequest')
                 .doc(requestId)
                 .delete();
+            Fluttertoast.showToast(msg: 'เข้าร่วมทริปสำเร็จ');
           }
         }
       }

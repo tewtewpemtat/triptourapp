@@ -20,7 +20,9 @@ class UserPlan extends StatefulWidget {
 
 class _UserPlanState extends State<UserPlan> {
   late String uid = FirebaseAuth.instance.currentUser!.uid;
-
+  bool isPlaceLength = false;
+  bool isPlaceEnd = false;
+  bool isPlaceStart = false;
   @override
   Widget build(BuildContext context) {
     return // Set a fixed height or use constraints
@@ -72,6 +74,8 @@ class _UserPlanState extends State<UserPlan> {
     int maxCharsTotal = 40; // Maximum characters to display in total
     int maxCharsFirstLine2 = 50; // Maximum characters for the first line
     int maxCharsTotal2 = 60; // Maximum characters to display in total
+    Timestamp placeStartTimeStamp = placeData['placetimestart'];
+    DateTime placeStartTime = placeStartTimeStamp.toDate();
     Timestamp placeEndTimeStamp = placeData[
         'placetimestart']; // เพิ่มการเข้าถึง placetimestart จาก placeData
     DateTime placeEndTime =
@@ -79,6 +83,17 @@ class _UserPlanState extends State<UserPlan> {
     int countTrip = placeData['placewhogo'].length;
     // เงื่อนไขเพิ่มเติมเพื่อตรวจสอบว่า placetimestart มีค่ามากกว่าหรือเท่ากับวันเวลาปัจจุบันหรือไม่
     bool isPlaceTimeValid = placeEndTime.isAfter(DateTime.now());
+    isPlaceEnd = DateTime.now().isAfter(placeStartTime) &&
+        DateTime.now().isAfter(placeEndTime);
+    isPlaceStart = DateTime.now().isBefore(placeStartTime);
+    isPlaceLength = DateTime.now().isAfter(placeStartTime) &&
+        DateTime.now().isBefore(placeEndTime);
+    if (isPlaceLength) {
+      place.reference.update({'placerun': 'Running'});
+    }
+    if (isPlaceEnd) {
+      place.reference.update({'placerun': 'End'});
+    }
     String displayedName = placeName.length > maxCharsFirstLine
         ? (placeName.length > maxCharsTotal
             ? placeName.substring(0, maxCharsFirstLine) +
@@ -102,17 +117,20 @@ class _UserPlanState extends State<UserPlan> {
                         '...'
                     : placeAddress.substring(maxCharsFirstLine2)))
         : placeAddress;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: 200,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey, // Border color
-            width: 1.0, // Border width
-          ),
-          borderRadius: BorderRadius.circular(10),
-        ),
+            border: Border.all(
+              color: Colors.grey, // Border color
+              width: 1.0, // Border width
+            ),
+            borderRadius: BorderRadius.circular(10),
+            color: !isPlaceLength & !isPlaceStart
+                ? Color.fromARGB(53, 106, 105, 105)
+                : Color.fromARGB(255, 255, 255, 255)),
         margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,6 +255,7 @@ class _UserPlanState extends State<UserPlan> {
                         ],
                       ),
                       SizedBox(height: 5),
+                      SizedBox(height: 5),
                       Text(
                         'จำนวนผู้เข้าร่วม : $countTrip',
                         style: GoogleFonts.ibmPlexSansThai(
@@ -245,6 +264,7 @@ class _UserPlanState extends State<UserPlan> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SizedBox(height: 5),
                       Row(
                         children: [
                           Expanded(
@@ -254,14 +274,18 @@ class _UserPlanState extends State<UserPlan> {
                                     child: ElevatedButton(
                                       onPressed: () {},
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color(0xffcfcfcf),
-                                        onPrimary: Colors.black,
+                                        primary:
+                                            Color.fromARGB(255, 167, 166, 166),
+                                        onPrimary:
+                                            const Color.fromARGB(255, 0, 0, 0),
                                         fixedSize: Size(70, 10),
                                       ),
                                       child: Text(
                                         'เข้าร่วม',
                                         style: GoogleFonts.ibmPlexSansThai(
                                           fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
                                         ),
                                       ),
                                     ),
@@ -275,7 +299,8 @@ class _UserPlanState extends State<UserPlan> {
                                         'สิ้นสุด',
                                         style: GoogleFonts.ibmPlexSansThai(
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                          color:
+                                              Color.fromARGB(255, 49, 49, 49),
                                         ),
                                       ),
                                       style: TextButton.styleFrom(
