@@ -17,15 +17,15 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/groupchat.dart';
 
-class MeetplacePage extends StatefulWidget {
+class InterestPage extends StatefulWidget {
   final String? tripUid;
-  const MeetplacePage({Key? key, this.tripUid}) : super(key: key);
+  const InterestPage({Key? key, this.tripUid}) : super(key: key);
 
   @override
-  _MeetplacePageState createState() => _MeetplacePageState();
+  _InterestPageState createState() => _InterestPageState();
 }
 
-class _MeetplacePageState extends State<MeetplacePage> {
+class _InterestPageState extends State<InterestPage> {
   late GoogleMapController _controller;
   String? uid;
   LatLng? _startPosition;
@@ -186,7 +186,7 @@ class _MeetplacePageState extends State<MeetplacePage> {
         return StatefulBuilder(
           builder: (BuildContext context, setState) {
             return AlertDialog(
-              title: Text('จุดนัดพบ'),
+              title: Text('สิ่งน่าสนใจ'),
               content: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
@@ -224,15 +224,9 @@ class _MeetplacePageState extends State<MeetplacePage> {
                             ),
                           ),
                     TextField(
-                      controller: _placeNameController,
-                      decoration: InputDecoration(labelText: 'ชื่อจุดนัดพบ'),
-                      keyboardType: TextInputType
-                          .multiline, // กำหนดให้สามารถพิมพ์หลายบรรทัดได้
-                      maxLines: null,
-                    ),
-                    TextField(
                       controller: _placeAddressController,
-                      decoration: InputDecoration(labelText: 'รายละเอียด'),
+                      decoration:
+                          InputDecoration(labelText: 'รายละเอียดสิ่งน่าสนใจ'),
                       keyboardType: TextInputType
                           .multiline, // กำหนดให้สามารถพิมพ์หลายบรรทัดได้
                       maxLines: null,
@@ -245,12 +239,11 @@ class _MeetplacePageState extends State<MeetplacePage> {
                   child: Text('บันทึก'),
                   onPressed: () {
                     if (_selectedImage == null ||
-                        _placeNameController.text.isEmpty ||
                         _placeAddressController.text.isEmpty) {
                       Fluttertoast.showToast(msg: 'กรุณากรอกข้อมูลให้ครบถ้วน');
                     } else {
                       Navigator.of(context).pop();
-                      Fluttertoast.showToast(msg: 'กำลังบันทึกจุดนัดพบ...');
+                      Fluttertoast.showToast(msg: 'กำลังบันทึกสิ่งน่าสนใจ...');
                       _PlaceAdd();
                     }
                   },
@@ -325,7 +318,6 @@ class _MeetplacePageState extends State<MeetplacePage> {
 
   Future<void> _PlaceAdd() async {
     try {
-      final placeName = _placeNameController.text;
       final placeDetail = _placeAddressController.text;
       final placeLatitude = _selectedPosition!.latitude;
       final placeLongitude = _selectedPosition!.longitude;
@@ -333,21 +325,20 @@ class _MeetplacePageState extends State<MeetplacePage> {
       final userUid = FirebaseAuth.instance.currentUser?.uid;
       final randomImg =
           generateRandomNumber(); // Generate a random 9-digit number
-      final imageName = '$placeName$randomImg.jpg';
+      final imageName = '${widget.tripUid}$randomImg.jpg';
       final firebaseStorageRef = firebase_storage.FirebaseStorage.instance
           .ref()
-          .child('trip/places/meetplace/${widget.tripUid}/$imageName');
+          .child('trip/places/interest/${widget.tripUid}/$imageName');
       await firebaseStorageRef.putFile(_selectedImage!);
 
       final downloadURL = await firebaseStorageRef.getDownloadURL();
 
       final placesCollection =
-          FirebaseFirestore.instance.collection('placemeet');
+          FirebaseFirestore.instance.collection('interest');
       await placesCollection.add({
         'placeLatitude': placeLatitude,
         'placeLongitude': placeLongitude,
         'placeaddress': placeDetail,
-        'placename': placeName,
         'placepicUrl': downloadURL,
         'placetripid': placeTripid,
         'placeid': placeid,

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/friend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:triptourapp/saveinterest/interest.dart';
 import 'package:triptourapp/saveinterest/meetplace.dart';
 import 'package:triptourapp/tripmanage.dart';
 
@@ -718,7 +719,13 @@ class _ChatScreenState extends State<ChatScreen> {
                               InkWell(
                                 onTap: () {
                                   // Handle camera icon tap
-                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => InterestPage(
+                                          tripUid: widget.tripUid!),
+                                    ),
+                                  );
                                   // Add your camera logic here
                                 },
                                 child: Column(

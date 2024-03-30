@@ -35,6 +35,42 @@ void cancelTrip(BuildContext context, String tripUid) async {
           msg: 'จำนวนผู้ร่วมต้องไม่เกิน 1 คนจึงจะสามารถลบทริปได้');
       return;
     }
+    QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+        .collection('placemeet')
+        .where('placetripid', isEqualTo: tripUid)
+        .get();
+
+    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+    querySnapshot2.docs.forEach((document) async {
+      String placePicUrl = document['placepicUrl'];
+      // ลบรูปภาพใน Firebase Storage
+      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+      await ref.delete();
+      // ลบเอกสารที่พบเจอออกจาก Firestore
+      await FirebaseFirestore.instance
+          .collection('placemeet')
+          .doc(document.id)
+          .delete();
+    });
+
+    QuerySnapshot querySnapshot3 = await FirebaseFirestore.instance
+        .collection('interest')
+        .where('placetripid', isEqualTo: tripUid)
+        .get();
+
+    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+    querySnapshot3.docs.forEach((document) async {
+      String placePicUrl = document['placepicUrl'];
+      // ลบรูปภาพใน Firebase Storage
+      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+      await ref.delete();
+      // ลบเอกสารที่พบเจอออกจาก Firestore
+      await FirebaseFirestore.instance
+          .collection('interest')
+          .doc(document.id)
+          .delete();
+    });
+
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('places')
         .where('placetripid', isEqualTo: tripUid)
@@ -52,6 +88,7 @@ void cancelTrip(BuildContext context, String tripUid) async {
           .doc(document.id)
           .delete();
     });
+
     // ลบภาพใน Firebase Storage
     String tripProfileUrl = tripSnapshot['tripProfileUrl'];
     Reference ref = FirebaseStorage.instance.refFromURL(tripProfileUrl);
