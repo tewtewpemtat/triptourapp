@@ -61,13 +61,20 @@ class UserbuttonState extends State<Userbutton> {
           DateTime now = DateTime.now();
           if (tripData != null) {
             DateTime tripStartDate = tripData['tripStartDate'].toDate();
-            if (now.isAfter(tripStartDate) ||
-                now.isAtSameMomentAs(tripStartDate)) {
+            DateTime tripEndDate = tripData['tripEndDate'].toDate();
+            if (now.isAfter(tripStartDate) && now.isBefore(tripEndDate)) {
               // เปรียบเทียบเวลาปัจจุบันกับเวลาเริ่มต้นของทริป
               FirebaseFirestore.instance
                   .collection('trips')
                   .doc(widget.tripUid)
                   .update({'tripStatus': 'กำลังดำเนินการ'});
+              print('Trip status updated successfully');
+            } else if (now.isAfter(tripEndDate)) {
+              // เปรียบเทียบเวลาปัจจุบันกับเวลาเริ่มต้นของทริป
+              FirebaseFirestore.instance
+                  .collection('trips')
+                  .doc(widget.tripUid)
+                  .update({'tripStatus': 'สิ้นสุด'});
               print('Trip status updated successfully');
             } else {
               print('Trip has not started yet');

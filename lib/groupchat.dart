@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/friend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:triptourapp/saveinterest/meetplace.dart';
 import 'package:triptourapp/tripmanage.dart';
 
 class GroupScreenPage extends StatelessWidget {
@@ -695,8 +696,15 @@ class _ChatScreenState extends State<ChatScreen> {
                               ),
                               InkWell(
                                 onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MeetplacePage(
+                                          tripUid: widget.tripUid!),
+                                    ),
+                                  );
                                   // Handle camera icon tap
-                                  Navigator.pop(context);
+
                                   // Add your camera logic here
                                 },
                                 child: Column(

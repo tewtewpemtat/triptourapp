@@ -49,9 +49,14 @@ class InformationPage extends StatelessWidget {
 
           // ตรวจสอบสถานะของทริปเพื่อกำหนดรูปภาพ
           String status = tripData['tripStatus'];
-          String statusImage = status == 'ยังไม่เริ่มต้น'
-              ? 'assets/green.png'
-              : 'assets/yellow.png';
+          String statusImage;
+          if (status == 'ยังไม่เริ่มต้น') {
+            statusImage = 'assets/green.png';
+          } else if (status == 'กำลังดำเนินการ') {
+            statusImage = 'assets/yellow.png';
+          } else {
+            statusImage = 'assets/red.png';
+          }
 
           return Container(
             margin: EdgeInsets.all(0.0),

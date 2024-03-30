@@ -13,10 +13,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'dart:math';
 
+import 'package:triptourapp/groupchat.dart';
+
 class MeetplacePage extends StatefulWidget {
   final String? tripUid;
-
-  const MeetplacePage({Key? key, this.tripUid}) : super(key: key);
+  final double? placelat;
+  final double? placelong;
+  const MeetplacePage({Key? key, this.tripUid, this.placelat, this.placelong})
+      : super(key: key);
 
   @override
   _MeetplacePageState createState() => _MeetplacePageState();
@@ -25,21 +29,25 @@ class MeetplacePage extends StatefulWidget {
 class _MeetplacePageState extends State<MeetplacePage> {
   late GoogleMapController _controller;
   String? uid;
+  LatLng? _startPosition;
   LatLng? _selectedPosition;
-  String placestatus = 'Wait';
   String? placetripid;
   File? _selectedImage;
   String? useruid;
   TextEditingController _placeNameController = TextEditingController();
   TextEditingController _placeAddressController = TextEditingController();
-
+  double? _placeLatitude;
+  double? _placeLongitude;
+  late Future<void>
+      _initialCameraPositionFuture; // Future for _getInitialCameraPosition()
   @override
   void initState() {
     super.initState();
     uid = FirebaseAuth.instance.currentUser?.uid;
+    _initialCameraPositionFuture =
+        _getInitialCameraPosition(); // Initialize Future in initState
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -52,26 +60,22 @@ class _MeetplacePageState extends State<MeetplacePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddPage(tripUid: widget.tripUid),
+                builder: (context) =>
+                    GroupScreenPage(tripUid: widget.tripUid ?? ''),
               ),
             ); // กลับไปที่หน้า AddPage
           },
         ),
       ),
-      body: GoogleMap(
-        onMapCreated: (controller) {
-          _controller = controller;
+      body: FutureBuilder<void>(
+        future: _initialCameraPositionFuture, // Use the Future here
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return _buildGoogleMap(); // Build GoogleMap after Future completes
+          }
         },
-        onTap: (position) {
-          setState(() {
-            _selectedPosition = position;
-          });
-        },
-        initialCameraPosition: CameraPosition(
-          target: LatLng(13.736717, 100.523186), // Default position
-          zoom: 12,
-        ),
-        markers: _selectedPosition != null ? _createMarkers() : Set<Marker>(),
       ),
       floatingActionButton: _selectedPosition != null
           ? FloatingActionButton(
@@ -94,6 +98,29 @@ class _MeetplacePageState extends State<MeetplacePage> {
         draggable: false,
       ),
     };
+  }
+
+  Widget _buildGoogleMap() {
+    return GoogleMap(
+      onMapCreated: (controller) {
+        _controller = controller;
+      },
+      onTap: (position) {
+        setState(() {
+          _selectedPosition = position;
+        });
+      },
+      initialCameraPosition: _placeLatitude != null && _placeLongitude != null
+          ? CameraPosition(
+              target: LatLng(_placeLatitude!, _placeLongitude!),
+              zoom: 17,
+            )
+          : CameraPosition(
+              target: LatLng(13.736717, 100.523186), // Default position
+              zoom: 17,
+            ),
+      markers: _selectedPosition != null ? _createMarkers() : Set<Marker>(),
+    );
   }
 
   void _showPlaceInfoDialog() async {
@@ -128,7 +155,7 @@ class _MeetplacePageState extends State<MeetplacePage> {
                                       )
                                     : DecorationImage(
                                         image: AssetImage(
-                                          'assets\addplace\addplace_image2.png',
+                                          'assets/addplace/addplace_image2.png',
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -195,6 +222,35 @@ class _MeetplacePageState extends State<MeetplacePage> {
     }
   }
 
+  Future<void> _getInitialCameraPosition() async {
+    try {
+      final placesSnapshot = await FirebaseFirestore.instance
+          .collection('places')
+          .where('placetripid', isEqualTo: widget.tripUid)
+          .where('placerun', isEqualTo: 'Running')
+          .get();
+
+      if (placesSnapshot.docs.isNotEmpty) {
+        final placeData =
+            placesSnapshot.docs.first.data() as Map<String, dynamic>;
+        _placeLatitude = placeData['placeLatitude'];
+        _placeLongitude = placeData['placeLongitude'];
+
+        setState(() {
+          _placeLatitude = placeData['placeLatitude'];
+          _placeLongitude = placeData['placeLongitude'];
+        });
+      } else {
+        // ตั้งค่าเริ่มต้นให้กับ _placeLatitude และ _placeLongitude
+        // เมื่อไม่มีข้อมูลในฐานข้อมูล
+        _placeLatitude = 13.736717; // ละติจูดตำแหน่งเริ่มต้น
+        _placeLongitude = 100.523186; // ลองจิจูดตำแหน่งเริ่มต้น
+      }
+    } catch (e) {
+      print('Error fetching initial camera position: $e');
+    }
+  }
+
   String generateRandomNumber() {
     Random random = Random();
     int randomNumber = random.nextInt(999999999 - 100000000) + 100000000;
@@ -204,11 +260,10 @@ class _MeetplacePageState extends State<MeetplacePage> {
   Future<void> _PlaceAdd() async {
     try {
       final placeName = _placeNameController.text;
-      final placeDetail = _placeNameController.text;
+      final placeDetail = _placeAddressController.text;
       final placeLatitude = _selectedPosition!.latitude;
       final placeLongitude = _selectedPosition!.longitude;
       final placeTripid = widget.tripUid;
-      final placeStatus = placestatus;
       final userUid = FirebaseAuth.instance.currentUser?.uid;
       final randomImg =
           generateRandomNumber(); // Generate a random 9-digit number
@@ -220,7 +275,8 @@ class _MeetplacePageState extends State<MeetplacePage> {
 
       final downloadURL = await firebaseStorageRef.getDownloadURL();
 
-      final placesCollection = FirebaseFirestore.instance.collection('places');
+      final placesCollection =
+          FirebaseFirestore.instance.collection('placemeet');
       await placesCollection.add({
         'placeLatitude': placeLatitude,
         'placeLongitude': placeLongitude,
@@ -229,12 +285,12 @@ class _MeetplacePageState extends State<MeetplacePage> {
         'placepicUrl': downloadURL,
         'placetripid': placeTripid,
         'useruid': userUid,
-        'placestatus': placeStatus,
       });
 
       setState(() {
         _selectedImage = null;
         _placeNameController.clear();
+        _placeAddressController.clear();
         _selectedPosition = null;
       });
 
