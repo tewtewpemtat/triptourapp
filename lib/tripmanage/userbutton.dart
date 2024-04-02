@@ -7,6 +7,7 @@ import 'package:triptourapp/requestplace.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Userbutton extends StatefulWidget {
   @override
@@ -22,19 +23,84 @@ class UserbuttonState extends State<Userbutton> {
   Future<void> _removeUserFromTrip() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid != null) {
-      await FirebaseFirestore.instance
-          .collection('trips')
-          .doc(widget.tripUid)
-          .update({
-        'tripJoin': FieldValue.arrayRemove([uid]),
-      });
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyApp(),
-        ),
-      );
-      Fluttertoast.showToast(msg: 'ออกจากทริปเรียบร้อยเเล้ว');
+      try {
+        DocumentSnapshot tripSnapshot = await FirebaseFirestore.instance
+            .collection('trips')
+            .doc(widget.tripUid)
+            .get();
+
+        if (!tripSnapshot.exists) {
+          print('Trip not found');
+          return;
+        }
+        await FirebaseFirestore.instance
+            .collection('trips')
+            .doc(widget.tripUid)
+            .update({
+          'tripJoin': FieldValue.arrayRemove([uid]),
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ),
+        );
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection('placemeet')
+            .where('placetripid', isEqualTo: widget.tripUid)
+            .where('useruid', isEqualTo: uid)
+            .get();
+
+        // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+        querySnapshot.docs.forEach((document) async {
+          String placePicUrl = document['placepicUrl'];
+          // ลบรูปภาพใน Firebase Storage
+          Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+          await ref.delete();
+          // ลบเอกสารที่พบเจอออกจาก Firestore
+          await FirebaseFirestore.instance
+              .collection('placemeet')
+              .doc(document.id)
+              .delete();
+        });
+        QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+            .collection('interest')
+            .where('placetripid', isEqualTo: widget.tripUid)
+            .where('useruid', isEqualTo: uid)
+            .get();
+
+        // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+        querySnapshot2.docs.forEach((document) async {
+          String placePicUrl = document['placepicUrl'];
+          // ลบรูปภาพใน Firebase Storage
+          Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+          await ref.delete();
+          // ลบเอกสารที่พบเจอออกจาก Firestore
+          await FirebaseFirestore.instance
+              .collection('interest')
+              .doc(document.id)
+              .delete();
+        });
+
+        QuerySnapshot querySnapshot3 = await FirebaseFirestore.instance
+            .collection('groupmessages')
+            .where('tripChatUid', isEqualTo: widget.tripUid)
+            .where('senderUid', isEqualTo: uid)
+            .get();
+
+        // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+        querySnapshot3.docs.forEach((document) async {
+          await FirebaseFirestore.instance
+              .collection('groupmessages')
+              .doc(document.id)
+              .delete();
+        });
+
+        Fluttertoast.showToast(msg: 'ออกจากทริปเรียบร้อยเเล้ว');
+      } catch (e) {
+        print('Error: $e'); // แสดง error message ใน console
+        Fluttertoast.showToast(msg: 'เกิดข้อผิดพลาดในการออกทริป');
+      }
     }
   }
 

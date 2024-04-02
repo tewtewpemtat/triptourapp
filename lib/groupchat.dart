@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/friend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:triptourapp/saveinterest/directions.dart';
 import 'package:triptourapp/saveinterest/interest.dart';
 import 'package:triptourapp/saveinterest/meetplace.dart';
 import 'package:triptourapp/tripmanage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:geolocator/geolocator.dart';
 
 class GroupScreenPage extends StatelessWidget {
   final String tripUid;
@@ -36,7 +39,13 @@ class _ChatScreenState extends State<ChatScreen> {
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
   List<Map<String, dynamic>> _messages = [];
   final ScrollController _scrollController = ScrollController();
-
+  String? placename;
+  String? placepicUrl;
+  String? placeid;
+  String? placetripid;
+  String? placeaddress;
+  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
+  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
   Future<void> fetchMessages() async {
     try {
       yourUserData = (await getUserData(getCurrentUserUid())) ?? {};
@@ -332,6 +341,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     // Fetch and load messages when the screen is initially opened
     fetchMessages();
+    getUserLocation();
     getMessagesStream();
     getFriendData(widget.tripUid).then((data) {
       setState(() {
@@ -347,6 +357,20 @@ class _ChatScreenState extends State<ChatScreen> {
         tripname = tripSnapshot['tripName'];
       });
     });
+  }
+
+  Future<void> getUserLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      setState(() {
+        userLatitude = position.latitude;
+        userLongitude = position.longitude;
+      });
+    } catch (e) {
+      print("Error getting user location: $e");
+    }
   }
 
   void scrollToBottom() {
@@ -538,6 +562,243 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  void _showSpecialDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Special Message"),
+          content: Text("Hi"),
+          actions: <Widget>[],
+        );
+      },
+    );
+  }
+
+  void getPlaceData(String postId, BuildContext context) async {
+    try {
+      // ค้นหา document ใน collection 'placemeet' โดยใช้ postId ที่ได้จากข้อความ
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('placemeet')
+          .doc(postId)
+          .get();
+
+      // ถ้าพบ document
+      if (snapshot.exists) {
+        // เข้าถึงข้อมูลจาก snapshot
+        String placename = snapshot['placename'];
+        String placepicUrl = snapshot['placepicUrl'];
+        String placeid = snapshot['placeid'];
+        double placeLatitude = snapshot['placeLatitude'];
+        double placeLongitude = snapshot['placeLongitude'];
+        String placetripid = snapshot['placetripid'];
+        String placeaddress = snapshot['placeaddress'];
+
+        // แสดงข้อมูลในรูปแบบของ Dialog
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Center(
+                  child: Text('จุดนัดพบ',
+                      style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 24, fontWeight: FontWeight.bold))),
+              content: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // กำหนด border radius ให้กับรูปภาพ
+                      child: Image.network(
+                        placepicUrl,
+                        width: 150.0,
+                        height: 150.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    SizedBox(height: 5),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "ชื่อจุดนัดพบ:",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "$placename",
+                          ),
+                          Divider(),
+                          Text(
+                            "รายละเอียด:",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "$placeaddress",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('นำทางจุดนัดพบ'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // ปิด AlertDialog
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DirectionsScreen(
+                          userLatitude:
+                              userLatitude, // ใส่พิกัดละติจูดปัจจุบันของผู้ใช้
+                          userLongitude:
+                              userLongitude, // ใส่พิกัดลองจิจูดปัจจุบันของผู้ใช้
+                          destinationLatitude:
+                              placeLatitude, // ใส่พิกัดละติจูดของจุดนัดพบ
+                          destinationLongitude:
+                              placeLongitude, // ใส่พิกัดลองจิจูดของจุดนัดพบ
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                TextButton(
+                  child: Text('ยกเลิก'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // ถ้าไม่พบ document
+        print('ไม่พบเอกสาร');
+      }
+    } catch (e) {
+      // หากเกิดข้อผิดพลาดในการเรียกข้อมูล
+      print('Error retrieving place data: $e');
+    }
+  }
+
+  void getPlaceData2(String postId, BuildContext context) async {
+    try {
+      // ค้นหา document ใน collection 'placemeet' โดยใช้ postId ที่ได้จากข้อความ
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('interest')
+          .doc(postId)
+          .get();
+
+      // ถ้าพบ document
+      if (snapshot.exists) {
+        // เข้าถึงข้อมูลจาก snapshot
+        String placepicUrl = snapshot['placepicUrl'];
+        String placeid = snapshot['placeid'];
+        String placetripid = snapshot['placetripid'];
+        double placeLatitude = snapshot['placeLatitude'];
+        double placeLongitude = snapshot['placeLongitude'];
+        String placeaddress = snapshot['placeaddress'];
+
+        // แสดงข้อมูลในรูปแบบของ Dialog
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Center(
+                  child: Text('สิ่งน่าสนใจ',
+                      style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 24, fontWeight: FontWeight.bold))),
+              content: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // กำหนด border radius ให้กับรูปภาพ
+                      child: Image.network(
+                        placepicUrl,
+                        width: 150.0,
+                        height: 150.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    SizedBox(height: 5),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "รายละเอียดสิ่งน่าสนใจ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "$placeaddress",
+                          ),
+                          Divider(),
+                          SizedBox(height: 5),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('นำทางไปยังสิ่งน่าสนใจ'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // ปิด AlertDialog
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DirectionsScreen(
+                          userLatitude:
+                              userLatitude, // ใส่พิกัดละติจูดปัจจุบันของผู้ใช้
+                          userLongitude:
+                              userLongitude, // ใส่พิกัดลองจิจูดปัจจุบันของผู้ใช้
+                          destinationLatitude:
+                              placeLatitude, // ใส่พิกัดละติจูดของจุดนัดพบ
+                          destinationLongitude:
+                              placeLongitude, // ใส่พิกัดลองจิจูดของจุดนัดพบ
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                TextButton(
+                  child: Text('ยกเลิก'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // ถ้าไม่พบ document
+        print('ไม่พบเอกสาร');
+      }
+    } catch (e) {
+      // หากเกิดข้อผิดพลาดในการเรียกข้อมูล
+      print('Error retrieving place data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -574,17 +835,26 @@ class _ChatScreenState extends State<ChatScreen> {
                           isCurrentUser ? yourUserData : friendUserData;
                       final nickname = message['nickname'] ?? '';
                       final profileImageUrl = message['profileImageUrl'] ?? '';
+                      bool isSpecialMessage =
+                          messageText.contains("3w9dc126vc68a5a6xlTHFs");
+                      bool isSpecialMessage2 =
+                          messageText.contains("28sd829gDw8d6a8w4d8a6");
                       return ListTile(
                         title: Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 4.0, horizontal: 0.0),
                           child: Row(
-                            mainAxisAlignment: isCurrentUser
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
+                            mainAxisAlignment:
+                                (isSpecialMessage || isSpecialMessage2)
+                                    ? MainAxisAlignment.center
+                                    : isCurrentUser
+                                        ? MainAxisAlignment.end
+                                        : MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              if (!isCurrentUser && profileImageUrl.isNotEmpty)
+                              if ((!isSpecialMessage && !isSpecialMessage2) &&
+                                  !isCurrentUser &&
+                                  profileImageUrl.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 28.0),
                                   child: CircleAvatar(
@@ -598,7 +868,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                     ? CrossAxisAlignment.end
                                     : CrossAxisAlignment.start,
                                 children: [
-                                  if (!isCurrentUser && nickname.isNotEmpty)
+                                  if ((!isSpecialMessage &&
+                                          !isSpecialMessage2) &&
+                                      !isCurrentUser &&
+                                      nickname.isNotEmpty)
                                     Text(
                                       nickname,
                                       style: TextStyle(
@@ -606,27 +879,103 @@ class _ChatScreenState extends State<ChatScreen> {
                                               255, 117, 114, 114),
                                           fontSize: 15),
                                     ),
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: isCurrentUser
-                                          ? Colors.blue
-                                          : Colors.green,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Text(
-                                      messageText,
-                                      style: TextStyle(color: Colors.white),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      padding: EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                        color: (isSpecialMessage ||
+                                                isSpecialMessage2)
+                                            ? Color.fromARGB(0, 127, 130, 134)
+                                            : isCurrentUser
+                                                ? Colors.blue
+                                                : Colors.green,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      child: isSpecialMessage
+                                          ? Row(children: [
+                                              Text(
+                                                " $nickname ได้เพิ่มจุดนัดพบใหม่ ",
+                                                style: TextStyle(
+                                                    color: const Color.fromARGB(
+                                                        255, 59, 57, 57)),
+                                              ),
+                                              Container(
+                                                // กำหนดความสูงของ GestureDetector
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    String postId = messageText
+                                                        .split('=')[1];
+                                                    // แยก postId จากข้อความโดยใช้เครื่องหมาย '='
+                                                    getPlaceData(
+                                                        postId, context);
+                                                  },
+                                                  child: Text(
+                                                    "ดูรายละเอียด ",
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 105, 107, 111),
+                                                      decoration: TextDecoration
+                                                          .underline, // เพิ่มเส้นใต้ที่นี่
+                                                    ),
+                                                  ), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
+                                                ),
+                                              )
+                                            ])
+                                          : isSpecialMessage2
+                                              ? Row(children: [
+                                                  Text(
+                                                    " $nickname ได้เพิ่มสิ่งน่าสนใจใหม่ ",
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            255, 59, 57, 57)),
+                                                  ),
+                                                  Container(
+                                                    // กำหนดความสูงของ GestureDetector
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        String postId =
+                                                            messageText
+                                                                .split('=')[1];
+                                                        // แยก postId จากข้อความโดยใช้เครื่องหมาย '='
+                                                        getPlaceData2(
+                                                            postId, context);
+                                                      },
+                                                      child: Text(
+                                                        "ดูรายละเอียด ",
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              105,
+                                                              107,
+                                                              111),
+                                                          decoration: TextDecoration
+                                                              .underline, // เพิ่มเส้นใต้ที่นี่
+                                                        ),
+                                                      ), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
+                                                    ),
+                                                  )
+                                                ])
+                                              : Text(
+                                                  messageText,
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
                                     ),
                                   ),
-
                                   SizedBox(
                                       height:
                                           4), // Add some space between message and timestamp
-                                  Text(
-                                    formattedTime, // Display formatted timestamp
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
+                                  (isSpecialMessage || isSpecialMessage2)
+                                      ? Text(
+                                          "", // Display formatted timestamp
+                                        )
+                                      : Text(
+                                          formattedTime, // Display formatted timestamp
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
                                 ],
                               ),
                             ],

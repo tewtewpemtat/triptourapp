@@ -16,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/groupchat.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InterestPage extends StatefulWidget {
   final String? tripUid;
@@ -186,7 +187,10 @@ class _InterestPageState extends State<InterestPage> {
         return StatefulBuilder(
           builder: (BuildContext context, setState) {
             return AlertDialog(
-              title: Text('สิ่งน่าสนใจ'),
+              title: Center(
+                  child: Text('สิ่งน่าสนใจ',
+                      style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 24, fontWeight: FontWeight.bold))),
               content: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
@@ -332,10 +336,15 @@ class _InterestPageState extends State<InterestPage> {
       await firebaseStorageRef.putFile(_selectedImage!);
 
       final downloadURL = await firebaseStorageRef.getDownloadURL();
+      final userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(userUid);
+      final userData = await userDocRef.get();
+      final nickname = userData['nickname'];
+      final profileImageUrl = userData['profileImageUrl'];
 
       final placesCollection =
           FirebaseFirestore.instance.collection('interest');
-      await placesCollection.add({
+      final placeDocumentRef = await placesCollection.add({
         'placeLatitude': placeLatitude,
         'placeLongitude': placeLongitude,
         'placeaddress': placeDetail,
@@ -345,6 +354,18 @@ class _InterestPageState extends State<InterestPage> {
         'useruid': userUid,
       });
 
+      final message = '28sd829gDw8d6a8w4d8a6=${placeDocumentRef.id}';
+      final MessageCollection =
+          FirebaseFirestore.instance.collection('groupmessages');
+      await MessageCollection.add({
+        'message': message,
+        'nickname': nickname,
+        'profileImageUrl': profileImageUrl,
+        'senderUid': userUid,
+        'timestampserver':
+            FieldValue.serverTimestamp(), // Assuming you have a timestamp field
+        'tripChatUid': widget.tripUid
+      });
       setState(() {
         _selectedImage = null;
         _placeNameController.clear();
@@ -352,10 +373,10 @@ class _InterestPageState extends State<InterestPage> {
         _selectedPosition = null;
       });
 
-      Fluttertoast.showToast(msg: 'เพิ่มจุดนัดพบเรียบร้อยแล้ว');
+      Fluttertoast.showToast(msg: 'เพิ่มสิ่งน่าสนใจเรียบร้อยแล้ว');
     } catch (e) {
       print('Error: $e'); // แสดง error message ใน console
-      Fluttertoast.showToast(msg: 'เกิดข้อผิดพลาดในการเพิ่มจุดนัดพบ');
+      Fluttertoast.showToast(msg: 'เกิดข้อผิดพลาดในการเพิ่มสิ่งน่าสนใจ');
     }
   }
 }

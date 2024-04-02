@@ -16,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/groupchat.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MeetplacePage extends StatefulWidget {
   final String? tripUid;
@@ -74,7 +75,10 @@ class _MeetplacePageState extends State<MeetplacePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('กำหนดสถานที่'),
+        title: Center(
+            child: Text('กำหนดสถานที่',
+                style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 24, fontWeight: FontWeight.bold))),
         automaticallyImplyLeading: false, // ไม่แสดงปุ่ม Back อัตโนมัติ
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -186,7 +190,9 @@ class _MeetplacePageState extends State<MeetplacePage> {
         return StatefulBuilder(
           builder: (BuildContext context, setState) {
             return AlertDialog(
-              title: Text('จุดนัดพบ'),
+              title: Text('จุดนัดพบ',
+                  style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 24, fontWeight: FontWeight.bold)),
               content: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
@@ -341,9 +347,15 @@ class _MeetplacePageState extends State<MeetplacePage> {
 
       final downloadURL = await firebaseStorageRef.getDownloadURL();
 
+      final userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(userUid);
+      final userData = await userDocRef.get();
+      final nickname = userData['nickname'];
+      final profileImageUrl = userData['profileImageUrl'];
+
       final placesCollection =
           FirebaseFirestore.instance.collection('placemeet');
-      await placesCollection.add({
+      final placeDocumentRef = await placesCollection.add({
         'placeLatitude': placeLatitude,
         'placeLongitude': placeLongitude,
         'placeaddress': placeDetail,
@@ -353,7 +365,18 @@ class _MeetplacePageState extends State<MeetplacePage> {
         'placeid': placeid,
         'useruid': userUid,
       });
-
+      final message = '3w9dc126vc68a5a6xlTHFs=${placeDocumentRef.id}';
+      final MessageCollection =
+          FirebaseFirestore.instance.collection('groupmessages');
+      await MessageCollection.add({
+        'message': message,
+        'nickname': nickname,
+        'profileImageUrl': profileImageUrl,
+        'senderUid': userUid,
+        'timestampserver':
+            FieldValue.serverTimestamp(), // Assuming you have a timestamp field
+        'tripChatUid': widget.tripUid
+      });
       setState(() {
         _selectedImage = null;
         _placeNameController.clear();

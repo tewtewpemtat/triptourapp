@@ -70,6 +70,30 @@ void cancelTrip(BuildContext context, String tripUid) async {
           .doc(document.id)
           .delete();
     });
+    QuerySnapshot querySnapshot4 = await FirebaseFirestore.instance
+        .collection('groupmessages')
+        .where('tripChatUid', isEqualTo: tripUid)
+        .get();
+
+    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+    querySnapshot4.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('groupmessages')
+          .doc(document.id)
+          .delete();
+    });
+    QuerySnapshot querySnapshot5 = await FirebaseFirestore.instance
+        .collection('triprequest')
+        .where('tripUid', isEqualTo: tripUid)
+        .get();
+
+    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
+    querySnapshot5.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('triprequest')
+          .doc(document.id)
+          .delete();
+    });
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('places')
