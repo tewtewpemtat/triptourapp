@@ -103,10 +103,73 @@ class _EditTripState extends State<EditTrip> {
     return DateFormat('dd MMMM yyyy HH:mm', 'th_TH').format(date);
   }
 
+  Future<void> _fetchPlaceTimeData() async {
+    QuerySnapshot placeSnapshot = await FirebaseFirestore.instance
+        .collection('places')
+        .where('placetripid', isEqualTo: widget.tripUid)
+        .get();
+
+    if (placeSnapshot.docs.isNotEmpty) {
+      DateTime? minPlaceTimeStart;
+      DateTime? maxPlaceTimeEnd;
+
+      // Find minPlaceTimeStart and maxPlaceTimeEnd
+      placeSnapshot.docs.forEach((doc) {
+        Timestamp? startTimeStamp = doc['placetimestart'] as Timestamp?;
+        Timestamp? endTimeStamp = doc['placetimeend'] as Timestamp?;
+        if (startTimeStamp != null && endTimeStamp != null) {
+          DateTime startTime = startTimeStamp.toDate();
+          DateTime endTime = endTimeStamp.toDate();
+          if (minPlaceTimeStart == null ||
+              startTime.isBefore(minPlaceTimeStart!)) {
+            minPlaceTimeStart = startTime;
+          }
+          if (maxPlaceTimeEnd == null || endTime.isAfter(maxPlaceTimeEnd!)) {
+            maxPlaceTimeEnd = endTime;
+          }
+        }
+      });
+
+      // Check if minPlaceTimeStart and maxPlaceTimeEnd are not null
+      if (minPlaceTimeStart != null && maxPlaceTimeEnd != null) {
+        // Check if selected dates are within the range of minPlaceTimeStart and maxPlaceTimeEnd
+        if (_selectedStartDate.isBefore(minPlaceTimeStart!)) {
+          Fluttertoast.showToast(
+            msg:
+                'โปรดเลือกวันและเวลาที่มากกว่าหรือเท่ากับ ${_formatDate(minPlaceTimeStart!)}',
+          );
+          return null;
+        }
+        if (_selectedEndDate.isAfter(maxPlaceTimeEnd!)) {
+          Fluttertoast.showToast(
+            msg:
+                'โปรดเลือกวันและเวลาที่น้อยกว่าหรือเท่ากับ ${_formatDate(maxPlaceTimeEnd!)}',
+          );
+          return null;
+        }
+      }
+    }
+  }
+
   Future<DateTime?> _selectDate(BuildContext context, bool isStartDate) async {
     DateTime now = DateTime.now();
+    DateTime? startTime;
+    DateTime? endTime;
     DateTime firstDate = DateTime(now.year - 1);
     DateTime initialDate = isStartDate ? _selectedStartDate : _selectedEndDate;
+
+    QuerySnapshot placeSnapshot = await FirebaseFirestore.instance
+        .collection('places')
+        .where('placetripid', isEqualTo: widget.tripUid)
+        .get();
+    placeSnapshot.docs.forEach((doc) {
+      Timestamp? startTimeStamp = doc['placetimestart'] as Timestamp?;
+      Timestamp? endTimeStamp = doc['placetimeend'] as Timestamp?;
+      if (startTimeStamp != null && endTimeStamp != null) {
+        startTime = startTimeStamp.toDate();
+        endTime = endTimeStamp.toDate();
+      }
+    });
 
     if (initialDate.isBefore(firstDate)) {
       initialDate = firstDate;
@@ -141,7 +204,23 @@ class _EditTripState extends State<EditTrip> {
           );
           return null;
         }
+        if (startTime != null || endTime != null) {
+          if (isStartDate &&
+              combinedDateTime.isBefore(startTime ?? DateTime.now())) {
+            Fluttertoast.showToast(
+              msg: 'โปรดเลือกวันเริ่มต้นทริปที่มากกว่าวันเริ่มต้นสถานที่',
+            );
+            return null;
+          }
 
+          if (!isStartDate &&
+              combinedDateTime.isBefore(endTime ?? DateTime.now())) {
+            Fluttertoast.showToast(
+              msg: 'โปรดเลือกวันสิ้นสุดทริปที่มากกว่าวันสิ้นสุดสถานที่',
+            );
+            return null;
+          }
+        }
         if (!isStartDate && combinedDateTime.isBefore(_selectedStartDate)) {
           Fluttertoast.showToast(
             msg: 'โปรดเลือกวันสิ้นสุดทริปมากกว่าวันเริ่มต้นทริป',

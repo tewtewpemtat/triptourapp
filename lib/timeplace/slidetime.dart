@@ -29,10 +29,13 @@ class _SlideTimeState extends State<SlideTime> {
   String? tripEndDate = 'ไม่พบข้อมูล';
   String? tripStartDateFormatted;
   String? tripEndDateFormatted;
+  DateTime nowtime = DateTime.now();
   Timestamp? placetimestart;
   Timestamp? placetimeend;
   DateTime? startTime;
   DateTime? endTime;
+  DateTime timestart = DateTime.now();
+  DateTime timeend = DateTime.now();
   DateTime? selectdate;
   String? formattedTime;
   String? formattedTimeEnd; // ย้ายตัวแปร formattedTime มาที่นี่
@@ -85,7 +88,8 @@ class _SlideTimeState extends State<SlideTime> {
             final tripData = tripSnapshot.data!;
             DateTime tripStartDate = tripData['tripStartDate'].toDate();
             DateTime tripEndDate = tripData['tripEndDate'].toDate();
-
+            timestart = tripData['tripStartDate'].toDate();
+            timeend = tripData['tripEndDate'].toDate();
             placetimestart = placeData['placetimestart'];
             placetimeend = placeData['placetimeend'];
             tripStartDateFormatted =
@@ -233,8 +237,13 @@ class _SlideTimeState extends State<SlideTime> {
               ElevatedButton(
                 onPressed: () {
                   if (startTime != null && endTime != null) {
-                    _saveTime();
-                  } else {
+                    if (startTime!.isBefore(timestart) ||
+                        endTime!.isAfter(timeend)) {
+                      _showTimeLimit(context);
+                    } else {
+                      _saveTime();
+                    }
+                  } else if (startTime == null || endTime == null) {
                     _showTimeAlert(context);
                   }
                 },
@@ -617,6 +626,27 @@ class _SlideTimeState extends State<SlideTime> {
         return AlertDialog(
           title: Text('เเจ้งเตือน'),
           content: Text('โปรดเลือกวันเวลาให้ครบถ้วน'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showTimeLimit(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('เเจ้งเตือน'),
+          content: Text(
+              'โปรดเลือกวันเวลาให้อยู่ในขอบเขตของวันเริ่มต้นทริปเเละสิ้นสุด'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
