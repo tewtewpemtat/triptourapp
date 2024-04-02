@@ -8,6 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'mapselect.dart';
+import 'package:triptourapp/addplace/mapselectown.dart';
 
 import '../infoplace.dart';
 
@@ -23,6 +26,10 @@ class _HeadPlanPageState extends State<HeadPlan> {
   bool isPlaceLength = false;
   bool isPlaceEnd = false;
   bool isPlaceStart = false;
+  double? placelat;
+  double? placelong;
+  LatLng? selectedPosition = null;
+  LatLng? markedPosition;
   @override
   Widget build(BuildContext context) {
     return // Set a fixed height or use constraints
@@ -66,6 +73,37 @@ class _HeadPlanPageState extends State<HeadPlan> {
     );
   }
 
+  void _openMapSelectionPage(DocumentSnapshot place, double placelat,
+      double placelong, context) async {
+    print(placelat);
+    selectedPosition = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MapSelectionPage(
+            tripUid: widget.tripUid, placelat: placelat, placelong: placelong),
+      ),
+    );
+    if (selectedPosition != null) {
+      FirebaseFirestore.instance.collection('places').doc(place.id).update({
+        'placestart':
+            GeoPoint(selectedPosition!.latitude, selectedPosition!.longitude)
+      }).then((value) {
+        // Update successful
+      }).catchError((error) {
+        // Error handling
+        print("Failed to update placestart: $error");
+        Fluttertoast.showToast(
+            msg: "Failed to update placestart: $error",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      });
+    }
+  }
+
   Widget buildPlaceItem(
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
@@ -80,9 +118,13 @@ class _HeadPlanPageState extends State<HeadPlan> {
     DateTime placeStartTime =
         placeStartTimeStamp.toDate(); // แปลง Timestamp เป็น DateTime
     DateTime placeEndTime = placeEndTimeStamp.toDate();
-
+    bool placestart;
     int countTrip = placeData['placewhogo'].length;
-
+    if (placeData['placestart'] == '') {
+      placestart = true;
+    } else {
+      placestart = false;
+    }
     // เงื่อนไขเพิ่มเติมเพื่อตรวจสอบว่า placetimestart มีค่ามากกว่าหรือเท่ากับวันเวลาปัจจุบันหรือไม่
     bool isPlaceTimeValid = placeStartTime.isAfter(DateTime.now()) ||
         placeStartTime.isAtSameMomentAs(DateTime.now());
@@ -277,31 +319,41 @@ class _HeadPlanPageState extends State<HeadPlan> {
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                InfoPlacePage(),
-                                          ),
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary:
-                                            Color.fromARGB(255, 167, 166, 166),
-                                        onPrimary:
-                                            const Color.fromARGB(255, 0, 0, 0),
-                                        fixedSize: Size(70, 10),
-                                      ),
-                                      child: Text(
-                                        'จุดนัดพบ',
-                                        style: GoogleFonts.ibmPlexSansThai(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
+                                        onPressed: () {
+                                          _openMapSelectionPage(
+                                              place,
+                                              placeData['placeLatitude'] ??
+                                                  13.736717,
+                                              placeData['placeLongitude'] ??
+                                                  100.523186,
+                                              context);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Color.fromARGB(
+                                              255, 167, 166, 166),
+                                          onPrimary: const Color.fromARGB(
+                                              255, 0, 0, 0),
+                                          fixedSize: Size(70, 10),
                                         ),
-                                      ),
-                                    ),
+                                        child: placestart
+                                            ? Text(
+                                                'กำหนดจุดนัดพบ',
+                                                style:
+                                                    GoogleFonts.ibmPlexSansThai(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                ),
+                                              )
+                                            : Text(
+                                                'จุดนัดพบ',
+                                                style:
+                                                    GoogleFonts.ibmPlexSansThai(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                ),
+                                              )),
                                   )
                                 : Container(
                                     width: 70,

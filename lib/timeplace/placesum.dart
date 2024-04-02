@@ -250,7 +250,7 @@ class _PlaceSumState extends State<PlaceSum> {
                 child: IconButton(
                   onPressed: () async {
                     String placeId = place.reference.id;
-
+                    List<String> updatedWhogo = [uid];
                     try {
                       await FirebaseFirestore.instance
                           .collection('places')
@@ -259,6 +259,8 @@ class _PlaceSumState extends State<PlaceSum> {
                         'placetimestart': null,
                         'placetimeend': null,
                         'placeadd': 'No',
+                        'placestart': '',
+                        'placewhogo': updatedWhogo
                       });
 
                       Fluttertoast.showToast(msg: 'ลบสถานที่สำเร็จ');

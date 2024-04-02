@@ -66,6 +66,42 @@ class _UserPlanState extends State<UserPlan> {
     );
   }
 
+  void joinorleave(DocumentSnapshot place, bool join, context) async {
+    // ดึงข้อมูลปัจจุบันของฟิลด์ placewhogo
+    List<dynamic> currentWhogo = List.from(place['placewhogo'] ?? []);
+
+    // เพิ่มหรือลบ uid ตามที่ต้องการ
+    if (join == false) {
+      if (!currentWhogo.contains(uid)) {
+        currentWhogo.add(uid);
+      }
+    } else {
+      currentWhogo.remove(uid);
+    }
+
+    // อัปเดตฟิลด์ placewhogo ใน Firestore
+    try {
+      await FirebaseFirestore.instance
+          .collection('places')
+          .doc(place.id)
+          .update({
+        'placewhogo': currentWhogo,
+      });
+    } catch (error) {
+      // Error handling
+      print("Failed to update placewhogo: $error");
+      Fluttertoast.showToast(
+        msg: "Failed to update placewhogo: $error",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
+
   Widget buildPlaceItem(
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
@@ -94,6 +130,8 @@ class _UserPlanState extends State<UserPlan> {
     if (isPlaceEnd) {
       place.reference.update({'placerun': 'End'});
     }
+    bool isUserGoing;
+    isUserGoing = (placeData['placewhogo'] as List).contains(uid);
     String displayedName = placeName.length > maxCharsFirstLine
         ? (placeName.length > maxCharsTotal
             ? placeName.substring(0, maxCharsFirstLine) +
@@ -272,23 +310,36 @@ class _UserPlanState extends State<UserPlan> {
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        primary:
-                                            Color.fromARGB(255, 167, 166, 166),
-                                        onPrimary:
-                                            const Color.fromARGB(255, 0, 0, 0),
-                                        fixedSize: Size(70, 10),
-                                      ),
-                                      child: Text(
-                                        'เข้าร่วม',
-                                        style: GoogleFonts.ibmPlexSansThai(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
+                                        onPressed: () {
+                                          joinorleave(
+                                              place, isUserGoing, context);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Color.fromARGB(
+                                              255, 167, 166, 166),
+                                          onPrimary: const Color.fromARGB(
+                                              255, 0, 0, 0),
+                                          fixedSize: Size(70, 10),
                                         ),
-                                      ),
-                                    ),
+                                        child: !isUserGoing
+                                            ? Text(
+                                                'เข้าร่วม',
+                                                style:
+                                                    GoogleFonts.ibmPlexSansThai(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                ),
+                                              )
+                                            : Text(
+                                                'ยกเลิกการเข้าร่วม',
+                                                style:
+                                                    GoogleFonts.ibmPlexSansThai(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                ),
+                                              )),
                                   )
                                 : Container(
                                     width: 70,
