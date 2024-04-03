@@ -65,7 +65,11 @@ class InfoPlacePageState extends State<InfoPlacePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [InformationPlan(), HeadInfoButton(), MemberPage()],
+          children: [
+            InformationPlan(tripUid: widget.tripUid, placeid: widget.placeid),
+            HeadInfoButton(),
+            MemberPage()
+          ],
         ),
       ),
     );
