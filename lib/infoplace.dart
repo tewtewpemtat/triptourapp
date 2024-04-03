@@ -67,8 +67,8 @@ class InfoPlacePageState extends State<InfoPlacePage> {
         child: Column(
           children: [
             InformationPlan(tripUid: widget.tripUid, placeid: widget.placeid),
-            HeadInfoButton(),
-            MemberPage()
+            HeadInfoButton(tripUid: widget.tripUid, placeid: widget.placeid),
+            MemberPage(tripUid: widget.tripUid, placeid: widget.placeid)
           ],
         ),
       ),

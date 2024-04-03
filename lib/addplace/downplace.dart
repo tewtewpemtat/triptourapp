@@ -54,6 +54,7 @@ class _DownPageState extends State<DownPage> {
   LatLng? markedPosition;
   LatLng? selectedPosition = null;
   bool isLoading = false;
+  int searchRadius = 100; // ค่าเริ่มต้นของระยะห่างในการค้นหา
   @override
   void initState() {
     super.initState();
@@ -437,9 +438,40 @@ class _DownPageState extends State<DownPage> {
       setState(() {
         selectedOption = newOption;
         if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
-          // Perform a nearby search for places using Google Places API
-          fetchNearLocation(position.latitude, position.longitude);
-          selectedPosition = null;
+          // เพิ่ม TextField เพื่อให้ผู้ใช้ป้อนระยะห่างในการค้นหา
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('ระยะห่างในการค้นหา (เมตร)'),
+              content: TextField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'ระยะห่างในการค้นหา (เมตร)',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    searchRadius = int.tryParse(value) ?? 0;
+                  });
+                },
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // เมื่อผู้ใช้ป้อนระยะห่างในการค้นหาแล้วให้ดึงสถานที่ใกล้เคียงตามระยะที่ระบุ
+                    fetchNearLocation(position.latitude, position.longitude);
+                    selectedPosition = null;
+                    Fluttertoast.showToast(
+                      msg: "กำลังโหลดสถานที่...",
+                      toastLength: Toast.LENGTH_LONG,
+                    );
+                  },
+                  child: Text('ตกลง'),
+                ),
+              ],
+            ),
+          );
         } else if (selectedOption == "จากตำแหน่งบนแผนที่" &&
             selectedPosition == null) {
           _openMapSelectionPage();
@@ -524,7 +556,7 @@ class _DownPageState extends State<DownPage> {
         lat: latitude,
         lng: longitude,
       ),
-      100, // Search radius in meters (adjust as needed)
+      searchRadius, // Search radius in meters (adjust as needed)
       type: placeType,
       keyword: placeType,
       // ตัวอย่างค้นหาร้านอาหาร

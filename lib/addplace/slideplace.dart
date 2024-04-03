@@ -101,10 +101,6 @@ class _SlidePlaceState extends State<SlidePlace> {
 
     return GestureDetector(
       onTap: () {
-        Fluttertoast.showToast(
-          msg: "กำลังโหลดสถานที่...",
-          toastLength: Toast.LENGTH_LONG,
-        );
         setState(() {
           selectedPlaceType = placeType;
           _sendDataToDownPage(); // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง DownPage
