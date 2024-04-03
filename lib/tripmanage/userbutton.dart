@@ -95,6 +95,29 @@ class UserbuttonState extends State<Userbutton> {
               .doc(document.id)
               .delete();
         });
+        QuerySnapshot querySnapshot4 = await FirebaseFirestore.instance
+            .collection('places')
+            .where('placetripid', isEqualTo: widget.tripUid)
+            .get();
+
+        querySnapshot4.docs.forEach((document) async {
+          if (document.exists) {
+            Map<String, dynamic>? data =
+                document.data() as Map<String, dynamic>?;
+            if (data != null) {
+              List<dynamic> placeWhogo = data['placewhogo'];
+              if (placeWhogo != null) {
+                if (placeWhogo.contains(uid)) {
+                  placeWhogo.remove(uid);
+                  await FirebaseFirestore.instance
+                      .collection('places')
+                      .doc(document.id)
+                      .update({'placewhogo': placeWhogo});
+                }
+              }
+            }
+          }
+        });
 
         Fluttertoast.showToast(msg: 'ออกจากทริปเรียบร้อยเเล้ว');
       } catch (e) {

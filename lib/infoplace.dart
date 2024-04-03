@@ -7,7 +7,16 @@ import 'infoplace/headinfobutton.dart';
 import 'infoplace/infomationplace.dart';
 import 'infoplace/member.dart';
 
-class InfoPlacePage extends StatelessWidget {
+class InfoPlacePage extends StatefulWidget {
+  @override
+  final String? tripUid;
+  final String? placeid;
+  const InfoPlacePage({Key? key, this.tripUid, this.placeid}) : super(key: key);
+
+  InfoPlacePageState createState() => InfoPlacePageState();
+}
+
+class InfoPlacePageState extends State<InfoPlacePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +27,11 @@ class InfoPlacePage extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
           color: Colors.black,
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TripmanagePage()),
+              MaterialPageRoute(
+                builder: (context) => TripmanagePage(tripUid: widget.tripUid),
+              ),
             );
           },
         ),
@@ -41,9 +52,12 @@ class InfoPlacePage extends StatelessWidget {
               icon: Icon(Icons.chat),
               onPressed: () {
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => GroupScreenPage()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => GroupScreenPage(
+                              tripUid: widget.tripUid ?? '',
+                              placeid: widget.placeid ?? '',
+                            )));
               },
             ),
           ],

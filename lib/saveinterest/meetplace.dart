@@ -15,12 +15,13 @@ import 'dart:math';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:triptourapp/groupchat.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/infoplace/groupchat.dart';
 
 class MeetplacePage extends StatefulWidget {
   final String? tripUid;
-  const MeetplacePage({Key? key, this.tripUid}) : super(key: key);
+  final String? placeid;
+  const MeetplacePage({Key? key, this.tripUid, this.placeid}) : super(key: key);
 
   @override
   _MeetplacePageState createState() => _MeetplacePageState();
@@ -86,8 +87,10 @@ class _MeetplacePageState extends State<MeetplacePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    GroupScreenPage(tripUid: widget.tripUid ?? ''),
+                builder: (context) => GroupScreenPage(
+                  tripUid: widget.tripUid ?? '',
+                  placeid: widget.placeid ?? '',
+                ),
               ),
             ); // กลับไปที่หน้า AddPage
           },

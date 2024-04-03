@@ -15,12 +15,14 @@ import 'dart:math';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:triptourapp/groupchat.dart';
+import 'package:triptourapp/infoplace/groupchat.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InterestPage extends StatefulWidget {
   final String? tripUid;
-  const InterestPage({Key? key, this.tripUid}) : super(key: key);
+  final String? placeid;
+
+  const InterestPage({Key? key, this.tripUid, this.placeid}) : super(key: key);
 
   @override
   _InterestPageState createState() => _InterestPageState();
@@ -83,8 +85,9 @@ class _InterestPageState extends State<InterestPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    GroupScreenPage(tripUid: widget.tripUid ?? ''),
+                builder: (context) => GroupScreenPage(
+                    tripUid: widget.tripUid ?? '',
+                    placeid: widget.placeid ?? ''),
               ),
             ); // กลับไปที่หน้า AddPage
           },

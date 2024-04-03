@@ -1044,47 +1044,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                   ],
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MeetplacePage(
-                                          tripUid: widget.tripUid!),
-                                    ),
-                                  );
-                                  // Handle camera icon tap
-
-                                  // Add your camera logic here
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(Icons.place, size: 25.0),
-                                    Text('มารค์จุดนัดพบ',
-                                        style: GoogleFonts.ibmPlexSansThai()),
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  // Handle camera icon tap
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => InterestPage(
-                                          tripUid: widget.tripUid!),
-                                    ),
-                                  );
-                                  // Add your camera logic here
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(Icons.star, size: 25.0),
-                                    Text('แนะนำสิ่งน่าสนใจ',
-                                        style: GoogleFonts.ibmPlexSansThai()),
-                                  ],
-                                ),
-                              ),
                             ],
                           ),
                         );

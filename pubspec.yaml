@@ -87,6 +87,7 @@ flutter:
     - assets/red.png
     - assets/man.png
     - assets/yellow.png
+    - assets/gps.png
     - assets/pencil.png
     - assets/splash/splash_image1.png
     - assets/splash/splash_image2.png
