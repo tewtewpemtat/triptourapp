@@ -15,7 +15,7 @@ class MemberPage extends StatefulWidget {
 }
 
 class MemberPageState extends State<MemberPage> {
-  late String uid = FirebaseAuth.instance.currentUser!.uid;
+  String uid = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
