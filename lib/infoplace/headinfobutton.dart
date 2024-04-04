@@ -5,6 +5,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math' show sin, cos, sqrt, pow, atan2, pi;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:triptourapp/infoplace/userlocationmap.dart';
+
+class UserLocation {
+  final String uid;
+  final double latitude;
+  final double longitude;
+
+  UserLocation({
+    required this.uid,
+    required this.latitude,
+    required this.longitude,
+  });
+}
 
 class HeadInfoButton extends StatefulWidget {
   @override
@@ -23,6 +37,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
   String? saveTimelineOption;
   double? distance;
   double? distance2;
+  List<UserLocation>? userLocations;
+  List<String>? users;
   double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
   double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
 
@@ -32,20 +48,54 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
     showMapBlock = false;
     showMapThing = false;
     checkDocumentExistence();
+    _showUserLocationsOnMap();
   }
 
-  Future<void> getUserLocation() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+  void _showUserLocationsOnMap() async {
+    // Call getUserLocations to fetch user locations
+    List<UserLocation> userLocations = await getUserLocations();
 
-      setState(() {
-        userLatitude = position.latitude;
-        userLongitude = position.longitude;
-      });
-    } catch (e) {
-      print("Error getting user location: $e");
+    // If there are user locations, display them on the map
+    if (userLocations.isNotEmpty) {
+      print("yes");
+    } else {
+      print("no");
     }
+  }
+
+  Future<List<UserLocation>> getUserLocations() async {
+    List<UserLocation> userLocations = [];
+
+    try {
+      // Fetch the placewhogo field from the places collection for the specified placeid
+      DocumentSnapshot placeSnapshot = await FirebaseFirestore.instance
+          .collection('places')
+          .doc(widget.placeid)
+          .get();
+      List<String> userUids = List<String>.from(placeSnapshot['placewhogo']);
+      setState(() {
+        users = userUids;
+      });
+      for (String userUid in userUids) {
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+            .collection('userlocation')
+            .doc(userUid)
+            .get();
+        if (userSnapshot.exists) {
+          // Extract latitude and longitude from the user's location document
+          double latitude = userSnapshot['userLatitude'];
+          double longitude = userSnapshot['userLongitude'];
+
+          // Create a UserLocation object and add it to the list
+          userLocations.add(UserLocation(
+              uid: userUid, latitude: latitude, longitude: longitude));
+        }
+      }
+    } catch (error) {
+      print("Error getting user locations: $error");
+    }
+
+    return userLocations;
   }
 
   double calculateDistance(double distance) {
@@ -194,6 +244,7 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
       saveTimelineOption = 'ไม่บันทึก';
     });
     deleteFromTimeline();
+    _showUserLocationsOnMap();
   }
 
   @override
@@ -296,11 +347,9 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                         height: 300,
                         color: Colors.grey,
                         child: Center(
-                          child: Text(
-                            'This is the map block',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          ),
-                        ),
+                            child: UserLocationMap(
+                                userLocations: users ?? [],
+                                placeid: widget.placeid ?? '')),
                       ),
                       Positioned(
                         top: 10,
