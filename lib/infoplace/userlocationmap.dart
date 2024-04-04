@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserLocationMap extends StatefulWidget {
   final List<String>? userLocations;
@@ -31,7 +32,23 @@ class UserLocationMapState extends State<UserLocationMap> {
     _fetchUserDetails(); // New method call
   }
 
+  void _showLoadingToast() {
+    Fluttertoast.showToast(
+      msg: "กำลังโหลดข้อมูลผู้ใช้...",
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+    );
+  }
+
+  void _showCompleteToast() {
+    Fluttertoast.showToast(
+      msg: "โหลดข้อมูลเสร็จสมบูรณ์",
+      gravity: ToastGravity.CENTER,
+    );
+  }
+
   Future<void> _fetchUserDetails() async {
+    _showLoadingToast();
     for (String userId in widget.userLocations!) {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -46,6 +63,7 @@ class UserLocationMapState extends State<UserLocationMap> {
         }
       }
     }
+    _showCompleteToast();
     setState(() {}); // Update state to trigger marker rebuild
   }
 
@@ -62,7 +80,39 @@ class UserLocationMapState extends State<UserLocationMap> {
           minWidth: width,
           quality: 100,
         );
-        return resizedImageData;
+
+        final recorder = ui.PictureRecorder();
+        final canvas = Canvas(recorder);
+        final size = Size(width.toDouble(), height.toDouble());
+
+        // Draw the circle border
+        final paintBorder = Paint()
+          ..color = Colors.blue // Choose your desired border color
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2;
+
+        final radius = size.width / 2;
+        canvas.drawCircle(Offset(radius, radius), radius - 1, paintBorder);
+
+        // Clip the canvas to draw the image only inside the circle
+        canvas.clipRRect(RRect.fromRectAndRadius(
+            Rect.fromLTWH(0, 0, size.width, size.height),
+            Radius.circular(radius)));
+
+        // Draw the image
+        final image = await decodeImageFromList(resizedImageData);
+        final paintImage = Paint()..filterQuality = FilterQuality.high;
+        canvas.drawImageRect(
+            image,
+            Offset.zero & Size(image.width.toDouble(), image.height.toDouble()),
+            Offset.zero & size,
+            paintImage);
+
+        final picture = recorder.endRecording();
+        final img = await picture.toImage(width, height);
+        final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+
+        return byteData!.buffer.asUint8List();
       } else {
         throw 'Failed to load image: ${response.statusCode}';
       }
