@@ -147,7 +147,7 @@ class InviteState extends State<Invite> {
           FirebaseFirestore.instance.collection('users').doc(friendUid).get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Text('');
         }
 
         if (snapshot.hasError || !snapshot.hasData) {

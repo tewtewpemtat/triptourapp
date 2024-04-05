@@ -104,7 +104,7 @@ class _FriendListState extends State<FriendList> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: Text(''));
             }
             if (!snapshot.hasData || !snapshot.data!.exists) {
               return Center(child: Text('ไม่พบเพื่อน'));
@@ -146,7 +146,7 @@ class _FriendListState extends State<FriendList> {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Text('');
         }
 
         if (!snapshot.hasData || !snapshot.data!.exists) {

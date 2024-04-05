@@ -208,6 +208,9 @@ class FriendRequestPage extends StatelessWidget {
                                                 style:
                                                     GoogleFonts.ibmPlexSansThai(
                                                   fontSize: 12,
+                                                  color: const Color.fromARGB(
+                                                      255, 229, 228, 228),
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                               style: ElevatedButton.styleFrom(
@@ -249,6 +252,9 @@ class FriendRequestPage extends StatelessWidget {
                                                 style:
                                                     GoogleFonts.ibmPlexSansThai(
                                                   fontSize: 12,
+                                                  color: const Color.fromARGB(
+                                                      255, 229, 228, 228),
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
                                               style: ElevatedButton.styleFrom(
