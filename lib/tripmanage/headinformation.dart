@@ -173,7 +173,7 @@ class InformationPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'สิ้นสุด $thaiEndDate',
+                  'สิ้นสุด  $thaiEndDate',
                   style: GoogleFonts.ibmPlexSansThai(
                     fontSize: 16,
                     color: Colors.black,

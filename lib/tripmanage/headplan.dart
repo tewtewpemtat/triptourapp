@@ -309,6 +309,7 @@ class _HeadPlanPageState extends State<HeadPlan> {
               Expanded(
                 flex: 6,
                 child: SingleChildScrollView(
+                  reverse: true,
                   child: Container(
                     margin: EdgeInsets.all(8.0),
                     child: Column(

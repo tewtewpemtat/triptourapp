@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserLocationMap extends StatefulWidget {
   final List<String>? userLocations;
@@ -24,6 +25,7 @@ class UserLocationMapState extends State<UserLocationMap> {
   late Map<String, String> _userNicknames = {};
   late Map<String, String> _userProfileImageUrls = {};
   Map<String, BitmapDescriptor> _userProfileIcons = {};
+  final String? uid = FirebaseAuth.instance.currentUser?.uid;
   @override
   void initState() {
     super.initState();
@@ -55,7 +57,12 @@ class UserLocationMapState extends State<UserLocationMap> {
           .doc(userId)
           .get();
       if (userSnapshot.exists) {
-        _userNicknames[userId] = userSnapshot['nickname'];
+        if (userId == uid) {
+          _userNicknames[userId] =
+              'คุณ'; // กำหนดชื่อเป็น "คุณ" ถ้า userId เท่ากับ uid
+        } else {
+          _userNicknames[userId] = userSnapshot['nickname'];
+        }
         String? profileImageUrl = userSnapshot['profileImageUrl'];
         if (profileImageUrl != null && profileImageUrl.isNotEmpty) {
           Uint8List imageData = await _loadImage(profileImageUrl);
@@ -155,7 +162,7 @@ class UserLocationMapState extends State<UserLocationMap> {
         double placeLongitude = placeSnapshot['placeLongitude'];
         return CameraPosition(
           target: LatLng(placeLatitude, placeLongitude),
-          zoom: 12.0,
+          zoom: 14.0,
         );
       } else {
         throw 'Place does not exist';
@@ -208,7 +215,7 @@ class UserLocationMapState extends State<UserLocationMap> {
       icon: icon,
       infoWindow: InfoWindow(
         title: nickname,
-        snippet: 'ตำแหน่งผู้ร่วมทริป',
+        snippet: userId == uid ? 'ตำแหน่งของคุณ' : 'ตำแหน่งผู้ร่วมทริป',
         onTap: () {
           // Handle marker tap event
         },

@@ -4,11 +4,13 @@ import 'main/bottom_navbar.dart';
 import 'main/top_navbar.dart';
 import 'main/tripbutton.dart';
 import 'main/triphistory.dart';
+import 'package:intl/date_symbol_data_local.dart'; // import เพิ่มเติม
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'splash.dart';
 
 void main() async {
+  initializeDateFormatting('th', null);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
