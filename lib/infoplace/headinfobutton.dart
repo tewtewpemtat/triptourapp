@@ -6,6 +6,7 @@ import 'dart:math' show sin, cos, sqrt, pow, atan2, pi;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:triptourapp/infoplace/interestmap.dart';
 import 'package:triptourapp/infoplace/userlocationmap.dart';
 
 class UserLocation {
@@ -447,12 +448,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                       Container(
                         height: 300,
                         color: Colors.grey,
-                        child: Center(
-                          child: Text(
-                            'This is the map block',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          ),
-                        ),
+                        child:
+                            Center(child: InterestMap(placeid: widget.placeid)),
                       ),
                       Positioned(
                         top: 10,
