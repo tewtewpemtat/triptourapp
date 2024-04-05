@@ -70,7 +70,7 @@ class UserLocationMapState extends State<UserLocationMap> {
         }
       }
     }
-    _showCompleteToast();
+
     setState(() {}); // Update state to trigger marker rebuild
   }
 

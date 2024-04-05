@@ -88,7 +88,6 @@ class InterestState extends State<InterestMap> {
       ));
     });
 
-    _showCompleteToast();
     return placeMeetList;
   }
 
@@ -140,7 +139,7 @@ class InterestState extends State<InterestMap> {
                       placeData['placeLatitude'],
                       placeData['placeLongitude'],
                     ),
-                    zoom: 14.0,
+                    zoom: 15.0,
                   ),
                   markers: snapshot.data!,
                 );
@@ -320,43 +319,92 @@ class InterestState extends State<InterestMap> {
               actions: <Widget>[
                 Row(
                   children: [
-                    TextButton(
-                      child: Text('นำทางจุดนัดพบ'),
-                      onPressed: () {
-                        rounttomap(placeLatitude, placeLongitude, context);
-                      },
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          rounttomap(placeLatitude, placeLongitude, context);
+                        },
+                        child: Text('นำทางจุดนัดพบ'),
+                      ),
                     ),
-                    userUid == uid
-                        ? TextButton(
-                            child: Text('ลบจุดนัดพบ'),
-                            onPressed: () {
-                              rounttomap(
-                                  placeLatitude, placeLongitude, context);
-                            },
-                          )
-                        : TextButton(
-                            child: Text(''),
-                            onPressed: () {},
-                          ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('ยกเลิก'),
+                      ),
+                    ),
                   ],
                 ),
-                TextButton(
-                  child: Text('ยกเลิก'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
+                if (userUid == FirebaseAuth.instance.currentUser?.uid)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      onPressed: () {
+                        deletePlaceMeet(postId); // Call delete function
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'ลบจุดนัดพบ',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 11 // Change text color to red
+                            ),
+                      ),
+                    ),
+                  ),
               ],
             );
           },
         );
       } else {
-        // ถ้าไม่พบ document
         print('ไม่พบเอกสาร');
+        setState(() {
+          _placeMeetData =
+              _fetchPlaceMeetData(); // เรียกฟังก์ชัน _fetchPlaceMeetData เพื่อดึงข้อมูลใหม่
+        });
       }
     } catch (e) {
-      // หากเกิดข้อผิดพลาดในการเรียกข้อมูล
       print('Error retrieving place data: $e');
+      setState(() {
+        _placeMeetData =
+            _fetchPlaceMeetData(); // เรียกฟังก์ชัน _fetchPlaceMeetData เพื่อดึงข้อมูลใหม่
+      });
+    }
+  }
+
+  void deletePlaceMeet(String postId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('groupmessages')
+          .where('message',
+              isGreaterThanOrEqualTo: "3w9dc126vc68a5a6xlTHFs=$postId")
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) async {
+          String message = doc['message'];
+          if (message.contains('=$postId')) {
+            await doc.reference.delete();
+          }
+        });
+      });
+      await FirebaseFirestore.instance
+          .collection('placemeet')
+          .doc(postId)
+          .delete();
+
+      print('Deleted place meet successfully.');
+      Fluttertoast.showToast(
+        msg: "ลบจุดนัดพบสำเร็จ",
+      );
+      setState(() {
+        _placeMeetData =
+            _fetchPlaceMeetData(); // เรียกฟังก์ชัน _fetchPlaceMeetData เพื่อดึงข้อมูลใหม่
+      });
+    } catch (error) {
+      print('Error deleting place meet: $error');
+      // Handle error accordingly
     }
   }
 

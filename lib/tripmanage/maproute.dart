@@ -127,10 +127,12 @@ class _MapScreenState extends State<MapScreen> {
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
-    setState(() {
-      widget.userLatitude = position.latitude;
-      widget.userLongitude = position.longitude;
-    });
+    if (mounted) {
+      setState(() {
+        widget.userLatitude = position.latitude;
+        widget.userLongitude = position.longitude;
+      });
+    }
 
     mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
@@ -166,7 +168,7 @@ class _MapScreenState extends State<MapScreen> {
     final ByteData? byteData =
         await img.toByteData(format: ui.ImageByteFormat.png);
 
-    if (byteData != null) {
+    if (byteData != null && mounted) {
       markerIconBytes = byteData.buffer.asUint8List();
     } else {
       throw 'Error converting image to bytes';
@@ -177,7 +179,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Map'),
+        title: Text('นำทาง'),
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
