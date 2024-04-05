@@ -228,8 +228,6 @@ class InviteState extends State<Invite> {
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(MaterialApp(
     home: Scaffold(
       // เพิ่ม Scaffold และ AppBar

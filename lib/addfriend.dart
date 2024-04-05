@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddFriend extends StatefulWidget {
   @override
@@ -299,9 +300,15 @@ void sendFriendRequest(String friendUid) async {
 
       // Display a success message or perform any other actions as needed
       print('Friend request sent successfully.');
+      Fluttertoast.showToast(
+        msg: "ส่งคำขอเสร็จสิ้น",
+      );
     } else {
       // Display a message indicating that a friend request already exists
       print('Friend request already exists.');
+      Fluttertoast.showToast(
+        msg: "คำขอของคุณกำลังรอการยืนยัน",
+      );
     }
   } catch (e) {
     // Handle errors

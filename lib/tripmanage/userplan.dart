@@ -458,8 +458,8 @@ class _UserPlanState extends State<UserPlan> {
                                 children: [
                                   Image.asset(
                                     'assets/gps.png', // Image asset path
-                                    width: 20, // Image width
-                                    height: 20, // Image height
+                                    width: 25, // Image width
+                                    height: 25, // Image height
                                   ),
                                   Text(
                                     'จุดนัดพบ',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RequestPage extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class RequestPage extends StatefulWidget {
 }
 
 class _RequestPageState extends State<RequestPage> {
+  String uid = FirebaseAuth.instance.currentUser!.uid;
   Widget buildRequestTile(DocumentSnapshot place, DocumentSnapshot userData) {
     var nickname = userData['nickname'] ?? 'Unknown';
     return Container(
@@ -63,7 +65,10 @@ class _RequestPageState extends State<RequestPage> {
             FirebaseFirestore.instance
                 .collection('places')
                 .doc(place.id)
-                .update({'placestatus': 'Added'}).then((value) {
+                .update({
+              'placestatus': 'Added',
+              'placewhogo': [uid]
+            }).then((value) {
               print('เปลี่ยนสถานะเป็น Added เรียบร้อยแล้ว');
               Fluttertoast.showToast(msg: 'เพิ่มสถานที่นี้เข้าไปบนทริปเเล้ว');
             }).catchError((error) {

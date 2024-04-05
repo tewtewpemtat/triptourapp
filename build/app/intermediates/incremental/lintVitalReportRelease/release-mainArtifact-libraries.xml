@@ -173,6 +173,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="C:\triptourapp\android@@:flutter_image_compress_common::release"
+      jars="C:\triptourapp\build\flutter_image_compress_common\.transforms\d4ef8b6b7b3a981a8939ca163e5565ed\transformed\out\jars\classes.jar;C:\triptourapp\build\flutter_image_compress_common\.transforms\d4ef8b6b7b3a981a8939ca163e5565ed\transformed\out\jars\libs\R.jar"
+      resolved="com.fluttercandies.flutter_image_compress:flutter_image_compress_common:unspecified"
+      folder="C:\triptourapp\build\flutter_image_compress_common\.transforms\d4ef8b6b7b3a981a8939ca163e5565ed\transformed\out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="C:\triptourapp\android@@:fluttertoast::release"
       jars="C:\triptourapp\build\fluttertoast\.transforms\5096627ad6171c97eed89d77c28eba9d\transformed\out\jars\classes.jar;C:\triptourapp\build\fluttertoast\.transforms\5096627ad6171c97eed89d77c28eba9d\transformed\out\jars\libs\R.jar"
       resolved="com.example.FlutterToast:fluttertoast:unspecified"
@@ -878,6 +891,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="androidx.heifwriter:heifwriter:1.0.0@aar"
+      jars="C:\Users\wanla\.gradle\caches\transforms-3\8c5b7d200f500cbf777e00e395e6e3df\transformed\heifwriter-1.0.0\jars\classes.jar"
+      resolved="androidx.heifwriter:heifwriter:1.0.0"
+      folder="C:\Users\wanla\.gradle\caches\transforms-3\8c5b7d200f500cbf777e00e395e6e3df\transformed\heifwriter-1.0.0"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="androidx.exifinterface:exifinterface:1.3.6@aar"
       jars="C:\Users\wanla\.gradle\caches\transforms-3\6320fb0b55a7c978e9103b5bc1ba67bf\transformed\exifinterface-1.3.6\jars\classes.jar"
       resolved="androidx.exifinterface:exifinterface:1.3.6"
@@ -972,6 +998,10 @@
       name="androidx.concurrent:concurrent-futures:1.1.0@jar"
       jars="C:\Users\wanla\.gradle\caches\modules-2\files-2.1\androidx.concurrent\concurrent-futures\1.1.0\50b7fb98350d5f42a4e49704b03278542293ba48\concurrent-futures-1.1.0.jar"
       resolved="androidx.concurrent:concurrent-futures:1.1.0"/>
+  <library
+      name="commons-io:commons-io:2.6@jar"
+      jars="C:\Users\wanla\.gradle\caches\modules-2\files-2.1\commons-io\commons-io\2.6\815893df5f31da2ece4040fe0a12fd44b577afaf\commons-io-2.6.jar"
+      resolved="commons-io:commons-io:2.6"/>
   <library
       name="com.google.firebase:firebase-annotations:16.2.0@jar"
       jars="C:\Users\wanla\.gradle\caches\modules-2\files-2.1\com.google.firebase\firebase-annotations\16.2.0\ba0806703ca285d03fa9c888b5868f101134a501\firebase-annotations-16.2.0.jar"

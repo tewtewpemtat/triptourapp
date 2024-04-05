@@ -50,7 +50,9 @@ class _DownPageState extends State<DownPage> {
   String? selectedOption;
   LatLng? markedPosition;
   LatLng? selectedPosition = null;
-  int searchRadius = 100;
+  int searchRadius = 0;
+  int searchRadius2 = 0;
+  bool search = false;
   @override
   void initState() {
     super.initState();
@@ -418,43 +420,97 @@ class _DownPageState extends State<DownPage> {
       setState(() {
         selectedOption = newOption;
         if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
-          // เพิ่ม TextField เพื่อให้ผู้ใช้ป้อนระยะห่างในการค้นหา
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('ระยะห่างในการค้นหา (เมตร)'),
-              content: TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'ระยะห่างในการค้นหา (เมตร)',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    searchRadius = int.tryParse(value) ?? 0;
-                  });
-                },
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    // เมื่อผู้ใช้ป้อนระยะห่างในการค้นหาแล้วให้ดึงสถานที่ใกล้เคียงตามระยะที่ระบุ
-                    fetchNearLocation(position.latitude, position.longitude);
-                    selectedPosition = null;
-                    Fluttertoast.showToast(
-                      msg: "กำลังโหลดสถานที่...",
-                      toastLength: Toast.LENGTH_LONG,
-                    );
+          search = true;
+          searchRadius2 = 0;
+          if (searchRadius == 0) {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('ระยะห่างในการค้นหา (เมตร)'),
+                content: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'ระยะห่างในการค้นหา (เมตร)',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      searchRadius = int.tryParse(value) ?? 0;
+                    });
                   },
-                  child: Text('ตกลง'),
                 ),
-              ],
-            ),
-          );
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      fetchNearLocation(position.latitude, position.longitude);
+                    },
+                    child: Text('ตกลง'),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            fetchNearLocation(position.latitude, position.longitude);
+            search = true;
+            selectedPosition = null;
+            searchRadius2 = 0;
+            Fluttertoast.showToast(
+              msg: "กำลังโหลดสถานที่...",
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
         } else if (selectedOption == "จากตำแหน่งบนแผนที่" &&
             selectedPosition == null) {
+          search = false;
+          searchRadius = 0;
           _openMapSelectionPage();
+        } else if (selectedOption == "จากตำแหน่งบนแผนที่" &&
+            selectedPosition != null) {
+          search = false;
+          searchRadius = 0;
+          if (searchRadius2 == 0) {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('ระยะห่างในการค้นหา (เมตร)'),
+                content: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'ระยะห่างในการค้นหา (เมตร)',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      searchRadius2 = int.tryParse(value) ?? 0;
+                    });
+                  },
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      // เมื่อผู้ใช้ป้อนระยะห่างในการค้นหาแล้วให้ดึงสถานที่ใกล้เคียงตามระยะที่ระบุ
+                      fetchNearLocation(selectedPosition?.latitude ?? 0.0,
+                          selectedPosition?.longitude ?? 0.0);
+                      Fluttertoast.showToast(
+                        msg: "กำลังโหลดสถานที่..",
+                        toastLength: Toast.LENGTH_LONG,
+                      );
+                    },
+                    child: Text('ตกลง'),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            fetchNearLocation(selectedPosition?.latitude ?? 0.0,
+                selectedPosition?.longitude ?? 0.0);
+            Fluttertoast.showToast(
+              msg: "กำลังโหลดสถานที่..",
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
         } else if (selectedOption == "เพิ่มสถานที่เอง") {
           Navigator.push(
             context,
@@ -463,9 +519,6 @@ class _DownPageState extends State<DownPage> {
                   MapSelectionOwnPage(tripUid: widget.tripUid),
             ),
           );
-        } else {
-          fetchNearLocation(selectedPosition?.latitude ?? 0.0,
-              selectedPosition?.longitude ?? 0.0);
         }
       });
     } else if (status.isDenied) {
@@ -529,7 +582,9 @@ class _DownPageState extends State<DownPage> {
         lat: latitude,
         lng: longitude,
       ),
-      searchRadius, // Search radius in meters (adjust as needed)
+      search
+          ? searchRadius
+          : searchRadius2, // Search radius in meters (adjust as needed)
       type: placeType,
       keyword: placeType,
       // ตัวอย่างค้นหาร้านอาหาร

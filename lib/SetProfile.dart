@@ -206,6 +206,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           'contactNumber': _contactNumberController.text,
           'gender': _selectedGender,
           'triplist': 0,
+          'friendList': [],
           'profileStatus': 'Completed',
         });
         setState(() {

@@ -107,20 +107,20 @@ class _FriendListState extends State<FriendList> {
               return Center(child: CircularProgressIndicator());
             }
             if (!snapshot.hasData || !snapshot.data!.exists) {
-              return Center(child: Text('No friend data found'));
+              return Center(child: Text('ไม่พบเพื่อน'));
             }
 
             Map<String, dynamic>? userData =
                 snapshot.data!.data() as Map<String, dynamic>?;
 
             if (userData == null || !userData.containsKey('friendList')) {
-              return Center(child: Text('No friend data found'));
+              return Center(child: Text('ไม่พบเพื่อน'));
             }
 
             List<dynamic> friendList = userData['friendList'];
 
             if (friendList.isEmpty) {
-              return Center(child: Text('No friends added yet'));
+              return Center(child: Text('ไม่พบเพื่อน'));
             }
 
             return ListView.builder(

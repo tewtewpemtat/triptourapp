@@ -6709,8 +6709,6 @@ androidx.exifinterface.media.ExifInterface:
     public static final short Y_CB_CR_POSITIONING_CO_SITED
     public void <init>(java.io.File)
     public void <init>(java.io.FileDescriptor)
-    public void <init>(java.io.InputStream)
-    public void <init>(java.io.InputStream,int)
     private java.lang.String convertDecimalDegree(double)
     private static double convertRationalLatLonToDouble(java.lang.String,java.lang.String)
     public void flipHorizontally()
@@ -6718,7 +6716,6 @@ androidx.exifinterface.media.ExifInterface:
     public double getAltitude(double)
     public byte[] getAttributeBytes(java.lang.String)
     public double getAttributeDouble(java.lang.String,double)
-    public int getAttributeInt(java.lang.String,int)
     public long[] getAttributeRange(java.lang.String)
     public java.lang.Long getDateTime()
     public java.lang.Long getDateTimeDigitized()
@@ -6726,12 +6723,10 @@ androidx.exifinterface.media.ExifInterface:
     public java.lang.Long getGpsDateTime()
     public boolean getLatLong(float[])
     public double[] getLatLong()
-    public int getRotationDegrees()
     public android.graphics.Bitmap getThumbnailBitmap()
     public long[] getThumbnailRange()
     public boolean hasAttribute(java.lang.String)
     public boolean hasThumbnail()
-    private static boolean isExifDataOnly(java.io.BufferedInputStream)
     public boolean isFlipped()
     public static boolean isSupportedMimeType(java.lang.String)
     public boolean isThumbnailCompressed()
@@ -7028,6 +7023,58 @@ androidx.fragment.app.FragmentTransition:
 androidx.fragment.app.ListFragment$1
 androidx.fragment.app.ListFragment$2
 androidx.fragment.app.ListFragment
+androidx.heifwriter.EglRectBlt:
+    private static final int SIZEOF_FLOAT
+androidx.heifwriter.EglWindowSurface:
+    private static final java.lang.String TAG
+    public android.view.Surface getSurface()
+    private void releaseEGLSurface()
+    public void updateSize(int,int)
+androidx.heifwriter.HeifEncoder$InputMode
+androidx.heifwriter.HeifEncoder$SurfaceEOSTracker:
+    private static final boolean DEBUG_EOS
+androidx.heifwriter.HeifEncoder:
+    private static final boolean DEBUG
+    private static final int GRID_HEIGHT
+    private static final int GRID_WIDTH
+    private static final int INPUT_BUFFER_POOL_SIZE
+    public static final int INPUT_MODE_BITMAP
+    public static final int INPUT_MODE_BUFFER
+    public static final int INPUT_MODE_SURFACE
+    private static final double MAX_COMPRESS_RATIO
+    private static final java.lang.String TAG
+    public void addYuvBuffer(int,byte[])
+    public android.view.Surface getInputSurface()
+    public void setEndOfInputStreamTimestamp(long)
+androidx.heifwriter.HeifWriter$Builder:
+    public void <init>(java.io.FileDescriptor,int,int,int)
+    public androidx.heifwriter.HeifWriter$Builder setGridEnabled(boolean)
+    public androidx.heifwriter.HeifWriter$Builder setHandler(android.os.Handler)
+    public androidx.heifwriter.HeifWriter$Builder setPrimaryIndex(int)
+    public androidx.heifwriter.HeifWriter$Builder setRotation(int)
+androidx.heifwriter.HeifWriter$InputMode
+androidx.heifwriter.HeifWriter:
+    private static final boolean DEBUG
+    public static final int INPUT_MODE_BITMAP
+    public static final int INPUT_MODE_BUFFER
+    public static final int INPUT_MODE_SURFACE
+    private static final int MUXER_DATA_FLAG
+    private static final java.lang.String TAG
+    public void addExifData(int,byte[],int,int)
+    public void addYuvBuffer(int,byte[])
+    public android.view.Surface getInputSurface()
+    public void setInputEndOfStreamTimestamp(long)
+androidx.heifwriter.R
+androidx.heifwriter.Texture2dProgram$ProgramType
+androidx.heifwriter.Texture2dProgram:
+    private static final boolean DEBUG
+    private static final java.lang.String FRAGMENT_SHADER_2D
+    private static final java.lang.String FRAGMENT_SHADER_EXT
+    private static final java.lang.String TAG
+    public static final int TEXTURE_2D
+    public static final int TEXTURE_EXT
+    private static final java.lang.String VERTEX_SHADER
+    public int getProgramType()
 androidx.interpolator.R
 androidx.lifecycle.AbstractSavedStateViewModelFactory$Companion
 androidx.lifecycle.AbstractSavedStateViewModelFactory
@@ -8391,6 +8438,46 @@ com.example.triptourapp.R$style
 com.example.triptourapp.R$styleable
 com.example.triptourapp.R$xml
 com.example.triptourapp.R
+com.fluttercandies.flutter_image_compress.BuildConfig
+com.fluttercandies.flutter_image_compress.ImageCompressPlugin$Companion:
+    public final void setShowLog(boolean)
+com.fluttercandies.flutter_image_compress.ImageCompressPlugin:
+    public static final synthetic void access$setShowLog$cp(boolean)
+com.fluttercandies.flutter_image_compress.R$attr
+com.fluttercandies.flutter_image_compress.R$color
+com.fluttercandies.flutter_image_compress.R$dimen
+com.fluttercandies.flutter_image_compress.R$drawable
+com.fluttercandies.flutter_image_compress.R$id
+com.fluttercandies.flutter_image_compress.R$integer
+com.fluttercandies.flutter_image_compress.R$layout
+com.fluttercandies.flutter_image_compress.R$string
+com.fluttercandies.flutter_image_compress.R$style
+com.fluttercandies.flutter_image_compress.R$styleable
+com.fluttercandies.flutter_image_compress.R
+com.fluttercandies.flutter_image_compress.core.ResultHandler$Companion:
+    private static synthetic void getHandler$annotations()
+    public static synthetic void getThreadPool$annotations()
+com.fluttercandies.flutter_image_compress.core.ResultHandler:
+    public static final java.util.concurrent.ExecutorService getThreadPool()
+    public final void replyError(java.lang.String,java.lang.String,java.lang.Object)
+    public static synthetic void replyError$default(com.fluttercandies.flutter_image_compress.core.ResultHandler,java.lang.String,java.lang.String,java.lang.Object,int,java.lang.Object)
+    private static final void replyError$lambda-1(io.flutter.plugin.common.MethodChannel$Result,java.lang.String,java.lang.String,java.lang.Object)
+com.fluttercandies.flutter_image_compress.exception.CompressError:
+    public void <init>(java.lang.String)
+com.fluttercandies.flutter_image_compress.exif.ExifKeeper:
+    public void copyExifToFile(java.io.File)
+com.fluttercandies.flutter_image_compress.ext.BitmapCompressExtKt:
+    public static synthetic void compress$default(android.graphics.Bitmap,int,int,int,int,java.io.OutputStream,int,int,java.lang.Object)
+    public static synthetic byte[] compress$default(android.graphics.Bitmap,int,int,int,int,int,int,java.lang.Object)
+com.fluttercandies.flutter_image_compress.handle.FormatHandler:
+    public abstract java.lang.String getTypeName()
+com.fluttercandies.flutter_image_compress.handle.common.CommonHandler:
+    static synthetic byte[] compress$default(com.fluttercandies.flutter_image_compress.handle.common.CommonHandler,byte[],int,int,int,int,int,int,java.lang.Object)
+    public java.lang.String getTypeName()
+com.fluttercandies.flutter_image_compress.handle.heif.HeifHandler:
+    static synthetic void compress$default(com.fluttercandies.flutter_image_compress.handle.heif.HeifHandler,java.lang.String,int,int,int,int,int,java.lang.String,int,java.lang.Object)
+    static synthetic void compress$default(com.fluttercandies.flutter_image_compress.handle.heif.HeifHandler,byte[],int,int,int,int,int,java.lang.String,int,java.lang.Object)
+    public java.lang.String getTypeName()
 com.google.android.gms.actions.ItemListIntents
 com.google.android.gms.actions.NoteIntents
 com.google.android.gms.actions.ReserveIntents
@@ -29897,6 +29984,271 @@ okio.Util:
     public static long reverseBytesLong(long)
     public static short reverseBytesShort(short)
 okio.package-info
+org.apache.commons.io.ByteOrderMark
+org.apache.commons.io.ByteOrderParser
+org.apache.commons.io.Charsets
+org.apache.commons.io.CopyUtils
+org.apache.commons.io.DirectoryWalker$CancelException
+org.apache.commons.io.DirectoryWalker
+org.apache.commons.io.EndianUtils
+org.apache.commons.io.FileCleaner
+org.apache.commons.io.FileCleaningTracker$Reaper
+org.apache.commons.io.FileCleaningTracker$Tracker
+org.apache.commons.io.FileCleaningTracker
+org.apache.commons.io.FileDeleteStrategy$ForceFileDeleteStrategy
+org.apache.commons.io.FileDeleteStrategy
+org.apache.commons.io.FileExistsException
+org.apache.commons.io.FileSystemUtils
+org.apache.commons.io.FileUtils
+org.apache.commons.io.FilenameUtils
+org.apache.commons.io.HexDump
+org.apache.commons.io.IOCase
+org.apache.commons.io.IOExceptionWithCause
+org.apache.commons.io.IOUtils:
+    private static final int DEFAULT_BUFFER_SIZE
+    public static final char DIR_SEPARATOR_UNIX
+    public static final char DIR_SEPARATOR_WINDOWS
+    public static final int EOF
+    public static final java.lang.String LINE_SEPARATOR_UNIX
+    public static final java.lang.String LINE_SEPARATOR_WINDOWS
+    private static final int SKIP_BUFFER_SIZE
+    private static byte[] SKIP_BYTE_BUFFER
+    private static char[] SKIP_CHAR_BUFFER
+    public void <init>()
+    public static java.io.BufferedInputStream buffer(java.io.InputStream)
+    public static java.io.BufferedInputStream buffer(java.io.InputStream,int)
+    public static java.io.BufferedOutputStream buffer(java.io.OutputStream)
+    public static java.io.BufferedOutputStream buffer(java.io.OutputStream,int)
+    public static java.io.BufferedReader buffer(java.io.Reader)
+    public static java.io.BufferedReader buffer(java.io.Reader,int)
+    public static java.io.BufferedWriter buffer(java.io.Writer)
+    public static java.io.BufferedWriter buffer(java.io.Writer,int)
+    public static void close(java.net.URLConnection)
+    public static void closeQuietly(java.io.Closeable)
+    public static void closeQuietly(java.io.InputStream)
+    public static void closeQuietly(java.io.OutputStream)
+    public static void closeQuietly(java.io.Reader)
+    public static void closeQuietly(java.io.Writer)
+    public static void closeQuietly(java.net.ServerSocket)
+    public static void closeQuietly(java.net.Socket)
+    public static void closeQuietly(java.nio.channels.Selector)
+    public static varargs void closeQuietly(java.io.Closeable[])
+    public static boolean contentEquals(java.io.InputStream,java.io.InputStream)
+    public static boolean contentEquals(java.io.Reader,java.io.Reader)
+    public static boolean contentEqualsIgnoreEOL(java.io.Reader,java.io.Reader)
+    public static int copy(java.io.Reader,java.io.Writer)
+    public static void copy(java.io.InputStream,java.io.Writer)
+    public static void copy(java.io.InputStream,java.io.Writer,java.lang.String)
+    public static void copy(java.io.InputStream,java.io.Writer,java.nio.charset.Charset)
+    public static void copy(java.io.Reader,java.io.OutputStream)
+    public static void copy(java.io.Reader,java.io.OutputStream,java.lang.String)
+    public static void copy(java.io.Reader,java.io.OutputStream,java.nio.charset.Charset)
+    public static long copyLarge(java.io.InputStream,java.io.OutputStream,long,long)
+    public static long copyLarge(java.io.InputStream,java.io.OutputStream,long,long,byte[])
+    public static long copyLarge(java.io.Reader,java.io.Writer)
+    public static long copyLarge(java.io.Reader,java.io.Writer,long,long)
+    public static long copyLarge(java.io.Reader,java.io.Writer,long,long,char[])
+    public static long copyLarge(java.io.Reader,java.io.Writer,char[])
+    public static org.apache.commons.io.LineIterator lineIterator(java.io.InputStream,java.lang.String)
+    public static org.apache.commons.io.LineIterator lineIterator(java.io.InputStream,java.nio.charset.Charset)
+    public static org.apache.commons.io.LineIterator lineIterator(java.io.Reader)
+    public static int read(java.io.InputStream,byte[])
+    public static int read(java.io.InputStream,byte[],int,int)
+    public static int read(java.io.Reader,char[])
+    public static int read(java.io.Reader,char[],int,int)
+    public static int read(java.nio.channels.ReadableByteChannel,java.nio.ByteBuffer)
+    public static void readFully(java.io.InputStream,byte[])
+    public static void readFully(java.io.InputStream,byte[],int,int)
+    public static void readFully(java.io.Reader,char[])
+    public static void readFully(java.io.Reader,char[],int,int)
+    public static void readFully(java.nio.channels.ReadableByteChannel,java.nio.ByteBuffer)
+    public static byte[] readFully(java.io.InputStream,int)
+    public static java.util.List readLines(java.io.InputStream)
+    public static java.util.List readLines(java.io.InputStream,java.lang.String)
+    public static java.util.List readLines(java.io.InputStream,java.nio.charset.Charset)
+    public static java.util.List readLines(java.io.Reader)
+    public static byte[] resourceToByteArray(java.lang.String)
+    public static byte[] resourceToByteArray(java.lang.String,java.lang.ClassLoader)
+    public static java.lang.String resourceToString(java.lang.String,java.nio.charset.Charset)
+    public static java.lang.String resourceToString(java.lang.String,java.nio.charset.Charset,java.lang.ClassLoader)
+    public static java.net.URL resourceToURL(java.lang.String)
+    public static java.net.URL resourceToURL(java.lang.String,java.lang.ClassLoader)
+    public static long skip(java.io.InputStream,long)
+    public static long skip(java.io.Reader,long)
+    public static long skip(java.nio.channels.ReadableByteChannel,long)
+    public static void skipFully(java.io.InputStream,long)
+    public static void skipFully(java.io.Reader,long)
+    public static void skipFully(java.nio.channels.ReadableByteChannel,long)
+    public static java.io.InputStream toBufferedInputStream(java.io.InputStream)
+    public static java.io.InputStream toBufferedInputStream(java.io.InputStream,int)
+    public static java.io.BufferedReader toBufferedReader(java.io.Reader)
+    public static java.io.BufferedReader toBufferedReader(java.io.Reader,int)
+    public static byte[] toByteArray(java.io.InputStream)
+    public static byte[] toByteArray(java.io.InputStream,int)
+    public static byte[] toByteArray(java.io.InputStream,long)
+    public static byte[] toByteArray(java.io.Reader)
+    public static byte[] toByteArray(java.io.Reader,java.lang.String)
+    public static byte[] toByteArray(java.io.Reader,java.nio.charset.Charset)
+    public static byte[] toByteArray(java.lang.String)
+    public static byte[] toByteArray(java.net.URI)
+    public static byte[] toByteArray(java.net.URL)
+    public static byte[] toByteArray(java.net.URLConnection)
+    public static char[] toCharArray(java.io.InputStream)
+    public static char[] toCharArray(java.io.InputStream,java.lang.String)
+    public static char[] toCharArray(java.io.InputStream,java.nio.charset.Charset)
+    public static char[] toCharArray(java.io.Reader)
+    public static java.io.InputStream toInputStream(java.lang.CharSequence)
+    public static java.io.InputStream toInputStream(java.lang.CharSequence,java.lang.String)
+    public static java.io.InputStream toInputStream(java.lang.CharSequence,java.nio.charset.Charset)
+    public static java.io.InputStream toInputStream(java.lang.String)
+    public static java.io.InputStream toInputStream(java.lang.String,java.lang.String)
+    public static java.io.InputStream toInputStream(java.lang.String,java.nio.charset.Charset)
+    public static java.lang.String toString(java.io.InputStream)
+    public static java.lang.String toString(java.io.InputStream,java.lang.String)
+    public static java.lang.String toString(java.io.InputStream,java.nio.charset.Charset)
+    public static java.lang.String toString(java.io.Reader)
+    public static java.lang.String toString(java.net.URI)
+    public static java.lang.String toString(java.net.URI,java.lang.String)
+    public static java.lang.String toString(java.net.URI,java.nio.charset.Charset)
+    public static java.lang.String toString(java.net.URL)
+    public static java.lang.String toString(java.net.URL,java.lang.String)
+    public static java.lang.String toString(java.net.URL,java.nio.charset.Charset)
+    public static java.lang.String toString(byte[])
+    public static java.lang.String toString(byte[],java.lang.String)
+    public static void write(java.lang.CharSequence,java.io.OutputStream)
+    public static void write(java.lang.CharSequence,java.io.OutputStream,java.lang.String)
+    public static void write(java.lang.CharSequence,java.io.OutputStream,java.nio.charset.Charset)
+    public static void write(java.lang.CharSequence,java.io.Writer)
+    public static void write(java.lang.String,java.io.OutputStream)
+    public static void write(java.lang.String,java.io.OutputStream,java.lang.String)
+    public static void write(java.lang.String,java.io.OutputStream,java.nio.charset.Charset)
+    public static void write(java.lang.String,java.io.Writer)
+    public static void write(java.lang.StringBuffer,java.io.OutputStream)
+    public static void write(java.lang.StringBuffer,java.io.OutputStream,java.lang.String)
+    public static void write(java.lang.StringBuffer,java.io.Writer)
+    public static void write(byte[],java.io.Writer)
+    public static void write(byte[],java.io.Writer,java.lang.String)
+    public static void write(byte[],java.io.Writer,java.nio.charset.Charset)
+    public static void write(char[],java.io.OutputStream)
+    public static void write(char[],java.io.OutputStream,java.lang.String)
+    public static void write(char[],java.io.OutputStream,java.nio.charset.Charset)
+    public static void write(char[],java.io.Writer)
+    public static void writeChunked(byte[],java.io.OutputStream)
+    public static void writeChunked(char[],java.io.Writer)
+    public static void writeLines(java.util.Collection,java.lang.String,java.io.OutputStream)
+    public static void writeLines(java.util.Collection,java.lang.String,java.io.OutputStream,java.lang.String)
+    public static void writeLines(java.util.Collection,java.lang.String,java.io.OutputStream,java.nio.charset.Charset)
+    public static void writeLines(java.util.Collection,java.lang.String,java.io.Writer)
+org.apache.commons.io.LineIterator
+org.apache.commons.io.TaggedIOException
+org.apache.commons.io.ThreadMonitor
+org.apache.commons.io.comparator.AbstractFileComparator
+org.apache.commons.io.comparator.CompositeFileComparator
+org.apache.commons.io.comparator.DefaultFileComparator
+org.apache.commons.io.comparator.DirectoryFileComparator
+org.apache.commons.io.comparator.ExtensionFileComparator
+org.apache.commons.io.comparator.LastModifiedFileComparator
+org.apache.commons.io.comparator.NameFileComparator
+org.apache.commons.io.comparator.PathFileComparator
+org.apache.commons.io.comparator.ReverseComparator
+org.apache.commons.io.comparator.SizeFileComparator
+org.apache.commons.io.filefilter.AbstractFileFilter
+org.apache.commons.io.filefilter.AgeFileFilter
+org.apache.commons.io.filefilter.AndFileFilter
+org.apache.commons.io.filefilter.CanReadFileFilter
+org.apache.commons.io.filefilter.CanWriteFileFilter
+org.apache.commons.io.filefilter.ConditionalFileFilter
+org.apache.commons.io.filefilter.DelegateFileFilter
+org.apache.commons.io.filefilter.DirectoryFileFilter
+org.apache.commons.io.filefilter.EmptyFileFilter
+org.apache.commons.io.filefilter.FalseFileFilter
+org.apache.commons.io.filefilter.FileFileFilter
+org.apache.commons.io.filefilter.FileFilterUtils
+org.apache.commons.io.filefilter.HiddenFileFilter
+org.apache.commons.io.filefilter.IOFileFilter
+org.apache.commons.io.filefilter.MagicNumberFileFilter
+org.apache.commons.io.filefilter.NameFileFilter
+org.apache.commons.io.filefilter.NotFileFilter
+org.apache.commons.io.filefilter.OrFileFilter
+org.apache.commons.io.filefilter.PrefixFileFilter
+org.apache.commons.io.filefilter.RegexFileFilter
+org.apache.commons.io.filefilter.SizeFileFilter
+org.apache.commons.io.filefilter.SuffixFileFilter
+org.apache.commons.io.filefilter.TrueFileFilter
+org.apache.commons.io.filefilter.WildcardFileFilter
+org.apache.commons.io.filefilter.WildcardFilter
+org.apache.commons.io.input.AutoCloseInputStream
+org.apache.commons.io.input.BOMInputStream$1
+org.apache.commons.io.input.BOMInputStream
+org.apache.commons.io.input.BoundedInputStream
+org.apache.commons.io.input.BoundedReader
+org.apache.commons.io.input.BrokenInputStream
+org.apache.commons.io.input.CharSequenceInputStream
+org.apache.commons.io.input.CharSequenceReader
+org.apache.commons.io.input.ClassLoaderObjectInputStream
+org.apache.commons.io.input.CloseShieldInputStream
+org.apache.commons.io.input.ClosedInputStream
+org.apache.commons.io.input.CountingInputStream
+org.apache.commons.io.input.DemuxInputStream
+org.apache.commons.io.input.InfiniteCircularInputStream
+org.apache.commons.io.input.MessageDigestCalculatingInputStream$MessageDigestMaintainingObserver
+org.apache.commons.io.input.MessageDigestCalculatingInputStream
+org.apache.commons.io.input.NullInputStream
+org.apache.commons.io.input.NullReader
+org.apache.commons.io.input.ObservableInputStream$Observer
+org.apache.commons.io.input.ObservableInputStream
+org.apache.commons.io.input.ProxyInputStream
+org.apache.commons.io.input.ProxyReader
+org.apache.commons.io.input.ReaderInputStream
+org.apache.commons.io.input.ReversedLinesFileReader$1
+org.apache.commons.io.input.ReversedLinesFileReader$FilePart
+org.apache.commons.io.input.ReversedLinesFileReader
+org.apache.commons.io.input.SwappedDataInputStream
+org.apache.commons.io.input.TaggedInputStream
+org.apache.commons.io.input.Tailer
+org.apache.commons.io.input.TailerListener
+org.apache.commons.io.input.TailerListenerAdapter
+org.apache.commons.io.input.TeeInputStream
+org.apache.commons.io.input.UnixLineEndingInputStream
+org.apache.commons.io.input.WindowsLineEndingInputStream
+org.apache.commons.io.input.XmlStreamReader
+org.apache.commons.io.input.XmlStreamReaderException
+org.apache.commons.io.monitor.FileAlterationListener
+org.apache.commons.io.monitor.FileAlterationListenerAdaptor
+org.apache.commons.io.monitor.FileAlterationMonitor
+org.apache.commons.io.monitor.FileAlterationObserver
+org.apache.commons.io.monitor.FileEntry
+org.apache.commons.io.output.AppendableOutputStream
+org.apache.commons.io.output.BrokenOutputStream
+org.apache.commons.io.output.ByteArrayOutputStream
+org.apache.commons.io.output.ChunkedOutputStream
+org.apache.commons.io.output.ChunkedWriter
+org.apache.commons.io.output.CloseShieldOutputStream
+org.apache.commons.io.output.ClosedOutputStream
+org.apache.commons.io.output.CountingOutputStream
+org.apache.commons.io.output.DeferredFileOutputStream
+org.apache.commons.io.output.DemuxOutputStream
+org.apache.commons.io.output.FileWriterWithEncoding
+org.apache.commons.io.output.LockableFileWriter
+org.apache.commons.io.output.NullOutputStream
+org.apache.commons.io.output.NullWriter
+org.apache.commons.io.output.ProxyOutputStream
+org.apache.commons.io.output.ProxyWriter
+org.apache.commons.io.output.StringBuilderWriter:
+    private static final long serialVersionUID
+    public void <init>()
+    public void <init>(java.lang.StringBuilder)
+    public java.lang.StringBuilder getBuilder()
+org.apache.commons.io.output.TaggedOutputStream
+org.apache.commons.io.output.TeeOutputStream
+org.apache.commons.io.output.ThresholdingOutputStream
+org.apache.commons.io.output.WriterOutputStream
+org.apache.commons.io.output.XmlStreamWriter
+org.apache.commons.io.serialization.ClassNameMatcher
+org.apache.commons.io.serialization.FullClassNameMatcher
+org.apache.commons.io.serialization.RegexpClassNameMatcher
+org.apache.commons.io.serialization.ValidatingObjectInputStream
+org.apache.commons.io.serialization.WildcardClassNameMatcher
 org.checkerframework.checker.builder.qual.CalledMethods
 org.checkerframework.checker.builder.qual.NotCalledMethods
 org.checkerframework.checker.builder.qual.ReturnsReceiver
@@ -30579,6 +30931,7 @@ com.dooboolab.TauEngine.FlautoPlayerEngineFromMic:
     static final synthetic boolean $assertionsDisabled
 com.dooboolab.fluttersound.FlutterSoundPlayer:
     static final synthetic boolean $assertionsDisabled
+com.fluttercandies.flutter_image_compress.exception.CompressError
 com.google.android.gms.common.GooglePlayServicesUtilLight:
     static boolean zza
     private static boolean zzb
