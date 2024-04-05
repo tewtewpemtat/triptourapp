@@ -7,6 +7,7 @@ import 'package:triptourapp/addfriend.dart';
 import 'package:triptourapp/friendrequest.dart';
 import '../privatechat.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class FriendList extends StatefulWidget {
   @override
@@ -297,7 +298,7 @@ class _FriendListState extends State<FriendList> {
             );
           } else {
             yield Text(
-              'No messages yet',
+              'ยังไม่มีข้อความสนทนา',
               style: TextStyle(color: Colors.grey),
             );
           }

@@ -197,6 +197,9 @@ class FriendRequestPage extends StatelessWidget {
                                                   // Log success or perform any other actions
                                                   print(
                                                       'Friend request accepted successfully');
+                                                  Fluttertoast.showToast(
+                                                    msg: 'ตอบรับคำขอเสร็จสิ้น',
+                                                  );
                                                 } catch (error) {
                                                   // Handle errors (e.g., Firestore errors, network errors, etc.)
                                                   print(
@@ -241,6 +244,9 @@ class FriendRequestPage extends StatelessWidget {
                                                   // Log success or perform any other actions
                                                   print(
                                                       'Friend request declined successfully');
+                                                  Fluttertoast.showToast(
+                                                    msg: 'ปฎิเสธคำขอเสร็จสิ้น',
+                                                  );
                                                 } catch (error) {
                                                   // Handle errors (e.g., Firestore errors, network errors, etc.)
                                                   print(
