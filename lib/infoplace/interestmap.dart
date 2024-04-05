@@ -6,7 +6,7 @@ import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:triptourapp/tripmanage/maproute.dart';
+import 'package:triptourapp/infoplace/maproute.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,8 +33,8 @@ class PlaceMeet {
 
 class InterestMap extends StatefulWidget {
   final String? placeid;
-
-  const InterestMap({Key? key, this.placeid}) : super(key: key);
+  final String? tripUid;
+  const InterestMap({Key? key, this.placeid, this.tripUid}) : super(key: key);
 
   @override
   InterestState createState() => InterestState();
@@ -100,7 +100,7 @@ class InterestState extends State<InterestMap> {
 
   void _showLoadingToast() {
     Fluttertoast.showToast(
-      msg: "กำลังโหลดข้อมูลสถานที่...",
+      msg: "กำลังโหลดข้อมูล...",
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
     );
@@ -322,6 +322,7 @@ class InterestState extends State<InterestMap> {
                     Expanded(
                       child: TextButton(
                         onPressed: () {
+                          Navigator.of(context).pop();
                           rounttomap(placeLatitude, placeLongitude, context);
                         },
                         child: Text('นำทางจุดนัดพบ'),
@@ -413,6 +414,8 @@ class InterestState extends State<InterestMap> {
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(
+          tripUid: widget.tripUid,
+          placeid: widget.placeid,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
           placeLatitude: placeLatitude, // ประกาศพารามิเตอร์ placelatitude

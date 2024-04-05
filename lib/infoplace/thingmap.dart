@@ -6,7 +6,7 @@ import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:triptourapp/tripmanage/maproute.dart';
+import 'package:triptourapp/infoplace/maproute.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,8 +31,8 @@ class PlaceMeet {
 
 class thingMap extends StatefulWidget {
   final String? placeid;
-
-  const thingMap({Key? key, this.placeid}) : super(key: key);
+  final String? tripUid;
+  const thingMap({Key? key, this.placeid, this.tripUid}) : super(key: key);
 
   @override
   thingMapState createState() => thingMapState();
@@ -97,7 +97,7 @@ class thingMapState extends State<thingMap> {
 
   void _showLoadingToast() {
     Fluttertoast.showToast(
-      msg: "กำลังโหลดข้อมูลสถานที่...",
+      msg: "กำลังโหลดข้อมูล...",
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
     );
@@ -398,6 +398,8 @@ class thingMapState extends State<thingMap> {
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(
+          placeid: widget.placeid,
+          tripUid: widget.tripUid,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
           placeLatitude: placeLatitude, // ประกาศพารามิเตอร์ placelatitude

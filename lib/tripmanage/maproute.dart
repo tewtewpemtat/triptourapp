@@ -180,6 +180,9 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('นำทาง'),
+        centerTitle: true,
+        backgroundColor: Colors.grey[200],
+        automaticallyImplyLeading: true,
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(

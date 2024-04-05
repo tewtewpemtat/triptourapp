@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:triptourapp/infoplace/interestmap.dart';
+import 'package:triptourapp/infoplace/thingmap.dart';
 import 'package:triptourapp/infoplace/userlocationmap.dart';
 
 class UserLocation {
@@ -35,6 +36,7 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
   String uid = FirebaseAuth.instance.currentUser!.uid;
   bool showMapBlock = false;
   bool showMapThing = false;
+  bool thing = false;
   String? saveTimelineOption;
   double? distance;
   double? distance2;
@@ -381,6 +383,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      thing = true;
+                      showMapThing = false;
                       showMapThing = true;
                     });
                   },
@@ -410,6 +414,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      thing = false;
+                      showMapThing = false;
                       showMapThing = true;
                     });
                   },
@@ -437,42 +443,83 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
             ],
           ),
           SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Visibility(
-                visible: showMapThing,
-                child: Expanded(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 300,
-                        color: Colors.grey,
-                        child:
-                            Center(child: InterestMap(placeid: widget.placeid)),
-                      ),
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              showMapThing = false;
-                            });
-                          },
-                          child: Icon(
-                            Icons.remove, // แทนด้วย icon ที่คุณต้องการ
-                            color: Colors.red, // สีของ icon
-                            size: 30, // ขนาดของ icon
-                          ),
+          thing
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: showMapThing,
+                      child: Expanded(
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 300,
+                              color: Colors.grey,
+                              child: Center(
+                                  child: InterestMap(
+                                      tripUid: widget.tripUid,
+                                      placeid: widget.placeid)),
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    showMapThing = false;
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.remove, // แทนด้วย icon ที่คุณต้องการ
+                                  color: Colors.red, // สีของ icon
+                                  size: 30, // ขนาดของ icon
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: showMapThing,
+                      child: Expanded(
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 300,
+                              color: Colors.grey,
+                              child: Center(
+                                  child: thingMap(
+                                      tripUid: widget.tripUid,
+                                      placeid: widget.placeid)),
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    showMapThing = false;
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.remove, // แทนด้วย icon ที่คุณต้องการ
+                                  color: Colors.red, // สีของ icon
+                                  size: 30, // ขนาดของ icon
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ],
       ),
     );
