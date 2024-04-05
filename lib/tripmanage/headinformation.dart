@@ -17,6 +17,29 @@ class InformationPage extends StatelessWidget {
     return tripJoin.length;
   }
 
+  String formatThaiMonthYear(int month) {
+    final List<String> thaiMonths = [
+      'มกราคม',
+      'กุมภาพันธ์',
+      'มีนาคม',
+      'เมษายน',
+      'พฤษภาคม',
+      'มิถุนายน',
+      'กรกฎาคม',
+      'สิงหาคม',
+      'กันยายน',
+      'ตุลาคม',
+      'พฤศจิกายน',
+      'ธันวาคม'
+    ];
+
+    if (month >= 1 && month <= 12) {
+      return '${thaiMonths[month - 1]}';
+    } else {
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
@@ -42,10 +65,22 @@ class InformationPage extends StatelessWidget {
         if (tripData != null) {
           bool isTripCreator = uid == tripData['tripCreate'];
 
-          DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
-          String startDate =
-              dateFormat.format(tripData['tripStartDate'].toDate());
-          String endDate = dateFormat.format(tripData['tripEndDate'].toDate());
+          DateFormat dateFormat =
+              DateFormat('\td\tMMMM\tyyyy  -  เวลา  HH:mm', 'th');
+          DateTime startDateTH = tripData['tripStartDate'].toDate();
+          DateTime endDateTH = tripData['tripEndDate'].toDate();
+          String thaiStartDate = dateFormat.format(DateTime(
+              startDateTH.year,
+              startDateTH.month,
+              startDateTH.day,
+              startDateTH.hour,
+              startDateTH.minute));
+          String thaiEndDate = dateFormat.format(DateTime(
+              endDateTH.year,
+              endDateTH.month,
+              endDateTH.day,
+              endDateTH.hour,
+              endDateTH.minute));
 
           // ตรวจสอบสถานะของทริปเพื่อกำหนดรูปภาพ
           String status = tripData['tripStatus'];
@@ -111,16 +146,40 @@ class InformationPage extends StatelessWidget {
                   children: [
                     Text(
                       'จำนวนผู้ร่วมทริป: ${getTotalParticipants(tripData)} คน ',
-                      style: GoogleFonts.ibmPlexSansThai(fontSize: 16),
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     Image.asset(statusImage,
                         width: 14, height: 14), // ใช้รูปภาพตามสถานะ
-                    Text('\t สถานะ: ${tripData['tripStatus']}',
-                        style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
+                    Text(
+                      '\t สถานะ: ${tripData['tripStatus']}',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
-                Text('วันที่เดินทาง: $startDate - $endDate',
-                    style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
+                Text(
+                  'เริ่มต้น $thaiStartDate',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  'สิ้นสุด $thaiEndDate',
+                  style: GoogleFonts.ibmPlexSansThai(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 Row(
                   children: [
                     FutureBuilder<DocumentSnapshot>(
@@ -148,12 +207,23 @@ class InformationPage extends StatelessWidget {
                         }
 
                         return Text(
-                            'ผู้จัดทริป: ${userData['nickname']} \t\t\t',
-                            style: GoogleFonts.ibmPlexSansThai(fontSize: 16));
+                          'ผู้จัดทริป: ${userData['nickname']} \t\t\t',
+                          style: GoogleFonts.ibmPlexSansThai(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        );
                       },
                     ),
-                    Text('ผู้ร่วมทริปสูงสุด : ${tripData['tripLimit']}',
-                        style: GoogleFonts.ibmPlexSansThai(fontSize: 16)),
+                    Text(
+                      '\t\t ผู้ร่วมทริปสูงสุด : ${tripData['tripLimit']}',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
               ],

@@ -44,7 +44,7 @@ class _SlidePlaceState extends State<SlidePlace> {
               }
               if (snapshot.hasError) {
                 return Center(
-                  child: Text('Error: ${snapshot.error}'),
+                  child: Text(''),
                 );
               }
               if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {

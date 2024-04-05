@@ -118,6 +118,18 @@ class UserbuttonState extends State<Userbutton> {
             }
           }
         });
+        QuerySnapshot querySnapshot5 = await FirebaseFirestore.instance
+            .collection('timeline')
+            .where('placetripid', isEqualTo: widget.tripUid)
+            .where('userid', isEqualTo: uid)
+            .get();
+
+        querySnapshot5.docs.forEach((document) async {
+          await FirebaseFirestore.instance
+              .collection('timeline')
+              .doc(document.id)
+              .delete();
+        });
 
         Fluttertoast.showToast(msg: 'ออกจากทริปเรียบร้อยเเล้ว');
       } catch (e) {

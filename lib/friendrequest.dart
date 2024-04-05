@@ -50,7 +50,7 @@ class FriendRequestPage extends StatelessWidget {
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Text('');
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -70,7 +70,7 @@ class FriendRequestPage extends StatelessWidget {
                       (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
                     if (userSnapshot.connectionState ==
                         ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return Text('');
                     } else if (userSnapshot.hasError) {
                       return Text('Error: ${userSnapshot.error}');
                     } else if (!userSnapshot.hasData) {
@@ -96,12 +96,12 @@ class FriendRequestPage extends StatelessWidget {
                         },
                         child: Container(
                           margin: EdgeInsets.all(10.0),
-                          padding: EdgeInsets.all(4.0),
+                          padding: EdgeInsets.all(0.0),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(150),
+                            borderRadius: BorderRadius.circular(200),
                             border: Border.all(
-                              color: Color.fromARGB(255, 168, 166, 166),
-                              width: 2.0,
+                              color: Color.fromARGB(255, 222, 216, 216),
+                              width: 2.5,
                             ),
                           ),
                           child: Row(
@@ -110,8 +110,8 @@ class FriendRequestPage extends StatelessWidget {
                               Expanded(
                                 flex: 3,
                                 child: Container(
-                                  width: 70.0, // ความกว้างของ Container
-                                  height: 110.0, // ความสูงของ Container
+                                  width: 120.0, // ความกว้างของ Container
+                                  height: 120.0, // ความสูงของ Container
                                   child: ClipOval(
                                     child: profileImageUrl.isNotEmpty
                                         ? Image.network(
@@ -131,7 +131,6 @@ class FriendRequestPage extends StatelessWidget {
                                   margin: EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
                                   ),
                                   child: Column(
                                     crossAxisAlignment:

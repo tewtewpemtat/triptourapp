@@ -207,13 +207,77 @@ class _TripHistoryState extends State<TripHistory> {
                             children: [
                               Image.asset(statusImage, width: 12, height: 12),
                               SizedBox(width: 3),
-                              Text('สถานะ: ${tripData['tripStatus']}',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 12)),
+                              Text(
+                                'สถานะ: ${tripData['tripStatus']}',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ],
                           ),
-                          Text('วันที่เดินทาง: $startDate - $endDate',
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Color(0xffdb923c),
+                                ),
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  'วันเวลาเริ่มต้น',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  startDate,
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Color(0xffc21111),
+                                ),
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  'วันเวลาสิ้นสุด',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  endDate,
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 3),
                           FutureBuilder<DocumentSnapshot>(
                             future: FirebaseFirestore.instance
                                 .collection('users')
@@ -239,14 +303,25 @@ class _TripHistoryState extends State<TripHistory> {
                                 return Text('ไม่พบข้อมูลผู้ใช้');
                               }
 
-                              return Text('ผู้จัดทริป: ${userData['nickname']}',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 12));
+                              return Text(
+                                'ผู้จัดทริป: ${userData['nickname']}',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
                             },
                           ),
+                          SizedBox(height: 3),
                           Text(
-                              'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
+                            'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ],
                       ),
                     ),

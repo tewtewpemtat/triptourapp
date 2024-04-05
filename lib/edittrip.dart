@@ -252,7 +252,7 @@ class _EditTripState extends State<EditTrip> {
           child: Container(
             child: Column(
               children: List.generate(
-                16,
+                15,
                 (index) {
                   final value = index + 1;
                   return ListTile(

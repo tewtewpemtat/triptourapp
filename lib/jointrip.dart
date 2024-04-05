@@ -171,7 +171,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return Text('');
                   }
                   if (snapshot.hasError) {
                     return Text('เกิดข้อผิดพลาด: ${snapshot.error}');

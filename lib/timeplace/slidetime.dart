@@ -65,7 +65,7 @@ class _SlideTimeState extends State<SlideTime> {
           .snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Text('');
         }
         if (!snapshot.hasData || !snapshot.data!.exists) {
           return Text('');
@@ -79,7 +79,7 @@ class _SlideTimeState extends State<SlideTime> {
               .snapshots(),
           builder: (context, AsyncSnapshot<DocumentSnapshot> tripSnapshot) {
             if (tripSnapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return Text('');
             }
             if (!tripSnapshot.hasData || !tripSnapshot.data!.exists) {
               return Text('');

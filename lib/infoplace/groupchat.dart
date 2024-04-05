@@ -11,6 +11,7 @@ import 'package:triptourapp/saveinterest/meetplace.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:triptourapp/tripmanage/maproute.dart';
 
 class GroupScreenPage extends StatelessWidget {
   final String tripUid;
@@ -657,22 +658,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 TextButton(
                   child: Text('นำทางจุดนัดพบ'),
                   onPressed: () {
-                    Navigator.of(context).pop(); // ปิด AlertDialog
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DirectionsScreen(
-                          userLatitude:
-                              userLatitude, // ใส่พิกัดละติจูดปัจจุบันของผู้ใช้
-                          userLongitude:
-                              userLongitude, // ใส่พิกัดลองจิจูดปัจจุบันของผู้ใช้
-                          destinationLatitude:
-                              placeLatitude, // ใส่พิกัดละติจูดของจุดนัดพบ
-                          destinationLongitude:
-                              placeLongitude, // ใส่พิกัดลองจิจูดของจุดนัดพบ
-                        ),
-                      ),
-                    );
+                    rounttomap(placeLatitude, placeLongitude, context);
                   },
                 ),
                 TextButton(
@@ -693,6 +679,20 @@ class _ChatScreenState extends State<ChatScreen> {
       // หากเกิดข้อผิดพลาดในการเรียกข้อมูล
       print('Error retrieving place data: $e');
     }
+  }
+
+  void rounttomap(double placeLatitude, double placeLongitude, context) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MapScreen(
+          userLatitude: userLatitude,
+          userLongitude: userLongitude,
+          placeLatitude: placeLatitude, // ประกาศพารามิเตอร์ placelatitude
+          placeLongitude: placeLongitude, // ประกาศพารามิเตอร์ placelongitude
+        ),
+      ),
+    );
   }
 
   void getPlaceData2(String postId, BuildContext context) async {
@@ -764,22 +764,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 TextButton(
                   child: Text('นำทางไปยังสิ่งน่าสนใจ'),
                   onPressed: () {
-                    Navigator.of(context).pop(); // ปิด AlertDialog
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DirectionsScreen(
-                          userLatitude:
-                              userLatitude, // ใส่พิกัดละติจูดปัจจุบันของผู้ใช้
-                          userLongitude:
-                              userLongitude, // ใส่พิกัดลองจิจูดปัจจุบันของผู้ใช้
-                          destinationLatitude:
-                              placeLatitude, // ใส่พิกัดละติจูดของจุดนัดพบ
-                          destinationLongitude:
-                              placeLongitude, // ใส่พิกัดลองจิจูดของจุดนัดพบ
-                        ),
-                      ),
-                    );
+                    rounttomap(placeLatitude, placeLongitude, context);
                   },
                 ),
                 TextButton(
@@ -799,6 +784,20 @@ class _ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       // หากเกิดข้อผิดพลาดในการเรียกข้อมูล
       print('Error retrieving place data: $e');
+    }
+  }
+
+  void meetplace(BuildContext context) async {
+    try {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              MeetplacePage(tripUid: widget.tripUid!, placeid: widget.placeid),
+        ),
+      );
+    } catch (e) {
+      print('Error navigating to MeetplacePage: $e');
     }
   }
 
@@ -1049,17 +1048,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MeetplacePage(
-                                          tripUid: widget.tripUid!,
-                                          placeid: widget.placeid),
-                                    ),
-                                  );
-                                  // Handle camera icon tap
-
-                                  // Add your camera logic here
+                                  meetplace(context);
                                 },
                                 child: Column(
                                   children: [

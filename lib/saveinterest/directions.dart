@@ -82,7 +82,7 @@ class _DirectionsScreenState extends State<DirectionsScreen> {
   }
 
   void _startTimerToUpdatePosition() {
-    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       // อัปเดตตำแหน่งปัจจุบันของเราทุก 1 นาที
       _updateCurrentLocation();
     });

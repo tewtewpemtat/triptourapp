@@ -302,7 +302,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
                         });
                       },
                       items: List.generate(
-                        16,
+                        15,
                         (index) => DropdownMenuItem<int>(
                           value: index + 1,
                           child: Text((index + 1).toString()),

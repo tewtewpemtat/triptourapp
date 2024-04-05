@@ -17,6 +17,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/infoplace/groupchat.dart';
+import 'dart:async';
+import 'dart:ui' as ui;
+import 'dart:typed_data'; // Add this import statement
 
 class MeetplacePage extends StatefulWidget {
   final String? tripUid;
@@ -43,7 +46,8 @@ class _MeetplacePageState extends State<MeetplacePage> {
   late Future<void> _initialCameraPositionFuture;
   Position? _currentPosition; // Variable to store the current position
   final Geolocator _geolocator = Geolocator(); // Instance of Geolocator
-
+  bool _isDisposed = false;
+  late Uint8List markerIconBytes = Uint8List(0);
   @override
   void initState() {
     super.initState();
@@ -51,12 +55,21 @@ class _MeetplacePageState extends State<MeetplacePage> {
     _initialCameraPositionFuture =
         _getInitialCameraPosition(); // Initialize Future in initState
     _getCurrentLocation(); // Get current location when the widget is initialized
-    // Subscribe to location changes
+    _getMarkerIcon();
     Geolocator.getPositionStream().listen((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
+      if (!_isDisposed) {
+        setState(() {
+          _currentPosition = position;
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<void> _getCurrentLocation() async {
@@ -64,11 +77,44 @@ class _MeetplacePageState extends State<MeetplacePage> {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-      setState(() {
-        _currentPosition = position;
-      });
+      if (!_isDisposed) {
+        setState(() {
+          _currentPosition = position;
+        });
+      }
     } catch (e) {
       print("Error getting current location: $e");
+    }
+  }
+
+  Future<void> _getMarkerIcon() async {
+    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+    final Paint paint = Paint()
+      ..color = Color.fromARGB(255, 26, 167, 249); // Set color to yellow
+    final double radius = 32; // Increase circle radius
+
+    canvas.drawCircle(Offset(radius, radius), radius,
+        paint); // Increase circle size to 16 and draw in canvas
+
+    // Draw white border
+    final Paint borderPaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 10 // Increase border thickness
+      ..style = PaintingStyle.stroke;
+
+    canvas.drawCircle(Offset(radius, radius), radius, borderPaint);
+
+    final ui.Picture picture = pictureRecorder.endRecording();
+    final img = await picture.toImage((radius * 2).toInt(),
+        (radius * 2).toInt()); // Increase image size to match circle size
+    final ByteData? byteData =
+        await img.toByteData(format: ui.ImageByteFormat.png);
+
+    if (byteData != null) {
+      markerIconBytes = byteData.buffer.asUint8List();
+    } else {
+      throw 'Error converting image to bytes';
     }
   }
 
@@ -84,15 +130,13 @@ class _MeetplacePageState extends State<MeetplacePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => GroupScreenPage(
-                  tripUid: widget.tripUid ?? '',
-                  placeid: widget.placeid ?? '',
-                ),
-              ),
-            ); // กลับไปที่หน้า AddPage
+                  builder: (context) => GroupScreenPage(
+                      tripUid: widget.tripUid ?? '',
+                      placeid: widget.placeid ?? '')),
+            );
           },
         ),
       ),
@@ -140,8 +184,9 @@ class _MeetplacePageState extends State<MeetplacePage> {
             _currentPosition!.latitude,
             _currentPosition!.longitude,
           ),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          icon: markerIconBytes.isNotEmpty
+              ? BitmapDescriptor.fromBytes(markerIconBytes)
+              : BitmapDescriptor.defaultMarker,
           // You can customize the icon further if needed
           infoWindow: InfoWindow(
             title: 'ตำแหน่งปัจจุบันของคุณ',
