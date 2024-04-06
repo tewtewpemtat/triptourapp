@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/placetimeline.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TripTimelinePage extends StatefulWidget {
   @override
@@ -145,6 +146,20 @@ class _TripTimelineState extends State<TripTimelinePage> {
       String fullName = tripData['tripName'].toLowerCase();
       matchesSearch = fullName.contains(_searchQuery);
     }
+    int maxCharsFirstLine = 9; // Maximum characters for the first line
+    int maxCharsTotal = 40; // Maximum characters to display in total
+    String displayedName = tripData['tripName'].length > maxCharsFirstLine
+        ? (tripData['tripName'].length > maxCharsTotal
+            ? tripData['tripName'].substring(0, maxCharsFirstLine) +
+                '...' // Add ... after truncating the first line
+            : tripData['tripName'].substring(0, maxCharsFirstLine) +
+                '\n' +
+                (tripData['tripName'].length > maxCharsTotal
+                    ? tripData['tripName']
+                            .substring(maxCharsFirstLine, maxCharsTotal) +
+                        '...'
+                    : tripData['tripName'].substring(maxCharsFirstLine)))
+        : tripData['tripName'];
 
     if (_searchQuery.isEmpty || matchesSearch) {
       return Material(
@@ -156,59 +171,170 @@ class _TripTimelineState extends State<TripTimelinePage> {
                   builder: (context) => Placetimeline(tripUid: tripUid)),
             );
           },
-          child: Container(
-            height: 140,
-            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      child: Image.network(
-                        tripData['tripProfileUrl'],
-                        height: 140.0,
-                        fit: BoxFit.cover,
+          child: Stack(
+            children: [
+              Container(
+                height: 140,
+                margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          child: Image.network(
+                            tripData['tripProfileUrl'],
+                            height: 140.0,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(width: 13),
-                Expanded(
-                  flex: 6,
-                  child: SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                    SizedBox(width: 13),
+                    Expanded(
+                      flex: 6,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          margin: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Text(
-                                  'ชื่อทริป: ${tripData['tripName']}',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'ชื่อทริป: ${displayedName ?? ''}',
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(statusImage, width: 12, height: 12),
-                              SizedBox(width: 3),
+                              Row(
+                                children: [
+                                  Image.asset(statusImage,
+                                      width: 12, height: 12),
+                                  SizedBox(width: 3),
+                                  Text(
+                                    'สถานะ: ${tripData['tripStatus']}',
+                                    style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: Color(0xffdb923c),
+                                    ),
+                                    padding: EdgeInsets.all(3.0),
+                                    child: Text(
+                                      'วันเวลาเริ่มต้น',
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 10,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(3.0),
+                                    child: Text(
+                                      startDate,
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 10,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: Color(0xffc21111),
+                                    ),
+                                    padding: EdgeInsets.all(3.0),
+                                    child: Text(
+                                      'วันเวลาสิ้นสุด',
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 10,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(3.0),
+                                    child: Text(
+                                      endDate,
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 10,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 3),
+                              FutureBuilder<DocumentSnapshot>(
+                                future: FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(tripData['tripCreate'])
+                                    .get(),
+                                builder: (context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Text('กำลังโหลด...');
+                                  }
+                                  if (snapshot.hasError) {
+                                    return Text(
+                                        'เกิดข้อผิดพลาด: ${snapshot.error}');
+                                  }
+                                  if (!snapshot.hasData ||
+                                      snapshot.data == null) {
+                                    return Text('ไม่พบข้อมูลผู้ใช้');
+                                  }
+                                  var userData = snapshot.data!.data()
+                                      as Map<String, dynamic>?;
+
+                                  if (userData == null) {
+                                    return Text('ไม่พบข้อมูลผู้ใช้');
+                                  }
+
+                                  return Text(
+                                    'ผู้จัดทริป: ${userData['nickname']}',
+                                    style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  );
+                                },
+                              ),
+                              SizedBox(height: 3),
                               Text(
-                                'สถานะ: ${tripData['tripStatus']}',
+                                'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 12,
                                   color: Colors.black,
@@ -217,118 +343,65 @@ class _TripTimelineState extends State<TripTimelinePage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: Color(0xffdb923c),
-                                ),
-                                padding: EdgeInsets.all(3.0),
-                                child: Text(
-                                  'วันเวลาเริ่มต้น',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 10,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(3.0),
-                                child: Text(
-                                  startDate,
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 10,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: Color(0xffc21111),
-                                ),
-                                padding: EdgeInsets.all(3.0),
-                                child: Text(
-                                  'วันเวลาสิ้นสุด',
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 10,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(3.0),
-                                child: Text(
-                                  endDate,
-                                  style: GoogleFonts.ibmPlexSansThai(
-                                    fontSize: 10,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 3),
-                          FutureBuilder<DocumentSnapshot>(
-                            future: FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(tripData['tripCreate'])
-                                .get(),
-                            builder: (context,
-                                AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Text('กำลังโหลด...');
-                              }
-                              if (snapshot.hasError) {
-                                return Text(
-                                    'เกิดข้อผิดพลาด: ${snapshot.error}');
-                              }
-                              if (!snapshot.hasData || snapshot.data == null) {
-                                return Text('ไม่พบข้อมูลผู้ใช้');
-                              }
-                              var userData = snapshot.data!.data()
-                                  as Map<String, dynamic>?;
-
-                              if (userData == null) {
-                                return Text('ไม่พบข้อมูลผู้ใช้');
-                              }
-
-                              return Text(
-                                'ผู้จัดทริป: ${userData['nickname']}',
-                                style: GoogleFonts.ibmPlexSansThai(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(height: 3),
-                          Text(
-                            'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 15,
+                right: 21,
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("ลบประวัติทริป"),
+                          content: Text("คุณต้องการจะลบประวัติทริปหรือไม่?"),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text("ตกลง"),
+                              onPressed: () async {
+                                Navigator.of(context).pop();
+                                await FirebaseFirestore.instance
+                                    .collection('trips')
+                                    .doc(tripUid)
+                                    .update({
+                                  'tripJoin': FieldValue.arrayRemove([uid]),
+                                });
+                                Fluttertoast.showToast(
+                                    msg: 'ลบประวัติทริปสำเร็จ');
+                                // Delete the entire trip document if the tripJoin list becomes empty
+                              },
+                            ),
+                            TextButton(
+                              child: Text("ยกเลิก"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                      size: 20,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );

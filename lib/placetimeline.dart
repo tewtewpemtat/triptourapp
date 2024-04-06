@@ -56,6 +56,7 @@ class _PlacetimelineState extends State<Placetimeline> {
             .collection('places')
             .where('placetripid', isEqualTo: widget.tripUid)
             .where('placerun', isEqualTo: "End")
+            .where('placewhogo', arrayContains: uid)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -135,7 +136,7 @@ class _PlacetimelineState extends State<Placetimeline> {
       child: InkWell(
         onTap: () {},
         child: Container(
-          height: 160.0,
+          height: 150.0,
           decoration: BoxDecoration(
               border: Border.all(
                 color: Colors.grey, // Border color
@@ -154,7 +155,7 @@ class _PlacetimelineState extends State<Placetimeline> {
                   child: Image.network(
                     placeData['placepicUrl'] ??
                         'assets/userplan/userplan_image1.png',
-                    height: 160.0,
+                    height: 150.0,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -163,7 +164,6 @@ class _PlacetimelineState extends State<Placetimeline> {
               Expanded(
                 flex: 6,
                 child: SingleChildScrollView(
-                  reverse: true,
                   child: Container(
                     margin: EdgeInsets.all(8.0),
                     child: Column(
