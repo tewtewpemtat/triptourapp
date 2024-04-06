@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/infoplace/distancechoose.dart';
+import 'package:triptourapp/infoplace/locationfetch.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +10,7 @@ import 'infoplace/headinfobutton.dart';
 import 'infoplace/infomationplace.dart';
 import 'infoplace/member.dart';
 import 'package:geolocator/geolocator.dart';
+import 'dart:async';
 
 class InfoPlacePage extends StatefulWidget {
   @override
@@ -21,7 +24,6 @@ class InfoPlacePage extends StatefulWidget {
 class InfoPlacePageState extends State<InfoPlacePage> {
   double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
   double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
-
   @override
   void initState() {
     super.initState();
@@ -110,7 +112,7 @@ class InfoPlacePageState extends State<InfoPlacePage> {
           icon: Icon(Icons.arrow_back),
           color: Colors.black,
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => TripmanagePage(tripUid: widget.tripUid),
@@ -150,8 +152,10 @@ class InfoPlacePageState extends State<InfoPlacePage> {
         child: Column(
           children: [
             InformationPlan(tripUid: widget.tripUid, placeid: widget.placeid),
+            DistancePage(tripUid: widget.tripUid, placeid: widget.placeid),
             HeadInfoButton(tripUid: widget.tripUid, placeid: widget.placeid),
-            MemberPage(tripUid: widget.tripUid, placeid: widget.placeid)
+            MemberPage(tripUid: widget.tripUid, placeid: widget.placeid),
+            Locationfetch(tripUid: widget.tripUid, placeid: widget.placeid)
           ],
         ),
       ),

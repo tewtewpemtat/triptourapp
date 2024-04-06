@@ -25,9 +25,7 @@ class MemberPageState extends State<MemberPage> {
           .snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Center(child: Text(''));
         }
         if (!snapshot.hasData || !snapshot.data!.exists) {
           return Center(
@@ -62,9 +60,7 @@ class MemberPageState extends State<MemberPage> {
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Center(child: Text(''));
                   }
 
                   if (!snapshot.hasData || !snapshot.data!.exists) {

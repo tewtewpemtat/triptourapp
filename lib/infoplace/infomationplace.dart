@@ -40,7 +40,6 @@ class InformationPlanState extends State<InformationPlan> {
   @override
   void initState() {
     super.initState();
-
     getUserLocation();
   }
 
@@ -54,7 +53,7 @@ class InformationPlanState extends State<InformationPlan> {
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: Text(''),
           );
         }
         if (!snapshot.hasData || !snapshot.data!.exists) {

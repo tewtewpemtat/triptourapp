@@ -9,6 +9,10 @@ import 'package:latlong2/latlong.dart';
 import 'package:triptourapp/infoplace/interestmap.dart';
 import 'package:triptourapp/infoplace/thingmap.dart';
 import 'package:triptourapp/infoplace/userlocationmap.dart';
+import 'dart:async';
+import '../infoplace.dart';
+import 'package:intl/intl.dart';
+import 'dart:math' show radians;
 
 class UserLocation {
   final String uid;
@@ -37,20 +41,13 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
   bool showMapBlock = false;
   bool showMapThing = false;
   bool thing = false;
-  String? saveTimelineOption;
-  double? distance;
-  double? distance2;
   List<UserLocation>? userLocations;
   List<String>? users;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
-
   @override
   void initState() {
     super.initState();
     showMapBlock = false;
     showMapThing = false;
-    checkDocumentExistence();
     _showUserLocationsOnMap();
   }
 
@@ -101,155 +98,6 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
     return userLocations;
   }
 
-  double calculateDistance(double distance) {
-    double distanceInMeters = distance / 1000;
-    return distanceInMeters;
-  }
-
-  void addToTimeline() {
-    FirebaseFirestore.instance
-        .collection('timeline')
-        .where('placeid', isEqualTo: widget.placeid)
-        .where('placetripid', isEqualTo: widget.tripUid)
-        .where('useruid', isEqualTo: uid)
-        .get()
-        .then((querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        // ถ้ามีเอกสารในระบบแล้ว ให้ทำการอัปเดตเฉพาะฟิลด์ distance
-        querySnapshot.docs.forEach((doc) {
-          doc.reference.update({'distance': distance2}).then((value) {
-            print("Document updated successfully");
-          }).catchError((error) {
-            print("Failed to update document: $error");
-          });
-        });
-      } else {
-        // ถ้าไม่มีเอกสารในระบบ ให้ทำการสร้างเอกสารใหม่
-        FirebaseFirestore.instance.collection('timeline').add({
-          'placeid': widget.placeid,
-          'placetripid': widget.tripUid,
-          'useruid': uid,
-          'distance': distance2,
-        }).then((value) {
-          print("Document added successfully");
-        }).catchError((error) {
-          print("Failed to add document: $error");
-        });
-      }
-    }).catchError((error) {
-      print("Error getting documents: $error");
-    });
-  }
-
-  void checkDocumentExistence() {
-    FirebaseFirestore.instance
-        .collection('timeline')
-        .where('placeid', isEqualTo: widget.placeid)
-        .where('placetripid', isEqualTo: widget.tripUid)
-        .where('useruid', isEqualTo: uid)
-        .get()
-        .then((querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        // ถ้ามีเอกสารใน Firestore
-        setState(() {
-          saveTimelineOption = 'บันทึก';
-          distance2 = querySnapshot.docs.first.get('distance');
-          distance = calculateDistance(distance2 ?? 0.0);
-        });
-      } else {
-        // ถ้าไม่มีเอกสารใน Firestore
-        setState(() {
-          saveTimelineOption = 'ไม่บันทึก';
-          distance = 0;
-          distance2 = 0;
-        });
-      }
-    }).catchError((error) {
-      print("Error getting documents: $error");
-    });
-  }
-
-  void deleteFromTimeline() {
-    FirebaseFirestore.instance
-        .collection('timeline')
-        .where('placeid', isEqualTo: widget.placeid)
-        .where('placetripid', isEqualTo: widget.tripUid)
-        .where('useruid', isEqualTo: uid)
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        doc.reference.delete().then((value) {
-          print("Document deleted successfully");
-        }).catchError((error) {
-          print("Failed to delete document: $error");
-        });
-      });
-    }).catchError((error) {
-      print("Error getting documents: $error");
-    });
-  }
-
-  void changeDistace() async {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('ระยะในการบันทึก (เมตร)'),
-        content: TextField(
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'ระยะในการบันทึก (เมตร)',
-            border: OutlineInputBorder(),
-          ),
-          onChanged: (value) {
-            double doubleValue = double.tryParse(value) ?? 0.0;
-            print(doubleValue);
-            distance2 = doubleValue;
-            // แปลงเป็นข้อความ
-          },
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              // เมื่อผู้ใช้ป้อนระยะห่างในการค้นหาแล้วให้ดึงสถานที่ใกล้เคียงตามระยะที่ระบุ
-              if (distance2 != 0.0) {
-                setState(() {
-                  distance = calculateDistance(distance2 ?? 0.0);
-                  // แปลงเป็นข้อความ
-                });
-                Fluttertoast.showToast(
-                  msg: "บันทึกระยะสำเร็จ",
-                  toastLength: Toast.LENGTH_LONG,
-                );
-                setState(() {
-                  saveTimelineOption = 'บันทึก';
-                });
-                addToTimeline();
-              } else {
-                setState(() {
-                  saveTimelineOption = 'ไม่บันทึก';
-                });
-              }
-            },
-            child: Text('ตกลง'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void deleteDistace() async {
-    setState(() {
-      distance = 0;
-      distance2 = 0;
-    });
-    setState(() {
-      saveTimelineOption = 'ไม่บันทึก';
-    });
-    deleteFromTimeline();
-    _showUserLocationsOnMap();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -257,53 +105,6 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Text(
-                "ตัวเลือกการบันทึกไทมไลน์  ",
-                style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              DropdownButton<String>(
-                value: saveTimelineOption,
-                onChanged: (String? newValue) {
-                  if (newValue == 'บันทึก') {
-                    changeDistace();
-                  }
-                  if (newValue == 'ไม่บันทึก') {
-                    deleteDistace();
-                  }
-                },
-                items: <String>['บันทึก', 'ไม่บันทึก'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              saveTimelineOption == 'บันทึก' && distance != 0.0
-                  ? Text(
-                      "$distance Km.",
-                      style: GoogleFonts.ibmPlexSansThai(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    )
-                  : Text(
-                      "",
-                    ),
-            ],
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
