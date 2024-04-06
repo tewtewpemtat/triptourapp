@@ -1,57 +1,329 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:triptourapp/placetimeline.dart';
+import 'package:triptourapp/tripmanage.dart';
+import 'package:intl/intl.dart';
 
-import '../placetimeline.dart';
+class TripTimelinePage extends StatefulWidget {
+  @override
+  _TripTimelineState createState() => _TripTimelineState();
+}
 
-class TripTimeLineHistory extends StatelessWidget {
+class _TripTimelineState extends State<TripTimelinePage> {
+  final String? uid = FirebaseAuth.instance.currentUser?.uid;
+  TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 10),
-        Container(
-          margin: EdgeInsets.only(
-            left: 10,
-          ), // Adjust the values as needed
-          child: Text(
-            'ไทมไลน์ของคุณ',
-            style: GoogleFonts.ibmPlexSansThai(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'ไทมไลน์ของคุณ',
+                style: GoogleFonts.ibmPlexSansThai(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 2),
-        Container(
-          margin: EdgeInsets.only(
-            left: 10,
-          ), // Adjust the values as needed
-          child: Text(
-            'แสดงประวัติทริปเเละไทมไลน์เเต่ละสถานที่ของคุณ',
-            style:
-                GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
+          Container(
+            margin: EdgeInsets.only(left: 10),
+            child: Text(
+              'แสดงประวัติทริปเเละไทมไลน์แต่ละสถานที่ของคุณ',
+              style:
+                  GoogleFonts.ibmPlexSansThai(fontSize: 13, color: Colors.grey),
+            ),
           ),
-        ),
-        SizedBox(height: 10),
-        Container(
-          margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Color(0xffeaeaea),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.search, color: Colors.grey),
-                SizedBox(width: 10),
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'ค้นหาประวัติทริป',
-                      border: InputBorder.none,
-                      isDense: true,
+                  flex: 7,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey), // Color of the border
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Icon(Icons.search, color: Colors.grey),
+                          SizedBox(width: 5),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              onChanged: (value) {
+                                setState(() {
+                                  _searchQuery = value.toLowerCase();
+                                });
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'ค้นหาทริปของคุณ',
+                                border: InputBorder.none,
+                                isDense: true,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('trips')
+                .where('tripJoin', arrayContains: uid)
+                .where('tripStatus', whereIn: ['สิ้นสุด']).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('เกิดข้อผิดพลาด: ${snapshot.error}'));
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Center(child: Text('ไม่พบข้อมูลทริป'));
+              }
+
+              List<DocumentSnapshot> tripDataList = snapshot.data!.docs;
+
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: tripDataList.length,
+                itemBuilder: (context, index) {
+                  return buildTripItem(
+                    context,
+                    tripDataList[index],
+                    tripDataList[index].id,
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  int getTotalParticipants(DocumentSnapshot document) {
+    Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
+    List<dynamic> tripJoin = tripData['tripJoin'];
+    return tripJoin.length;
+  }
+
+  Widget buildTripItem(
+      BuildContext context, DocumentSnapshot document, String tripUid) {
+    Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
+    DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
+    String startDate = dateFormat.format(tripData['tripStartDate'].toDate());
+    String endDate = dateFormat.format(tripData['tripEndDate'].toDate());
+
+    bool matchesSearch = false;
+    String status = tripData['tripStatus'];
+    String statusImage =
+        status == 'สิ้นสุด' ? 'assets/red.png' : 'assets/yellow.png';
+    if (tripData['tripName'] != null) {
+      String fullName = tripData['tripName'].toLowerCase();
+      matchesSearch = fullName.contains(_searchQuery);
+    }
+
+    if (_searchQuery.isEmpty || matchesSearch) {
+      return Material(
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Placetimeline(tripUid: tripUid)),
+            );
+          },
+          child: Container(
+            height: 140,
+            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      child: Image.network(
+                        tripData['tripProfileUrl'],
+                        height: 140.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 13),
+                Expanded(
+                  flex: 6,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'ชื่อทริป: ${tripData['tripName']}',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(statusImage, width: 12, height: 12),
+                              SizedBox(width: 3),
+                              Text(
+                                'สถานะ: ${tripData['tripStatus']}',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Color(0xffdb923c),
+                                ),
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  'วันเวลาเริ่มต้น',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  startDate,
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Color(0xffc21111),
+                                ),
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  'วันเวลาสิ้นสุด',
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(3.0),
+                                child: Text(
+                                  endDate,
+                                  style: GoogleFonts.ibmPlexSansThai(
+                                    fontSize: 10,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 3),
+                          FutureBuilder<DocumentSnapshot>(
+                            future: FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(tripData['tripCreate'])
+                                .get(),
+                            builder: (context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Text('กำลังโหลด...');
+                              }
+                              if (snapshot.hasError) {
+                                return Text(
+                                    'เกิดข้อผิดพลาด: ${snapshot.error}');
+                              }
+                              if (!snapshot.hasData || snapshot.data == null) {
+                                return Text('ไม่พบข้อมูลผู้ใช้');
+                              }
+                              var userData = snapshot.data!.data()
+                                  as Map<String, dynamic>?;
+
+                              if (userData == null) {
+                                return Text('ไม่พบข้อมูลผู้ใช้');
+                              }
+
+                              return Text(
+                                'ผู้จัดทริป: ${userData['nickname']}',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(height: 3),
+                          Text(
+                            'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
+                            style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -59,114 +331,15 @@ class TripTimeLineHistory extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 5),
-        SizedBox(height: 7),
-        buildTripItem(context),
-        buildTripItem(context),
-        buildTripItem(context),
-      ],
-    );
-  }
-
-  Widget buildTripItem(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PlaceTimeline(),
-          ),
-        );
-      },
-      child: Material(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-            borderRadius:
-                BorderRadius.circular(10), // กำหนด BorderRadius ที่ต้องการ
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 3,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      10), // กำหนด BorderRadius ที่ต้องการ
-                  child: Container(
-                    child: Image.asset(
-                      'assets/main/main_image1.png',
-                      width: 100.0,
-                      height: 130.0,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 5),
-              Expanded(
-                flex: 7,
-                child: Container(
-                  margin: EdgeInsets.all(0.0),
-                  padding: EdgeInsets.all(5.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        'ชื่อทริป: จา',
-                        style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'รีวิว: ดีมาก\t\t\t',
-                            style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
-                          ),
-                          Image.asset('assets/red.png', width: 14, height: 14),
-                          Text('\t ทริปสิ้นสุดลงเเล้ว ',
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on, size: 12),
-                          Text('100 เมตร',
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                          SizedBox(width: 5),
-                          Text('เริ่มต้น กรุงเทพ สิ้นสุด กรุงเทพ',
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                        ],
-                      ),
-                      Text(
-                        'วันที่เดินทาง: 11/08/66 - 13/08/66',
-                      ),
-                      Text('ผู้จัดทริป: ติว\t\t\t\t\t\t\t',
-                          style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                      Row(
-                        children: [
-                          Text('จำนวนผู้ร่วมทริป: 12 คน \t\t\t',
-                              style: GoogleFonts.ibmPlexSansThai(fontSize: 12)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+      );
+    } else {
+      return Container();
+    }
   }
 }
 
 void main() {
-  runApp(
-    TripTimeLineHistory(),
-  );
+  runApp(MaterialApp(
+    home: TripTimelinePage(),
+  ));
 }

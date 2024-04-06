@@ -26,7 +26,7 @@ class PlaceDetail extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => PlaceTimeline()),
+              MaterialPageRoute(builder: (context) => Placetimeline()),
             );
           },
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'timeline/timeline_history.dart';
+import 'package:triptourapp/timeline/Timeline_History.dart';
 import 'main/top_navbar.dart';
 import 'main/bottom_navbar.dart';
 
@@ -18,7 +18,7 @@ class TripTimeLine extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TripTimeLineHistory(),
+              TripTimelinePage(),
             ],
           ),
         ),

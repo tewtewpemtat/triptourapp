@@ -444,12 +444,31 @@ class _UserPlanState extends State<UserPlan> {
                             GestureDetector(
                               onTap: () {
                                 {
-                                  if (placeData['placestart'] != '') {
+                                  if (placeData['placestart'] != '' &&
+                                      placeData['placewhogo'].contains(uid) &&
+                                      ((placeData['placerun'] == 'Running' ||
+                                          placeData['placerun'] == 'Start'))) {
                                     rounttomap(place, placeData['placestart'],
                                         placeData['placewhogo'], context);
+                                  } else if (placeData['placestart'] == '' &&
+                                      placeData['placewhogo'].contains(uid)) {
+                                    Fluttertoast.showToast(
+                                      msg:
+                                          "สถานที่นี้ไม่มียังไม่มีการกำหนดจุดนัดพบ",
+                                    );
+                                  } else if (placeData['placestart'] != '' &&
+                                      !placeData['placewhogo'].contains(uid)) {
+                                    Fluttertoast.showToast(
+                                      msg: "คุณไม่ได้เข้าร่วมสถานที่นี้",
+                                    );
+                                  } else if (placeData['placestart'] == '' &&
+                                      !placeData['placewhogo'].contains(uid)) {
+                                    Fluttertoast.showToast(
+                                      msg: "คุณไม่ได้เข้าร่วมสถานที่นี้",
+                                    );
                                   } else {
                                     Fluttertoast.showToast(
-                                      msg: "ยังไม่มีการกำหนดจุดนัดพบ",
+                                      msg: "สถานที่นี้สิ้นสุดไปเเล้ว",
                                     );
                                   }
                                 }

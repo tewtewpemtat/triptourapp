@@ -65,12 +65,40 @@ class LocationfetchState extends State<Locationfetch> {
         print(distanceInMeters);
         num distanceNum = distance!.toDouble();
         if (distanceInMeters <= distanceNum) {
-          print("ผู้ใช้กำลังเข้าสถานที่");
+          // User is entering the location
+          print("ผู้ใช้เข้าสถานที่");
+
+          // Record entry time in Firestore
+          await FirebaseFirestore.instance.collection('timelinestamp').add({
+            'useruid': uid,
+            'placeid': widget.placeid,
+            'placetripid': widget.tripUid,
+            'intime': DateTime.now(),
+            'outtime': null, // Assuming the user hasn't exited yet
+          });
         } else {
-          print("ผู้ใช้กำลังออกสถานที่");
+          // User is exiting the location
+          print("User exited the location");
+
+          // Update exit time in Firestore
+          QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+              .collection('timelinestamp')
+              .where('useruid', isEqualTo: uid)
+              .where('placeid', isEqualTo: widget.placeid)
+              .where('placetripid', isEqualTo: widget.tripUid)
+              .where('outtime',
+                  isEqualTo: null) // Fetch only entries without exit time
+              .get();
+
+          if (querySnapshot.docs.isNotEmpty) {
+            // Update exit time for the first matching document
+            String docId = querySnapshot.docs.first.id;
+            await FirebaseFirestore.instance
+                .collection('timelinestamp')
+                .doc(docId)
+                .update({'outtime': DateTime.now()});
+          }
         }
-      } else {
-        print("ไม่ได้บันทึกสถานที่");
       }
     } catch (error) {
       print("Error getting user location: $error");

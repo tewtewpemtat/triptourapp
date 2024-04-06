@@ -472,15 +472,25 @@ class _HeadPlanPageState extends State<HeadPlan> {
                                       height: 40,
                                       child: TextButton(
                                         onPressed: () {
-                                          if (placeData['placestart'] != '') {
+                                          if (placeData['placestart'] != '' &&
+                                              (placeData['placerun'] ==
+                                                      'Running' ||
+                                                  placeData['placerun'] ==
+                                                      'Start')) {
                                             rounttomap(
                                                 place,
                                                 placeData['placestart'],
                                                 placeData['placewhogo'],
                                                 context);
+                                          } else if (placeData['placestart'] ==
+                                              '') {
+                                            Fluttertoast.showToast(
+                                              msg:
+                                                  "สถานที่นี้ไม่มีการกำหนดจุดนัดพบ",
+                                            );
                                           } else {
                                             Fluttertoast.showToast(
-                                              msg: "ยังไม่มีการกำหนดจุดนัดพบ",
+                                              msg: "สถานที่นี้สิ้นสุดไปเเล้ว",
                                             );
                                           }
                                         },
