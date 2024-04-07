@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:triptourapp/infoplace/headinfobutton.dart';
+import 'package:triptourapp/infoplace/userlocation.dart';
 
 class MemberPage extends StatefulWidget {
   @override
@@ -16,6 +19,29 @@ class MemberPage extends StatefulWidget {
 
 class MemberPageState extends State<MemberPage> {
   String uid = FirebaseAuth.instance.currentUser!.uid;
+  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
+  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+
+  @override
+  void initState() {
+    super.initState();
+    getUserLocation();
+  }
+
+  Future<void> getUserLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      setState(() {
+        userLatitude = position.latitude;
+        userLongitude = position.longitude;
+      });
+    } catch (e) {
+      print("Error getting user location: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
@@ -71,7 +97,7 @@ class MemberPageState extends State<MemberPage> {
 
                   Map<String, dynamic> userData =
                       snapshot.data!.data() as Map<String, dynamic>;
-                  return buildUserItem(userData);
+                  return buildUserItem(userData, snapshot.data!.id);
                 },
               ),
           ],
@@ -87,7 +113,7 @@ class MemberPageState extends State<MemberPage> {
         .snapshots();
   }
 
-  Widget buildUserItem(Map<String, dynamic> userData) {
+  Widget buildUserItem(Map<String, dynamic> userData, String docid) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -105,14 +131,36 @@ class MemberPageState extends State<MemberPage> {
             backgroundImage: NetworkImage(userData['profileImageUrl'] ?? ''),
           ),
           SizedBox(width: 10.0),
-          Text(
-            userData['nickname'] ?? '',
-            style: GoogleFonts.ibmPlexSansThai(
-              fontSize: 18,
-              color: const Color.fromARGB(255, 11, 11, 11),
-              fontWeight: FontWeight.bold,
+          Expanded(
+            child: Text(
+              userData['nickname'] ?? '',
+              style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 18,
+                color: const Color.fromARGB(255, 11, 11, 11),
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
+          uid != docid
+              ? IconButton(
+                  icon: Icon(Icons.location_on_outlined),
+                  iconSize: 30,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserLocationShow(
+                            userLatitude: userLatitude,
+                            userLongitude: userLongitude,
+                            friendId: docid,
+                            tripUid: widget.tripUid,
+                            placeid: widget.placeid),
+                      ),
+                    );
+                  },
+                  tooltip: 'ดูตำแหน่ง',
+                )
+              : Text(""),
         ],
       ),
     );

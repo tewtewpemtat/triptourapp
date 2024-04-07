@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:triptourapp/TripTimeLine.dart';
+import 'package:triptourapp/placedetailtimeline.dart';
 import 'package:triptourapp/tripmanage/maproute.dart';
 import 'package:triptourapp/addplace/mapselectown.dart';
 import 'package:geolocator/geolocator.dart';
@@ -134,7 +135,18 @@ class _PlacetimelineState extends State<Placetimeline> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PlaceTimelineDetail(
+                tripUid: widget.tripUid ?? '',
+                placeId: place.id,
+                userUid: uid,
+              ),
+            ),
+          );
+        },
         child: Container(
           height: 150.0,
           decoration: BoxDecoration(

@@ -143,7 +143,7 @@ class _MapScreenState extends State<MapScreen> {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: LatLng(widget.userLatitude, widget.userLongitude),
-          zoom: 18,
+          zoom: 17,
         ),
       ),
     );

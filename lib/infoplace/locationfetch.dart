@@ -65,21 +65,31 @@ class LocationfetchState extends State<Locationfetch> {
         print(distanceInMeters);
         num distanceNum = distance!.toDouble();
         if (distanceInMeters <= distanceNum) {
-          // User is entering the location
-          print("ผู้ใช้เข้าสถานที่");
+          // Check if there's an existing entry without an exit time
+          QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+              .collection('timelinestamp')
+              .where('useruid', isEqualTo: uid)
+              .where('placeid', isEqualTo: widget.placeid)
+              .where('placetripid', isEqualTo: widget.tripUid)
+              .where('outtime', isEqualTo: "Wait")
+              .get();
 
-          // Record entry time in Firestore
-          await FirebaseFirestore.instance.collection('timelinestamp').add({
-            'useruid': uid,
-            'placeid': widget.placeid,
-            'placetripid': widget.tripUid,
-            'intime': DateTime.now(),
-            'outtime': null, // Assuming the user hasn't exited yet
-          });
+          if (querySnapshot.docs.isEmpty) {
+            // Create a new entry for the user's entrance
+            await FirebaseFirestore.instance.collection('timelinestamp').add({
+              'useruid': uid,
+              'placeid': widget.placeid,
+              'placetripid': widget.tripUid,
+              'distance': distanceNum,
+              'intime': DateTime.now(),
+              'outtime': "Wait", // Assuming the user hasn't exited yet
+            });
+          }
         } else {
           // User is exiting the location
           print("User exited the location");
 
+          // Update exit time in Firestore
           // Update exit time in Firestore
           QuerySnapshot querySnapshot = await FirebaseFirestore.instance
               .collection('timelinestamp')
@@ -87,7 +97,7 @@ class LocationfetchState extends State<Locationfetch> {
               .where('placeid', isEqualTo: widget.placeid)
               .where('placetripid', isEqualTo: widget.tripUid)
               .where('outtime',
-                  isEqualTo: null) // Fetch only entries without exit time
+                  isEqualTo: "Wait") // Fetch only entries without exit time
               .get();
 
           if (querySnapshot.docs.isNotEmpty) {
@@ -97,6 +107,8 @@ class LocationfetchState extends State<Locationfetch> {
                 .collection('timelinestamp')
                 .doc(docId)
                 .update({'outtime': DateTime.now()});
+          } else {
+            Text("ไม่บันทึกไทมไลน");
           }
         }
       }

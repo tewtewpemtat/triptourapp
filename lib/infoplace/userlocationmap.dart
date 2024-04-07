@@ -31,7 +31,8 @@ class UserLocationMapState extends State<UserLocationMap> {
     super.initState();
     _cameraPosition = _fetchPlaceCoordinates();
     _userLocations = _fetchUserLocations();
-    _fetchUserDetails(); // New method call
+    _fetchUserDetails();
+    // New method call
   }
 
   void _showLoadingToast() {
@@ -40,6 +41,11 @@ class UserLocationMapState extends State<UserLocationMap> {
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _showCompleteToast() {
@@ -70,8 +76,9 @@ class UserLocationMapState extends State<UserLocationMap> {
         }
       }
     }
-
-    setState(() {}); // Update state to trigger marker rebuild
+    if (mounted) {
+      setState(() {});
+    } // Update state to trigger marker rebuild
   }
 
   Future<Uint8List> _loadImage(String imageUrl,

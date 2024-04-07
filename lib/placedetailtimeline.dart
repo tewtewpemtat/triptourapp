@@ -1,205 +1,350 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart'; // Import intl package
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/placetimeline.dart';
 
-class PlaceDetail extends StatelessWidget {
+class TimelinePainter extends CustomPainter {
+  final bool hasEntry;
+  final bool hasExit;
+
+  TimelinePainter({this.hasEntry = false, this.hasExit = false});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey // Adjust the color of the timeline
+      ..strokeWidth = 2; // Adjust the width of the timeline
+
+    final circlePaint = Paint()
+      ..color = Colors.grey // Adjust the color of the circles
+      ..strokeWidth = 6 // Adjust the size of the circles
+      ..style = PaintingStyle.fill;
+
+    // Draw the vertical line
+    canvas.drawLine(
+      Offset(size.width / 2, 0),
+      Offset(size.width / 2, size.height),
+      paint,
+    );
+
+    // Draw circles along the line for entry and exit
+    if (hasEntry) {
+      canvas.drawCircle(
+        Offset(size.width / 2, size.height / 3), // Adjust position for entry
+        6, // Adjust the size of the circles for entry
+        circlePaint,
+      );
+    }
+
+    if (hasExit) {
+      canvas.drawCircle(
+        Offset(
+            size.width / 2, size.height / 4 * 3.2), // Adjust position for exit
+        6, // Adjust the size of the circles for exit
+        circlePaint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class TimelinePainter2 extends CustomPainter {
+  final bool hasEntry;
+  final bool hasExit;
+
+  TimelinePainter2({this.hasEntry = false, this.hasExit = false});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey // Adjust the color of the timeline
+      ..strokeWidth = 2; // Adjust the width of the timeline
+
+    final circlePaint = Paint()
+      ..color = Colors.grey // Adjust the color of the circles
+      ..strokeWidth = 6 // Adjust the size of the circles
+      ..style = PaintingStyle.fill;
+
+    // Draw the vertical line
+    canvas.drawLine(
+      Offset(size.width / 2, 0),
+      Offset(size.width / 2, size.height),
+      paint,
+    );
+
+    // Draw circles along the line for entry and exit
+    if (hasEntry) {
+      canvas.drawCircle(
+        Offset(size.width / 2, size.height / 4), // Adjust position for entry
+        6, // Adjust the size of the circles for entry
+        circlePaint,
+      );
+    }
+
+    if (hasExit) {
+      canvas.drawCircle(
+        Offset(
+            size.width / 2, size.height / 4 * 3.4), // Adjust position for exit
+        6, // Adjust the size of the circles for exit
+        circlePaint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class PlaceTimelineDetail extends StatefulWidget {
+  final String placeId;
+  final String tripUid;
+  final String userUid;
+
+  const PlaceTimelineDetail({
+    Key? key,
+    required this.placeId,
+    required this.tripUid,
+    required this.userUid,
+  }) : super(key: key);
+
+  @override
+  _PlaceTimelineDetailState createState() => _PlaceTimelineDetailState();
+}
+
+class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
+  late Stream<QuerySnapshot> _timelineStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _timelineStream = FirebaseFirestore.instance
+        .collection('timelinestamp')
+        .where('placeid', isEqualTo: widget.placeId)
+        .where('placetripid', isEqualTo: widget.tripUid)
+        .where('useruid', isEqualTo: widget.userUid)
+        .orderBy('intime', descending: false)
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         title: Text(
-          "ไทมไลน์ย่อย",
+          "  ไทมไลน์",
           style: GoogleFonts.ibmPlexSansThai(
-            fontWeight: FontWeight.bold,
+            fontSize: 24,
             color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
         leading: IconButton(
           color: Colors.black,
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Placetimeline()),
+              MaterialPageRoute(
+                builder: (context) => Placetimeline(tripUid: widget.tripUid),
+              ),
             );
           },
+          icon: Icon(Icons.arrow_back),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.all(
-                10,
-              ), // Adjust the values as needed
-              child: Text(
-                'เเสดงเวลา เช็คอิน - เช็คเอาท์',
-                style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            SizedBox(height: 2),
-            Container(
-              margin: EdgeInsets.only(
-                left: 10,
-              ), // Adjust the values as needed
-              child: Text(
-                'แสดงเวลา เช็คอิน-เช็คเอาท์ ของเเต่ละสถานที่ของคุณ',
-                style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 13, color: Colors.grey),
-              ),
-            ),
-            buildTripItem(context),
-            buildTripItem(context),
-            buildTripItem(context),
-          ],
-        ),
-      ),
-    );
-  }
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _timelineStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('ไม่มีไทมไลน์ของสถานที่นี้'));
+          }
 
-  Widget buildTripItem(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(0),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey, // สีของเส้นกรอบ
-          width: 1.0, // ความหนาของเส้นกรอบ
-        ),
-        borderRadius: BorderRadius.circular(10), // มุมโค้งของ Container
-      ),
-      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 5,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                'assets/headplan/headplan_image1.png',
-                width: 100.0,
-                height: 120.0,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SizedBox(width: 13),
-          Expanded(
-            flex: 6,
-            child: Container(
-              margin: EdgeInsets.all(8.0),
-              child: Column(
+          var previousDate; // เก็บวันที่ก่อนหน้าเพื่อใช้เปรียบเทียบ
+
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              var timelineData = snapshot.data!.docs[index];
+              var intime = timelineData['intime'];
+              var outtime = timelineData['outtime'];
+              int distance = timelineData['distance'].toInt();
+
+              var thaiFormatter = DateFormat('d MMMM yyyy', 'th');
+              var thaiDateIn = thaiFormatter.format(intime.toDate());
+              var thaiDateOut = thaiFormatter.format(outtime.toDate());
+              var thaiFormatter2 = DateFormat('HH:mm', 'th');
+              var thaiIntime = thaiFormatter2.format(intime.toDate());
+              var thaiOuttime = thaiFormatter2.format(outtime.toDate());
+
+              var isDateChanged = previousDate != thaiDateIn;
+              bool isSameDay = thaiDateIn == thaiDateOut;
+              previousDate = thaiDateOut;
+
+// กำหนดค่า timelineHeight ตามเงื่อนไข
+
+              return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '1.ร้านจาคอฟฟี',
-                    style: GoogleFonts.ibmPlexSansThai(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Color(0xFF1E30D7), // ความโค้งของมุมกรอบ
-                    ),
-                    padding: EdgeInsets.all(3.0),
-                    child: Text(
-                      'กรุงเทพมหานคร',
-                      style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 10,
-                        color: Colors.white, // สีของข้อความ
-                        // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                  if (isDateChanged) // Display the date if it's a new date
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: Text(
+                        thaiDateIn,
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 3),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Color(0xffdb923c), // ความโค้งของมุมกรอบ
-                        ),
-                        padding: EdgeInsets.all(3.0),
-                        child: Text(
-                          'เช็คอิน',
-                          style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 10,
-                            color: Colors.white, // สีของข้อความ
-                            // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                  isSameDay
+                      ? CustomPaint(
+                          size: Size(100, 200), // Adjust the size as needed
+                          painter: TimelinePainter(
+                            hasEntry:
+                                true, // Set to true to display entry circle
+                            hasExit: true, // Set to true to display exit circle
+                          ), // Custom painter for drawing the timeline
+                          child: Column(
+                            children: [
+                              ListTile(
+                                subtitle: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'เข้า:  $thaiIntime',
+                                        style: GoogleFonts.ibmPlexSansThai(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'ระยะ: $distance',
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              ListTile(
+                                subtitle: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'ออก: $thaiOuttime',
+                                        style: GoogleFonts.ibmPlexSansThai(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'ระยะ: $distance',
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : CustomPaint(
+                          size: Size(100, 200), // Adjust the size as needed
+                          painter: TimelinePainter2(
+                            hasEntry:
+                                true, // Set to true to display entry circle
+                            hasExit: true, // Set to true to display exit circle
+                          ), // Custom painter for drawing the timeline
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListTile(
+                                subtitle: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'เข้า:  $thaiIntime',
+                                        style: GoogleFonts.ibmPlexSansThai(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'ระยะ: $distance',
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 16.0),
+                                    child: Text(
+                                      thaiDateOut,
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    subtitle: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'ออก: $thaiOuttime',
+                                            style: GoogleFonts.ibmPlexSansThai(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          'ระยะ: $distance',
+                                          style: GoogleFonts.ibmPlexSansThai(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(3.0),
-                        child: Text(
-                          ': 13:21  ',
-                          style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold // สีของข้อความ
-                              // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 3),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Color(0xffc21111), // ความโค้งของมุมกรอบ
-                        ),
-                        padding: EdgeInsets.all(3.0),
-                        child: Text(
-                          'เช็คเอาท์',
-                          style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 10,
-                            color: Colors.white, // สีของข้อความ
-                            // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(3.0),
-                        child: Text(
-                          ': 13:21  ',
-                          style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold // สีของข้อความ
-                              // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
-              ),
-            ),
-          ),
-        ],
+              );
+            },
+          );
+        },
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: PlaceDetail(),
-  ));
 }
