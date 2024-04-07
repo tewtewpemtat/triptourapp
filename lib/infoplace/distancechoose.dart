@@ -121,8 +121,29 @@ class DistancePageState extends State<DistancePage> {
   }
 
   void deleteFromTimeline() {
+    deleteFromTimelineStamp();
     FirebaseFirestore.instance
         .collection('timeline')
+        .where('placeid', isEqualTo: widget.placeid)
+        .where('placetripid', isEqualTo: widget.tripUid)
+        .where('useruid', isEqualTo: uid)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        doc.reference.delete().then((value) {
+          print("Document deleted successfully");
+        }).catchError((error) {
+          print("Failed to delete document: $error");
+        });
+      });
+    }).catchError((error) {
+      print("Error getting documents: $error");
+    });
+  }
+
+  void deleteFromTimelineStamp() {
+    FirebaseFirestore.instance
+        .collection('timelinestamp')
         .where('placeid', isEqualTo: widget.placeid)
         .where('placetripid', isEqualTo: widget.tripUid)
         .where('useruid', isEqualTo: uid)

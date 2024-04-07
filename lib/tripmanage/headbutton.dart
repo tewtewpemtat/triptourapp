@@ -117,6 +117,18 @@ void cancelTrip(BuildContext context, String tripUid) async {
           .doc(document.id)
           .delete();
     });
+    QuerySnapshot querySnapshot8 = await FirebaseFirestore.instance
+        .collection('timelinestamp')
+        .where('placetripid', isEqualTo: tripUid)
+        .where('useruid', isEqualTo: uid)
+        .get();
+
+    querySnapshot8.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('timelinestamp')
+          .doc(document.id)
+          .delete();
+    });
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('places')
         .where('placetripid', isEqualTo: tripUid)

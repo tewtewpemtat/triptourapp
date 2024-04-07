@@ -130,7 +130,18 @@ class UserbuttonState extends State<Userbutton> {
               .doc(document.id)
               .delete();
         });
+        QuerySnapshot querySnapshot6 = await FirebaseFirestore.instance
+            .collection('timelinestamp')
+            .where('placetripid', isEqualTo: widget.tripUid)
+            .where('useruid', isEqualTo: uid)
+            .get();
 
+        querySnapshot6.docs.forEach((document) async {
+          await FirebaseFirestore.instance
+              .collection('timelinestamp')
+              .doc(document.id)
+              .delete();
+        });
         Fluttertoast.showToast(msg: 'ออกจากทริปเรียบร้อยเเล้ว');
       } catch (e) {
         print('Error: $e'); // แสดง error message ใน console
