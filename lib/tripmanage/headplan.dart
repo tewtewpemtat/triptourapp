@@ -183,11 +183,12 @@ class _HeadPlanPageState extends State<HeadPlan> {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-
-      setState(() {
-        userLatitude = position.latitude;
-        userLongitude = position.longitude;
-      });
+      if (mounted) {
+        setState(() {
+          userLatitude = position.latitude;
+          userLongitude = position.longitude;
+        });
+      }
     } catch (e) {
       print("Error getting user location: $e");
     }

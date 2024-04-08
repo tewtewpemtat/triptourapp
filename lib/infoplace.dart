@@ -92,11 +92,12 @@ class InfoPlacePageState extends State<InfoPlacePage> {
         });
       }
 
-      // Update the user's latitude and longitude in the local state
-      setState(() {
-        userLatitude = position.latitude;
-        userLongitude = position.longitude;
-      });
+      if (mounted) {
+        setState(() {
+          userLatitude = position.latitude;
+          userLongitude = position.longitude;
+        });
+      }
     } catch (e) {
       print("Error getting user location: $e");
     }

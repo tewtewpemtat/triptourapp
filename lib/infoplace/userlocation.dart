@@ -75,10 +75,12 @@ class UserLocationState extends State<UserLocationShow> {
 
       if (locationSnapshot.exists) {
         // Retrieve latitude and longitude from the document snapshot
-        setState(() {
-          friendLatitude = locationSnapshot['userLatitude'];
-          friendLongitude = locationSnapshot['userLongitude'];
-        });
+        if (mounted) {
+          setState(() {
+            friendLatitude = locationSnapshot['userLatitude'];
+            friendLongitude = locationSnapshot['userLongitude'];
+          });
+        }
       } else {
         print('Friend location does not exist');
       }
