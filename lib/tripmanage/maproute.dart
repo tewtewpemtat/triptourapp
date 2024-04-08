@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'dart:typed_data'; // Add this import statement
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MapScreen extends StatefulWidget {
   double userLatitude;
@@ -29,7 +30,7 @@ class _MapScreenState extends State<MapScreen> {
   late List<LatLng> routeCoords = [];
   Timer? timer;
   late Uint8List markerIconBytes = Uint8List(0);
-
+  bool isCameraLocked = true;
   @override
   void initState() {
     super.initState();
@@ -133,15 +134,15 @@ class _MapScreenState extends State<MapScreen> {
         widget.userLongitude = position.longitude;
       });
     }
-
-    mapController?.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(widget.userLatitude, widget.userLongitude),
-          zoom: 18,
+    if (isCameraLocked)
+      mapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(widget.userLatitude, widget.userLongitude),
+            zoom: 18,
+          ),
         ),
-      ),
-    );
+      );
   }
 
   Future<void> _getMarkerIcon() async {
@@ -183,6 +184,22 @@ class _MapScreenState extends State<MapScreen> {
         centerTitle: true,
         backgroundColor: Colors.grey[200],
         automaticallyImplyLeading: true,
+        actions: [
+          IconButton(
+            icon: isCameraLocked ? Icon(Icons.lock) : Icon(Icons.lock_open),
+            onPressed: () {
+              // Add logic to toggle camera lock/unlock
+              // For example:
+              setState(() {
+                // Toggle camera lock state
+                isCameraLocked = !isCameraLocked;
+              });
+              isCameraLocked
+                  ? Fluttertoast.showToast(msg: 'ล็อคมุมกล้อง')
+                  : Fluttertoast.showToast(msg: 'ปลดล็อคมุมกล้อง');
+            },
+          ),
+        ],
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(

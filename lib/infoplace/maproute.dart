@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:triptourapp/infoplace.dart'; // Add this import statement
 
 class MapScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _MapScreenState extends State<MapScreen> {
   late List<LatLng> routeCoords = [];
   Timer? timer;
   late Uint8List markerIconBytes = Uint8List(0);
-
+  bool isCameraLocked = true;
   @override
   void initState() {
     super.initState();
@@ -138,15 +138,15 @@ class _MapScreenState extends State<MapScreen> {
         widget.userLongitude = position.longitude;
       });
     }
-
-    mapController?.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(widget.userLatitude, widget.userLongitude),
-          zoom: 17,
+    if (isCameraLocked)
+      mapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(widget.userLatitude, widget.userLongitude),
+            zoom: 17,
+          ),
         ),
-      ),
-    );
+      );
   }
 
   Future<void> _getMarkerIcon() async {
@@ -188,13 +188,31 @@ class _MapScreenState extends State<MapScreen> {
         centerTitle: true,
         backgroundColor: Colors.grey[200],
         automaticallyImplyLeading: true,
+        actions: [
+          IconButton(
+            icon: isCameraLocked ? Icon(Icons.lock) : Icon(Icons.lock_open),
+            onPressed: () {
+              // Add logic to toggle camera lock/unlock
+              // For example:
+              setState(() {
+                // Toggle camera lock state
+                isCameraLocked = !isCameraLocked;
+              });
+              isCameraLocked
+                  ? Fluttertoast.showToast(msg: 'ล็อคมุมกล้อง')
+                  : Fluttertoast.showToast(msg: 'ปลดล็อคมุมกล้อง');
+            },
+          ),
+        ],
         leading: IconButton(
           onPressed: () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => InfoPlacePage(
-                      placeid: widget.placeid, tripUid: widget.placeid)),
+                        tripUid: widget.tripUid,
+                        placeid: widget.placeid,
+                      )),
             );
           },
           icon: Icon(Icons.arrow_back),
