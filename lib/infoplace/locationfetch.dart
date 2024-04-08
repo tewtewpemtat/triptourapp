@@ -28,8 +28,10 @@ class LocationfetchState extends State<Locationfetch> {
   @override
   void initState() {
     super.initState();
-    timer =
-        Timer.periodic(Duration(seconds: 5), (Timer t) => getUserLocation());
+    if (mounted) {
+      timer =
+          Timer.periodic(Duration(seconds: 5), (Timer t) => getUserLocation());
+    }
     getPlaceLocation();
   }
 
@@ -37,6 +39,10 @@ class LocationfetchState extends State<Locationfetch> {
   void dispose() {
     timer.cancel();
     super.dispose();
+  }
+
+  void stopTimer() {
+    timer.cancel();
   }
 
   void getUserLocation() async {
@@ -112,6 +118,7 @@ class LocationfetchState extends State<Locationfetch> {
           }
         }
       }
+      print("User exited the location");
     } catch (error) {
       print("Error getting user location: $error");
     }
@@ -128,7 +135,6 @@ class LocationfetchState extends State<Locationfetch> {
         double latitude = userLocationSnapshot['placeLatitude'];
         double longitude = userLocationSnapshot['placeLongitude'];
 
-        // Update userLatitude and userLongitude
         setState(() {
           placeLatitude = latitude;
           placeLongitude = longitude;

@@ -687,6 +687,8 @@ class _ChatScreenState extends State<ChatScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(
+          tripUid: widget.tripUid,
+          placeid: widget.placeid,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
           placeLatitude: placeLatitude, // ประกาศพารามิเตอร์ placelatitude

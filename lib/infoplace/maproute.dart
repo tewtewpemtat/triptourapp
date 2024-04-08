@@ -52,7 +52,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void dispose() {
-    timer?.cancel(); // Cancel the timer when the widget is disposed
+    timer?.cancel();
     super.dispose();
   }
 
@@ -206,6 +206,8 @@ class _MapScreenState extends State<MapScreen> {
         ],
         leading: IconButton(
           onPressed: () {
+            timer?.cancel();
+
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(

@@ -120,10 +120,12 @@ class _HeadPlanPageState extends State<HeadPlan> {
     double placelatitude = placestart.latitude;
     double placelongitude = placestart.longitude;
 
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(
+          tripUid: widget.tripUid,
+          placeid: place.id,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
           placeLatitude: placelatitude, // ประกาศพารามิเตอร์ placelatitude

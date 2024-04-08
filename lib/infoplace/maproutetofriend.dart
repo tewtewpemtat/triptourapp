@@ -55,7 +55,7 @@ class _MapScreenFriendState extends State<MapScreenFriend> {
 
   @override
   void dispose() {
-    timer?.cancel(); // Cancel the timer when the widget is disposed
+    // Cancel the timer when the widget is disposed
     super.dispose();
   }
 
@@ -209,15 +209,12 @@ class _MapScreenFriendState extends State<MapScreenFriend> {
         ],
         leading: IconButton(
           onPressed: () {
+            timer?.cancel();
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => UserLocationShow(
-                      userLatitude: widget.userLatitude,
-                      userLongitude: widget.userLongitude,
-                      friendId: widget.friendId,
-                      tripUid: widget.tripUid,
-                      placeid: widget.placeid)),
+                  builder: (context) => InfoPlacePage(
+                      tripUid: widget.tripUid, placeid: widget.placeid)),
             );
           },
           icon: Icon(Icons.arrow_back),

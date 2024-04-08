@@ -150,7 +150,7 @@ class _TripHistoryState extends State<TripHistory> {
       return Material(
         child: InkWell(
           onTap: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => TripmanagePage(tripUid: tripUid)),

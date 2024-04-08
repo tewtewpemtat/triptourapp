@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:triptourapp/infoplace/interestmap.dart';
-import 'package:triptourapp/infoplace/thingmap.dart';
+import 'package:triptourapp/infoplace/interestmapthing.dart';
 import 'package:triptourapp/infoplace/userlocationmap.dart';
 import 'dart:async';
 import '../infoplace.dart';
@@ -295,9 +295,10 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                               height: 300,
                               color: Colors.grey,
                               child: Center(
-                                  child: thingMap(
-                                      tripUid: widget.tripUid,
-                                      placeid: widget.placeid)),
+                                  child: InterestMap2(
+                                tripUid: widget.tripUid,
+                                placeid: widget.placeid,
+                              )),
                             ),
                             Positioned(
                               top: 10,

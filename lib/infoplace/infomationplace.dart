@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:triptourapp/tripmanage/maproute.dart';
+import 'package:triptourapp/infoplace/maproute.dart';
 import 'package:triptourapp/addplace/mapselectown.dart';
 import 'package:geolocator/geolocator.dart';
 import '../infoplace.dart';
@@ -72,10 +72,12 @@ class InformationPlanState extends State<InformationPlan> {
   }
 
   void rounttomap(double placeLatitude, double placeLongitude, context) async {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(
+          tripUid: widget.tripUid,
+          placeid: widget.placeid,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
           placeLatitude: placeLatitude, // ประกาศพารามิเตอร์ placelatitude

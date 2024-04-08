@@ -410,7 +410,7 @@ class InterestState extends State<InterestMap> {
   }
 
   void rounttomap(double placeLatitude, double placeLongitude, context) async {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(

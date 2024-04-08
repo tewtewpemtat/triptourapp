@@ -7,14 +7,19 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'dart:typed_data'; // Add this import statement
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:triptourapp/tripmanage.dart';
 
 class MapScreen extends StatefulWidget {
+  final String? tripUid;
+  final String? placeid;
   double userLatitude;
   double userLongitude;
   final double placeLatitude;
   final double placeLongitude;
 
   MapScreen({
+    required this.tripUid,
+    required this.placeid,
     required this.userLatitude,
     required this.userLongitude,
     required this.placeLatitude,
@@ -200,6 +205,19 @@ class _MapScreenState extends State<MapScreen> {
             },
           ),
         ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TripmanagePage(
+                        tripUid: widget.tripUid,
+                      )),
+            );
+          },
+          icon: Icon(Icons.arrow_back),
+          color: Colors.black,
+        ),
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(

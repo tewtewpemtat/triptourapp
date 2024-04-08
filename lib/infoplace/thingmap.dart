@@ -11,7 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class PlaceMeet {
+class PlaceMeet2 {
   final String docId;
   final double placeLatitude;
   final double placeLongitude;
@@ -19,7 +19,7 @@ class PlaceMeet {
   final String placePicUrl;
   final String userUid;
 
-  PlaceMeet({
+  PlaceMeet2({
     required this.docId,
     required this.placeLatitude,
     required this.placeLongitude,
@@ -47,7 +47,7 @@ Future<String> _fetchNickname(String userUid) async {
 
 class thingMapState extends State<thingMap> {
   late String uid = FirebaseAuth.instance.currentUser!.uid;
-  late Future<List<PlaceMeet>> _placeMeetData;
+  late Future<List<PlaceMeet2>> _placeMeetData;
   Map<String, BitmapDescriptor> _placeIcons = {};
   double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
   double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
@@ -65,9 +65,9 @@ class thingMapState extends State<thingMap> {
     super.dispose();
   }
 
-  Future<List<PlaceMeet>> _fetchPlaceMeetData() async {
+  Future<List<PlaceMeet2>> _fetchPlaceMeetData() async {
     _showLoadingToast();
-    List<PlaceMeet> placeMeetList = [];
+    List<PlaceMeet2> placeMeetList = [];
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('interest')
@@ -75,7 +75,7 @@ class thingMapState extends State<thingMap> {
         .get();
 
     querySnapshot.docs.forEach((doc) {
-      placeMeetList.add(PlaceMeet(
+      placeMeetList.add(PlaceMeet2(
         docId: doc.id,
         placeLatitude: doc['placeLatitude'],
         placeLongitude: doc['placeLongitude'],
@@ -120,7 +120,7 @@ class thingMapState extends State<thingMap> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
-          List<PlaceMeet> placeMeetList = snapshot.data![0];
+          List<PlaceMeet2> placeMeetList = snapshot.data![0];
           DocumentSnapshot placeData = snapshot.data![1];
           return FutureBuilder<Set<Marker>>(
             future: _buildMarkers(placeMeetList),
@@ -203,7 +203,7 @@ class thingMapState extends State<thingMap> {
     }
   }
 
-  Future<Set<Marker>> _buildMarkers(List<PlaceMeet> placeMeetList) async {
+  Future<Set<Marker>> _buildMarkers(List<PlaceMeet2> placeMeetList) async {
     Set<Marker> markers = {};
 
     for (var placeMeet in placeMeetList) {
@@ -394,7 +394,7 @@ class thingMapState extends State<thingMap> {
   }
 
   void rounttomap(double placeLatitude, double placeLongitude, context) async {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(

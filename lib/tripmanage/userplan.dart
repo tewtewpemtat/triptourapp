@@ -117,10 +117,12 @@ class _UserPlanState extends State<UserPlan> {
     double placelatitude = placestart.latitude;
     double placelongitude = placestart.longitude;
 
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => MapScreen(
+          tripUid: widget.tripUid,
+          placeid: place.id,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
           placeLatitude: placelatitude, // ประกาศพารามิเตอร์ placelatitude
@@ -275,7 +277,7 @@ class _UserPlanState extends State<UserPlan> {
           if (placeData['placerun'] == 'Running') {
             if (placeData['placewhogo'].contains(uid)) {
               print(place.id);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => InfoPlacePage(
