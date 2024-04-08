@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:triptourapp/friend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:triptourapp/infoplace.dart';
-import 'package:triptourapp/saveinterest/directions.dart';
 import 'package:triptourapp/saveinterest/interest.dart';
 import 'package:triptourapp/saveinterest/meetplace.dart';
-import 'package:triptourapp/tripmanage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/tripmanage/maproute.dart';
+import 'dart:math';
+import 'dart:async';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GroupScreenPage extends StatelessWidget {
   final String tripUid;
@@ -801,6 +802,214 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  String generateRandomNumber() {
+    Random random = Random();
+    int randomNumber = random.nextInt(999999999 - 100000000) + 100000000;
+    return randomNumber.toString();
+  }
+
+  Future<void> _pickImage(String uid) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      Map<String, dynamic>? userData = await getUserData(uid);
+      if (userData != null) {
+        String? nickname = userData['nickname'];
+        String? profileImageUrl = userData['profileImageUrl'];
+        _showSendDialog(
+            pickedFile.path, nickname ?? '', profileImageUrl ?? '', 'รูปภาพ');
+      } else {
+        // Handle case where user data is not available
+      }
+    }
+  }
+
+  Future<void> _pickCamera(String uid) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      Map<String, dynamic>? userData = await getUserData(uid);
+      if (userData != null) {
+        String? nickname = userData['nickname'];
+        String? profileImageUrl = userData['profileImageUrl'];
+        _showSendDialog(
+            pickedFile.path, nickname ?? '', profileImageUrl ?? '', 'กล้อง');
+      } else {
+        // Handle case where user data is not available
+      }
+    }
+  }
+
+  Future<Size> getImageSize(String imageUrl) async {
+    Completer<Size> completer = Completer();
+    Image image = Image.network(
+      imageUrl,
+      width: 300, // Limit width to 300 for faster image loading
+      height: 500,
+    );
+    image.image.resolve(ImageConfiguration()).addListener(
+      ImageStreamListener((ImageInfo info, bool _) {
+        completer.complete(Size(
+          info.image.width.toDouble(),
+          info.image.height.toDouble(),
+        ));
+      }),
+    );
+    return completer.future;
+  }
+
+  Future<void> showPic(String img) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.pop(
+                context); // Navigate back when tapped outside the dialog
+          },
+          child: AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  FutureBuilder<Size>(
+                    future: getImageSize(img),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Failed to load image');
+                      }
+                      final Size imageSize = snapshot.data!;
+                      double width = imageSize.width;
+                      double height = imageSize.height;
+
+                      // Limit width and height to 300
+                      if (width > 300 || height > 500) {
+                        double ratio = width / height;
+                        if (ratio > 1) {
+                          width = 300;
+                          height = width / ratio;
+                        } else {
+                          height = 500;
+                          width = height * ratio;
+                        }
+                      }
+
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          img,
+                          width: width,
+                          height: height,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Text('Failed to load image');
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showSendDialog(String img, String nickname,
+      String profileImageUrl, String option) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Image.file(File(img)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('ส่ง'),
+              onPressed: () {
+                _uploadImage(img, nickname, profileImageUrl, option);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('ยกเลิก'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _uploadImage(String img, String nickname, String profileImageUrl,
+      String option) async {
+    try {
+      String message = 'uploadpic';
+      final randomImg =
+          generateRandomNumber(); // Generate a random 9-digit number
+      String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+      // กำหนด path ใน Firebase Storage
+      String storagePath = 'message/$uid/$randomImg.jpg';
+
+      // สร้าง Reference สำหรับอ้างถึง storagePath
+      Reference storageReference = FirebaseStorage.instance.ref(storagePath);
+
+      File imgsave = File(img);
+      if (imgsave != null) {
+        // อัปโหลดไฟล์รูปภาพ
+        await storageReference.putFile(imgsave!);
+
+        // ดึง URL ของรูปภาพที่อัปโหลด
+        final String imageUrl = await storageReference.getDownloadURL();
+
+        // ทำอะไรกับ imageUrl ต่อไป
+        if (option == "กล้อง") {
+          message = 'ahGOke969S8G9hjjAODKsowW@@${imageUrl}';
+        }
+        if (option == "รูปภาพ") {
+          message = 'W5s9we6W8CF895w9f4sjyfr@@${imageUrl}';
+        }
+
+        // Update the user document with the image URL
+        final MessageCollection =
+            FirebaseFirestore.instance.collection('groupmessages');
+        await MessageCollection.add({
+          'message': message,
+          'nickname': nickname,
+          'profileImageUrl': profileImageUrl,
+          'senderUid': uid,
+          'timestampserver': FieldValue
+              .serverTimestamp(), // Assuming you have a timestamp field
+          'tripChatUid': widget.tripUid
+        });
+        fetchMessages();
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -835,12 +1044,20 @@ class _ChatScreenState extends State<ChatScreen> {
                           : ''; // แปลง DateTime เป็นรูปแบบของเวลาที่ต้องการ
                       final userData =
                           isCurrentUser ? yourUserData : friendUserData;
+                      var urlpic = '';
                       final nickname = message['nickname'] ?? '';
                       final profileImageUrl = message['profileImageUrl'] ?? '';
                       bool isSpecialMessage =
                           messageText.contains("3w9dc126vc68a5a6xlTHFs");
                       bool isSpecialMessage2 =
                           messageText.contains("28sd829gDw8d6a8w4d8a6");
+                      bool isSpecialMessage3 =
+                          messageText.contains("W5s9we6W8CF895w9f4sjyfr");
+                      bool isSpecialMessage4 =
+                          messageText.contains("ahGOke969S8G9hjjAODKsowW");
+                      if (isSpecialMessage3 || isSpecialMessage4) {
+                        urlpic = messageText.split('@@')[1];
+                      }
                       return ListTile(
                         title: Container(
                           margin: EdgeInsets.symmetric(
@@ -884,7 +1101,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                   GestureDetector(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding:
+                                          isSpecialMessage3 || isSpecialMessage4
+                                              ? EdgeInsets.all(0.0)
+                                              : EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
                                         color: (isSpecialMessage ||
                                                 isSpecialMessage2)
@@ -960,11 +1180,48 @@ class _ChatScreenState extends State<ChatScreen> {
                                                     ),
                                                   )
                                                 ])
-                                              : Text(
-                                                  messageText,
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
+                                              : isSpecialMessage3 ||
+                                                      isSpecialMessage4
+                                                  ? Container(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          showPic(urlpic);
+                                                        },
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          child: Image.network(
+                                                            urlpic,
+                                                            width: 200,
+                                                            height: 300,
+                                                            fit: BoxFit.cover,
+                                                            loadingBuilder:
+                                                                (context, child,
+                                                                    loadingProgress) {
+                                                              if (loadingProgress ==
+                                                                  null)
+                                                                return child;
+                                                              return Center(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                              );
+                                                            },
+                                                            errorBuilder:
+                                                                (context, error,
+                                                                    stackTrace) {
+                                                              return Text(
+                                                                  'Failed to load image');
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      messageText,
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
                                     ),
                                   ),
                                   SizedBox(
@@ -1017,9 +1274,8 @@ class _ChatScreenState extends State<ChatScreen> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  // Handle camera icon tap
                                   Navigator.pop(context);
-                                  // Add your camera logic here
+                                  _pickCamera(myUid ?? '');
                                 },
                                 child: Column(
                                   children: [
@@ -1034,9 +1290,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  // Handle camera icon tap
                                   Navigator.pop(context);
-                                  // Add your camera logic here
+                                  _pickImage(myUid ?? '');
                                 },
                                 child: Column(
                                   children: [
