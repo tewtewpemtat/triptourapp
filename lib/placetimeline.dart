@@ -172,7 +172,7 @@ class _PlacetimelineState extends State<Placetimeline> {
                   ),
                 ),
               ),
-              SizedBox(width: 13),
+              SizedBox(width: 3),
               Expanded(
                 flex: 6,
                 child: SingleChildScrollView(

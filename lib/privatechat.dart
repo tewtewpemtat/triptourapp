@@ -952,16 +952,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Expanded(
-                      child: TextField(
-                        controller: _messageController,
-                        decoration: InputDecoration(
-                          hintText: 'พิมข้อความ',
-                          border: InputBorder.none, // Remove the border
-                        ),
-                        maxLines: null, // Allow multiline input
-                        textInputAction: TextInputAction.newline,
+                    child: TextField(
+                      controller: _messageController,
+                      decoration: InputDecoration(
+                        hintText: 'พิมข้อความ',
+                        border: InputBorder.none, // Remove the border
                       ),
+                      maxLines: null, // Allow multiline input
+                      textInputAction: TextInputAction.newline,
                     ),
                   ),
                 ),

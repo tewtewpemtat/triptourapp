@@ -171,6 +171,30 @@ void cancelTrip(BuildContext context, String tripUid) async {
   }
 }
 
+void checkAndUpdatePlaces(String tripUid) async {
+  var placesSnapshot = await FirebaseFirestore.instance
+      .collection('places')
+      .where('placetripid', isEqualTo: tripUid)
+      .where('placeadd', isEqualTo: 'Yes')
+      .get();
+
+  placesSnapshot.docs.forEach((place) {
+    var placeData = place.data();
+    bool isPlaceEnd =
+        DateTime.now().isAfter(placeData['placetimeend'].toDate());
+    bool isPlaceLength =
+        DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
+            DateTime.now().isBefore(placeData['placetimeend'].toDate());
+
+    if (isPlaceLength) {
+      place.reference.update({'placerun': 'Running'});
+    }
+    if (isPlaceEnd) {
+      place.reference.update({'placerun': 'End'});
+    }
+  });
+}
+
 String? uid = FirebaseAuth.instance.currentUser?.uid;
 
 class _HeadButtonState extends State<HeadButton> {
@@ -211,12 +235,7 @@ class _HeadButtonState extends State<HeadButton> {
                   .collection('trips')
                   .doc(widget.tripUid)
                   .update({'tripStatus': 'สิ้นสุด'});
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TripTimeLine(),
-                ),
-              );
+
               print('Trip status updated successfully');
             } else {
               print('Trip has not started yet');
@@ -256,7 +275,7 @@ class _HeadButtonState extends State<HeadButton> {
                               size: 28,
                             ),
                             onPressed: () {
-                              // Your code to handle the tap event
+                              checkAndUpdatePlaces(widget.tripUid ?? '');
                               setState(() {});
                             },
                           ),
@@ -357,7 +376,7 @@ class _HeadButtonState extends State<HeadButton> {
                               size: 28,
                             ),
                             onPressed: () {
-                              // Your code to handle the tap event
+                              checkAndUpdatePlaces(widget.tripUid ?? '');
                               setState(() {});
                             },
                           ),

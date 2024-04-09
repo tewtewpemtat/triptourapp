@@ -66,6 +66,18 @@ class _UserPlanState extends State<UserPlan> {
           return Column(
             children: places.map((place) {
               final placeData = place.data() as Map<String, dynamic>;
+              isPlaceEnd = DateTime.now()
+                      .isAfter(placeData['placetimestart'].toDate()) &&
+                  DateTime.now().isAfter(placeData['placetimeend'].toDate());
+              isPlaceLength = DateTime.now()
+                      .isAfter(placeData['placetimestart'].toDate()) &&
+                  DateTime.now().isBefore(placeData['placetimeend'].toDate());
+              if (isPlaceLength) {
+                place.reference.update({'placerun': 'Running'});
+              }
+              if (isPlaceEnd) {
+                place.reference.update({'placerun': 'End'});
+              }
               return buildPlaceItem(context, placeData, place);
             }).toList(),
           );
@@ -238,12 +250,7 @@ class _UserPlanState extends State<UserPlan> {
     isPlaceLength =
         DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
             DateTime.now().isBefore(placeData['placetimeend'].toDate());
-    if (isPlaceLength) {
-      place.reference.update({'placerun': 'Running'});
-    }
-    if (isPlaceEnd) {
-      place.reference.update({'placerun': 'End'});
-    }
+
     bool isUserGoing;
     isUserGoing = (placeData['placewhogo'] as List).contains(uid);
     String displayedName = placeName.length > maxCharsFirstLine
@@ -320,7 +327,7 @@ class _UserPlanState extends State<UserPlan> {
                   ),
                 ),
               ),
-              SizedBox(width: 13),
+              SizedBox(width: 3),
               Expanded(
                 flex: 6,
                 child: SingleChildScrollView(

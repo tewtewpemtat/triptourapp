@@ -121,7 +121,9 @@ class _InterestPageState extends State<InterestPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('กำหนดสถานที่'),
+        title: Text('\tกำหนดสถานที่',
+            style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 24, fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false, // ไม่แสดงปุ่ม Back อัตโนมัติ
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

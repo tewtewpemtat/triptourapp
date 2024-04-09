@@ -193,7 +193,7 @@ class InformationPlanState extends State<InformationPlan> {
                   ),
                 ),
               ),
-              SizedBox(width: 13),
+              SizedBox(width: 3),
               Expanded(
                 flex: 6,
                 child: SingleChildScrollView(

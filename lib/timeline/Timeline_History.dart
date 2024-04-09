@@ -199,7 +199,7 @@ class _TripTimelineState extends State<TripTimelinePage> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 13),
+                    SizedBox(width: 6),
                     Expanded(
                       flex: 6,
                       child: SingleChildScrollView(

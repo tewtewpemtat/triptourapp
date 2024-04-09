@@ -74,6 +74,18 @@ class _HeadPlanPageState extends State<HeadPlan> {
           return Column(
             children: places.map((place) {
               final placeData = place.data() as Map<String, dynamic>;
+              isPlaceEnd = DateTime.now()
+                      .isAfter(placeData['placetimestart'].toDate()) &&
+                  DateTime.now().isAfter(placeData['placetimeend'].toDate());
+              isPlaceLength = DateTime.now()
+                      .isAfter(placeData['placetimestart'].toDate()) &&
+                  DateTime.now().isBefore(placeData['placetimeend'].toDate());
+              if (isPlaceLength) {
+                place.reference.update({'placerun': 'Running'});
+              }
+              if (isPlaceEnd) {
+                place.reference.update({'placerun': 'End'});
+              }
               return buildPlaceItem(context, placeData, place);
             }).toList(),
           );
@@ -230,12 +242,6 @@ class _HeadPlanPageState extends State<HeadPlan> {
     isPlaceLength =
         DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
             DateTime.now().isBefore(placeData['placetimeend'].toDate());
-    if (isPlaceLength) {
-      place.reference.update({'placerun': 'Running'});
-    }
-    if (isPlaceEnd) {
-      place.reference.update({'placerun': 'End'});
-    }
 
     // Update the placerun field in Firestore based on the time condition
 
@@ -308,7 +314,7 @@ class _HeadPlanPageState extends State<HeadPlan> {
                   ),
                 ),
               ),
-              SizedBox(width: 13),
+              SizedBox(width: 3),
               Expanded(
                 flex: 6,
                 child: SingleChildScrollView(

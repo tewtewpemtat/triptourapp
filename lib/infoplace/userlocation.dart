@@ -172,7 +172,7 @@ class UserLocationState extends State<UserLocationShow> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('\t\t\t\t\t\t\t\t\t\t\t\t\tตำแหน่งเพื่อน'),
+        title: Text('\t\t\t\t\t\t\t\t\t\t\tตำแหน่งเพื่อน'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: Colors.black,

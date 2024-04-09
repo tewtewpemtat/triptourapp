@@ -122,10 +122,9 @@ class _MeetplacePageState extends State<MeetplacePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Center(
-            child: Text('กำหนดสถานที่',
-                style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 24, fontWeight: FontWeight.bold))),
+        title: Text('\tกำหนดสถานที่',
+            style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 24, fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false, // ไม่แสดงปุ่ม Back อัตโนมัติ
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

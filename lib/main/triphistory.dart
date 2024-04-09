@@ -216,7 +216,7 @@ class _TripHistoryState extends State<TripHistory> {
                     ),
                   ),
                 ),
-                SizedBox(width: 13),
+                SizedBox(width: 5),
                 Expanded(
                   flex: 6,
                   child: SingleChildScrollView(

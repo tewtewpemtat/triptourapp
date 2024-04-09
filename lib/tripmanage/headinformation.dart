@@ -95,7 +95,7 @@ class InformationPage extends StatelessWidget {
 
           return Container(
             margin: EdgeInsets.all(0.0),
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(0.0),
@@ -147,17 +147,17 @@ class InformationPage extends StatelessWidget {
                     Text(
                       'จำนวนผู้ร่วมทริป: ${getTotalParticipants(tripData)} คน ',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 16,
+                        fontSize: 15,
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     Image.asset(statusImage,
-                        width: 14, height: 14), // ใช้รูปภาพตามสถานะ
+                        width: 13, height: 13), // ใช้รูปภาพตามสถานะ
                     Text(
                       '\t สถานะ: ${tripData['tripStatus']}',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 16,
+                        fontSize: 15,
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                       ),
@@ -167,7 +167,7 @@ class InformationPage extends StatelessWidget {
                 Text(
                   'เริ่มต้น $thaiStartDate',
                   style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                   ),
@@ -175,7 +175,7 @@ class InformationPage extends StatelessWidget {
                 Text(
                   'สิ้นสุด  $thaiEndDate',
                   style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                   ),
@@ -209,7 +209,7 @@ class InformationPage extends StatelessWidget {
                         return Text(
                           'ผู้จัดทริป: ${userData['nickname']} \t\t\t',
                           style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 16,
+                            fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                           ),
@@ -219,7 +219,7 @@ class InformationPage extends StatelessWidget {
                     Text(
                       '\t\t ผู้ร่วมทริปสูงสุด : ${tripData['tripLimit']}',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 16,
+                        fontSize: 15,
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                       ),
