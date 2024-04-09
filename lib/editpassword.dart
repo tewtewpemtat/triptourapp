@@ -129,8 +129,8 @@ class _EditUser extends State<EditUser> {
       try {
         // Update password
         await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+        await FirebaseAuth.instance.currentUser!.reload();
 
-        // Password updated successfully
         Navigator.of(context).pop();
         showDialog(
           context: context,
@@ -142,7 +142,8 @@ class _EditUser extends State<EditUser> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Navigator.push(
+
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MyApp(),

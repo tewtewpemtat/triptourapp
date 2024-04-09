@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
+import 'package:triptourapp/main.dart';
 import 'package:triptourapp/editpassword.dart';
 import '../authen/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:firebase_core/firebase_core.dart';

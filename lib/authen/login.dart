@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:triptourapp/EditProfile.dart';
-import 'package:triptourapp/SetProfile.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:triptourapp/SetProfile.dart';
 import './firebase_auth_implementation/firebase_auth_services.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../main.dart';
 import 'forget.dart';
@@ -19,7 +17,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuthService auth = FirebaseAuthService();
 
-  bool _isSigningUp = false;
+  bool _isSigningIn =
+      false; // เปลี่ยนชื่อตัวแปรเป็น _isSigningIn เพื่อให้เหมาะสมกับการล็อกอิน
 
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
@@ -28,8 +27,10 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -87,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(width: 20),
                 InkWell(
                   onTap: () {
-                    // เพิ่มโค้ดสำหรับสมัครสมาชิก
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -95,60 +95,50 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     );
                   },
-                  child: Text('สมัครสมาชิก',
-                      style: GoogleFonts.ibmPlexSansThai(fontSize: 24)),
+                  child: Text(
+                    'สมัครสมาชิก',
+                    style: GoogleFonts.ibmPlexSansThai(fontSize: 24),
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 5),
-            Text('เข้าสู่ระบบเพื่อเข้าใช้งานแอปพลิเคชัน Trip Tour',
-                style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 12, color: Colors.grey)),
-            SizedBox(height: 15),
-            Container(
-              width: 339,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
+            Text(
+              'เข้าสู่ระบบเพื่อเข้าใช้งานแอปพลิเคชัน Trip Tour',
+              style: GoogleFonts.ibmPlexSansThai(
+                fontSize: 12,
+                color: Colors.grey,
               ),
-              child: TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'อีเมล',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
-                    ),
+            ),
+            SizedBox(height: 15),
+            TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                labelText: 'อีเมล',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: Color(0xFFEE8B60),
                   ),
                 ),
               ),
             ),
             SizedBox(height: 10),
-            Container(
-              width: 339,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: TextFormField(
-                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'รหัสผ่าน',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
-                    ),
+            TextFormField(
+              obscureText: true,
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: 'รหัสผ่าน',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: Color(0xFFEE8B60),
                   ),
                 ),
               ),
@@ -162,11 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                 color: Color(0xffdb923c),
               ),
               child: TextButton(
-                onPressed: () {
-                  // เพิ่มโค้ดสำหรับ Sign in
-                  _signIn(context);
-                },
-                child: _isSigningUp
+                onPressed: _isSigningIn ? null : () => _signIn(context),
+                child: _isSigningIn
                     ? CircularProgressIndicator(color: Colors.white)
                     : Text(
                         'เข้าสู่ระบบ',
@@ -191,7 +178,9 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 'ลืมรหัสผ่าน',
                 style: GoogleFonts.ibmPlexSansThai(
-                    color: Colors.black, decoration: TextDecoration.underline),
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
           ],
@@ -207,47 +196,58 @@ class _LoginPageState extends State<LoginPage> {
     if (email.isEmpty || password.isEmpty) {
       Fluttertoast.showToast(msg: 'โปรดกรอกข้อมูลให้ครบถ้วน');
     } else {
-      setState(() {
-        _isSigningUp = true;
-      });
-      User? user = await auth.signInWithEmailAndPassword(email, password);
-      setState(() {
-        _isSigningUp = false;
-      });
-      if (user != null) {
-        print("Successfully signed In");
-        String? uid = user.uid;
+      if (mounted)
+        setState(() {
+          _isSigningIn = true;
+        });
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        User? user = userCredential.user;
 
-        // Query ข้อมูลจาก Firestore
-        DocumentSnapshot<Map<String, dynamic>> userDoc =
-            await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        if (user != null) {
+          print("Successfully signed In");
+          String? uid = user.uid;
 
-        // ตรวจสอบค่า profileStatus
-        String profileStatus = userDoc.get('profileStatus');
+          DocumentSnapshot<Map<String, dynamic>> userDoc =
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(uid)
+                  .get();
 
-        if (profileStatus == 'None') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SetProfilePage(),
-            ),
-          );
-        } else if (profileStatus == 'Completed') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MyApp(),
-            ),
-          );
+          String profileStatus = userDoc.get('profileStatus');
+
+          if (profileStatus == 'None') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SetProfilePage(),
+              ),
+            );
+          } else if (profileStatus == 'Completed') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyApp(),
+              ),
+            );
+          }
         }
+      } catch (e) {
+      } finally {
+        if (mounted)
+          setState(() {
+            _isSigningIn = false;
+          });
       }
     }
   }
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(
     MaterialApp(
       home: LoginPage(),
