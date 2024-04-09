@@ -125,8 +125,8 @@ class TripmanagePage extends StatelessWidget {
                       },
                     );
                   } else {
-                    return SizedBox
-                        .shrink(); // ไม่แสดงอะไรเลยถ้าไม่ใช่ผู้สร้างทริป
+                    return Text(
+                        '      '); // ไม่แสดงอะไรเลยถ้าไม่ใช่ผู้สร้างทริป
                   }
                 }
               },

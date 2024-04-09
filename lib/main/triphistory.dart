@@ -82,6 +82,20 @@ class _TripHistoryState extends State<TripHistory> {
                     ),
                   ),
                 ),
+                Container(
+                  child: IconButton(
+                    // Wrap the Icon with IconButton
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Colors.grey,
+                      size: 28,
+                    ),
+                    onPressed: () {
+                      // Your code to handle the tap event
+                      setState(() {});
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -110,6 +124,26 @@ class _TripHistoryState extends State<TripHistory> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: tripDataList.length,
                 itemBuilder: (context, index) {
+                  Map<String, dynamic> tripData =
+                      tripDataList[index].data() as Map<String, dynamic>;
+                  // Check if the trip has started and its status is 'Not started yet'
+                  if (DateTime.now()
+                          .isAfter(tripData['tripStartDate'].toDate()) &&
+                      tripData['tripStatus'] == 'ยังไม่เริ่มต้น') {
+                    // Update trip status to "In progress"
+                    FirebaseFirestore.instance
+                        .collection('trips')
+                        .doc(tripDataList[index].id)
+                        .update({'tripStatus': 'กำลังดำเนินการ'});
+                  } else if (DateTime.now()
+                          .isAfter(tripData['tripEndDate'].toDate()) &&
+                      tripData['tripStatus'] == 'กำลังดำเนินการ') {
+                    // Update trip status to "In progress"
+                    FirebaseFirestore.instance
+                        .collection('trips')
+                        .doc(tripDataList[index].id)
+                        .update({'tripStatus': 'สิ้นสุด'});
+                  }
                   return buildTripItem(
                     context,
                     tripDataList[index],

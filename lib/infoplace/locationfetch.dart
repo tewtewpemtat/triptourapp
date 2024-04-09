@@ -23,6 +23,7 @@ class LocationfetchState extends State<Locationfetch> {
   double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
   double placeLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
   double placeLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  DateTime? placeEndTime;
   double? distance;
   late Timer timer;
   @override
@@ -47,6 +48,7 @@ class LocationfetchState extends State<Locationfetch> {
 
   void getUserLocation() async {
     try {
+      checkPlaceStatus();
       checkDocumentExistence();
       if (distance! > 0.0) {
         Position position = await Geolocator.getCurrentPosition(
@@ -124,6 +126,24 @@ class LocationfetchState extends State<Locationfetch> {
     }
   }
 
+  void checkPlaceStatus() async {
+    try {
+      DateTime currentTime = DateTime.now();
+
+      if (currentTime.isAfter(placeEndTime ?? DateTime.now())) {
+        // Navigate to TripmanagePage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TripmanagePage(tripUid: widget.tripUid),
+          ),
+        );
+      }
+    } catch (error) {
+      print("Error getting place status: $error");
+    }
+  }
+
   void getPlaceLocation() async {
     try {
       DocumentSnapshot userLocationSnapshot = await FirebaseFirestore.instance
@@ -132,12 +152,15 @@ class LocationfetchState extends State<Locationfetch> {
           .get();
 
       if (userLocationSnapshot.exists) {
+        DateTime placeEndTimeCheck =
+            userLocationSnapshot['placetimeend'].toDate();
         double latitude = userLocationSnapshot['placeLatitude'];
         double longitude = userLocationSnapshot['placeLongitude'];
 
         setState(() {
           placeLatitude = latitude;
           placeLongitude = longitude;
+          placeEndTime = placeEndTimeCheck;
         });
       }
     } catch (error) {

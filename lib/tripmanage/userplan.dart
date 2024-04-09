@@ -476,21 +476,17 @@ class _UserPlanState extends State<UserPlan> {
                                 }
                                 ;
                               },
-                              child: Column(
-                                children: [
-                                  Image.asset(
+                              child: Tooltip(
+                                message:
+                                    'จุดนัดพบ', // Tooltip message to be displayed
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  child: Image.asset(
                                     'assets/gps.png', // Image asset path
-                                    width: 25, // Image width
-                                    height: 25, // Image height
+                                    width: 30, // Image width
+                                    height: 30, // Image height
                                   ),
-                                  Text(
-                                    'จุดนัดพบ',
-                                    style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                             SizedBox(

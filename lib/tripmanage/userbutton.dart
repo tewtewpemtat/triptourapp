@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/TripTimeLine.dart';
 import 'package:triptourapp/addplaceuser.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:triptourapp/main.dart';
@@ -187,6 +188,12 @@ class UserbuttonState extends State<Userbutton> {
                   .collection('trips')
                   .doc(widget.tripUid)
                   .update({'tripStatus': 'สิ้นสุด'});
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TripTimeLine(),
+                ),
+              );
               print('Trip status updated successfully');
             } else {
               print('Trip has not started yet');
@@ -210,13 +217,28 @@ class UserbuttonState extends State<Userbutton> {
                     padding: const EdgeInsets.all(0.0),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Text(
-                            'แผนการเดินทาง',
-                            style: GoogleFonts.ibmPlexSansThai(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                        Text(
+                          'แผนการเดินทาง',
+                          style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 0.0, vertical: 0.0),
+                          child: IconButton(
+                            // Wrap the Icon with IconButton
+                            icon: Icon(
+                              Icons.refresh,
+                              color: Colors.grey,
+                              size: 28,
+                            ),
+                            onPressed: () {
+                              // Your code to handle the tap event
+                              setState(() {});
+                            },
                           ),
                         ),
+                        Spacer(),
                         TextButton(
                           onPressed: () {
                             _removeUserFromTrip();
@@ -296,13 +318,28 @@ class UserbuttonState extends State<Userbutton> {
                     padding: const EdgeInsets.all(0.0),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Text(
-                            'แผนการเดินทาง',
-                            style: GoogleFonts.ibmPlexSansThai(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                        Text(
+                          'แผนการเดินทาง',
+                          style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 0.0, vertical: 0.0),
+                          child: IconButton(
+                            // Wrap the Icon with IconButton
+                            icon: Icon(
+                              Icons.refresh,
+                              color: Colors.grey,
+                              size: 28,
+                            ),
+                            onPressed: () {
+                              // Your code to handle the tap event
+                              setState(() {});
+                            },
                           ),
                         ),
+                        Spacer(),
                         TextButton(
                           onPressed: () {
                             _removeUserFromTrip();

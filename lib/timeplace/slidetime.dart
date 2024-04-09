@@ -248,7 +248,7 @@ class _SlideTimeState extends State<SlideTime> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // สีพื้นหลัง
+                  primary: Color.fromARGB(255, 245, 136, 2), // สีพื้นหลัง
                   onPrimary: Colors.white, // สีของตัวอักษร
                 ),
                 child: Text('บันทึกเวลา '),
@@ -262,7 +262,7 @@ class _SlideTimeState extends State<SlideTime> {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // สีพื้นหลัง
+                  primary: Color.fromARGB(255, 254, 0, 0), // สีพื้นหลัง
                   onPrimary: Colors.white, // สีของตัวอักษร
                 ),
                 child: Text('รีเซ็ตเวลา'),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:triptourapp/TripTimeLine.dart';
 import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,112 +41,115 @@ void cancelTrip(BuildContext context, String tripUid) async {
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
-    querySnapshot2.docs.forEach((document) async {
-      String placePicUrl = document['placepicUrl'];
-      // ลบรูปภาพใน Firebase Storage
-      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
-      await ref.delete();
-      // ลบเอกสารที่พบเจอออกจาก Firestore
-      await FirebaseFirestore.instance
-          .collection('placemeet')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot2 != null)
+      querySnapshot2.docs.forEach((document) async {
+        String placePicUrl = document['placepicUrl'];
+        // ลบรูปภาพใน Firebase Storage
+        Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+        await ref.delete();
+        // ลบเอกสารที่พบเจอออกจาก Firestore
+        await FirebaseFirestore.instance
+            .collection('placemeet')
+            .doc(document.id)
+            .delete();
+      });
 
     QuerySnapshot querySnapshot3 = await FirebaseFirestore.instance
         .collection('interest')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
-    querySnapshot3.docs.forEach((document) async {
-      String placePicUrl = document['placepicUrl'];
-      // ลบรูปภาพใน Firebase Storage
-      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
-      await ref.delete();
-      // ลบเอกสารที่พบเจอออกจาก Firestore
-      await FirebaseFirestore.instance
-          .collection('interest')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot3 != null)
+      querySnapshot3.docs.forEach((document) async {
+        String placePicUrl = document['placepicUrl'];
+        // ลบรูปภาพใน Firebase Storage
+        Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+        await ref.delete();
+        // ลบเอกสารที่พบเจอออกจาก Firestore
+        await FirebaseFirestore.instance
+            .collection('interest')
+            .doc(document.id)
+            .delete();
+      });
     QuerySnapshot querySnapshot4 = await FirebaseFirestore.instance
         .collection('groupmessages')
         .where('tripChatUid', isEqualTo: tripUid)
         .get();
 
-    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
-    querySnapshot4.docs.forEach((document) async {
-      await FirebaseFirestore.instance
-          .collection('groupmessages')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot4 != null)
+      querySnapshot4.docs.forEach((document) async {
+        await FirebaseFirestore.instance
+            .collection('groupmessages')
+            .doc(document.id)
+            .delete();
+      });
     QuerySnapshot querySnapshot5 = await FirebaseFirestore.instance
         .collection('triprequest')
         .where('tripUid', isEqualTo: tripUid)
         .get();
 
-    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
-    querySnapshot5.docs.forEach((document) async {
-      await FirebaseFirestore.instance
-          .collection('triprequest')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot5 != null)
+      querySnapshot5.docs.forEach((document) async {
+        await FirebaseFirestore.instance
+            .collection('triprequest')
+            .doc(document.id)
+            .delete();
+      });
     QuerySnapshot querySnapshot6 = await FirebaseFirestore.instance
         .collection('timeline')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    querySnapshot6.docs.forEach((document) async {
-      await FirebaseFirestore.instance
-          .collection('timeline')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot6 != null)
+      querySnapshot6.docs.forEach((document) async {
+        await FirebaseFirestore.instance
+            .collection('timeline')
+            .doc(document.id)
+            .delete();
+      });
 
     QuerySnapshot querySnapshot7 = await FirebaseFirestore.instance
         .collection('timeline')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    querySnapshot6.docs.forEach((document) async {
-      await FirebaseFirestore.instance
-          .collection('timeline')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot7 != null)
+      querySnapshot7.docs.forEach((document) async {
+        await FirebaseFirestore.instance
+            .collection('timeline')
+            .doc(document.id)
+            .delete();
+      });
+
     QuerySnapshot querySnapshot8 = await FirebaseFirestore.instance
         .collection('timelinestamp')
         .where('placetripid', isEqualTo: tripUid)
         .where('useruid', isEqualTo: uid)
         .get();
-
-    querySnapshot8.docs.forEach((document) async {
-      await FirebaseFirestore.instance
-          .collection('timelinestamp')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot8 != null)
+      querySnapshot8.docs.forEach((document) async {
+        await FirebaseFirestore.instance
+            .collection('timelinestamp')
+            .doc(document.id)
+            .delete();
+      });
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('places')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    // ลบรูปภาพใน Firebase Storage และลบเอกสารที่พบเจอ
-    querySnapshot.docs.forEach((document) async {
-      String placePicUrl = document['placepicUrl'];
-      // ลบรูปภาพใน Firebase Storage
-      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
-      await ref.delete();
-      // ลบเอกสารที่พบเจอออกจาก Firestore
-      await FirebaseFirestore.instance
-          .collection('places')
-          .doc(document.id)
-          .delete();
-    });
+    if (querySnapshot != null)
+      querySnapshot.docs.forEach((document) async {
+        String placePicUrl = document['placepicUrl'];
+        // ลบรูปภาพใน Firebase Storage
+        Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+        await ref.delete();
+        // ลบเอกสารที่พบเจอออกจาก Firestore
+        await FirebaseFirestore.instance
+            .collection('places')
+            .doc(document.id)
+            .delete();
+      });
 
     // ลบภาพใน Firebase Storage
     String tripProfileUrl = tripSnapshot['tripProfileUrl'];
@@ -207,6 +211,12 @@ class _HeadButtonState extends State<HeadButton> {
                   .collection('trips')
                   .doc(widget.tripUid)
                   .update({'tripStatus': 'สิ้นสุด'});
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TripTimeLine(),
+                ),
+              );
               print('Trip status updated successfully');
             } else {
               print('Trip has not started yet');
@@ -230,13 +240,28 @@ class _HeadButtonState extends State<HeadButton> {
                     padding: const EdgeInsets.all(0.0),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Text(
-                            'แผนการเดินทาง',
-                            style: GoogleFonts.ibmPlexSansThai(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                        Text(
+                          'แผนการเดินทาง',
+                          style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 0.0, vertical: 0.0),
+                          child: IconButton(
+                            // Wrap the Icon with IconButton
+                            icon: Icon(
+                              Icons.refresh,
+                              color: Colors.grey,
+                              size: 28,
+                            ),
+                            onPressed: () {
+                              // Your code to handle the tap event
+                              setState(() {});
+                            },
                           ),
                         ),
+                        Spacer(),
                         TextButton(
                           onPressed: () {
                             cancelTrip(context, widget.tripUid.toString());
@@ -316,13 +341,28 @@ class _HeadButtonState extends State<HeadButton> {
                     padding: const EdgeInsets.all(0.0),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Text(
-                            'แผนการเดินทาง',
-                            style: GoogleFonts.ibmPlexSansThai(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                        Text(
+                          'แผนการเดินทาง',
+                          style: GoogleFonts.ibmPlexSansThai(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 0.0, vertical: 0.0),
+                          child: IconButton(
+                            // Wrap the Icon with IconButton
+                            icon: Icon(
+                              Icons.refresh,
+                              color: Colors.grey,
+                              size: 28,
+                            ),
+                            onPressed: () {
+                              // Your code to handle the tap event
+                              setState(() {});
+                            },
                           ),
                         ),
+                        Spacer(),
                         TextButton(
                           onPressed: () {
                             cancelTrip(context, widget.tripUid.toString());

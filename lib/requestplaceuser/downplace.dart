@@ -78,6 +78,10 @@ class _DownPageState extends State<DownPage> {
               child: TextField(
                 onSubmitted: (value) {
                   searchPlaces(value);
+                  Fluttertoast.showToast(
+                    msg: "กำลังค้นหาสถานที่..",
+                    toastLength: Toast.LENGTH_LONG,
+                  );
                 },
                 decoration: InputDecoration(
                   hintText: 'ค้นหาสถานที่',
@@ -119,116 +123,121 @@ class _DownPageState extends State<DownPage> {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: places.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.all(0),
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
+                    try {
+                      return Container(
+                        padding: EdgeInsets.all(0),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 0.0, vertical: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  places[index].imageUrl,
-                                  width: 100.0,
-                                  height: 80.0,
-                                  fit: BoxFit.cover,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    places[index].imageUrl,
+                                    width: 100.0,
+                                    height: 80.0,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: 4),
-                          Expanded(
-                            flex: 6,
-                            child: Container(
-                              margin: EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    places[index].name,
-                                    style: GoogleFonts.ibmPlexSansThai(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      color: Color(0xFF1E30D7),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 1.0),
-                                    child: Text(
-                                      places[index].province,
+                            SizedBox(width: 4),
+                            Expanded(
+                              flex: 6,
+                              child: Container(
+                                margin: EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      places[index].name,
                                       style: GoogleFonts.ibmPlexSansThai(
-                                          fontSize: 11, color: Colors.white),
+                                        fontSize: 16,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(height: 5),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        color: Color(0xFF1E30D7),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.0, vertical: 1.0),
+                                      child: Text(
+                                        places[index].province,
+                                        style: GoogleFonts.ibmPlexSansThai(
+                                            fontSize: 11, color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: GestureDetector(
-                              onTap: () {
-                                Fluttertoast.showToast(
-                                  msg: "กำลังเพิ่มสถานที่...",
-                                  toastLength: Toast.LENGTH_LONG,
-                                );
-                                addPlaceToFirestore(
-                                    userUid:
-                                        uid ?? '', // Use the current user's UID
-                                    placeTripId: widget.tripUid ??
-                                        '', // Use the trip UID from the widget property
-                                    placeName: places[index]
-                                        .name, // Use the name of the place
-                                    placePicUrl: places[index]
-                                        .imageUrl, // Use the image URL of the place
-                                    placeAddress: places[index]
-                                        .province, // You can leave this empty or provide an address if available
-                                    placeStart:
-                                        '', // You can leave this empty or provide a start time if available
-                                    placeTimeEnd:
-                                        null, // You can leave this empty or provide an end time if available
-                                    placeTimeStart:
-                                        null, // You can leave this empty or provide a start time if available
-                                    placeLatitude: places[index]
-                                        .latitude, // Use latitude field
-                                    placeLongitude: places[index]
-                                        .longitude, // Use longitude field
+                            Expanded(
+                              flex: 1,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Fluttertoast.showToast(
+                                    msg: "กำลังเพิ่มสถานที่...",
+                                    toastLength: Toast.LENGTH_LONG,
+                                  );
+                                  addPlaceToFirestore(
+                                      userUid: uid ??
+                                          '', // Use the current user's UID
+                                      placeTripId: widget.tripUid ??
+                                          '', // Use the trip UID from the widget property
+                                      placeName: places[index]
+                                          .name, // Use the name of the place
+                                      placePicUrl: places[index]
+                                          .imageUrl, // Use the image URL of the place
+                                      placeAddress: places[index]
+                                          .province, // You can leave this empty or provide an address if available
+                                      placeStart:
+                                          '', // You can leave this empty or provide a start time if available
+                                      placeTimeEnd:
+                                          null, // You can leave this empty or provide an end time if available
+                                      placeTimeStart:
+                                          null, // You can leave this empty or provide a start time if available
+                                      placeLatitude: places[index]
+                                          .latitude, // Use latitude field
+                                      placeLongitude: places[index]
+                                          .longitude, // Use longitude field
 
-                                    // Use the location of the place
-                                    placeWhoGo: [],
-                                    placeStatus: 'Wait',
-                                    placeProvince:
-                                        places[index].placeprovince ?? '',
-                                    placeAdd: 'No' ?? '',
-                                    placeRun: 'Start' ??
-                                        '' // Initially, no one goes to this place, so it's an empty array
-                                    );
-                              },
-                              child: Icon(
-                                Icons.add,
-                                size: 24.0,
-                                color: Colors.blue,
+                                      // Use the location of the place
+                                      placeWhoGo: [],
+                                      placeStatus: 'Wait',
+                                      placeProvince:
+                                          places[index].placeprovince ?? '',
+                                      placeAdd: 'No' ?? '',
+                                      placeRun: 'Start' ??
+                                          '' // Initially, no one goes to this place, so it's an empty array
+                                      );
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  size: 24.0,
+                                  color: Colors.blue,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
+                          ],
+                        ),
+                      );
+                    } catch (e) {
+                      Fluttertoast.showToast(msg: 'ไม่พบสถานที่');
+                    }
                   },
                 ),
               ),
@@ -338,56 +347,66 @@ class _DownPageState extends State<DownPage> {
   }
 
   Future<String?> fetchProvinceFromAddress(String address) async {
-    List<String> parts = address.split(',');
-    // ถ้ามีส่วนที่อยู่จังหวัด
-    if (parts.length >= 2) {
-      // นำส่วนที่อยู่จังหวัดมาใช้งาน
-      String provincePart = parts[parts.length - 2].trim();
-      return provincePart;
-    } else {
-      // ถ้าไม่มีส่วนที่อยู่จังหวัด ให้คืนค่า null
-      return null;
+    try {
+      List<String> parts = address.split(',');
+      // ถ้ามีส่วนที่อยู่จังหวัด
+      if (parts.length >= 2) {
+        // นำส่วนที่อยู่จังหวัดมาใช้งาน
+        String provincePart = parts[parts.length - 2].trim();
+        return provincePart;
+      } else {
+        // ถ้าไม่มีส่วนที่อยู่จังหวัด ให้คืนค่า null
+        return null;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'ไม่พบสถานที่');
     }
   }
 
   Future<void> searchPlaces(String query) async {
     PlacesSearchResponse response = await _places.searchByText(query);
-    if (response.isOkay) {
-      // Clear existing places first
-      places.clear();
-      if (response.results != null) {
-        // Iterate through the results and add them to the list
-        for (PlacesSearchResult result in response.results!) {
-          // Get place details using placeId
-          PlacesDetailsResponse detailsResponse =
-              await _places.getDetailsByPlaceId(result.placeId!);
-          String? placeAddress = detailsResponse.result?.formattedAddress;
-          String? province = await fetchProvinceFromAddress(placeAddress ?? '');
-          LatLng position = LatLng(
-            detailsResponse.result?.geometry?.location.lat ?? 0.0,
-            detailsResponse.result?.geometry?.location.lng ?? 0.0,
-          );
-          String? placeProvince = await getProvinceFromCoordinates(position);
-          double latitude =
-              detailsResponse.result?.geometry?.location.lat ?? 0.0;
-          double longitude =
-              detailsResponse.result?.geometry?.location.lng ?? 0.0;
-          places.add(Place(
-              name: result.name ?? 'Unknown',
-              province: province ?? 'Unknown',
-              imageUrl: result.photos != null && result.photos!.isNotEmpty
-                  ? _places.buildPhotoUrl(
-                      photoReference: result.photos![0].photoReference!,
-                      maxWidth: 400,
-                    )
-                  : 'https://via.placeholder.com/400',
-              latitude:
-                  latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
-              longitude: longitude,
-              placeprovince: placeProvince));
+    try {
+      if (response.isOkay) {
+        // Clear existing places first
+        places.clear();
+        int maxResults = 10;
+        if (response.results != null) {
+          // Iterate through the results and add them to the list
+          for (int i = 0; i < response.results!.length && i < maxResults; i++) {
+            PlacesSearchResult result = response.results![i];
+            PlacesDetailsResponse detailsResponse =
+                await _places.getDetailsByPlaceId(result.placeId!);
+            String? placeAddress = detailsResponse.result?.formattedAddress;
+            String? province =
+                await fetchProvinceFromAddress(placeAddress ?? '');
+            LatLng position = LatLng(
+              detailsResponse.result?.geometry?.location.lat ?? 0.0,
+              detailsResponse.result?.geometry?.location.lng ?? 0.0,
+            );
+            String? placeProvince = await getProvinceFromCoordinates(position);
+            double latitude =
+                detailsResponse.result?.geometry?.location.lat ?? 0.0;
+            double longitude =
+                detailsResponse.result?.geometry?.location.lng ?? 0.0;
+            places.add(Place(
+                name: result.name ?? 'Unknown',
+                province: province ?? 'Unknown',
+                imageUrl: result.photos != null && result.photos!.isNotEmpty
+                    ? _places.buildPhotoUrl(
+                        photoReference: result.photos![0].photoReference!,
+                        maxWidth: 400,
+                      )
+                    : 'https://via.placeholder.com/400',
+                latitude:
+                    latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
+                longitude: longitude,
+                placeprovince: placeProvince));
+          }
         }
+        setState(() {}); // Update UI
       }
-      setState(() {}); // Update UI
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'ไม่พบสถานที่');
     }
   }
 
