@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:triptourapp/TripTimeLine.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TripHistory extends StatefulWidget {
   @override
@@ -164,6 +166,50 @@ class _TripHistoryState extends State<TripHistory> {
     return tripJoin.length;
   }
 
+  void checkAndUpdateTrips(BuildContext context, String tripUid) async {
+    var placesSnapshot =
+        await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
+
+    var tripData = placesSnapshot.data();
+
+    if (tripData != null && // Add null check for tripData
+        DateTime.now().isAfter(tripData['tripStartDate'].toDate()) &&
+        tripData['tripStatus'] == 'ยังไม่เริ่มต้น') {
+      // Update trip status to "In progress"
+      FirebaseFirestore.instance
+          .collection('trips')
+          .doc(tripUid)
+          .update({'tripStatus': 'กำลังดำเนินการ'});
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TripmanagePage(tripUid: tripUid)),
+      );
+    } else if (tripData != null && // Add null check for tripData
+        DateTime.now().isAfter(tripData['tripEndDate'].toDate()) &&
+        tripData['tripStatus'] == 'กำลังดำเนินการ') {
+      // Update trip status to "In progress"
+      FirebaseFirestore.instance
+          .collection('trips')
+          .doc(tripUid)
+          .update({'tripStatus': 'สิ้นสุด'});
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => TripTimeLine()),
+      );
+      Fluttertoast.showToast(
+        msg: "ทริปได้สิ้นสุดไปเเล้ว",
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TripmanagePage(tripUid: tripUid)),
+      );
+    }
+  }
+
   Widget buildTripItem(
       BuildContext context, DocumentSnapshot document, String tripUid) {
     Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
@@ -184,11 +230,7 @@ class _TripHistoryState extends State<TripHistory> {
       return Material(
         child: InkWell(
           onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TripmanagePage(tripUid: tripUid)),
-            );
+            checkAndUpdateTrips(context, tripUid);
           },
           child: Container(
             height: 140,

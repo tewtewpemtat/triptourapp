@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/TripTimeLine.dart';
@@ -5,6 +7,7 @@ import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/main.dart';
+import 'package:triptourapp/timeline/Timeline_History.dart';
 import 'package:triptourapp/tripmanage.dart';
 import '../timeplace.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -275,6 +278,8 @@ class _HeadButtonState extends State<HeadButton> {
                               size: 28,
                             ),
                             onPressed: () {
+                              print(tripData['tripStatus']);
+
                               checkAndUpdatePlaces(widget.tripUid ?? '');
                               setState(() {});
                             },
@@ -349,7 +354,7 @@ class _HeadButtonState extends State<HeadButton> {
                 ],
               ),
             );
-          } else {
+          } else if (tripStatus == 'ยังไม่เริ่มต้น') {
             // หาก tripStatus ไม่เป็น "กำลังดำเนินการ" แสดงว่าต้องแสดงปุ่ม
             return Container(
               margin: EdgeInsets.all(8.0),
@@ -524,6 +529,55 @@ class _HeadButtonState extends State<HeadButton> {
                 ],
               ),
             );
+          } else if (tripStatus == 'สิ้นสุด') {
+            // หาก tripStatus ไม่เป็น "กำลังดำเนินการ" แสดงว่าต้องแสดงปุ่ม
+            return Container(
+              margin: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TripTimeLine()),
+                            );
+                            Fluttertoast.showToast(msg: 'ทริปสิ้นสุดเเล้ว');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white, // สีพื้นหลังของปุ่ม
+                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            fixedSize: Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'สิ้นสุดทริป',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Container();
           }
         } else {
           return Container();

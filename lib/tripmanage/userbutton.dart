@@ -326,7 +326,7 @@ class UserbuttonState extends State<Userbutton> {
                 ],
               ),
             );
-          } else {
+          } else if (tripStatus == 'ยังไม่เริ่มต้น') {
             // หาก tripStatus ไม่เป็น "กำลังดำเนินการ" แสดงว่าต้องแสดงปุ่ม
             return Container(
               margin: EdgeInsets.all(8.0),
@@ -471,6 +471,55 @@ class UserbuttonState extends State<Userbutton> {
                 ],
               ),
             );
+          } else if (tripStatus == 'สิ้นสุด') {
+            // หาก tripStatus ไม่เป็น "กำลังดำเนินการ" แสดงว่าต้องแสดงปุ่ม
+            return Container(
+              margin: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TripTimeLine()),
+                            );
+                            Fluttertoast.showToast(msg: 'ทริปสิ้นสุดเเล้ว');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white, // สีพื้นหลังของปุ่ม
+                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            fixedSize: Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'สิ้นสุดทริป',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Container();
           }
         } else {
           return Container();

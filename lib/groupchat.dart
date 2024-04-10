@@ -1115,70 +1115,51 @@ class _ChatScreenState extends State<ChatScreen> {
                                             BorderRadius.circular(8.0),
                                       ),
                                       child: isSpecialMessage
-                                          ? Row(children: [
-                                              Text(
-                                                " $nickname ได้เพิ่มจุดนัดพบใหม่ ",
-                                                style: TextStyle(
-                                                    color: const Color.fromARGB(
-                                                        255, 59, 57, 57)),
-                                              ),
-                                              Container(
-                                                // กำหนดความสูงของ GestureDetector
-                                                child: GestureDetector(
+                                          ? Container(
+                                              child: GestureDetector(
+                                              onTap: () {
+                                                String postId =
+                                                    messageText.split('=')[1];
+                                                // แยก postId จากข้อความโดยใช้เครื่องหมาย '='
+                                                getPlaceData(postId, context);
+                                              },
+                                              child: Row(children: [
+                                                Text(
+                                                  " $nickname ได้เพิ่มจุดนัดพบใหม่ ",
+                                                  style: TextStyle(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255, 59, 57, 57)),
+                                                ),
+                                                Icon(Icons.location_on,
+                                                    size:
+                                                        20.0), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
+                                              ]),
+                                            ))
+                                          : isSpecialMessage2
+                                              ? Container(
+                                                  child: GestureDetector(
                                                   onTap: () {
                                                     String postId = messageText
                                                         .split('=')[1];
                                                     // แยก postId จากข้อความโดยใช้เครื่องหมาย '='
-                                                    getPlaceData(
+                                                    getPlaceData2(
                                                         postId, context);
                                                   },
-                                                  child: Text(
-                                                    "ดูรายละเอียด ",
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 105, 107, 111),
-                                                      decoration: TextDecoration
-                                                          .underline, // เพิ่มเส้นใต้ที่นี่
+                                                  child: Row(children: [
+                                                    Text(
+                                                      " $nickname ได้เพิ่มสิ่งน่าสนใจใหม่ ",
+                                                      style: TextStyle(
+                                                          color: const Color
+                                                              .fromARGB(
+                                                              255, 59, 57, 57)),
                                                     ),
-                                                  ), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
-                                                ),
-                                              )
-                                            ])
-                                          : isSpecialMessage2
-                                              ? Row(children: [
-                                                  Text(
-                                                    " $nickname ได้เพิ่มสิ่งน่าสนใจใหม่ ",
-                                                    style: TextStyle(
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            255, 59, 57, 57)),
-                                                  ),
-                                                  Container(
-                                                    // กำหนดความสูงของ GestureDetector
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        String postId =
-                                                            messageText
-                                                                .split('=')[1];
-                                                        // แยก postId จากข้อความโดยใช้เครื่องหมาย '='
-                                                        getPlaceData2(
-                                                            postId, context);
-                                                      },
-                                                      child: Text(
-                                                        "ดูรายละเอียด ",
-                                                        style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              105,
-                                                              107,
-                                                              111),
-                                                          decoration: TextDecoration
-                                                              .underline, // เพิ่มเส้นใต้ที่นี่
-                                                        ),
-                                                      ), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
-                                                    ),
-                                                  )
-                                                ])
+
+                                                    Icon(Icons.map,
+                                                        size:
+                                                            20.0), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
+                                                  ]),
+                                                ))
                                               : isSpecialMessage3 ||
                                                       isSpecialMessage4
                                                   ? Container(
