@@ -52,44 +52,46 @@ class _PlacetimelineState extends State<Placetimeline> {
           ),
         ),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('places')
-            .where('placetripid', isEqualTo: widget.tripUid)
-            .where('placerun', isEqualTo: "End")
-            .where('placewhogo', arrayContains: uid)
-            .snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
-              Center(
-                child: Text('ไม่พบสถานที่'),
+      body: SingleChildScrollView(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('places')
+              .where('placetripid', isEqualTo: widget.tripUid)
+              .where('placerun', isEqualTo: "End")
+              .where('placewhogo', arrayContains: uid)
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            });
-          }
-          final places = snapshot.data!.docs;
-          if (places != null) {
-            places.sort((a, b) {
-              final aEndTime = a['placetimeend'] as Timestamp;
-              final bEndTime = b['placetimeend'] as Timestamp;
-              return aEndTime.compareTo(bEndTime);
-            });
+            }
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Center(
+                  child: Text('ไม่พบสถานที่'),
+                );
+              });
+            }
+            final places = snapshot.data!.docs;
+            if (places != null) {
+              places.sort((a, b) {
+                final aEndTime = a['placetimeend'] as Timestamp;
+                final bEndTime = b['placetimeend'] as Timestamp;
+                return aEndTime.compareTo(bEndTime);
+              });
 
-            return Column(
-              children: places.map((place) {
-                final placeData = place.data() as Map<String, dynamic>;
-                return buildPlaceItem(context, placeData, place);
-              }).toList(),
-            );
-          } else {
-            return Container();
-          }
-        },
+              return Column(
+                children: places.map((place) {
+                  final placeData = place.data() as Map<String, dynamic>;
+                  return buildPlaceItem(context, placeData, place);
+                }).toList(),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
     );
   }

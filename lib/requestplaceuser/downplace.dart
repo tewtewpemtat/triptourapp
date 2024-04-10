@@ -474,10 +474,6 @@ class _DownPageState extends State<DownPage> {
             search = true;
             selectedPosition = null;
             searchRadius2 = 0;
-            Fluttertoast.showToast(
-              msg: "กำลังโหลดสถานที่...",
-              toastLength: Toast.LENGTH_LONG,
-            );
           }
         } else if (selectedOption == "จากตำแหน่งบนแผนที่" &&
             selectedPosition == null) {
@@ -512,10 +508,6 @@ class _DownPageState extends State<DownPage> {
                       // เมื่อผู้ใช้ป้อนระยะห่างในการค้นหาแล้วให้ดึงสถานที่ใกล้เคียงตามระยะที่ระบุ
                       fetchNearLocation(selectedPosition?.latitude ?? 0.0,
                           selectedPosition?.longitude ?? 0.0);
-                      Fluttertoast.showToast(
-                        msg: "กำลังโหลดสถานที่..",
-                        toastLength: Toast.LENGTH_LONG,
-                      );
                     },
                     child: Text('ตกลง'),
                   ),
@@ -525,10 +517,6 @@ class _DownPageState extends State<DownPage> {
           } else {
             fetchNearLocation(selectedPosition?.latitude ?? 0.0,
                 selectedPosition?.longitude ?? 0.0);
-            Fluttertoast.showToast(
-              msg: "กำลังโหลดสถานที่..",
-              toastLength: Toast.LENGTH_LONG,
-            );
           }
         } else if (selectedOption == "เพิ่มสถานที่เอง") {
           Navigator.push(
@@ -595,7 +583,10 @@ class _DownPageState extends State<DownPage> {
   }
 
   Future<void> fetchNearLocation(double latitude, double longitude) async {
-    // Perform a nearby search for places using Google Places API
+    Fluttertoast.showToast(
+      msg: "กำลังโหลดสถานที่..",
+      toastLength: Toast.LENGTH_LONG,
+    );
     PlacesSearchResponse response = await _places.searchNearbyWithRadius(
       Location(
         lat: latitude,

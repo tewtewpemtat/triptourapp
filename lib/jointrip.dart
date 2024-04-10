@@ -131,6 +131,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.grey[200],
         title: Text(
           "คำเชิญทริป",
