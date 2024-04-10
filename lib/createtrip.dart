@@ -39,7 +39,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
   Future<String?> _uploadImage(String documentId) async {
     if (_userProfileImage != null) {
       String fileName =
-          'trip/profiletrip/$uid/$documentId.jpg'; // Construct file name
+          'trip/profiletrip/$documentId.jpg'; // Construct file name
       firebase_storage.Reference ref =
           firebase_storage.FirebaseStorage.instance.ref().child(fileName);
 

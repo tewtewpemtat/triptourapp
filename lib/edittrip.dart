@@ -61,7 +61,7 @@ class _EditTripState extends State<EditTrip> {
         // Create a reference to the location where the image will be stored in Firebase Storage
         final reference = FirebaseStorage.instance
             .ref()
-            .child('trip/profiletrip/$uid/$tripUid.jpg');
+            .child('trip/profiletrip/$tripUid.jpg');
 
         // Upload the file to Firebase Storage
         await reference.putFile(_userProfileImage!);
