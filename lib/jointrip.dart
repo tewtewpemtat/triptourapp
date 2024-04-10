@@ -133,7 +133,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         title: Text(
-          "ตอบรับคำเชิญเพื่อเข้าร่วมทริป",
+          "คำเชิญทริป",
           style: GoogleFonts.ibmPlexSansThai(
             fontWeight: FontWeight.bold,
             color: Colors.black,

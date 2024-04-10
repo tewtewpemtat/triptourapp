@@ -36,11 +36,10 @@ class _CreateTripPageState extends State<CreateTripPage> {
     }
   }
 
-  Future<String?> _uploadImage() async {
+  Future<String?> _uploadImage(String documentId) async {
     if (_userProfileImage != null) {
-      String tripName = _tripNameController.text; // Get trip name
       String fileName =
-          'trip/profiletrip/$uid/$tripName.jpg'; // Construct file name
+          'trip/profiletrip/$uid/$documentId.jpg'; // Construct file name
       firebase_storage.Reference ref =
           firebase_storage.FirebaseStorage.instance.ref().child(fileName);
 
@@ -115,10 +114,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
       _isLoading = true; // Show loading spinner
     });
 
-    String? imageUrl =
-        await _uploadImage(); // Wait for image upload to complete
-
-    if (imageUrl != null) {
+    if (_userProfileImage != null) {
       // Image upload successful, proceed to create trip
       String tripName = _tripNameController.text;
       // You can add more fields as per your requirements
@@ -131,11 +127,11 @@ class _CreateTripPageState extends State<CreateTripPage> {
         tripJoin.add(uid!); // Add non-null uid to tripJoin
       }
 
-      // Add trip data to Firestore
-      await FirebaseFirestore.instance.collection('trips').add({
+      DocumentReference tripRef =
+          await FirebaseFirestore.instance.collection('trips').add({
         'tripCreate': uid,
         'tripName': tripName,
-        'tripProfileUrl': imageUrl,
+        'tripProfileUrl': null,
         'tripStartDate': tripStartDate,
         'tripEndDate': tripEndDate,
         'tripLimit': tripLimit,
@@ -144,13 +140,19 @@ class _CreateTripPageState extends State<CreateTripPage> {
         // Add more fields as needed
       });
 
-      // Navigate to TripmanagePage or any other page after trip creation
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyApp(),
-        ),
-      );
+      String? imageUrl = await _uploadImage(tripRef.id);
+      if (imageUrl != null) {
+        await tripRef.update({
+          'tripProfileUrl': imageUrl,
+        });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ),
+        );
+      }
     } else {
       // Image upload failed, handle error or show message to user
       // You can handle error scenario here

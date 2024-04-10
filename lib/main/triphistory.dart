@@ -250,11 +250,18 @@ class _TripHistoryState extends State<TripHistory> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      child: Image.network(
-                        tripData['tripProfileUrl'],
-                        height: 140.0,
-                        fit: BoxFit.cover,
-                      ),
+                      child: tripData['tripProfileUrl'] != null
+                          ? Image.network(
+                              tripData['tripProfileUrl'],
+                              height: 140.0,
+                              fit: BoxFit.cover,
+                            )
+                          : Placeholder(
+                              // สร้าง Placeholder หรือรูปภาพแทนกรณีที่ URL เป็น null
+                              fallbackHeight: 140.0,
+                              fallbackWidth: double.infinity,
+                              color: Colors.grey, // สีพื้นหลังของ Placeholder
+                            ),
                     ),
                   ),
                 ),

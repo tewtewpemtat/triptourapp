@@ -1,4 +1,4 @@
-#Wed Apr 10 05:38:47 ICT 2024
+#Wed Apr 10 17:19:15 ICT 2024
 base.0=C\:\\Users\\tew00\\Desktop\\triptourapp\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
