@@ -65,8 +65,7 @@ class InformationPage extends StatelessWidget {
         if (tripData != null) {
           bool isTripCreator = uid == tripData['tripCreate'];
 
-          DateFormat dateFormat =
-              DateFormat('\td\tMMMM\tyyyy  -  เวลา  HH:mm', 'th');
+          DateFormat dateFormat = DateFormat('\td\tMMMM\tyyyy, HH:mm', 'th');
           DateTime startDateTH = tripData['tripStartDate'].toDate();
           DateTime endDateTH = tripData['tripEndDate'].toDate();
           String thaiStartDate = dateFormat.format(DateTime(
@@ -94,11 +93,11 @@ class InformationPage extends StatelessWidget {
           }
 
           return Container(
-            margin: EdgeInsets.all(0.0),
+            margin: EdgeInsets.all(8.0),
             padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(0.0),
+              color: Color.fromARGB(255, 254, 254, 254),
+              borderRadius: BorderRadius.circular(6.0),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
@@ -111,13 +110,33 @@ class InformationPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    child: tripData['tripProfileUrl'] != null
+                        ? Image.network(
+                            tripData['tripProfileUrl'],
+                            height: 200.0,
+                            fit: BoxFit.cover,
+                          )
+                        : Placeholder(
+                            // สร้าง Placeholder หรือรูปภาพแทนกรณีที่ URL เป็น null
+                            fallbackHeight: 140.0,
+                            fallbackWidth: double.infinity,
+                            color: Colors.grey, // สีพื้นหลังของ Placeholder
+                          ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
                 Row(
                   children: [
                     Expanded(
                       child: Text(
                         'ชื่อทริป: ${tripData['tripName']}',
                         style: GoogleFonts.ibmPlexSansThai(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -142,46 +161,15 @@ class InformationPage extends StatelessWidget {
                       ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'จำนวนผู้ร่วมทริป: ${getTotalParticipants(tripData)} คน ',
-                      style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Image.asset(statusImage,
-                        width: 13, height: 13), // ใช้รูปภาพตามสถานะ
-                    Text(
-                      '\t สถานะ: ${tripData['tripStatus']}',
-                      style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  'เริ่มต้น $thaiStartDate',
-                  style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  'สิ้นสุด  $thaiEndDate',
-                  style: GoogleFonts.ibmPlexSansThai(
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
+                SizedBox(
+                  height: 8,
                 ),
                 Row(
                   children: [
+                    Image.asset('assets/travel1.png', width: 15, height: 15),
+                    SizedBox(
+                      width: 8,
+                    ),
                     FutureBuilder<DocumentSnapshot>(
                       future: FirebaseFirestore.instance
                           .collection('users')
@@ -207,21 +195,95 @@ class InformationPage extends StatelessWidget {
                         }
 
                         return Text(
-                          'ผู้จัดทริป: ${userData['nickname']} \t\t\t',
+                          'ผู้จัดทริป : ${userData['nickname']} \t\t\t',
                           style: GoogleFonts.ibmPlexSansThai(
                             fontSize: 15,
                             color: Colors.black,
-                            fontWeight: FontWeight.w500,
                           ),
                         );
                       },
                     ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Image.asset(statusImage,
+                        width: 13, height: 13), // ใช้รูปภาพตามสถานะ
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${tripData['tripStatus']}',
+                        style: GoogleFonts.ibmPlexSansThai(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    Image.asset('assets/travel2.png', width: 15, height: 15),
+                    SizedBox(
+                      width: 8,
+                    ),
                     Text(
-                      '\t\t ผู้ร่วมทริปสูงสุด : ${tripData['tripLimit']}',
+                      'จำนวนผู้ร่วมทริป: ${getTotalParticipants(tripData)} คน ',
                       style: GoogleFonts.ibmPlexSansThai(
                         fontSize: 15,
                         color: Colors.black,
-                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 13,
+                    ),
+                    Image.asset('assets/travel1.png', width: 15, height: 15),
+                    Text(
+                      '\t\tผู้ร่วมทริปสูงสุด : ${tripData['tripLimit']}',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    Image.asset('assets/greenflag.png', width: 18, height: 18),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'เริ่มต้น $thaiStartDate',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 13,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    Image.asset('assets/redflag.png', width: 18, height: 18),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'สิ้นสุด  $thaiEndDate',
+                      style: GoogleFonts.ibmPlexSansThai(
+                        fontSize: 13,
+                        color: Colors.black,
                       ),
                     ),
                   ],

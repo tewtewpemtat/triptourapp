@@ -89,8 +89,13 @@ flutter:
     - assets/green.png
     - assets/red.png
     - assets/man.png
+    - assets/travel1.png
+    - assets/travel2.png
     - assets/yellow.png
     - assets/mark.png
+    - assets/greenflag.png
+    - assets/redflag.png
+    - assets/tripcount.png
     - assets/gps.png
     - assets/pencil.png
     - assets/splash/splash_image1.png
