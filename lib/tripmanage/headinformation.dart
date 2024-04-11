@@ -116,7 +116,7 @@ class InformationPage extends StatelessWidget {
                     child: tripData['tripProfileUrl'] != null
                         ? Image.network(
                             tripData['tripProfileUrl'],
-                            height: 200.0,
+                            height: 180.0,
                             fit: BoxFit.cover,
                           )
                         : Placeholder(
@@ -197,7 +197,7 @@ class InformationPage extends StatelessWidget {
                         return Text(
                           'ผู้จัดทริป : ${userData['nickname']} \t\t\t',
                           style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 15,
+                            fontSize: 14,
                             color: Colors.black,
                           ),
                         );
@@ -215,7 +215,7 @@ class InformationPage extends StatelessWidget {
                       child: Text(
                         '${tripData['tripStatus']}',
                         style: GoogleFonts.ibmPlexSansThai(
-                          fontSize: 15,
+                          fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
@@ -235,18 +235,18 @@ class InformationPage extends StatelessWidget {
                     Text(
                       'จำนวนผู้ร่วมทริป: ${getTotalParticipants(tripData)} คน ',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 15,
+                        fontSize: 14,
                         color: Colors.black,
                       ),
                     ),
                     SizedBox(
                       width: 13,
                     ),
-                    Image.asset('assets/travel1.png', width: 15, height: 15),
+                    Image.asset('assets/travel3.png', width: 15, height: 15),
                     Text(
                       '\t\tผู้ร่วมทริปสูงสุด : ${tripData['tripLimit']}',
                       style: GoogleFonts.ibmPlexSansThai(
-                        fontSize: 15,
+                        fontSize: 14,
                         color: Colors.black,
                       ),
                     ),
