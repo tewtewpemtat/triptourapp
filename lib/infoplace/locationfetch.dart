@@ -31,7 +31,7 @@ class LocationfetchState extends State<Locationfetch> {
     super.initState();
     if (mounted) {
       timer =
-          Timer.periodic(Duration(seconds: 5), (Timer t) => getUserLocation());
+          Timer.periodic(Duration(seconds: 1), (Timer t) => getUserLocation());
     }
     getPlaceLocation();
   }

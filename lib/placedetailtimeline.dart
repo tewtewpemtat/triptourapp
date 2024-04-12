@@ -183,10 +183,17 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
 
               var thaiFormatter = DateFormat('d MMMM yyyy', 'th');
               var thaiDateIn = thaiFormatter.format(intime.toDate());
-              var thaiDateOut = thaiFormatter.format(outtime.toDate());
+              var thaiDateOut;
+              if (outtime != "Wait") {
+                thaiDateOut = thaiFormatter.format(outtime.toDate());
+              }
+              bool outwait = outtime == "Wait";
               var thaiFormatter2 = DateFormat('HH:mm', 'th');
               var thaiIntime = thaiFormatter2.format(intime.toDate());
-              var thaiOuttime = thaiFormatter2.format(outtime.toDate());
+              var thaiOuttime;
+              if (outtime != "Wait") {
+                thaiOuttime = thaiFormatter2.format(outtime.toDate());
+              }
 
               var isDateChanged = previousDate != thaiDateIn;
               bool isSameDay = thaiDateIn == thaiDateOut;
@@ -194,125 +201,55 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
 
 // กำหนดค่า timelineHeight ตามเงื่อนไข
 
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (isDateChanged) // Display the date if it's a new date
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
-                        child: Text(
-                          thaiDateIn,
-                          style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    isSameDay
-                        ? CustomPaint(
-                            size: Size(100, 200), // Adjust the size as needed
-                            painter: TimelinePainter(
-                              hasEntry:
-                                  true, // Set to true to display entry circle
-                              hasExit:
-                                  true, // Set to true to display exit circle
-                            ), // Custom painter for drawing the timeline
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  subtitle: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'เข้า:  $thaiIntime',
-                                          style: GoogleFonts.ibmPlexSansThai(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        'ระยะ: $distance',
-                                        style: GoogleFonts.ibmPlexSansThai(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                ListTile(
-                                  subtitle: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'ออก: $thaiOuttime',
-                                          style: GoogleFonts.ibmPlexSansThai(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        'ระยะ: $distance',
-                                        style: GoogleFonts.ibmPlexSansThai(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+              return !outwait
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (isDateChanged) // Display the date if it's a new date
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16.0),
+                            child: Text(
+                              thaiDateIn,
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )
-                        : CustomPaint(
-                            size: Size(100, 200), // Adjust the size as needed
-                            painter: TimelinePainter2(
-                              hasEntry:
-                                  true, // Set to true to display entry circle
-                              hasExit:
-                                  true, // Set to true to display exit circle
-                            ), // Custom painter for drawing the timeline
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ListTile(
-                                  subtitle: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'เข้า:  $thaiIntime',
-                                          style: GoogleFonts.ibmPlexSansThai(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        'ระยะ: $distance',
-                                        style: GoogleFonts.ibmPlexSansThai(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        isSameDay
+                            ? CustomPaint(
+                                size:
+                                    Size(100, 200), // Adjust the size as needed
+                                painter: TimelinePainter(
+                                  hasEntry:
+                                      true, // Set to true to display entry circle
+                                  hasExit:
+                                      true, // Set to true to display exit circle
+                                ), // Custom painter for drawing the timeline
+                                child: Column(
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 16.0),
-                                      child: Text(
-                                        thaiDateOut,
-                                        style: GoogleFonts.ibmPlexSansThai(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    ListTile(
+                                      subtitle: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'เข้า:  $thaiIntime',
+                                              style:
+                                                  GoogleFonts.ibmPlexSansThai(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'ระยะ: $distance',
+                                            style: GoogleFonts.ibmPlexSansThai(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     ListTile(
@@ -340,12 +277,181 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                                     ),
                                   ],
                                 ),
-                              ],
+                              )
+                            : CustomPaint(
+                                size:
+                                    Size(100, 200), // Adjust the size as needed
+                                painter: TimelinePainter2(
+                                  hasEntry:
+                                      true, // Set to true to display entry circle
+                                  hasExit:
+                                      true, // Set to true to display exit circle
+                                ), // Custom painter for drawing the timeline
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ListTile(
+                                      subtitle: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'เข้า:  $thaiIntime',
+                                              style:
+                                                  GoogleFonts.ibmPlexSansThai(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'ระยะ: $distance',
+                                            style: GoogleFonts.ibmPlexSansThai(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 16.0),
+                                          child: Text(
+                                            thaiDateOut,
+                                            style: GoogleFonts.ibmPlexSansThai(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          subtitle: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  'ออก: $thaiOuttime',
+                                                  style: GoogleFonts
+                                                      .ibmPlexSansThai(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                'ระยะ: $distance',
+                                                style:
+                                                    GoogleFonts.ibmPlexSansThai(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (isDateChanged) // Display the date if it's a new date
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16.0),
+                            child: Text(
+                              thaiDateIn,
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                  ],
-                ),
-              );
+                        isSameDay
+                            ? CustomPaint(
+                                size:
+                                    Size(100, 200), // Adjust the size as needed
+                                painter: TimelinePainter(
+                                  hasEntry:
+                                      true, // Set to true to display entry circle
+                                  hasExit:
+                                      true, // Set to true to display exit circle
+                                ), // Custom painter for drawing the timeline
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      subtitle: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'เข้า:  $thaiIntime',
+                                              style:
+                                                  GoogleFonts.ibmPlexSansThai(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'ระยะ: $distance',
+                                            style: GoogleFonts.ibmPlexSansThai(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : CustomPaint(
+                                size:
+                                    Size(100, 200), // Adjust the size as needed
+                                painter: TimelinePainter2(
+                                  hasEntry:
+                                      true, // Set to true to display entry circle
+                                  hasExit:
+                                      true, // Set to true to display exit circle
+                                ), // Custom painter for drawing the timeline
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ListTile(
+                                      subtitle: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'เข้า:  $thaiIntime',
+                                              style:
+                                                  GoogleFonts.ibmPlexSansThai(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'ระยะ: $distance',
+                                            style: GoogleFonts.ibmPlexSansThai(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ],
+                    );
             },
           );
         },
