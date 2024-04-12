@@ -102,6 +102,46 @@ class TimelinePainter2 extends CustomPainter {
   }
 }
 
+class TimelinePainter3 extends CustomPainter {
+  final bool hasEntry;
+  final bool hasExit;
+
+  TimelinePainter3({this.hasEntry = false, this.hasExit = false});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey // Adjust the color of the timeline
+      ..strokeWidth = 2; // Adjust the width of the timeline
+
+    final circlePaint = Paint()
+      ..color = Colors.grey // Adjust the color of the circles
+      ..strokeWidth = 6 // Adjust the size of the circles
+      ..style = PaintingStyle.fill;
+
+    // Draw the vertical line
+    canvas.drawLine(
+      Offset(size.width / 2, 0),
+      Offset(size.width / 2, size.height),
+      paint,
+    );
+
+    // Draw circles along the line for entry and exit
+    if (hasEntry) {
+      canvas.drawCircle(
+        Offset(size.width / 2, size.height / 1.65), // Adjust position for entry
+        6, // Adjust the size of the circles for entry
+        circlePaint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
 class PlaceTimelineDetail extends StatefulWidget {
   final String placeId;
   final String tripUid;
@@ -378,7 +418,7 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                             ? CustomPaint(
                                 size:
                                     Size(100, 200), // Adjust the size as needed
-                                painter: TimelinePainter(
+                                painter: TimelinePainter3(
                                   hasEntry:
                                       true, // Set to true to display entry circle
                                   hasExit:
@@ -415,7 +455,7 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                             : CustomPaint(
                                 size:
                                     Size(100, 200), // Adjust the size as needed
-                                painter: TimelinePainter2(
+                                painter: TimelinePainter3(
                                   hasEntry:
                                       true, // Set to true to display entry circle
                                   hasExit:
