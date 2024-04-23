@@ -93,9 +93,10 @@ class LocationfetchState extends State<Locationfetch> {
               'outtime': "Wait", // Assuming the user hasn't exited yet
             });
           }
+          print("ผู้ใช้อยู่นอกสถานที่");
         } else {
           // User is exiting the location
-          print("User exited the location");
+          print("ผู้ใช้อยู่ในสถานที่");
 
           // Update exit time in Firestore
           // Update exit time in Firestore
@@ -119,10 +120,20 @@ class LocationfetchState extends State<Locationfetch> {
             Text("ไม่บันทึกไทมไลน");
           }
         }
+      } else {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+
+        await FirebaseFirestore.instance
+            .collection('userlocation')
+            .doc(uid)
+            .update({
+          'userLatitude': position.latitude,
+          'userLongitude': position.longitude,
+        });
       }
-      print("User exited the location");
     } catch (error) {
-      print("Error getting user location: $error");
+      print("กำลังดำเนินการบันทึกตำแหน่ง");
     }
   }
 
