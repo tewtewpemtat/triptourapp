@@ -1,0 +1,49 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/nuget-populate"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/d8a0e25eafafe16b375d69c733c91677/nuget-populate.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/e041d5fa0d90e0159eeb7c1a48cf079b/nuget-populate-complete.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-build.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-configure.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-copyfile.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-download.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-install.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-patch.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-test.rule"
+		},
+		{
+			"file" : "C:/triptourapp/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/66a3954e44a20032eb64e1bad7eda198/nuget-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"nuget-populate"
+		],
+		"name" : "nuget-populate"
+	}
+}

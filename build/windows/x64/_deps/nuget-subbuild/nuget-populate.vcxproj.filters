@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-copyfile.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\66a3954e44a20032eb64e1bad7eda198\nuget-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\e041d5fa0d90e0159eeb7c1a48cf079b\nuget-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\d8a0e25eafafe16b375d69c733c91677\nuget-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\triptourapp\build\windows\x64\_deps\nuget-subbuild\CMakeFiles\nuget-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{BBD49FB2-9E6E-3201-B360-134471897C55}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

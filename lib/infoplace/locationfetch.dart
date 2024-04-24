@@ -93,11 +93,11 @@ class LocationfetchState extends State<Locationfetch> {
               'outtime': "Wait", // Assuming the user hasn't exited yet
             });
           }
-          print("ผู้ใช้อยู่นอกสถานที่");
+          print("ผู้ใช้อยู่ในสถานที่");
         } else {
           // User is exiting the location
-          print("ผู้ใช้อยู่ในสถานที่");
 
+          print("ผู้ใช้อยู่นอกสถานที่");
           // Update exit time in Firestore
           // Update exit time in Firestore
           QuerySnapshot querySnapshot = await FirebaseFirestore.instance

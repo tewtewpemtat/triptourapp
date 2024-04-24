@@ -96,7 +96,7 @@ class _RequestPageState extends State<RequestPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('คำร้องขอ'),
+        title: Text('คำขอ'),
       ),
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
@@ -113,7 +113,7 @@ class _RequestPageState extends State<RequestPage> {
               return Center(child: Text('Error: ${snapshot.error}'));
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return Center(child: Text('ไม่พบคำร้องขอสถานที่'));
+              return Center(child: Text('ไม่พบคำขอแนะนำสถานที่'));
             }
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,

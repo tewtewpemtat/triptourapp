@@ -544,7 +544,7 @@ class _DownPageState extends State<DownPage> {
             fetchNearLocation(selectedPosition?.latitude ?? 0.0,
                 selectedPosition?.longitude ?? 0.0);
           }
-        } else if (selectedOption == "จากคำร้องขอสถานที่") {
+        } else if (selectedOption == "จากคำขอแนะนำสถานที่") {
           Navigator.push(
             context,
             MaterialPageRoute(
