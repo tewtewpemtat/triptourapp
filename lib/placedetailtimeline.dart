@@ -212,7 +212,7 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
           }
 
           var previousDate; // เก็บวันที่ก่อนหน้าเพื่อใช้เปรียบเทียบ
-
+          var previousDateIn; // เก็บวันที่ก่อนหน้าเพื่อใช้เปรียบเทียบ
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
@@ -238,14 +238,16 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
               var isDateChanged = previousDate != thaiDateIn;
               bool isSameDay = thaiDateIn == thaiDateOut;
               previousDate = thaiDateOut;
-
+              var isDateChangedIn = previousDateIn != thaiDateIn;
+              previousDateIn = thaiDateIn;
 // กำหนดค่า timelineHeight ตามเงื่อนไข
 
               return !outwait
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (isDateChanged) // Display the date if it's a new date
+                        if (isDateChanged &&
+                            isDateChangedIn) // Display the date if it's a new date
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 16.0),
@@ -402,7 +404,7 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (isDateChanged) // Display the date if it's a new date
+                        if (isDateChangedIn) // Display the date if it's a new date
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 16.0),
