@@ -307,16 +307,6 @@ class _ChatScreenState extends State<ChatScreen> {
     // Scroll to the bottom after the frame has been painted
   }
 
-  void scrollToBottom() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        0.0, // Scroll to the top
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    });
-  }
-
   Future<Map<String, dynamic>?> getFriendData(String friendUid) async {
     try {
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -416,6 +406,7 @@ class _ChatScreenState extends State<ChatScreen> {
               'receiverUid': friendUid,
               'message': formattedMessage,
               'timestampserver': FieldValue.serverTimestamp(),
+              'status': 'Unread',
             });
             await FirebaseFirestore.instance
                 .collection('chats')
@@ -432,6 +423,7 @@ class _ChatScreenState extends State<ChatScreen> {
               'receiverUid': friendUid,
               'message': messageText,
               'timestampserver': FieldValue.serverTimestamp(),
+              'status': 'Unread',
             });
             await FirebaseFirestore.instance
                 .collection('chats')
@@ -701,6 +693,29 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  void markMessagesAsRead(String friendUid) {
+    try {
+      // Get a reference to the Firestore collection
+      CollectionReference chatsCollection =
+          FirebaseFirestore.instance.collection('messages');
+
+      // Query for unread messages where current user is the receiver and the friend is the sender
+      chatsCollection
+          .where('receiverUid', isEqualTo: myUid)
+          .where('senderUid', isEqualTo: friendUid)
+          .where('status', isEqualTo: 'Unread')
+          .get()
+          .then((querySnapshot) {
+        // Iterate through the documents and update their status to "Read"
+        querySnapshot.docs.forEach((doc) {
+          chatsCollection.doc(doc.id).update({'status': 'Read'});
+        });
+      });
+    } catch (e) {
+      print('Error marking messages as read: $e');
+    }
+  }
+
   Future<void> _uploadImage(String img, String nickname, String profileImageUrl,
       String option) async {
     try {
@@ -758,9 +773,6 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: getMessagesStream(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  WidgetsBinding.instance.addPostFrameCallback(
-                      (_) => scrollToBottom()); // Add this line
-
                   List<Map<String, dynamic>> messages = snapshot.data!;
                   return ListView.builder(
                     reverse: true,
@@ -982,6 +994,7 @@ class _ChatScreenState extends State<ChatScreen> {
           color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
+            markMessagesAsRead(widget.friendUid);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => Friend()),

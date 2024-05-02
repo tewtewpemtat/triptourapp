@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:triptourapp/friend.dart';
 import 'package:triptourapp/triptimeline.dart';
 import 'package:triptourapp/main.dart';
@@ -14,43 +16,86 @@ class BottomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
-          label: 'หน้าหลัก',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.people),
-          label: 'เพื่อน',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.timeline),
-          label: 'ประวัติทริป',
-        ),
-      ],
-      currentIndex: selectedIndex,
-      onTap: (index) {
-        if (index == 0) {
-          // ถ้า index เท่ากับ 0 (หน้าหลัก), ให้เปลี่ยนไปที่หน้า MainPage
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MyApp()),
-          );
-        }
-        if (index == 1) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Friend()),
-          );
-        } else if (index == 2) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => TripTimeLine()),
-          );
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('messages')
+          .where('receiverUid',
+              isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+          .where('status', isEqualTo: 'Unread')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
         } else {
-          // ถ้าไม่ใช่หน้าหลักหรือไทมไลน์ทริป, ให้เรียก callback onItemTapped
-          onItemTapped(index);
+          int unreadMessagesCount = snapshot.data?.docs.length ?? 0;
+          return BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: 'หน้าหลัก',
+              ),
+              BottomNavigationBarItem(
+                icon: Stack(
+                  children: [
+                    Icon(Icons.people),
+                    if (unreadMessagesCount > 0)
+                      Positioned(
+                        top: -10, // ปรับตำแหน่งตามต้องการ
+                        right: -10.5, // ปรับตำแหน่งตามต้องการ
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          constraints: BoxConstraints(
+                            minWidth: 14,
+                            minHeight: 14,
+                          ),
+                          child: Text(
+                            '$unreadMessagesCount',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                label: 'เพื่อน',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.timeline),
+                label: 'ประวัติทริป',
+              ),
+            ],
+            currentIndex: selectedIndex,
+            onTap: (index) {
+              if (index == 0) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                );
+              }
+              if (index == 1) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Friend()),
+                );
+              } else if (index == 2) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => TripTimeLine()),
+                );
+              } else {
+                onItemTapped(index);
+              }
+            },
+          );
         }
       },
     );

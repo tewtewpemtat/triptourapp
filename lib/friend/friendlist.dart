@@ -139,6 +139,29 @@ class _FriendListState extends State<FriendList> {
     );
   }
 
+  void markMessagesAsRead(String friendUid) {
+    try {
+      // Get a reference to the Firestore collection
+      CollectionReference chatsCollection =
+          FirebaseFirestore.instance.collection('messages');
+
+      // Query for unread messages where current user is the receiver and the friend is the sender
+      chatsCollection
+          .where('receiverUid', isEqualTo: myUid)
+          .where('senderUid', isEqualTo: friendUid)
+          .where('status', isEqualTo: 'Unread')
+          .get()
+          .then((querySnapshot) {
+        // Iterate through the documents and update their status to "Read"
+        querySnapshot.docs.forEach((doc) {
+          chatsCollection.doc(doc.id).update({'status': 'Read'});
+        });
+      });
+    } catch (e) {
+      print('Error marking messages as read: $e');
+    }
+  }
+
   Widget buildFriendItem(BuildContext context, String friendUid) {
     return StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance
@@ -169,6 +192,7 @@ class _FriendListState extends State<FriendList> {
           return Material(
             child: InkWell(
               onTap: () {
+                markMessagesAsRead(friendUid);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -209,7 +233,7 @@ class _FriendListState extends State<FriendList> {
                         ),
                         SizedBox(width: 5),
                         Expanded(
-                          flex: 8,
+                          flex: 7,
                           child: Container(
                             margin: EdgeInsets.only(top: 20.0),
                             child: Column(
@@ -228,6 +252,41 @@ class _FriendListState extends State<FriendList> {
                             ),
                           ),
                         ),
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: StreamBuilder<int>(
+                              stream: countUnreadMessages(friendUid),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                }
+                                int unreadCount = snapshot.data ?? 0;
+                                return Container(
+                                  margin: EdgeInsets.only(top: 25.0),
+                                  width: 28.0, // ขนาดของวงกลม
+                                  height: 30.0, // ขนาดของวงกลม
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(
+                                        255, 251, 2, 2), // สีของวงกลม
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      unreadCount
+                                          .toString(), // จำนวนข้อความที่ยังไม่ได้อ่าน
+                                      style: TextStyle(
+                                        color: Colors.white, // สีของตัวเลข
+                                        fontSize: 14.0, // ขนาดตัวเลข
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -240,6 +299,26 @@ class _FriendListState extends State<FriendList> {
         }
       },
     );
+  }
+
+  Stream<int> countUnreadMessages(String friendUid) async* {
+    try {
+      final collection = FirebaseFirestore.instance.collection('messages');
+
+      // Stream for unread messages where current user is the receiver
+      final stream = collection
+          .where('receiverUid', isEqualTo: myUid)
+          .where('senderUid', isEqualTo: friendUid)
+          .where('status', isEqualTo: 'Unread')
+          .snapshots();
+
+      await for (QuerySnapshot querySnapshot in stream) {
+        yield querySnapshot.size;
+      }
+    } catch (e) {
+      print('Error counting unread messages: $e');
+      yield 0;
+    }
   }
 
   Stream<Widget> streamLastMessageAndDisplay(String friendUid) async* {
