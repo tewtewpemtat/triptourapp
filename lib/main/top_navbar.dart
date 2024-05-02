@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../authen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -148,6 +149,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                       builder: (context) => LoginPage(),
                     ),
                   );
+                  Fluttertoast.showToast(msg: 'ออกจากระบบสำเร็จ');
                   break;
               }
             }

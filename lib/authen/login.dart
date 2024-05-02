@@ -210,6 +210,7 @@ class _LoginPageState extends State<LoginPage> {
 
         if (user != null) {
           print("Successfully signed In");
+          Fluttertoast.showToast(msg: 'เข้าสู่ระบบสำเร็จ');
           String? uid = user.uid;
 
           DocumentSnapshot<Map<String, dynamic>> userDoc =
@@ -235,9 +236,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
             );
           }
-        }
+        } else {}
       } catch (e) {
       } finally {
+        try {
+          UserCredential userCredential =
+              await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+        } catch (e) {
+          Fluttertoast.showToast(msg: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
+        }
         if (mounted)
           setState(() {
             _isSigningIn = false;
