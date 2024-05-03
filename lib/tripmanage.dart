@@ -10,6 +10,10 @@ import 'tripmanage/headinformation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'package:geolocator/geolocator.dart';
 
 class TripmanagePage extends StatelessWidget {
   final String? tripUid;
@@ -71,9 +75,65 @@ class TripmanagePage extends StatelessWidget {
     }
   }
 
+  Future<void> _checkLocationPermission(
+      BuildContext context, String myUid) async {
+    // Check if permission is already granted
+    PermissionStatus status = await Permission.location.request();
+
+    // Check if permission is granted
+    if (status.isGranted) {
+      // Permission is granted, proceed with fetching location
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      double userLatitude = position.latitude;
+      double userLongitude = position.longitude;
+
+      // Store user location in database
+// Store user location in database
+      final userLocationRef =
+          FirebaseFirestore.instance.collection('userlocation').doc(myUid);
+
+// Check if the document already exists
+      final existingDoc = await userLocationRef.get();
+
+      if (existingDoc.exists) {
+        // If document exists, update the fields
+        await userLocationRef.update({
+          'userLatitude': userLatitude,
+          'userLongitude': userLongitude,
+        });
+      } else {
+        // If document doesn't exist, create a new one
+        await userLocationRef.set({
+          'userId': myUid,
+          'userLatitude': userLatitude,
+          'userLongitude': userLongitude,
+        });
+      }
+    } else if (status.isDenied) {
+      // Permission is denied, show a message to the user
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Location Permission Denied'),
+          content: Text('Please grant permission to access your location.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String? myUid = FirebaseAuth.instance.currentUser?.uid;
+    _checkLocationPermission(context, myUid ?? '');
     _initializeGroupChat();
     return Scaffold(
       appBar: AppBar(
