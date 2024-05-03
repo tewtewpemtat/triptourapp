@@ -96,6 +96,66 @@ class _PlacetimelineState extends State<Placetimeline> {
     );
   }
 
+  void _showParticipantsDialog(List<dynamic> participants) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('รายชื่อผู้เข้าร่วมสถานที่'),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: participants.length,
+              itemBuilder: (BuildContext context, int index) {
+                return FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(participants[index])
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text('');
+                    }
+                    if (snapshot.hasError) {
+                      return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+                    }
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return Text('ไม่พบข้อมูลผู้ใช้');
+                    }
+                    var userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    String firstName = userData['firstName'] ?? '';
+                    String nickname = userData['nickname'] ?? '';
+                    String profileImageUrl = userData['profileImageUrl'] ?? '';
+                    return ListTile(
+                      leading: CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage:
+                            NetworkImage(userData['profileImageUrl'] ?? ''),
+                      ),
+                      title: Text(firstName),
+                      subtitle: Text(nickname),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('ปิด'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget buildPlaceItem(
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
@@ -283,15 +343,36 @@ class _PlacetimelineState extends State<Placetimeline> {
                           ],
                         ),
                         SizedBox(height: 5),
-                        Text(
-                          'จำนวนผู้เข้าร่วม : $countTrip',
-                          style: GoogleFonts.ibmPlexSansThai(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              'จำนวนผู้เข้าร่วม : $countTrip คน',
+                              style: GoogleFonts.ibmPlexSansThai(
+                                fontSize: 12,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Container(
+                              margin: EdgeInsets.all(
+                                  0), // กำหนด Margin ทั้งหมดเป็น 5
+                              child: InkWell(
+                                onTap: () {
+                                  _showParticipantsDialog(
+                                      placeData['placewhogo']);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0),
+                                  child: Icon(
+                                    Icons.person,
+                                    size: 17,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        SizedBox(height: 5),
                       ],
                     ),
                   ),

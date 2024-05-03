@@ -131,6 +131,66 @@ class _TripTimelineState extends State<TripTimelinePage> {
     return tripJoin.length;
   }
 
+  void _showParticipantsDialog(List<dynamic> participants) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('รายชื่อผู้เข้าร่วมทริป'),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: participants.length,
+              itemBuilder: (BuildContext context, int index) {
+                return FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(participants[index])
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text('');
+                    }
+                    if (snapshot.hasError) {
+                      return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+                    }
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return Text('ไม่พบข้อมูลผู้ใช้');
+                    }
+                    var userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    String firstName = userData['firstName'] ?? '';
+                    String nickname = userData['nickname'] ?? '';
+                    String profileImageUrl = userData['profileImageUrl'] ?? '';
+                    return ListTile(
+                      leading: CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage:
+                            NetworkImage(userData['profileImageUrl'] ?? ''),
+                      ),
+                      title: Text(firstName),
+                      subtitle: Text(nickname),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('ปิด'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget buildTripItem(
       BuildContext context, DocumentSnapshot document, String tripUid) {
     Map<String, dynamic> tripData = document.data() as Map<String, dynamic>;
@@ -333,12 +393,36 @@ class _TripTimelineState extends State<TripTimelinePage> {
                                 },
                               ),
                               SizedBox(height: 3),
-                              Text(
-                                'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
-                                style: GoogleFonts.ibmPlexSansThai(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
+                              Container(
+                                margin: EdgeInsets.all(0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'จำนวนผู้ร่วมทริป: ${getTotalParticipants(document)} คน',
+                                      style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Container(
+                                      margin: EdgeInsets.all(0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          _showParticipantsDialog(
+                                              tripData['tripJoin']);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(0),
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 17,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
