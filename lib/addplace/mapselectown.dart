@@ -12,6 +12,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'dart:math';
+import 'dart:async';
+import 'package:geolocator/geolocator.dart';
 
 class MapSelectionOwnPage extends StatefulWidget {
   final String? tripUid;
@@ -37,12 +39,32 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
   String? useruid;
   TextEditingController _placeNameController = TextEditingController();
   TextEditingController _placeAddressController = TextEditingController();
+  late StreamSubscription<Position> _positionStreamSubscription;
+  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
+  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
 
   @override
   void initState() {
     super.initState();
+    _getCurrentLocation();
     uid = FirebaseAuth.instance.currentUser?.uid;
     placewhogo = [uid ?? ''];
+  }
+
+  @override
+  void dispose() {
+    _positionStreamSubscription.cancel();
+    super.dispose();
+  }
+
+  void _getCurrentLocation() {
+    _positionStreamSubscription =
+        Geolocator.getPositionStream().listen((Position position) {
+      setState(() {
+        userLatitude = position.latitude;
+        userLongitude = position.longitude;
+      });
+    });
   }
 
   @override
@@ -55,7 +77,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => AddPage(tripUid: widget.tripUid),
@@ -64,20 +86,38 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
           },
         ),
       ),
-      body: GoogleMap(
-        onMapCreated: (controller) {
-          _controller = controller;
+      body: StreamBuilder<Position>(
+        stream: Geolocator.getPositionStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return GoogleMap(
+            onMapCreated: (controller) {
+              _controller = controller;
+            },
+            onTap: (position) {
+              setState(() {
+                _selectedPosition = position;
+              });
+            },
+            initialCameraPosition: CameraPosition(
+              target: LatLng(userLatitude, userLongitude), // Default position
+              zoom: 12,
+            ),
+            markers:
+                _selectedPosition != null ? _createMarkers() : Set<Marker>(),
+          );
         },
-        onTap: (position) {
-          setState(() {
-            _selectedPosition = position;
-          });
-        },
-        initialCameraPosition: CameraPosition(
-          target: LatLng(13.736717, 100.523186), // Default position
-          zoom: 12,
-        ),
-        markers: _selectedPosition != null ? _createMarkers() : Set<Marker>(),
       ),
       floatingActionButton: _selectedPosition != null
           ? FloatingActionButton(

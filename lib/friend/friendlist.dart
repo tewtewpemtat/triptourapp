@@ -263,26 +263,29 @@ class _FriendListState extends State<FriendList> {
                                   return CircularProgressIndicator();
                                 }
                                 int unreadCount = snapshot.data ?? 0;
-                                return Container(
-                                  margin: EdgeInsets.only(top: 25.0),
-                                  width: 28.0, // ขนาดของวงกลม
-                                  height: 30.0, // ขนาดของวงกลม
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color.fromARGB(
-                                        255, 251, 2, 2), // สีของวงกลม
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      unreadCount
-                                          .toString(), // จำนวนข้อความที่ยังไม่ได้อ่าน
-                                      style: TextStyle(
-                                        color: Colors.white, // สีของตัวเลข
-                                        fontSize: 14.0, // ขนาดตัวเลข
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                return unreadCount != 0
+                                    ? Container(
+                                        margin: EdgeInsets.only(top: 25.0),
+                                        width: 28.0, // ขนาดของวงกลม
+                                        height: 30.0, // ขนาดของวงกลม
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color.fromARGB(
+                                              255, 251, 2, 2), // สีของวงกลม
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            unreadCount
+                                                .toString(), // จำนวนข้อความที่ยังไม่ได้อ่าน
+                                            style: TextStyle(
+                                              color:
+                                                  Colors.white, // สีของตัวเลข
+                                              fontSize: 14.0, // ขนาดตัวเลข
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container();
                               },
                             ),
                           ),

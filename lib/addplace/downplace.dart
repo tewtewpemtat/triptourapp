@@ -110,8 +110,8 @@ class _DownPageState extends State<DownPage> {
                 tripUid: widget.tripUid,
                 onPlaceTypeChanged: (values) {
                   setState(() {
-                    placeType =
-                        values['placeType']; // เข้าถึงค่า placeType ใน values
+                    placeType = values['placeType'];
+
                     selectedOption = values[
                         'selectedOption']; // เข้าถึงค่า selectedOption ใน values
                     _checkLocationPermission(selectedOption ?? "");
@@ -467,15 +467,16 @@ class _DownPageState extends State<DownPage> {
         if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
           search = true;
           searchRadius2 = 0;
+          selectedPosition = null;
           if (searchRadius == 0) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('ระยะห่างในการค้นหา (เมตร)'),
+                title: Text('ระยะห่างในการค้นหา'),
                 content: TextField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'ระยะห่างในการค้นหา (เมตร)',
+                    labelText: 'ระยะห่างในการค้นหา(เมตร)',
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
@@ -495,8 +496,67 @@ class _DownPageState extends State<DownPage> {
                 ],
               ),
             );
+            if (placeType == 'กำหนดเอง') {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('กำหนดเอง'),
+                  content: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'ชื่อหรือประเภทสถานที่',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        placeType = value;
+                      });
+                    },
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('ตกลง'),
+                    ),
+                  ],
+                ),
+              );
+            }
           } else {
-            fetchNearLocation(position.latitude, position.longitude);
+            if (placeType == 'กำหนดเอง') {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('กำหนดเอง'),
+                  content: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'ชื่อหรือประเภทสถานที่',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        placeType = value;
+                      });
+                    },
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        fetchNearLocation(
+                            position.latitude, position.longitude);
+                      },
+                      child: Text('ตกลง'),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              fetchNearLocation(position.latitude, position.longitude);
+            }
             search = true;
             selectedPosition = null;
             searchRadius2 = 0;
@@ -510,11 +570,12 @@ class _DownPageState extends State<DownPage> {
             selectedPosition != null) {
           search = false;
           searchRadius = 0;
+
           if (searchRadius2 == 0) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('ระยะห่างในการค้นหา (เมตร)'),
+                title: Text('ระยะห่างในการค้นหา'),
                 content: TextField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -540,9 +601,68 @@ class _DownPageState extends State<DownPage> {
                 ],
               ),
             );
+            if (placeType == 'กำหนดเอง') {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('กำหนดเอง'),
+                  content: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'ชื่อหรือประเภทสถานที่',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        placeType = value;
+                      });
+                    },
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('ตกลง'),
+                    ),
+                  ],
+                ),
+              );
+            }
           } else {
-            fetchNearLocation(selectedPosition?.latitude ?? 0.0,
-                selectedPosition?.longitude ?? 0.0);
+            if (placeType == 'กำหนดเอง') {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('กำหนดเอง'),
+                  content: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'ชื่อหรือประเภทสถานที่',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        placeType = value;
+                      });
+                    },
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        fetchNearLocation(selectedPosition?.latitude ?? 0.0,
+                            selectedPosition?.longitude ?? 0.0);
+                      },
+                      child: Text('ตกลง'),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              fetchNearLocation(selectedPosition?.latitude ?? 0.0,
+                  selectedPosition?.longitude ?? 0.0);
+            }
           }
         } else if (selectedOption == "จากคำขอแนะนำสถานที่") {
           Navigator.push(
@@ -578,26 +698,6 @@ class _DownPageState extends State<DownPage> {
       );
     }
   }
-
-  // void _handleSelectedOptionChange(String newOption) {
-  //   setState(() {
-  //     selectedOption = newOption;
-  //     if (selectedOption == "จากตำแหน่งบนแผนที่" && selectedPosition == null) {
-  //       _openMapSelectionPage();
-  //     } else if (selectedOption == "จากคำร้องขอสถานที่") {
-  //       // Navigate push ไปยังหน้า RequestPage พร้อมส่ง tripUid มาด้วย
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => RequestPage(tripUid: widget.tripUid),
-  //         ),
-  //       );
-  //     } else {
-  //       fetchNearLocation(selectedPosition?.latitude ?? 0.0,
-  //           selectedPosition?.longitude ?? 0.0);
-  //     }
-  //   });
-  // }
 
   void _openMapSelectionPage() async {
     selectedPosition = await Navigator.push(

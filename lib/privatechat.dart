@@ -755,6 +755,7 @@ class _ChatScreenState extends State<ChatScreen> {
           'senderUid': uid,
           'timestampserver': FieldValue
               .serverTimestamp(), // Assuming you have a timestamp field
+          'status': 'Unread',
         });
         fetchMessages();
       }

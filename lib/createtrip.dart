@@ -9,6 +9,7 @@ import 'tripmanage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart'; // Import intl package
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreateTripPage extends StatefulWidget {
   @override
@@ -151,6 +152,9 @@ class _CreateTripPageState extends State<CreateTripPage> {
           MaterialPageRoute(
             builder: (context) => MyApp(),
           ),
+        );
+        Fluttertoast.showToast(
+          msg: "สร้างทริปสำเร็จ",
         );
       }
     } else {

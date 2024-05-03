@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:triptourapp/addplace.dart';
+import 'package:geolocator/geolocator.dart';
+import 'dart:async';
 
 class MapSelectionPage extends StatefulWidget {
   @override
@@ -12,6 +14,31 @@ class MapSelectionPage extends StatefulWidget {
 class _MapSelectionPageState extends State<MapSelectionPage> {
   late GoogleMapController _controller;
   LatLng? _selectedPosition;
+  late StreamSubscription<Position> _positionStreamSubscription;
+  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
+  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  @override
+  void dispose() {
+    _positionStreamSubscription.cancel();
+    super.dispose();
+  }
+
+  void _getCurrentLocation() {
+    _positionStreamSubscription =
+        Geolocator.getPositionStream().listen((Position position) {
+      setState(() {
+        userLatitude = position.latitude;
+        userLongitude = position.longitude;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,45 +46,61 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('กำหนดสถานที่'),
-        automaticallyImplyLeading: false, // ไม่แสดงปุ่ม Back อัตโนมัติ
+        automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => AddPage(tripUid: widget.tripUid),
               ),
-            ); // กลับไปที่หน้า AddPage
+            );
           },
         ),
       ),
-      body: GoogleMap(
-        onMapCreated: (controller) {
-          _controller = controller;
+      body: StreamBuilder<Position>(
+        stream: Geolocator.getPositionStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return GoogleMap(
+            onMapCreated: (controller) {
+              _controller = controller;
+            },
+            onTap: (position) {
+              setState(() {
+                _selectedPosition = position;
+              });
+            },
+            initialCameraPosition: CameraPosition(
+              target: LatLng(userLatitude, userLongitude),
+              zoom: 12,
+            ),
+            markers:
+                _selectedPosition != null ? _createMarkers() : Set<Marker>(),
+          );
         },
-        onTap: (position) {
-          setState(() {
-            _selectedPosition = position;
-          });
-        },
-        initialCameraPosition: CameraPosition(
-          target: LatLng(13.736717, 100.523186), // Default position
-          zoom: 12,
-        ),
-        markers: _selectedPosition != null ? _createMarkers() : Set<Marker>(),
       ),
       floatingActionButton: _selectedPosition != null
           ? FloatingActionButton(
               onPressed: () {
-                // Handle saving the selected position
                 Navigator.pop(context, _selectedPosition);
               },
               child: Icon(Icons.save),
             )
           : null,
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.startFloat, // ตำแหน่ง FAB ที่กำหนด
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 

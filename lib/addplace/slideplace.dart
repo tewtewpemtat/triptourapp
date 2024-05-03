@@ -21,6 +21,7 @@ class _SlidePlaceState extends State<SlidePlace> {
     'อาหาร',
     'สตรีทฟู้ด',
     'วัดโบสถ์',
+    'กำหนดเอง'
   ];
 
   String selectedPlaceType = 'ร้านกาแฟ';

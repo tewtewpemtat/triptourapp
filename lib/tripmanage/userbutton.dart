@@ -456,7 +456,7 @@ class UserbuttonState extends State<Userbutton> {
                                   width:
                                       8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
                               Text(
-                                'ร้องขอสถานที่',
+                                'แนะนำสถานที่',
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontWeight: FontWeight.bold,
                                 ),
