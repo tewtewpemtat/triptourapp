@@ -66,8 +66,8 @@ class _HeadPlanPageState extends State<HeadPlan> {
         final places = snapshot.data!.docs;
         if (places != null) {
           places.sort((a, b) {
-            final aEndTime = a['placetimeend'] as Timestamp;
-            final bEndTime = b['placetimeend'] as Timestamp;
+            final aEndTime = a['placetimestart'] as Timestamp;
+            final bEndTime = b['placetimestart'] as Timestamp;
             return aEndTime.compareTo(bEndTime);
           });
 
@@ -205,6 +205,62 @@ class _HeadPlanPageState extends State<HeadPlan> {
       }
     } catch (e) {
       print("Error getting user location: $e");
+    }
+  }
+
+  void _showTimePickerDialog(Timestamp initialTime, String tripid,
+      String placeid, BuildContext context) async {
+    DateTime selectedDateTime = (initialTime.toDate()).add(Duration(
+        hours: initialTime.toDate().hour,
+        minutes: initialTime.toDate().minute));
+
+    // Fetch trip data from Firestore
+    DocumentSnapshot tripSnapshot =
+        await FirebaseFirestore.instance.collection('trips').doc(tripid).get();
+
+    // Get trip end date from trip data
+    Timestamp tripEndDate = tripSnapshot['tripEndDate'];
+
+    TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(initialTime.toDate()),
+    );
+
+    if (selectedTime != null) {
+      // Combine the selected time with the current date
+      selectedDateTime = DateTime(selectedDateTime.year, selectedDateTime.month,
+          selectedDateTime.day, selectedTime.hour, selectedTime.minute);
+
+      // Check if selectedDateTime is before tripEndDate
+      if (selectedDateTime.isBefore(tripEndDate.toDate())) {
+        // Update place time end in Firestore
+        await FirebaseFirestore.instance
+            .collection('places')
+            .doc(placeid)
+            .update({
+          'placetimeend': selectedDateTime,
+        });
+
+        Fluttertoast.showToast(
+          msg: "ขยายเวลาเสร็จสิ้น",
+        );
+      } else {
+        await FirebaseFirestore.instance
+            .collection('places')
+            .doc(placeid)
+            .update({
+          'placetimeend': selectedDateTime,
+        });
+        await FirebaseFirestore.instance
+            .collection('trips')
+            .doc(tripid)
+            .update({
+          'tripEndDate': selectedDateTime,
+        });
+        Fluttertoast.showToast(
+          msg: "ขยายเวลาเสร็จสิ้น",
+        );
+      }
     }
   }
 
@@ -476,46 +532,134 @@ class _HeadPlanPageState extends State<HeadPlan> {
                                                   ),
                                                 )),
                                     )
-                                  : Container(
-                                      width: 70,
-                                      height: 40,
-                                      child: TextButton(
-                                        onPressed: () {
-                                          if (placeData['placestart'] != '' &&
-                                              (placeData['placerun'] ==
-                                                      'Running' ||
-                                                  placeData['placerun'] ==
-                                                      'Start')) {
-                                            rounttomap(
-                                                place,
-                                                placeData['placestart'],
-                                                placeData['placewhogo'],
-                                                context);
-                                          } else if (placeData['placestart'] ==
-                                              '') {
-                                            Fluttertoast.showToast(
-                                              msg:
-                                                  "สถานที่นี้ไม่มีการกำหนดจุดนัดพบ",
-                                            );
-                                          } else {
-                                            Fluttertoast.showToast(
-                                              msg: "สถานที่นี้สิ้นสุดไปเเล้ว",
-                                            );
-                                          }
-                                        },
-                                        child: Text(
-                                          'จุดนัดพบ',
-                                          style: GoogleFonts.ibmPlexSansThai(
-                                            fontWeight: FontWeight.bold,
-                                            color:
-                                                Color.fromARGB(255, 49, 49, 49),
+                                  : placeData['placerun'] == 'Running'
+                                      ? Expanded(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    if (placeData[
+                                                                'placestart'] !=
+                                                            '' &&
+                                                        (placeData['placerun'] ==
+                                                                'Running' ||
+                                                            placeData[
+                                                                    'placerun'] ==
+                                                                'Start')) {
+                                                      rounttomap(
+                                                          place,
+                                                          placeData[
+                                                              'placestart'],
+                                                          placeData[
+                                                              'placewhogo'],
+                                                          context);
+                                                    } else if (placeData[
+                                                            'placestart'] ==
+                                                        '') {
+                                                      Fluttertoast.showToast(
+                                                        msg:
+                                                            "สถานที่นี้ไม่มีการกำหนดจุดนัดพบ",
+                                                      );
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                        msg:
+                                                            "สถานที่นี้สิ้นสุดไปเเล้ว",
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Text(
+                                                    'จุดนัดพบ',
+                                                    style: GoogleFonts
+                                                        .ibmPlexSansThai(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color.fromARGB(
+                                                          255, 49, 49, 49),
+                                                    ),
+                                                  ),
+                                                  style: TextButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 5),
+                                              Container(
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    _showTimePickerDialog(
+                                                      placeData['placetimeend']
+                                                          as Timestamp,
+                                                      widget.tripUid ?? '',
+                                                      place.id,
+                                                      context,
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    'ขยายเวลา',
+                                                    style: GoogleFonts
+                                                        .ibmPlexSansThai(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color.fromARGB(
+                                                          255, 236, 234, 234),
+                                                    ),
+                                                  ),
+                                                  style: TextButton.styleFrom(
+                                                    backgroundColor:
+                                                        Color.fromARGB(
+                                                            255, 5, 114, 239),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : Container(
+                                          width: 70,
+                                          height: 40,
+                                          child: TextButton(
+                                            onPressed: () {
+                                              if (placeData['placestart'] !=
+                                                      '' &&
+                                                  (placeData['placerun'] ==
+                                                          'Running' ||
+                                                      placeData['placerun'] ==
+                                                          'Start')) {
+                                                rounttomap(
+                                                    place,
+                                                    placeData['placestart'],
+                                                    placeData['placewhogo'],
+                                                    context);
+                                              } else if (placeData[
+                                                      'placestart'] ==
+                                                  '') {
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      "สถานที่นี้ไม่มีการกำหนดจุดนัดพบ",
+                                                );
+                                              } else {
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      "สถานที่นี้สิ้นสุดไปเเล้ว",
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              'จุดนัดพบ',
+                                              style:
+                                                  GoogleFonts.ibmPlexSansThai(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 49, 49, 49),
+                                              ),
+                                            ),
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: Colors.grey,
+                                            ),
                                           ),
                                         ),
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
                             ),
                           ],
                         ),

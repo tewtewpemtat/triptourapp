@@ -58,8 +58,8 @@ class _UserPlanState extends State<UserPlan> {
         final places = snapshot.data!.docs;
         if (places != null) {
           places.sort((a, b) {
-            final aEndTime = a['placetimeend'] as Timestamp;
-            final bEndTime = b['placetimeend'] as Timestamp;
+            final aEndTime = a['placetimestart'] as Timestamp;
+            final bEndTime = b['placetimestart'] as Timestamp;
             return aEndTime.compareTo(bEndTime);
           });
 
