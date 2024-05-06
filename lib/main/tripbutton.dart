@@ -2,9 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/createtrip.dart';
 import 'package:triptourapp/jointrip.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TripButtons extends StatelessWidget {
   @override
+  String? myUid = FirebaseAuth.instance.currentUser?.uid;
+
+  Stream<int> countUnreadMessages() async* {
+    try {
+      final collection = FirebaseFirestore.instance.collection('triprequest');
+
+      // Stream for unread messages where current user is the receiver
+      final stream = collection
+          .where('receiverUid', isEqualTo: myUid)
+          .where('status', isEqualTo: 'Waiting')
+          .snapshots();
+
+      await for (QuerySnapshot querySnapshot in stream) {
+        yield querySnapshot.size;
+      }
+    } catch (e) {
+      print('Error counting unread messages: $e');
+      yield 0;
+    }
+  }
+
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,12 +111,48 @@ class TripButtons extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            child: Text(
-              'เข้าร่วมทริป',
-              style: GoogleFonts.ibmPlexSansThai(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'เข้าร่วมทริป',
+                  style: GoogleFonts.ibmPlexSansThai(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(width: 5),
+                StreamBuilder<int>(
+                  stream: countUnreadMessages(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+                    int unreadCount = snapshot.data ?? 0;
+                    return unreadCount != 0
+                        ? Container(
+                            width: 28.0, // ขนาดของวงกลม
+                            height: 30.0, // ขนาดของวงกลม
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color:
+                                  Color.fromARGB(255, 251, 2, 2), // สีของวงกลม
+                            ),
+                            child: Center(
+                              child: Text(
+                                unreadCount
+                                    .toString(), // จำนวนข้อความที่ยังไม่ได้อ่าน
+                                style: TextStyle(
+                                  color: Colors.white, // สีของตัวเลข
+                                  fontSize: 16.0, // ขนาดตัวเลข
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container();
+                  },
+                ),
+              ],
             ),
           ),
         ),

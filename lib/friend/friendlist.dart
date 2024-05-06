@@ -19,6 +19,25 @@ class _FriendListState extends State<FriendList> {
   String _searchQuery = "";
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
 
+  Stream<int> countrequest() async* {
+    try {
+      final collection = FirebaseFirestore.instance.collection('friendrequest');
+
+      // Stream for unread messages where current user is the receiver
+      final stream = collection
+          .where('receiverUid', isEqualTo: myUid)
+          .where('status', isEqualTo: 'Wait')
+          .snapshots();
+
+      await for (QuerySnapshot querySnapshot in stream) {
+        yield querySnapshot.size;
+      }
+    } catch (e) {
+      print('Error counting unread messages: $e');
+      yield 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -92,8 +111,47 @@ class _FriendListState extends State<FriendList> {
                     ),
                   );
                 },
-                child: Icon(Icons.mail),
-              ),
+                child: Stack(
+                  children: [
+                    Icon(Icons.mail),
+                    StreamBuilder<int>(
+                      stream: countrequest(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        }
+                        int unreadCount = snapshot.data ?? 0;
+                        return unreadCount != 0
+                            ? Positioned(
+                                top: -10, // ปรับตำแหน่งตามต้องการ
+                                right: -10.5, // ปรับตำแหน่งตามต้องการ
+                                child: Container(
+                                  margin: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  constraints: BoxConstraints(
+                                    minWidth: 15,
+                                    minHeight: 15,
+                                  ),
+                                  child: Text(
+                                    '$unreadCount',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(); // กำหนดให้มีความสูงเป็นศูนย์ถ้าไม่มีข้อความที่ยังไม่ได้อ่าน
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
