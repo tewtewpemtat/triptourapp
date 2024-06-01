@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:triptourapp/invite.dart';
 import 'package:triptourapp/main.dart';
+import 'package:triptourapp/notificationcheck.dart';
+import 'package:triptourapp/notificationcheck/requestplace.dart';
 import 'package:triptourapp/tripmanage/userbutton.dart';
 import 'package:triptourapp/tripmanage/userplan.dart';
 import 'tripmanage/headbutton.dart';
@@ -213,6 +215,8 @@ class TripmanagePage extends StatelessWidget {
                 }
               },
             ),
+            NotificationCheck(),
+            placeCheck(tripUid: tripUid),
           ],
         ),
       ),

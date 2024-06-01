@@ -245,7 +245,7 @@ class _FriendListState extends State<FriendList> {
             child: InkWell(
               onTap: () {
                 markMessagesAsRead(friendUid);
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ChatScreenPage(friendUid: friendUid),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/infoplace/distancechoose.dart';
 import 'package:triptourapp/infoplace/locationfetch.dart';
+import 'package:triptourapp/notificationcheck.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -147,7 +148,8 @@ class InfoPlacePageState extends State<InfoPlacePage> {
             DistancePage(tripUid: widget.tripUid, placeid: widget.placeid),
             HeadInfoButton(tripUid: widget.tripUid, placeid: widget.placeid),
             MemberPage(tripUid: widget.tripUid, placeid: widget.placeid),
-            Locationfetch(tripUid: widget.tripUid, placeid: widget.placeid)
+            Locationfetch(tripUid: widget.tripUid, placeid: widget.placeid),
+            NotificationCheck(),
           ],
         ),
       ),

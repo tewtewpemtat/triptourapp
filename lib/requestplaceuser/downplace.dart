@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/requestplaceuser/mapselectown.dart';
-import 'mapselect.dart'; // ต้องแก้ไขตามชื่อไฟล์ของหน้า MapSelectionPage จริงๆ
+import 'mapselect.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:triptourapp/requestplaceuser/slideplace.dart';
 import 'dart:convert';
@@ -51,11 +51,28 @@ class _DownPageState extends State<DownPage> {
   int searchRadius = 0;
   int searchRadius2 = 0;
   bool search = false;
+  String? tripCreate;
+
   @override
   void initState() {
     super.initState();
     if (widget.query != null) {
       searchPlaces(widget.query!);
+    }
+    getTripCreate(widget.tripUid);
+  }
+
+  void getTripCreate(String? tripUid) async {
+    DocumentSnapshot tripDoc =
+        await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
+    if (tripDoc.exists) {
+      setState(() {
+        tripCreate = tripDoc['tripCreate'];
+      });
+    } else {
+      setState(() {
+        tripCreate = null;
+      });
     }
   }
 
@@ -190,7 +207,7 @@ class _DownPageState extends State<DownPage> {
                                     toastLength: Toast.LENGTH_LONG,
                                   );
                                   addPlaceToFirestore(
-                                      userUid: uid ?? '',
+                                      userUid: tripCreate ?? '',
                                       placeTripId: widget.tripUid ?? '',
                                       placeName: places[index].name,
                                       placePicUrl: places[index].imageUrl,
@@ -202,6 +219,7 @@ class _DownPageState extends State<DownPage> {
                                       placeLongitude: places[index].longitude,
                                       placeWhoGo: [],
                                       placeStatus: 'Wait',
+                                      placeNotification: 'no',
                                       placeProvince:
                                           places[index].placeprovince ?? '',
                                       placeAdd: 'No',
@@ -250,6 +268,7 @@ class _DownPageState extends State<DownPage> {
     required double placeLongitude,
     required List<String> placeWhoGo,
     required String placeStatus,
+    required String placeNotification,
     required String placeProvince,
     required String placeAdd,
     required String placeRun,
@@ -290,6 +309,7 @@ class _DownPageState extends State<DownPage> {
         'placeLongitude': placeLongitude,
         'placewhogo': placeWhoGo,
         'placestatus': placeStatus,
+        'placenotification': placeNotification,
         'placeprovince': placeProvince,
         'placeadd': placeAdd,
         'placerun': placeRun

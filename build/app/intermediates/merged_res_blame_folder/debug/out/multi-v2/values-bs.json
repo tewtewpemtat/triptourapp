@@ -1,25 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-31:/values-bs/values-bs.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-33:/values-bs/values-bs.xml",
             "map": [
-                {
-                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\0042fbb402a4b477d9fdf6d65daeaa21\\transformed\\jetified-play-services-base-18.0.1\\res\\values-bs\\values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "193,295,451,573,679,825,947,1055,1153,1303,1406,1563,1686,1832,1974,2038,2096",
-                        "endColumns": "101,155,121,105,145,121,107,97,149,102,156,122,145,141,63,57,80",
-                        "endOffsets": "294,450,572,678,824,946,1054,1152,1302,1405,1562,1685,1831,1973,2037,2095,2176"
-                    },
-                    "to": {
-                        "startLines": "36,37,38,39,40,41,42,43,45,46,47,48,49,50,51,52,53",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3555,3661,3821,3947,4057,4207,4333,4445,4688,4842,4949,5110,5237,5387,5533,5601,5663",
-                        "endColumns": "105,159,125,109,149,125,111,101,153,106,160,126,149,145,67,61,84",
-                        "endOffsets": "3656,3816,3942,4052,4202,4328,4440,4542,4837,4944,5105,5232,5382,5528,5596,5658,5743"
-                    }
-                },
                 {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\3d191cda8eba49ba1f6fa6f5eeaeb20a\\transformed\\core-1.10.1\\res\\values-bs\\values-bs.xml",
                     "from": {
@@ -38,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\38012eb8442d2d8cf8e665ec432e1cb2\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-bs\\values.xml",
+                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\1bce39bc8386bdc3216e7be646dec691\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-bs\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -69,6 +52,23 @@
                         "startOffsets": "5748,5852,5952,6066",
                         "endColumns": "103,99,113,99",
                         "endOffsets": "5847,5947,6061,6161"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\f165c27830b23983aaebf6dfccd58278\\transformed\\jetified-play-services-base-18.1.0\\res\\values-bs\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "193,295,451,573,679,825,947,1055,1153,1303,1406,1563,1686,1832,1974,2038,2096",
+                        "endColumns": "101,155,121,105,145,121,107,97,149,102,156,122,145,141,63,57,80",
+                        "endOffsets": "294,450,572,678,824,946,1054,1152,1302,1405,1562,1685,1831,1973,2037,2095,2176"
+                    },
+                    "to": {
+                        "startLines": "36,37,38,39,40,41,42,43,45,46,47,48,49,50,51,52,53",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3555,3661,3821,3947,4057,4207,4333,4445,4688,4842,4949,5110,5237,5387,5533,5601,5663",
+                        "endColumns": "105,159,125,109,149,125,111,101,153,106,160,126,149,145,67,61,84",
+                        "endOffsets": "3656,3816,3942,4052,4202,4328,4440,4542,4837,4944,5105,5232,5382,5528,5596,5658,5743"
                     }
                 },
                 {

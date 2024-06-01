@@ -1,26 +1,30 @@
 [
     {
-        "merged": "com.example.triptourapp-merged_res-33:/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "com.example.triptourapp-main-26:/mipmap-xhdpi/ic_launcher.png"
+        "merged": "com.example.triptourapp-merged_res-35:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.example.triptourapp-main-28:/mipmap-hdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.triptourapp-merged_res-33:/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "com.example.triptourapp-main-26:/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "com.example.triptourapp-merged_res-35:/drawable_flutter_icon.png.flat",
+        "source": "com.example.triptourapp-main-28:/drawable/flutter_icon.png"
     },
     {
-        "merged": "com.example.triptourapp-merged_res-33:/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "com.example.triptourapp-main-26:/mipmap-hdpi/ic_launcher.png"
+        "merged": "com.example.triptourapp-merged_res-35:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.example.triptourapp-main-28:/mipmap-xxxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.triptourapp-merged_res-33:/drawable-v21_launch_background.xml.flat",
-        "source": "com.example.triptourapp-main-26:/drawable-v21/launch_background.xml"
+        "merged": "com.example.triptourapp-merged_res-35:/drawable-v21_launch_background.xml.flat",
+        "source": "com.example.triptourapp-main-28:/drawable-v21/launch_background.xml"
     },
     {
-        "merged": "com.example.triptourapp-merged_res-33:/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "com.example.triptourapp-main-26:/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "com.example.triptourapp-merged_res-35:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.example.triptourapp-main-28:/mipmap-mdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.triptourapp-merged_res-33:/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "com.example.triptourapp-main-26:/mipmap-mdpi/ic_launcher.png"
+        "merged": "com.example.triptourapp-merged_res-35:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.example.triptourapp-main-28:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.triptourapp-merged_res-35:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.example.triptourapp-main-28:/mipmap-xhdpi/ic_launcher.png"
     }
 ]

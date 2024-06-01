@@ -205,6 +205,7 @@ class _DownPageState extends State<DownPage> {
                                       placeLongitude: places[index].longitude,
                                       placeWhoGo: [uid ?? ''],
                                       placeStatus: 'Added',
+                                      placeNotification: 'yes',
                                       placeProvince:
                                           places[index].placeprovince ?? '',
                                       placeAdd: 'No',
@@ -255,6 +256,7 @@ class _DownPageState extends State<DownPage> {
     required double placeLongitude,
     required List<String> placeWhoGo,
     required String placeStatus,
+    required String placeNotification,
     required String placeProvince,
     required String placeAdd,
     required String placeRun,
@@ -309,6 +311,7 @@ class _DownPageState extends State<DownPage> {
         'placeLongitude': placeLongitude,
         'placewhogo': placeWhoGo,
         'placestatus': placeStatus,
+        'placenotification': placeNotification,
         'placeprovince': placeProvince,
         'placeadd': placeAdd,
         'placerun': placeRun

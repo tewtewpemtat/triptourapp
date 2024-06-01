@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:triptourapp/authen/login.dart';
+import 'package:triptourapp/service/notification.dart';
 import 'main/bottom_navbar.dart';
 import 'main/top_navbar.dart';
 import 'main/tripbutton.dart';
@@ -11,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   initializeDateFormatting('th', null);
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
   await Firebase.initializeApp();
 
   runApp(

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-31:/values-th/values-th.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-33:/values-th/values-th.xml",
             "map": [
                 {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\b85d0279c421905f7127b8e2bae6fbdd\\transformed\\appcompat-1.2.0\\res\\values-th\\values-th.xml",
@@ -18,6 +18,23 @@
                         "startOffsets": "105,210,303,411,496,598,708,786,863,954,1047,1138,1232,1332,1425,1520,1614,1705,1796,1877,1980,2078,2176,2279,2385,2486,2639,5984",
                         "endColumns": "104,92,107,84,101,109,77,76,90,92,90,93,99,92,94,93,90,90,80,102,97,97,102,105,100,152,94,81",
                         "endOffsets": "205,298,406,491,593,703,781,858,949,1042,1133,1227,1327,1420,1515,1609,1700,1791,1872,1975,2073,2171,2274,2380,2481,2634,2729,6061"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\1bce39bc8386bdc3216e7be646dec691\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-th\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "124",
+                        "endOffsets": "319"
+                    },
+                    "to": {
+                        "startLines": "44",
+                        "startColumns": "4",
+                        "startOffsets": "4419",
+                        "endColumns": "128",
+                        "endOffsets": "4543"
                     }
                 },
                 {
@@ -55,24 +72,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\38012eb8442d2d8cf8e665ec432e1cb2\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-th\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "124",
-                        "endOffsets": "319"
-                    },
-                    "to": {
-                        "startLines": "44",
-                        "startColumns": "4",
-                        "startOffsets": "4419",
-                        "endColumns": "128",
-                        "endOffsets": "4543"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\0042fbb402a4b477d9fdf6d65daeaa21\\transformed\\jetified-play-services-base-18.0.1\\res\\values-th\\values.xml",
+                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\f165c27830b23983aaebf6dfccd58278\\transformed\\jetified-play-services-base-18.1.0\\res\\values-th\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",

@@ -698,6 +698,7 @@ drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
 drawable corner
+drawable flutter_icon
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_call_answer
@@ -1057,6 +1058,7 @@ string copy_toast_msg
 string fallback_menu_item_copy_link
 string fallback_menu_item_open_in_browser
 string fallback_menu_item_share_link
+string fcm_fallback_notification_channel_label
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id

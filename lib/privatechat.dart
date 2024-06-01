@@ -7,8 +7,8 @@ import 'package:intl/intl.dart';
 import 'dart:math';
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ChatScreenPage extends StatelessWidget {
   final String friendUid;
@@ -370,6 +370,7 @@ class _ChatScreenState extends State<ChatScreen> {
               'message': formattedMessage,
               'timestampserver': FieldValue.serverTimestamp(),
               'status': 'Unread',
+              'sendStatus': 'no',
             });
             await FirebaseFirestore.instance
                 .collection('chats')
@@ -387,6 +388,7 @@ class _ChatScreenState extends State<ChatScreen> {
               'message': messageText,
               'timestampserver': FieldValue.serverTimestamp(),
               'status': 'Unread',
+              'sendStatus': 'no',
             });
             await FirebaseFirestore.instance
                 .collection('chats')
@@ -658,7 +660,9 @@ class _ChatScreenState extends State<ChatScreen> {
           .get()
           .then((querySnapshot) {
         querySnapshot.docs.forEach((doc) {
-          chatsCollection.doc(doc.id).update({'status': 'Read'});
+          chatsCollection
+              .doc(doc.id)
+              .update({'status': 'Read', 'sendStatus': 'yes'});
         });
       });
     } catch (e) {
@@ -697,6 +701,7 @@ class _ChatScreenState extends State<ChatScreen> {
         'senderUid': uid,
         'timestampserver': FieldValue.serverTimestamp(),
         'status': 'Unread',
+        'sendStatus': 'no',
       });
       fetchMessages();
     } catch (e) {

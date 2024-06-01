@@ -264,6 +264,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
       final placeLongitude = _selectedPosition!.longitude;
       final placeStart = placestart;
       final placetimeStart = placetimestart;
+      final placeNotification = 'no';
       final placetimeEnd = placetimeend;
       final placeTripid = widget.tripUid;
       final placeWhoGo = placewhogo;
@@ -297,6 +298,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
         'placewhogo': placeWhoGo,
         'useruid': userUid,
         'placestatus': placeStatus,
+        'placenotification': placeNotification,
         'placeprovince': placeProvince,
         'placeadd': placeAdd,
         'placeRun': placeStart

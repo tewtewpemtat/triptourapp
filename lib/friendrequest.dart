@@ -53,7 +53,7 @@ class FriendRequestPage extends StatelessWidget {
             return Text('');
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.hasError) {
+          } else if (snapshot.data!.docs.isEmpty) {
             return Container(
                 margin: EdgeInsets.all(10), child: Text('ไม่พบคำขอ'));
           } else {

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeDebugResources-31:/values-km/values-km.xml",
+            "outputFile": "com.example.triptourapp-mergeDebugResources-33:/values-km/values-km.xml",
             "map": [
                 {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\3d191cda8eba49ba1f6fa6f5eeaeb20a\\transformed\\core-1.10.1\\res\\values-km\\values-km.xml",
@@ -38,23 +38,6 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\38012eb8442d2d8cf8e665ec432e1cb2\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-km\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "144",
-                        "endOffsets": "339"
-                    },
-                    "to": {
-                        "startLines": "44",
-                        "startColumns": "4",
-                        "startOffsets": "4513",
-                        "endColumns": "148",
-                        "endOffsets": "4657"
-                    }
-                },
-                {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\12a033dba5adaec31d9d4fcec7e8bdae\\transformed\\browser-1.4.0\\res\\values-km\\values-km.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -72,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\0042fbb402a4b477d9fdf6d65daeaa21\\transformed\\jetified-play-services-base-18.0.1\\res\\values-km\\values.xml",
+                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\f165c27830b23983aaebf6dfccd58278\\transformed\\jetified-play-services-base-18.1.0\\res\\values-km\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -86,6 +69,23 @@
                         "startOffsets": "3514,3616,3771,3892,3997,4159,4283,4404,4662,4820,4937,5108,5233,5378,5536,5600,5658",
                         "endColumns": "101,154,120,104,161,123,120,108,157,116,170,124,144,157,63,57,76",
                         "endOffsets": "3611,3766,3887,3992,4154,4278,4399,4508,4815,4932,5103,5228,5373,5531,5595,5653,5730"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\1bce39bc8386bdc3216e7be646dec691\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-km\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "144",
+                        "endOffsets": "339"
+                    },
+                    "to": {
+                        "startLines": "44",
+                        "startColumns": "4",
+                        "startOffsets": "4513",
+                        "endColumns": "148",
+                        "endOffsets": "4657"
                     }
                 }
             ]
