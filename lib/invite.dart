@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:triptourapp/addfriend.dart';
-import 'package:triptourapp/friendrequest.dart';
 import 'package:triptourapp/tripmanage.dart';
-import '../privatechat.dart';
-import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Invite extends StatefulWidget {
-  @override
   final String? tripUid;
   const Invite({Key? key, this.tripUid}) : super(key: key);
   InviteState createState() => InviteState();
@@ -38,10 +32,8 @@ class InviteState extends State<Invite> {
         if (userData != null &&
             userData['friendList'] != null &&
             (userData['friendList'] as Iterable).isNotEmpty) {
-          // ดึงรายการเพื่อนทั้งหมดของผู้ใช้
           List<String> allFriends = List<String>.from(userData['friendList']);
 
-          // ดึงข้อมูลการเข้าร่วมทริปของผู้ใช้
           DocumentSnapshot<Map<String, dynamic>> tripSnapshot =
               await FirebaseFirestore.instance
                   .collection('trips')
@@ -53,7 +45,6 @@ class InviteState extends State<Invite> {
             List<String> tripParticipants =
                 List<String>.from(tripData['tripJoin'] ?? []);
 
-            // กรองเพื่อนที่ยังไม่ได้เข้าร่วมทริป
             setState(() {
               friendList = allFriends
                   .where((friendUid) => !tripParticipants.contains(friendUid))
@@ -69,7 +60,6 @@ class InviteState extends State<Invite> {
 
   void sendTripRequest(String friendUid) async {
     try {
-      // ตรวจสอบว่ามีเอกสารใน collection triprequest ที่มี senderUid, receiverUid และ status ตามเงื่อนไขหรือไม่
       QuerySnapshot<Map<String, dynamic>> tripRequestSnapshot =
           await FirebaseFirestore.instance
               .collection('triprequest')
@@ -80,7 +70,6 @@ class InviteState extends State<Invite> {
               .get();
 
       if (tripRequestSnapshot.docs.isEmpty) {
-        // ไม่มีเอกสารที่ตรงตามเงื่อนไข จึงสร้างเอกสารใหม่
         await FirebaseFirestore.instance.collection('triprequest').add({
           'tripUid': widget.tripUid,
           'senderUid': myUid,
@@ -113,7 +102,7 @@ class InviteState extends State<Invite> {
                       TripmanagePage(tripUid: widget.tripUid)),
             );
           },
-        ), // กำหนดชื่อของหน้านี้
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -190,8 +179,7 @@ class InviteState extends State<Invite> {
                     child: Container(
                       margin: EdgeInsets.only(top: 10.0, left: 10),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween, // จัดการระยะห่างระหว่างชื่อและ icon
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,8 +195,7 @@ class InviteState extends State<Invite> {
                             ],
                           ),
                           IconButton(
-                            icon: Icon(
-                                Icons.add), // รายละเอียดของไอคอนเพิ่มเพื่อน
+                            icon: Icon(Icons.add),
                             onPressed: () {
                               sendTripRequest(friendUid);
                             },
@@ -230,9 +217,7 @@ class InviteState extends State<Invite> {
 void main() async {
   runApp(MaterialApp(
     home: Scaffold(
-      // เพิ่ม Scaffold และ AppBar
-
-      body: Invite(), // ใส่ Invite widget ลงใน body
+      body: Invite(),
     ),
   ));
 }

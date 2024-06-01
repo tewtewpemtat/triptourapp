@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,7 +9,6 @@ import 'package:triptourapp/tripmanage/maproute.dart';
 import '../infoplace.dart';
 
 class UserPlan extends StatefulWidget {
-  @override
   final String? tripUid;
   const UserPlan({Key? key, this.tripUid}) : super(key: key);
   _UserPlanState createState() => _UserPlanState();
@@ -49,41 +44,37 @@ class _UserPlanState extends State<UserPlan> {
           );
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             Center(
               child: Text('ยังไม่มีการกำหนดสถานที่'),
             );
           });
         }
         final places = snapshot.data!.docs;
-        if (places != null) {
-          places.sort((a, b) {
-            final aEndTime = a['placetimestart'] as Timestamp;
-            final bEndTime = b['placetimestart'] as Timestamp;
-            return aEndTime.compareTo(bEndTime);
-          });
+        places.sort((a, b) {
+          final aEndTime = a['placetimestart'] as Timestamp;
+          final bEndTime = b['placetimestart'] as Timestamp;
+          return aEndTime.compareTo(bEndTime);
+        });
 
-          return Column(
-            children: places.map((place) {
-              final placeData = place.data() as Map<String, dynamic>;
-              isPlaceEnd = DateTime.now()
-                      .isAfter(placeData['placetimestart'].toDate()) &&
-                  DateTime.now().isAfter(placeData['placetimeend'].toDate());
-              isPlaceLength = DateTime.now()
-                      .isAfter(placeData['placetimestart'].toDate()) &&
-                  DateTime.now().isBefore(placeData['placetimeend'].toDate());
-              if (isPlaceLength) {
-                place.reference.update({'placerun': 'Running'});
-              }
-              if (isPlaceEnd) {
-                place.reference.update({'placerun': 'End'});
-              }
-              return buildPlaceItem(context, placeData, place);
-            }).toList(),
-          );
-        } else {
-          return Container();
-        }
+        return Column(
+          children: places.map((place) {
+            final placeData = place.data() as Map<String, dynamic>;
+            isPlaceEnd =
+                DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
+                    DateTime.now().isAfter(placeData['placetimeend'].toDate());
+            isPlaceLength =
+                DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
+                    DateTime.now().isBefore(placeData['placetimeend'].toDate());
+            if (isPlaceLength) {
+              place.reference.update({'placerun': 'Running'});
+            }
+            if (isPlaceEnd) {
+              place.reference.update({'placerun': 'End'});
+            }
+            return buildPlaceItem(context, placeData, place);
+          }).toList(),
+        );
       },
     );
   }
@@ -228,17 +219,15 @@ class _UserPlanState extends State<UserPlan> {
   Widget buildPlaceItem(
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
-    String placeAddress = placeData['placeaddress'];
     int maxCharsFirstLine = 40; // Maximum characters for the first line
     int maxCharsTotal = 40; // Maximum characters to display in total
-    int maxCharsFirstLine2 = 50; // Maximum characters for the first line
-    int maxCharsTotal2 = 60; // Maximum characters to display in total
+// Maximum characters for the first line
+// Maximum characters to display in total
     Timestamp placeStartTimeStamp = placeData['placetimestart'];
-    DateTime placeStartTime = placeStartTimeStamp.toDate();
+    placeStartTimeStamp.toDate();
     Timestamp placeEndTimeStamp = placeData[
         'placetimestart']; // เพิ่มการเข้าถึง placetimestart จาก placeData
-    DateTime placeEndTime =
-        placeEndTimeStamp.toDate(); // แปลง Timestamp เป็น DateTime
+    placeEndTimeStamp.toDate(); // แปลง Timestamp เป็น DateTime
     int countTrip = placeData['placewhogo'].length;
     // เงื่อนไขเพิ่มเติมเพื่อตรวจสอบว่า placetimestart มีค่ามากกว่าหรือเท่ากับวันเวลาปัจจุบันหรือไม่
     bool isPlaceTimeValid =
@@ -264,18 +253,6 @@ class _UserPlanState extends State<UserPlan> {
                         '...'
                     : placeName.substring(maxCharsFirstLine)))
         : placeName;
-    String displayedName2 = placeAddress.length > maxCharsFirstLine2
-        ? (placeAddress.length > maxCharsTotal2
-            ? placeAddress.substring(0, maxCharsFirstLine2) +
-                '...' // Add ... after truncating the first line
-            : placeAddress.substring(0, maxCharsFirstLine2) +
-                '\n' +
-                (placeAddress.length > maxCharsTotal2
-                    ? placeAddress.substring(
-                            maxCharsFirstLine2, maxCharsTotal2) +
-                        '...'
-                    : placeAddress.substring(maxCharsFirstLine2)))
-        : placeAddress;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -341,7 +318,7 @@ class _UserPlanState extends State<UserPlan> {
                           children: [
                             Expanded(
                               child: Text(
-                                displayedName ?? '',
+                                displayedName,
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -390,10 +367,8 @@ class _UserPlanState extends State<UserPlan> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimestart']
-                                                as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimestart'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -424,9 +399,8 @@ class _UserPlanState extends State<UserPlan> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimeend'] as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimeend'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -513,10 +487,11 @@ class _UserPlanState extends State<UserPlan> {
                                                 place, isUserGoing, context);
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            primary: Color.fromARGB(
+                                            foregroundColor:
+                                                const Color.fromARGB(
+                                                    255, 0, 0, 0),
+                                            backgroundColor: Color.fromARGB(
                                                 255, 167, 166, 166),
-                                            onPrimary: const Color.fromARGB(
-                                                255, 0, 0, 0),
                                             fixedSize: Size(70, 10),
                                           ),
                                           child: !isUserGoing

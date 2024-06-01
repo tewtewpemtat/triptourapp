@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/edittrip.dart';
-import 'package:triptourapp/main.dart';
 
 class InformationPage extends StatelessWidget {
   final String? tripUid;
@@ -58,7 +57,6 @@ class InformationPage extends StatelessWidget {
 
         if (!snapshot.hasData || snapshot.data == null) {
           return Container();
-          // หรือส่วนที่คุณต้องการทำต่อไป
         }
 
         var tripData = snapshot.data?.data() as Map<String, dynamic>?;
@@ -81,7 +79,6 @@ class InformationPage extends StatelessWidget {
               endDateTH.hour,
               endDateTH.minute));
 
-          // ตรวจสอบสถานะของทริปเพื่อกำหนดรูปภาพ
           String status = tripData['tripStatus'];
           String statusImage;
           if (status == 'ยังไม่เริ่มต้น') {
@@ -120,10 +117,9 @@ class InformationPage extends StatelessWidget {
                             fit: BoxFit.cover,
                           )
                         : Placeholder(
-                            // สร้าง Placeholder หรือรูปภาพแทนกรณีที่ URL เป็น null
                             fallbackHeight: 140.0,
                             fallbackWidth: double.infinity,
-                            color: Colors.grey, // สีพื้นหลังของ Placeholder
+                            color: Colors.grey,
                           ),
                   ),
                 ),
@@ -142,8 +138,7 @@ class InformationPage extends StatelessWidget {
                       ),
                     ),
                     if (isTripCreator &&
-                        tripData['tripStatus'] ==
-                            'ยังไม่เริ่มต้น') // เพิ่มการตรวจสอบนี้
+                        tripData['tripStatus'] == 'ยังไม่เริ่มต้น')
                       InkWell(
                         onTap: () {
                           Navigator.push(
@@ -206,8 +201,7 @@ class InformationPage extends StatelessWidget {
                     SizedBox(
                       width: 12,
                     ),
-                    Image.asset(statusImage,
-                        width: 13, height: 13), // ใช้รูปภาพตามสถานะ
+                    Image.asset(statusImage, width: 13, height: 13),
                     SizedBox(
                       width: 8,
                     ),

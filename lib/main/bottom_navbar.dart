@@ -42,8 +42,8 @@ class BottomNavbar extends StatelessWidget {
                     Icon(Icons.people),
                     if (unreadMessagesCount > 0)
                       Positioned(
-                        top: -10, // ปรับตำแหน่งตามต้องการ
-                        right: -10.5, // ปรับตำแหน่งตามต้องการ
+                        top: -10,
+                        right: -10.5,
                         child: Container(
                           margin: EdgeInsets.all(10),
                           decoration: BoxDecoration(

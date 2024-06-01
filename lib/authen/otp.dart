@@ -38,16 +38,12 @@ class OtpPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.start, // ตำแหน่งปุ่มจะอยู่ทางด้านซ้าย
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0), // ระยะห่างทางด้านขวาของปุ่ม
+                  padding: const EdgeInsets.only(left: 0.0),
                   child: InkWell(
-                    onTap: () {
-                      // เพิ่มโค้ดสำหรับเข้าสู่ระบบ
-                    },
+                    onTap: () {},
                     child: Text(
                       'ยืนยันรหัสที่ส่งไปในอีเมล',
                       style: GoogleFonts.ibmPlexSansThai(
@@ -82,7 +78,6 @@ class OtpPage extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
-                  // เพิ่มโค้ดสำหรับ Sign in
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -120,12 +115,9 @@ class OtpPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // เพิ่มโค้ดสำหรับลืมรหัสผ่าน
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          LoginPage()), // RegisterPage() คือหน้าที่คุณต้องไป
+                  MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
               child: Text(

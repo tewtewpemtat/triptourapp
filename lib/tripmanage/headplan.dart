@@ -2,21 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:triptourapp/tripmanage/maproute.dart';
 import 'mapselect.dart';
-import 'package:triptourapp/addplace/mapselectown.dart';
 import 'package:geolocator/geolocator.dart';
 import '../infoplace.dart';
 
 class HeadPlan extends StatefulWidget {
-  @override
   final String? tripUid;
   const HeadPlan({Key? key, this.tripUid}) : super(key: key);
   _HeadPlanPageState createState() => _HeadPlanPageState();
@@ -31,8 +25,8 @@ class _HeadPlanPageState extends State<HeadPlan> {
   double? placelong;
   LatLng? selectedPosition = null;
   LatLng? markedPosition;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
 
   @override
   void initState() {
@@ -43,8 +37,7 @@ class _HeadPlanPageState extends State<HeadPlan> {
 
   @override
   Widget build(BuildContext context) {
-    return // Set a fixed height or use constraints
-        StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('places')
           .where('placetripid', isEqualTo: widget.tripUid)
@@ -57,41 +50,37 @@ class _HeadPlanPageState extends State<HeadPlan> {
           );
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             Center(
               child: Text('ยังไม่มีการกำหนดสถานที่'),
             );
           });
         }
         final places = snapshot.data!.docs;
-        if (places != null) {
-          places.sort((a, b) {
-            final aEndTime = a['placetimestart'] as Timestamp;
-            final bEndTime = b['placetimestart'] as Timestamp;
-            return aEndTime.compareTo(bEndTime);
-          });
+        places.sort((a, b) {
+          final aEndTime = a['placetimestart'] as Timestamp;
+          final bEndTime = b['placetimestart'] as Timestamp;
+          return aEndTime.compareTo(bEndTime);
+        });
 
-          return Column(
-            children: places.map((place) {
-              final placeData = place.data() as Map<String, dynamic>;
-              isPlaceEnd = DateTime.now()
-                      .isAfter(placeData['placetimestart'].toDate()) &&
-                  DateTime.now().isAfter(placeData['placetimeend'].toDate());
-              isPlaceLength = DateTime.now()
-                      .isAfter(placeData['placetimestart'].toDate()) &&
-                  DateTime.now().isBefore(placeData['placetimeend'].toDate());
-              if (isPlaceLength) {
-                place.reference.update({'placerun': 'Running'});
-              }
-              if (isPlaceEnd) {
-                place.reference.update({'placerun': 'End'});
-              }
-              return buildPlaceItem(context, placeData, place);
-            }).toList(),
-          );
-        } else {
-          return Container();
-        }
+        return Column(
+          children: places.map((place) {
+            final placeData = place.data() as Map<String, dynamic>;
+            isPlaceEnd =
+                DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
+                    DateTime.now().isAfter(placeData['placetimeend'].toDate());
+            isPlaceLength =
+                DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
+                    DateTime.now().isBefore(placeData['placetimeend'].toDate());
+            if (isPlaceLength) {
+              place.reference.update({'placerun': 'Running'});
+            }
+            if (isPlaceEnd) {
+              place.reference.update({'placerun': 'End'});
+            }
+            return buildPlaceItem(context, placeData, place);
+          }).toList(),
+        );
       },
     );
   }
@@ -107,23 +96,25 @@ class _HeadPlanPageState extends State<HeadPlan> {
       ),
     );
     if (selectedPosition != null) {
-      FirebaseFirestore.instance.collection('places').doc(place.id).update({
-        'placestart':
-            GeoPoint(selectedPosition!.latitude, selectedPosition!.longitude)
-      }).then((value) {
-        // Update successful
-      }).catchError((error) {
-        // Error handling
-        print("Failed to update placestart: $error");
-        Fluttertoast.showToast(
-            msg: "Failed to update placestart: $error",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      });
+      FirebaseFirestore.instance
+          .collection('places')
+          .doc(place.id)
+          .update({
+            'placestart': GeoPoint(
+                selectedPosition!.latitude, selectedPosition!.longitude)
+          })
+          .then((value) {})
+          .catchError((error) {
+            print("Failed to update placestart: $error");
+            Fluttertoast.showToast(
+                msg: "Failed to update placestart: $error",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          });
     }
   }
 
@@ -140,8 +131,8 @@ class _HeadPlanPageState extends State<HeadPlan> {
           placeid: place.id,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
-          placeLatitude: placelatitude, // ประกาศพารามิเตอร์ placelatitude
-          placeLongitude: placelongitude, // ประกาศพารามิเตอร์ placelongitude
+          placeLatitude: placelatitude,
+          placeLongitude: placelongitude,
         ),
       ),
     );
@@ -214,11 +205,9 @@ class _HeadPlanPageState extends State<HeadPlan> {
         hours: initialTime.toDate().hour,
         minutes: initialTime.toDate().minute));
 
-    // Fetch trip data from Firestore
     DocumentSnapshot tripSnapshot =
         await FirebaseFirestore.instance.collection('trips').doc(tripid).get();
 
-    // Get trip end date from trip data
     Timestamp tripEndDate = tripSnapshot['tripEndDate'];
 
     TimeOfDay? selectedTime = await showTimePicker(
@@ -227,13 +216,10 @@ class _HeadPlanPageState extends State<HeadPlan> {
     );
 
     if (selectedTime != null) {
-      // Combine the selected time with the current date
       selectedDateTime = DateTime(selectedDateTime.year, selectedDateTime.month,
           selectedDateTime.day, selectedTime.hour, selectedTime.minute);
 
-      // Check if selectedDateTime is before tripEndDate
       if (selectedDateTime.isBefore(tripEndDate.toDate())) {
-        // Update place time end in Firestore
         await FirebaseFirestore.instance
             .collection('places')
             .doc(placeid)
@@ -267,17 +253,13 @@ class _HeadPlanPageState extends State<HeadPlan> {
   Widget buildPlaceItem(
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
-    String placeAddress = placeData['placeaddress'];
-    int maxCharsFirstLine = 40; // Maximum characters for the first line
-    int maxCharsTotal = 40; // Maximum characters to display in total
-    int maxCharsFirstLine2 = 50; // Maximum characters for the first line
-    int maxCharsTotal2 = 60; // Maximum characters to display in total
-    Timestamp placeStartTimeStamp = placeData[
-        'placetimestart']; // เพิ่มการเข้าถึง placetimestart จาก placeData
+    int maxCharsFirstLine = 40;
+    int maxCharsTotal = 40;
+
+    Timestamp placeStartTimeStamp = placeData['placetimestart'];
     Timestamp placeEndTimeStamp = placeData['placetimeend'];
-    DateTime placeStartTime =
-        placeStartTimeStamp.toDate(); // แปลง Timestamp เป็น DateTime
-    DateTime placeEndTime = placeEndTimeStamp.toDate();
+    placeStartTimeStamp.toDate();
+    placeEndTimeStamp.toDate();
     bool placestart;
     int countTrip = placeData['placewhogo'].length;
     if (placeData['placestart'] == '') {
@@ -285,7 +267,7 @@ class _HeadPlanPageState extends State<HeadPlan> {
     } else {
       placestart = false;
     }
-    // เงื่อนไขเพิ่มเติมเพื่อตรวจสอบว่า placetimestart มีค่ามากกว่าหรือเท่ากับวันเวลาปัจจุบันหรือไม่
+
     bool isPlaceTimeValid = placeData['placetimestart']
             .toDate()
             .isAfter(DateTime.now()) ||
@@ -299,12 +281,9 @@ class _HeadPlanPageState extends State<HeadPlan> {
         DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
             DateTime.now().isBefore(placeData['placetimeend'].toDate());
 
-    // Update the placerun field in Firestore based on the time condition
-
     String displayedName = placeName.length > maxCharsFirstLine
         ? (placeName.length > maxCharsTotal
-            ? placeName.substring(0, maxCharsFirstLine) +
-                '...' // Add ... after truncating the first line
+            ? placeName.substring(0, maxCharsFirstLine) + '...'
             : placeName.substring(0, maxCharsFirstLine) +
                 '...' +
                 (placeName.length > maxCharsTotal
@@ -312,18 +291,6 @@ class _HeadPlanPageState extends State<HeadPlan> {
                         '...'
                     : placeName.substring(maxCharsFirstLine)))
         : placeName;
-    String displayedName2 = placeAddress.length > maxCharsFirstLine2
-        ? (placeAddress.length > maxCharsTotal2
-            ? placeAddress.substring(0, maxCharsFirstLine2) +
-                '...' // Add ... after truncating the first line
-            : placeAddress.substring(0, maxCharsFirstLine2) +
-                '\n' +
-                (placeAddress.length > maxCharsTotal2
-                    ? placeAddress.substring(
-                            maxCharsFirstLine2, maxCharsTotal2) +
-                        '...'
-                    : placeAddress.substring(maxCharsFirstLine2)))
-        : placeAddress;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -347,8 +314,8 @@ class _HeadPlanPageState extends State<HeadPlan> {
           height: 200.0,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey, // Border color
-                width: 1.0, // Border width
+                color: Colors.grey,
+                width: 1.0,
               ),
               borderRadius: BorderRadius.circular(10),
               color: !isPlaceLength & !isPlaceStart
@@ -384,7 +351,7 @@ class _HeadPlanPageState extends State<HeadPlan> {
                           children: [
                             Expanded(
                               child: Text(
-                                displayedName ?? '',
+                                displayedName,
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -397,11 +364,11 @@ class _HeadPlanPageState extends State<HeadPlan> {
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black, // Border color
-                              width: 1.0, // Border width
+                              color: Colors.black,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(16.0),
-                            color: Color(0xFF1E30D7), // Background color
+                            color: Color(0xFF1E30D7),
                           ),
                           padding: EdgeInsets.all(3.0),
                           child: Text(
@@ -433,10 +400,8 @@ class _HeadPlanPageState extends State<HeadPlan> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimestart']
-                                                as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimestart'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -467,9 +432,8 @@ class _HeadPlanPageState extends State<HeadPlan> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimeend'] as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimeend'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -506,10 +470,11 @@ class _HeadPlanPageState extends State<HeadPlan> {
                                                 context);
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            primary: Color.fromARGB(
+                                            foregroundColor:
+                                                const Color.fromARGB(
+                                                    255, 0, 0, 0),
+                                            backgroundColor: Color.fromARGB(
                                                 255, 167, 166, 166),
-                                            onPrimary: const Color.fromARGB(
-                                                255, 0, 0, 0),
                                             fixedSize: Size(70, 10),
                                           ),
                                           child: placestart

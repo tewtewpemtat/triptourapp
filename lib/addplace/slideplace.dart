@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class SlidePlace extends StatefulWidget {
-  @override
   final String? tripUid;
   final ValueChanged<Map<String, String>>? onPlaceTypeChanged;
-  // เพิ่ม callback function เพื่อส่งค่า placeType และ selectedOption ไปยัง DownPage
 
   const SlidePlace({Key? key, this.tripUid, this.onPlaceTypeChanged})
       : super(key: key);
@@ -40,7 +37,7 @@ class _SlidePlaceState extends State<SlidePlace> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 3,
             blurRadius: 6,
-            offset: Offset(0, 3), // เปลี่ยนตำแหน่งของเงาลงไปทางล่าง
+            offset: Offset(0, 3),
           ),
         ],
       ),
@@ -48,8 +45,7 @@ class _SlidePlaceState extends State<SlidePlace> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween, // จัดการวางจากขวาไปซ้าย
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'ประเภทสถานที่',
@@ -58,15 +54,13 @@ class _SlidePlaceState extends State<SlidePlace> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
-                  width: 10), // เพิ่มระยะห่างระหว่าง DropdownButton กับข้อความ
+              SizedBox(width: 10),
               DropdownButton<String>(
                 value: selectedOption,
                 onChanged: (String? newValue) {
                   setState(() {
-                    selectedOption = newValue ??
-                        ''; // ถ้าค่าเป็น null ให้เปลี่ยนเป็น string ว่าง
-                    _sendDataToDownPage(); // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง DownPage
+                    selectedOption = newValue ?? '';
+                    _sendDataToDownPage();
                   });
                 },
                 items: <String>[
@@ -104,7 +98,7 @@ class _SlidePlaceState extends State<SlidePlace> {
       onTap: () {
         setState(() {
           selectedPlaceType = placeType;
-          _sendDataToDownPage(); // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง DownPage
+          _sendDataToDownPage();
         });
       },
       child: Container(
@@ -119,7 +113,7 @@ class _SlidePlaceState extends State<SlidePlace> {
           placeType,
           style: GoogleFonts.ibmPlexSansThai(
             fontSize: 16.0,
-            fontWeight: FontWeight.bold, // เพิ่มบรรทัดนี้เพื่อทำให้ตัวหนา
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -128,7 +122,6 @@ class _SlidePlaceState extends State<SlidePlace> {
 
   void _sendDataToDownPage() {
     if (widget.onPlaceTypeChanged != null) {
-      // เรียก callback function เพื่อส่งค่า placeType และ selectedOption ไปยัง DownPage
       widget.onPlaceTypeChanged!({
         'placeType': selectedPlaceType,
         'selectedOption': selectedOption,

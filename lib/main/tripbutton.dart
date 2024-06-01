@@ -3,18 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/createtrip.dart';
 import 'package:triptourapp/jointrip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// ignore: must_be_immutable
 class TripButtons extends StatelessWidget {
-  @override
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
 
   Stream<int> countUnreadMessages() async* {
     try {
       final collection = FirebaseFirestore.instance.collection('triprequest');
 
-      // Stream for unread messages where current user is the receiver
       final stream = collection
           .where('receiverUid', isEqualTo: myUid)
           .where('status', isEqualTo: 'Waiting')
@@ -34,10 +32,9 @@ class TripButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          margin: EdgeInsets.all(10), // ระยะห่างระหว่างปุ่ม
+          margin: EdgeInsets.all(10),
           child: Align(
-            alignment: Alignment.centerLeft, // จัดตำแหน่งข้อความไปทางซ้าย
-
+            alignment: Alignment.centerLeft,
             child: Text(
               'สร้างทริปของคุณ',
               style: GoogleFonts.ibmPlexSansThai(
@@ -50,7 +47,7 @@ class TripButtons extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(
             left: 10,
-          ), // Adjust the values as needed
+          ),
           child: Text(
             'สร้างทริปหรือเข้าร่วมทริปเพื่อร่วมเดินทางกับเพื่อนๆ',
             style:
@@ -71,7 +68,7 @@ class TripButtons extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Color(0xffdb923c), // ให้สีปุ่มเท่ากับสีของ Container
+              backgroundColor: Color(0xffdb923c),
               padding: EdgeInsets.all(16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -95,7 +92,6 @@ class TripButtons extends StatelessWidget {
           ),
           child: ElevatedButton(
             onPressed: () {
-              // ไปยังหน้าเข้าร่วมทริป
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -104,8 +100,7 @@ class TripButtons extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Color(
-                  0xffdb923c), // ให้สีเหมือนกับสีของ Container ที่ใช้ในการสร้างทริป
+              backgroundColor: Color(0xffdb923c),
               padding: EdgeInsets.all(16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -131,20 +126,18 @@ class TripButtons extends StatelessWidget {
                     int unreadCount = snapshot.data ?? 0;
                     return unreadCount != 0
                         ? Container(
-                            width: 28.0, // ขนาดของวงกลม
-                            height: 30.0, // ขนาดของวงกลม
+                            width: 28.0,
+                            height: 30.0,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color:
-                                  Color.fromARGB(255, 251, 2, 2), // สีของวงกลม
+                              color: Color.fromARGB(255, 251, 2, 2),
                             ),
                             child: Center(
                               child: Text(
-                                unreadCount
-                                    .toString(), // จำนวนข้อความที่ยังไม่ได้อ่าน
+                                unreadCount.toString(),
                                 style: TextStyle(
-                                  color: Colors.white, // สีของตัวเลข
-                                  fontSize: 16.0, // ขนาดตัวเลข
+                                  color: Colors.white,
+                                  fontSize: 16.0,
                                 ),
                               ),
                             ),

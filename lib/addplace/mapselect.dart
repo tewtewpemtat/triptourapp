@@ -5,18 +5,16 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
 class MapSelectionPage extends StatefulWidget {
-  @override
   final String? tripUid;
   const MapSelectionPage({Key? key, this.tripUid}) : super(key: key);
   _MapSelectionPageState createState() => _MapSelectionPageState();
 }
 
 class _MapSelectionPageState extends State<MapSelectionPage> {
-  late GoogleMapController _controller;
   LatLng? _selectedPosition;
   late StreamSubscription<Position> _positionStreamSubscription;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
 
   @override
   void initState() {
@@ -75,9 +73,7 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
           }
 
           return GoogleMap(
-            onMapCreated: (controller) {
-              _controller = controller;
-            },
+            onMapCreated: (controller) {},
             onTap: (position) {
               setState(() {
                 _selectedPosition = position;

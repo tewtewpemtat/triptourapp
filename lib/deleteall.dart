@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -69,7 +68,6 @@ class DeleteAllScreen extends StatelessWidget {
 
   Future<void> deleteAllData(BuildContext context) async {
     try {
-      final FirebaseFirestore firestore = FirebaseFirestore.instance;
       await deleteCollection('chats');
       await deleteCollection('friendrequest');
       await deleteCollection('groupmessages');

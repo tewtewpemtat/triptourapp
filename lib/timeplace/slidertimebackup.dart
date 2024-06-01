@@ -103,17 +103,14 @@ class _SlideTimeState extends State<SlideTime> {
           SizedBox(height: 10),
           TextButton(
             onPressed: () {
-              // Save the selected time slots
               print('Selected Time Slots: $selectedPlaceTypes');
               setState(() {
-                // Perform any other action you want after saving
-                selectedPlaceTypes
-                    .clear(); // Clear the selectedPlaceTypes list after saving
+                selectedPlaceTypes.clear();
               });
             },
             style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
               backgroundColor: Color(0xffdb923c),
-              primary: Colors.white,
             ),
             child: Text(
               'บันทึก',

@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:math' show sin, cos, sqrt, pow, atan2, pi;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:triptourapp/infoplace/interestmap.dart';
 import 'package:triptourapp/infoplace/interestmapthing.dart';
 import 'package:triptourapp/infoplace/userlocationmap.dart';
 import 'dart:async';
-import '../infoplace.dart';
-import 'package:intl/intl.dart';
-import 'dart:math' show radians;
 
 class UserLocation {
   final String uid;
@@ -27,7 +20,6 @@ class UserLocation {
 }
 
 class HeadInfoButton extends StatefulWidget {
-  @override
   final String? tripUid;
   final String? placeid;
   const HeadInfoButton({Key? key, this.tripUid, this.placeid})
@@ -52,10 +44,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
   }
 
   void _showUserLocationsOnMap() async {
-    // Call getUserLocations to fetch user locations
     List<UserLocation> userLocations = await getUserLocations();
 
-    // If there are user locations, display them on the map
     if (userLocations.isNotEmpty) {
       print("yes");
     } else {
@@ -67,7 +57,6 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
     List<UserLocation> userLocations = [];
 
     try {
-      // Fetch the placewhogo field from the places collection for the specified placeid
       DocumentSnapshot placeSnapshot = await FirebaseFirestore.instance
           .collection('places')
           .doc(widget.placeid)
@@ -82,11 +71,9 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
             .doc(userUid)
             .get();
         if (userSnapshot.exists) {
-          // Extract latitude and longitude from the user's location document
           double latitude = userSnapshot['userLatitude'];
           double longitude = userSnapshot['userLongitude'];
 
-          // Create a UserLocation object and add it to the list
           userLocations.add(UserLocation(
               uid: userUid, latitude: latitude, longitude: longitude));
         }
@@ -116,8 +103,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // สีพื้นหลังของปุ่ม
-                    onPrimary: Colors.black, // สีขอบตัวอักษร
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
                     fixedSize: Size(200, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -165,9 +152,9 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                             });
                           },
                           child: Icon(
-                            Icons.remove, // แทนด้วย icon ที่คุณต้องการ
-                            color: Colors.red, // สีของ icon
-                            size: 30, // ขนาดของ icon
+                            Icons.remove,
+                            color: Colors.red,
+                            size: 30,
                           ),
                         ),
                       ),
@@ -190,8 +177,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // สีพื้นหลังของปุ่ม
-                    onPrimary: Colors.black, // สีขอบตัวอักษร
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
                     fixedSize: Size(200, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -221,8 +208,8 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // สีพื้นหลังของปุ่ม
-                    onPrimary: Colors.black, // สีขอบตัวอักษร
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
                     fixedSize: Size(200, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -271,9 +258,9 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                                   });
                                 },
                                 child: Icon(
-                                  Icons.remove, // แทนด้วย icon ที่คุณต้องการ
-                                  color: Colors.red, // สีของ icon
-                                  size: 30, // ขนาดของ icon
+                                  Icons.remove,
+                                  color: Colors.red,
+                                  size: 30,
                                 ),
                               ),
                             ),
@@ -310,9 +297,9 @@ class HeadInfoButtonState extends State<HeadInfoButton> {
                                   });
                                 },
                                 child: Icon(
-                                  Icons.remove, // แทนด้วย icon ที่คุณต้องการ
-                                  color: Colors.red, // สีของ icon
-                                  size: 30, // ขนาดของ icon
+                                  Icons.remove,
+                                  color: Colors.red,
+                                  size: 30,
                                 ),
                               ),
                             ),

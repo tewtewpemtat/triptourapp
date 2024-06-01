@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/placetimeline.dart';
-import 'package:triptourapp/tripmanage.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -55,8 +54,7 @@ class _TripTimelineState extends State<TripTimelinePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.grey), // Color of the border
+                        border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Row(
@@ -163,7 +161,6 @@ class _TripTimelineState extends State<TripTimelinePage> {
                         snapshot.data!.data() as Map<String, dynamic>;
                     String firstName = userData['firstName'] ?? '';
                     String nickname = userData['nickname'] ?? '';
-                    String profileImageUrl = userData['profileImageUrl'] ?? '';
                     return ListTile(
                       leading: CircleAvatar(
                         radius: 30.0,
@@ -206,12 +203,11 @@ class _TripTimelineState extends State<TripTimelinePage> {
       String fullName = tripData['tripName'].toLowerCase();
       matchesSearch = fullName.contains(_searchQuery);
     }
-    int maxCharsFirstLine = 9; // Maximum characters for the first line
-    int maxCharsTotal = 40; // Maximum characters to display in total
+    int maxCharsFirstLine = 9;
+    int maxCharsTotal = 40;
     String displayedName = tripData['tripName'].length > maxCharsFirstLine
         ? (tripData['tripName'].length > maxCharsTotal
-            ? tripData['tripName'].substring(0, maxCharsFirstLine) +
-                '...' // Add ... after truncating the first line
+            ? tripData['tripName'].substring(0, maxCharsFirstLine) + '...'
             : tripData['tripName'].substring(0, maxCharsFirstLine) +
                 '\n' +
                 (tripData['tripName'].length > maxCharsTotal
@@ -252,7 +248,8 @@ class _TripTimelineState extends State<TripTimelinePage> {
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
                           child: Image.network(
-                            tripData['tripProfileUrl'],
+                            tripData['tripProfileUrl'] ??
+                                'https://via.placeholder.com/140',
                             height: 140.0,
                             fit: BoxFit.cover,
                           ),
@@ -272,7 +269,7 @@ class _TripTimelineState extends State<TripTimelinePage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      'ชื่อทริป: ${displayedName ?? ''}',
+                                      'ชื่อทริป: ${displayedName}',
                                       style: GoogleFonts.ibmPlexSansThai(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -457,7 +454,6 @@ class _TripTimelineState extends State<TripTimelinePage> {
                                 });
                                 Fluttertoast.showToast(
                                     msg: 'ลบประวัติทริปสำเร็จ');
-                                // Delete the entire trip document if the tripJoin list becomes empty
                               },
                             ),
                             TextButton(

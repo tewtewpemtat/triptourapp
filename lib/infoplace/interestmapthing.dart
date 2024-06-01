@@ -49,8 +49,8 @@ class InterestState extends State<InterestMap2> {
   late String uid = FirebaseAuth.instance.currentUser!.uid;
   late Future<List<PlaceMeet>> _placeMeetData;
   Map<String, BitmapDescriptor> _placeIcons = {};
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
   @override
   void initState() {
     super.initState();
@@ -61,7 +61,6 @@ class InterestState extends State<InterestMap2> {
 
   @override
   void dispose() {
-    // Add code here to clean up resources, close connections, etc.
     super.dispose();
   }
 
@@ -99,13 +98,6 @@ class InterestState extends State<InterestMap2> {
     Fluttertoast.showToast(
       msg: "กำลังโหลดข้อมูล...",
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
-    );
-  }
-
-  void _showCompleteToast() {
-    Fluttertoast.showToast(
-      msg: "โหลดข้อมูลเสร็จสมบูรณ์",
       gravity: ToastGravity.CENTER,
     );
   }
@@ -166,21 +158,18 @@ class InterestState extends State<InterestMap2> {
         final canvas = Canvas(recorder);
         final size = Size(width.toDouble(), height.toDouble());
 
-        // Draw the circle border
         final paintBorder = Paint()
-          ..color = Colors.blue // Choose your desired border color
+          ..color = Colors.blue
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2;
 
         final radius = size.width / 2;
         canvas.drawCircle(Offset(radius, radius), radius - 1, paintBorder);
 
-        // Clip the canvas to draw the image only inside the circle
         canvas.clipRRect(RRect.fromRectAndRadius(
             Rect.fromLTWH(0, 0, size.width, size.height),
             Radius.circular(radius)));
 
-        // Draw the image
         final image = await decodeImageFromList(resizedImageData);
         final paintImage = Paint()..filterQuality = FilterQuality.high;
         canvas.drawImageRect(
@@ -207,31 +196,26 @@ class InterestState extends State<InterestMap2> {
     Set<Marker> markers = {};
 
     for (var placeMeet in placeMeetList) {
-      if (placeMeet != null) {
-        LatLng position =
-            LatLng(placeMeet.placeLatitude, placeMeet.placeLongitude);
-        String userUid = placeMeet.userUid;
-        String nickname = await _fetchNickname(userUid);
-        String docId = placeMeet.docId;
-        String placeAddress = placeMeet.placeAddress;
-        Uint8List imageData = await _loadImage(
-            placeMeet.placePicUrl); // เรียกใช้ _loadImage โดยส่ง URL ของภาพ
-        _placeIcons[userUid] = BitmapDescriptor.fromBytes(
-            imageData); // เก็บ Icon ลงใน Map แบบ userUid เป็น Key
+      LatLng position =
+          LatLng(placeMeet.placeLatitude, placeMeet.placeLongitude);
+      String userUid = placeMeet.userUid;
+      String nickname = await _fetchNickname(userUid);
+      String placeAddress = placeMeet.placeAddress;
+      Uint8List imageData = await _loadImage(placeMeet.placePicUrl);
+      _placeIcons[userUid] = BitmapDescriptor.fromBytes(imageData);
 
-        markers.add(Marker(
-          markerId: MarkerId(placeMeet.docId),
-          position: position,
-          icon: _placeIcons[userUid]!, // ใช้ Icon จาก Map ที่เก็บไว้
-          infoWindow: InfoWindow(
-            title: "ผู้นัดพบ : $nickname",
-            snippet: "สิ่งน่าสนใจ : $placeAddress",
-            onTap: () {
-              getPlaceData(placeMeet.docId, userUid, context);
-            },
-          ),
-        ));
-      }
+      markers.add(Marker(
+        markerId: MarkerId(placeMeet.docId),
+        position: position,
+        icon: _placeIcons[userUid]!,
+        infoWindow: InfoWindow(
+          title: "ผู้นัดพบ : $nickname",
+          snippet: "สิ่งน่าสนใจ : $placeAddress",
+          onTap: () {
+            getPlaceData(placeMeet.docId, userUid, context);
+          },
+        ),
+      ));
     }
 
     return markers;
@@ -239,23 +223,17 @@ class InterestState extends State<InterestMap2> {
 
   void getPlaceData(String postId, String userUid, BuildContext context) async {
     try {
-      // ค้นหา document ใน collection 'placemeet' โดยใช้ postId ที่ได้จากข้อความ
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('interest')
           .doc(postId)
           .get();
 
-      // ถ้าพบ document
       if (snapshot.exists) {
-        // เข้าถึงข้อมูลจาก snapshot
         String placepicUrl = snapshot['placepicUrl'];
-        String placeid = snapshot['placeid'];
         double placeLatitude = snapshot['placeLatitude'];
         double placeLongitude = snapshot['placeLongitude'];
-        String placetripid = snapshot['placetripid'];
         String placeaddress = snapshot['placeaddress'];
 
-        // แสดงข้อมูลในรูปแบบของ Dialog
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -268,8 +246,7 @@ class InterestState extends State<InterestMap2> {
                 child: Column(
                   children: <Widget>[
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // กำหนด border radius ให้กับรูปภาพ
+                      borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
                         placepicUrl,
                         width: 150.0,
@@ -328,15 +305,12 @@ class InterestState extends State<InterestMap2> {
                     alignment: Alignment.topRight,
                     child: TextButton(
                       onPressed: () {
-                        deletePlaceMeet(postId); // Call delete function
+                        deletePlaceMeet(postId);
                         Navigator.of(context).pop();
                       },
                       child: Text(
                         'ลบจุดมาร์ค',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 11 // Change text color to red
-                            ),
+                        style: TextStyle(color: Colors.red, fontSize: 11),
                       ),
                     ),
                   ),
@@ -347,15 +321,13 @@ class InterestState extends State<InterestMap2> {
       } else {
         print('ไม่พบเอกสาร');
         setState(() {
-          _placeMeetData =
-              _fetchPlaceMeetData(); // เรียกฟังก์ชัน _fetchPlaceMeetData เพื่อดึงข้อมูลใหม่
+          _placeMeetData = _fetchPlaceMeetData();
         });
       }
     } catch (e) {
       print('Error retrieving place data: $e');
       setState(() {
-        _placeMeetData =
-            _fetchPlaceMeetData(); // เรียกฟังก์ชัน _fetchPlaceMeetData เพื่อดึงข้อมูลใหม่
+        _placeMeetData = _fetchPlaceMeetData();
       });
     }
   }
@@ -385,12 +357,10 @@ class InterestState extends State<InterestMap2> {
         msg: "ลบจุดมาร์คสำเร็จ",
       );
       setState(() {
-        _placeMeetData =
-            _fetchPlaceMeetData(); // เรียกฟังก์ชัน _fetchPlaceMeetData เพื่อดึงข้อมูลใหม่
+        _placeMeetData = _fetchPlaceMeetData();
       });
     } catch (error) {
       print('Error deleting place meet: $error');
-      // Handle error accordingly
     }
   }
 
@@ -403,8 +373,8 @@ class InterestState extends State<InterestMap2> {
           placeid: widget.placeid,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
-          placeLatitude: placeLatitude, // ประกาศพารามิเตอร์ placelatitude
-          placeLongitude: placeLongitude, // ประกาศพารามิเตอร์ placelongitude
+          placeLatitude: placeLatitude,
+          placeLongitude: placeLongitude,
         ),
       ),
     );

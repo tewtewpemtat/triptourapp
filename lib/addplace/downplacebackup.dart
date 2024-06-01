@@ -1,4 +1,3 @@
-// downpage.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
@@ -153,7 +152,7 @@ class _DownPageState extends State<DownPage> {
               ),
               SizedBox(height: 10),
               InkWell(
-                onTap: () {}, // Placeholder onTap function
+                onTap: () {},
                 child: Container(
                   padding: EdgeInsets.all(0),
                   decoration: BoxDecoration(

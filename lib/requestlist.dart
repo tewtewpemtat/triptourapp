@@ -49,10 +49,10 @@ class RequestList extends StatelessWidget {
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.grey, // สีของเส้นกรอบ
-            width: 1.0, // ความหนาของเส้นกรอบ
+            color: Colors.grey,
+            width: 1.0,
           ),
-          borderRadius: BorderRadius.circular(10), // มุมโค้งของ Container
+          borderRadius: BorderRadius.circular(10),
         ),
         margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Row(
@@ -98,19 +98,18 @@ class RequestList extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.black, // สีของเส้นกรอบ
-                          width: 1.0, // ความหนาของเส้นกรอบ
+                          color: Colors.black,
+                          width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(16.0),
-                        color: Color(0xFF1E30D7), // ความโค้งของมุมกรอบ
+                        color: Color(0xFF1E30D7),
                       ),
                       padding: EdgeInsets.all(3.0),
                       child: Text(
                         'กรุงเทพมหานคร',
                         style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 8,
-                          color: Colors.white, // สีของข้อความ
-                          // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -125,8 +124,7 @@ class RequestList extends StatelessWidget {
                         style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black, // สีของข้อความ
-                          // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                          color: Colors.black,
                         ),
                       ),
                     ),

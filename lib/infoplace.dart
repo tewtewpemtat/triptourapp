@@ -13,7 +13,6 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
 class InfoPlacePage extends StatefulWidget {
-  @override
   final String? tripUid;
   final String? placeid;
   const InfoPlacePage({Key? key, this.tripUid, this.placeid}) : super(key: key);
@@ -22,8 +21,8 @@ class InfoPlacePage extends StatefulWidget {
 }
 
 class InfoPlacePageState extends State<InfoPlacePage> {
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
   @override
   void initState() {
     super.initState();
@@ -36,19 +35,16 @@ class InfoPlacePageState extends State<InfoPlacePage> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // ถ้าบริการตำแหน่งไม่ได้เปิดใช้งาน ให้ไปเปิดใช้งานก่อน
       return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
-      // ถ้าผู้ใช้ไม่อนุญาตให้เข้าถึงตำแหน่งไปยังแอปเสมอ ให้ขออนุญาตใหม่
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
     if (permission == LocationPermission.denied) {
-      // ถ้าผู้ใช้ไม่อนุญาตให้เข้าถึงตำแหน่ง ให้ขออนุญาต
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.whileInUse &&
           permission != LocationPermission.always) {
@@ -57,22 +53,18 @@ class InfoPlacePageState extends State<InfoPlacePage> {
       }
     }
 
-    // เริ่มดึงตำแหน่งปัจจุบัน
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
-      // Get the current user's UID
       String uid = FirebaseAuth.instance.currentUser!.uid;
 
-      // Check if the user already has a document in the "userlocation" collection
       DocumentSnapshot userLocationSnapshot = await FirebaseFirestore.instance
           .collection('userlocation')
           .doc(uid)
           .get();
 
       if (userLocationSnapshot.exists) {
-        // Update the existing document with the new location data
         await FirebaseFirestore.instance
             .collection('userlocation')
             .doc(uid)
@@ -81,7 +73,6 @@ class InfoPlacePageState extends State<InfoPlacePage> {
           'userLongitude': position.longitude,
         });
       } else {
-        // Create a new document for the user's location
         await FirebaseFirestore.instance
             .collection('userlocation')
             .doc(uid)

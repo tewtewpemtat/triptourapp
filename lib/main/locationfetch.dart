@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:triptourapp/infoplace/distancechoose.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
-import 'dart:math' show sin, cos, sqrt, pow, atan2, pi;
+import 'dart:math' show sin, cos, sqrt, atan2, pi;
 
 class CheckDate extends StatefulWidget {
-  @override
   final String? tripUid;
   final String? placeid;
   const CheckDate({Key? key, this.tripUid, this.placeid}) : super(key: key);
@@ -19,10 +16,10 @@ class CheckDate extends StatefulWidget {
 
 class CheckDateState extends State<CheckDate> {
   String uid = FirebaseAuth.instance.currentUser!.uid;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
-  double placeLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double placeLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
+  double placeLatitude = 0.0;
+  double placeLongitude = 0.0;
   DateTime? placeEndTime;
   double? distance;
   late Timer timer;
@@ -73,7 +70,6 @@ class CheckDateState extends State<CheckDate> {
         print(distanceInMeters);
         num distanceNum = distance!.toDouble();
         if (distanceInMeters <= distanceNum) {
-          // Check if there's an existing entry without an exit time
           QuerySnapshot querySnapshot = await FirebaseFirestore.instance
               .collection('timelinestamp')
               .where('useruid', isEqualTo: uid)
@@ -83,33 +79,27 @@ class CheckDateState extends State<CheckDate> {
               .get();
 
           if (querySnapshot.docs.isEmpty) {
-            // Create a new entry for the user's entrance
             await FirebaseFirestore.instance.collection('timelinestamp').add({
               'useruid': uid,
               'placeid': widget.placeid,
               'placetripid': widget.tripUid,
               'distance': distanceNum,
               'intime': DateTime.now(),
-              'outtime': "Wait", // Assuming the user hasn't exited yet
+              'outtime': "Wait",
             });
           }
         } else {
-          // User is exiting the location
           print("User exited the location");
 
-          // Update exit time in Firestore
-          // Update exit time in Firestore
           QuerySnapshot querySnapshot = await FirebaseFirestore.instance
               .collection('timelinestamp')
               .where('useruid', isEqualTo: uid)
               .where('placeid', isEqualTo: widget.placeid)
               .where('placetripid', isEqualTo: widget.tripUid)
-              .where('outtime',
-                  isEqualTo: "Wait") // Fetch only entries without exit time
+              .where('outtime', isEqualTo: "Wait")
               .get();
 
           if (querySnapshot.docs.isNotEmpty) {
-            // Update exit time for the first matching document
             String docId = querySnapshot.docs.first.id;
             await FirebaseFirestore.instance
                 .collection('timelinestamp')
@@ -131,7 +121,6 @@ class CheckDateState extends State<CheckDate> {
       DateTime currentTime = DateTime.now();
 
       if (currentTime.isAfter(placeEndTime ?? DateTime.now())) {
-        // Navigate to TripmanagePage
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -177,7 +166,6 @@ class CheckDateState extends State<CheckDate> {
         .get()
         .then((querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
-        // ถ้ามีเอกสารใน Firestore
         setState(() {
           distance = querySnapshot.docs.first.get('distance');
         });
@@ -197,15 +185,13 @@ class CheckDateState extends State<CheckDate> {
 
   double calculateDistanceInMeters(
       double lat1, double lon1, double lat2, double lon2) {
-    const double earthRadius = 6371000; // Radius of the earth in meters
+    const double earthRadius = 6371000;
 
-    // Convert degrees to radians
     double lat1Rad = radians(lat1);
     double lon1Rad = radians(lon1);
     double lat2Rad = radians(lat2);
     double lon2Rad = radians(lon2);
 
-    // Haversine formula
     double dLat = lat2Rad - lat1Rad;
     double dLon = lon2Rad - lon1Rad;
     double a = sin(dLat / 2) * sin(dLat / 2) +

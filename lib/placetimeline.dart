@@ -2,22 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:triptourapp/TripTimeLine.dart';
 import 'package:triptourapp/placedetailtimeline.dart';
-import 'package:triptourapp/tripmanage/maproute.dart';
-import 'package:triptourapp/addplace/mapselectown.dart';
-import 'package:geolocator/geolocator.dart';
-import '../infoplace.dart';
 
 class Placetimeline extends StatefulWidget {
-  @override
   final String? tripUid;
   const Placetimeline({Key? key, this.tripUid}) : super(key: key);
   _PlacetimelineState createState() => _PlacetimelineState();
@@ -67,29 +56,25 @@ class _PlacetimelineState extends State<Placetimeline> {
               );
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Center(
                   child: Text('ไม่พบสถานที่'),
                 );
               });
             }
             final places = snapshot.data!.docs;
-            if (places != null) {
-              places.sort((a, b) {
-                final aEndTime = a['placetimeend'] as Timestamp;
-                final bEndTime = b['placetimeend'] as Timestamp;
-                return aEndTime.compareTo(bEndTime);
-              });
+            places.sort((a, b) {
+              final aEndTime = a['placetimeend'] as Timestamp;
+              final bEndTime = b['placetimeend'] as Timestamp;
+              return aEndTime.compareTo(bEndTime);
+            });
 
-              return Column(
-                children: places.map((place) {
-                  final placeData = place.data() as Map<String, dynamic>;
-                  return buildPlaceItem(context, placeData, place);
-                }).toList(),
-              );
-            } else {
-              return Container();
-            }
+            return Column(
+              children: places.map((place) {
+                final placeData = place.data() as Map<String, dynamic>;
+                return buildPlaceItem(context, placeData, place);
+              }).toList(),
+            );
           },
         ),
       ),
@@ -128,7 +113,6 @@ class _PlacetimelineState extends State<Placetimeline> {
                         snapshot.data!.data() as Map<String, dynamic>;
                     String firstName = userData['firstName'] ?? '';
                     String nickname = userData['nickname'] ?? '';
-                    String profileImageUrl = userData['profileImageUrl'] ?? '';
                     return ListTile(
                       leading: CircleAvatar(
                         radius: 30.0,
@@ -159,22 +143,14 @@ class _PlacetimelineState extends State<Placetimeline> {
   Widget buildPlaceItem(
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
-    String placeAddress = placeData['placeaddress'];
-    int maxCharsFirstLine = 40; // Maximum characters for the first line
-    int maxCharsTotal = 40; // Maximum characters to display in total
-    int maxCharsFirstLine2 = 50; // Maximum characters for the first line
-    int maxCharsTotal2 = 60; // Maximum characters to display in total
+    int maxCharsFirstLine = 40;
+    int maxCharsTotal = 40;
 
     int countTrip = placeData['placewhogo'].length;
 
-    // เงื่อนไขเพิ่มเติมเพื่อตรวจสอบว่า placetimestart มีค่ามากกว่าหรือเท่ากับวันเวลาปัจจุบันหรือไม่
-
-    // Update the placerun field in Firestore based on the time condition
-
     String displayedName = placeName.length > maxCharsFirstLine
         ? (placeName.length > maxCharsTotal
-            ? placeName.substring(0, maxCharsFirstLine) +
-                '...' // Add ... after truncating the first line
+            ? placeName.substring(0, maxCharsFirstLine) + '...'
             : placeName.substring(0, maxCharsFirstLine) +
                 '...' +
                 (placeName.length > maxCharsTotal
@@ -182,18 +158,6 @@ class _PlacetimelineState extends State<Placetimeline> {
                         '...'
                     : placeName.substring(maxCharsFirstLine)))
         : placeName;
-    String displayedName2 = placeAddress.length > maxCharsFirstLine2
-        ? (placeAddress.length > maxCharsTotal2
-            ? placeAddress.substring(0, maxCharsFirstLine2) +
-                '...' // Add ... after truncating the first line
-            : placeAddress.substring(0, maxCharsFirstLine2) +
-                '\n' +
-                (placeAddress.length > maxCharsTotal2
-                    ? placeAddress.substring(
-                            maxCharsFirstLine2, maxCharsTotal2) +
-                        '...'
-                    : placeAddress.substring(maxCharsFirstLine2)))
-        : placeAddress;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -213,8 +177,8 @@ class _PlacetimelineState extends State<Placetimeline> {
           height: 150.0,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey, // Border color
-                width: 1.0, // Border width
+                color: Colors.grey,
+                width: 1.0,
               ),
               borderRadius: BorderRadius.circular(10),
               color: Color.fromARGB(255, 255, 255, 255)),
@@ -247,7 +211,7 @@ class _PlacetimelineState extends State<Placetimeline> {
                           children: [
                             Expanded(
                               child: Text(
-                                displayedName ?? '',
+                                displayedName,
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -260,11 +224,11 @@ class _PlacetimelineState extends State<Placetimeline> {
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black, // Border color
-                              width: 1.0, // Border width
+                              color: Colors.black,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(16.0),
-                            color: Color(0xFF1E30D7), // Background color
+                            color: Color(0xFF1E30D7),
                           ),
                           padding: EdgeInsets.all(3.0),
                           child: Text(
@@ -296,10 +260,8 @@ class _PlacetimelineState extends State<Placetimeline> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimestart']
-                                                as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimestart'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -330,9 +292,8 @@ class _PlacetimelineState extends State<Placetimeline> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimeend'] as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimeend'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -355,8 +316,7 @@ class _PlacetimelineState extends State<Placetimeline> {
                             ),
                             SizedBox(width: 8),
                             Container(
-                              margin: EdgeInsets.all(
-                                  0), // กำหนด Margin ทั้งหมดเป็น 5
+                              margin: EdgeInsets.all(0),
                               child: InkWell(
                                 onTap: () {
                                   _showParticipantsDialog(

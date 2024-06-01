@@ -142,7 +142,6 @@ class _ChatScreenState extends State<ChatScreen2> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              // Handle add icon tap
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
@@ -154,9 +153,7 @@ class _ChatScreenState extends State<ChatScreen2> {
                       children: [
                         InkWell(
                           onTap: () {
-                            // Handle camera icon tap
                             Navigator.pop(context);
-                            // Add your camera logic here
                           },
                           child: Column(
                             children: [
@@ -171,9 +168,7 @@ class _ChatScreenState extends State<ChatScreen2> {
                         ),
                         InkWell(
                           onTap: () {
-                            // Handle camera icon tap
                             Navigator.pop(context);
-                            // Add your camera logic here
                           },
                           child: Column(
                             children: [
@@ -185,9 +180,7 @@ class _ChatScreenState extends State<ChatScreen2> {
                         ),
                         InkWell(
                           onTap: () {
-                            // Handle camera icon tap
                             Navigator.pop(context);
-                            // Add your camera logic here
                           },
                           child: Column(
                             children: [
@@ -199,9 +192,7 @@ class _ChatScreenState extends State<ChatScreen2> {
                         ),
                         InkWell(
                           onTap: () {
-                            // Handle camera icon tap
                             Navigator.pop(context);
-                            // Add your camera logic here
                           },
                           child: Column(
                             children: [
@@ -240,7 +231,6 @@ class _ChatScreenState extends State<ChatScreen2> {
                   IconButton(
                     icon: Icon(Icons.send),
                     onPressed: () {
-                      // Handle send icon tap
                       _sendMessage();
                     },
                   ),
@@ -250,9 +240,7 @@ class _ChatScreenState extends State<ChatScreen2> {
           ),
           IconButton(
             icon: Icon(Icons.mic),
-            onPressed: () {
-              // Handle mic icon tap
-            },
+            onPressed: () {},
           ),
         ],
       ),

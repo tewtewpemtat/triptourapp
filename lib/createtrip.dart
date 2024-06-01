@@ -5,10 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:triptourapp/main.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'tripmanage.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart'; // Import intl package
+import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class CreateTripPage extends StatefulWidget {
@@ -39,8 +37,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
 
   Future<String?> _uploadImage(String documentId) async {
     if (_userProfileImage != null) {
-      String fileName =
-          'trip/profiletrip/$documentId.jpg'; // Construct file name
+      String fileName = 'trip/profiletrip/$documentId.jpg';
       firebase_storage.Reference ref =
           firebase_storage.FirebaseStorage.instance.ref().child(fileName);
 
@@ -57,7 +54,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: isStartDate ? selectedStartDate : selectedEndDate,
-      firstDate: DateTime(now.year, now.month, now.day), // เวลาปัจจุบัน
+      firstDate: DateTime(now.year, now.month, now.day),
       lastDate: DateTime(2101),
     );
     if (pickedDate != null) {
@@ -112,20 +109,19 @@ class _CreateTripPageState extends State<CreateTripPage> {
 
   Future<void> _createTrip() async {
     setState(() {
-      _isLoading = true; // Show loading spinner
+      _isLoading = true;
     });
 
     if (_userProfileImage != null) {
-      // Image upload successful, proceed to create trip
       String tripName = _tripNameController.text;
-      // You can add more fields as per your requirements
+
       DateTime tripStartDate = selectedStartDate;
       DateTime tripEndDate = selectedEndDate;
       int tripLimit = selectedParticipants ?? 1;
       String tripStatus = "ยังไม่เริ่มต้น";
       List<String> tripJoin = [];
       if (uid != null) {
-        tripJoin.add(uid!); // Add non-null uid to tripJoin
+        tripJoin.add(uid!);
       }
 
       DocumentReference tripRef =
@@ -138,7 +134,6 @@ class _CreateTripPageState extends State<CreateTripPage> {
         'tripLimit': tripLimit,
         'tripStatus': tripStatus,
         'tripJoin': tripJoin,
-        // Add more fields as needed
       });
 
       String? imageUrl = await _uploadImage(tripRef.id);
@@ -158,8 +153,6 @@ class _CreateTripPageState extends State<CreateTripPage> {
         );
       }
     } else {
-      // Image upload failed, handle error or show message to user
-      // You can handle error scenario here
       print("Image upload failed.");
     }
   }
@@ -217,7 +210,6 @@ class _CreateTripPageState extends State<CreateTripPage> {
                   ),
                 ),
               ),
-
               SizedBox(height: 3),
               Text(
                 "เพิ่มรูปทริป",
@@ -330,7 +322,6 @@ class _CreateTripPageState extends State<CreateTripPage> {
                     ? null
                     : () {
                         if (_tripNameController.text.isEmpty) {
-                          // Show error message if trip name is empty
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -341,13 +332,12 @@ class _CreateTripPageState extends State<CreateTripPage> {
                             ),
                           );
                         } else {
-                          // Proceed with trip creation if trip name is not empty
                           _createTrip();
                         }
                       },
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xffdb923c),
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color(0xffdb923c),
                   fixedSize: Size(200, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -370,28 +360,6 @@ class _CreateTripPageState extends State<CreateTripPage> {
                         ),
                       ),
               )
-
-              // SizedBox(height: 20),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) =>
-              //               CreateTripPage()), // RegisterPage() คือหน้าที่คุณต้องไป
-              //     );
-              //   },
-              //   child: Text(
-              //     "ล้างข้อมูลเพื่อระบุข้อมูลการสร้างทริปใหม่",
-              //     style: GoogleFonts.ibmPlexSansThai(
-              //       fontSize: 14,
-              //       fontWeight: FontWeight.w500,
-              //       color: Colors.blue,
-              //       decoration: TextDecoration.underline,
-              //     ),
-              //     textAlign: TextAlign.center,
-              //   ),
-              // ),
             ],
           ),
         ),

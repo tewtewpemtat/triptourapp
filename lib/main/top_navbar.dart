@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
-import 'package:triptourapp/main.dart';
 import 'package:triptourapp/editpassword.dart';
-import '../authen/firebase_auth_implementation/firebase_auth_services.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../authen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,13 +92,12 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () async {
             final result = await showMenu(
               context: context,
-              position: RelativeRect.fromLTRB(
-                  100, 100, 0, 0), // ปรับตำแหน่งที่เปิด Slide ทางขวา
+              position: RelativeRect.fromLTRB(100, 100, 0, 0),
               items: [
                 PopupMenuItem(
                   child: Text(
                     'แก้ไขโปรไฟล์',
-                    style: GoogleFonts.ibmPlexSansThai(), // เพิ่มบรรทัดนี้
+                    style: GoogleFonts.ibmPlexSansThai(),
                   ),
                   value: 'editProfile',
                 ),
@@ -122,7 +118,6 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
               ],
             );
 
-            // ตรวจสอบผลลัพธ์และดำเนินการตามต้องการ
             if (result != null) {
               switch (result) {
                 case 'editProfile':

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart'; // Import intl package
+import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/placetimeline.dart';
 
@@ -13,35 +13,32 @@ class TimelinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey // Adjust the color of the timeline
-      ..strokeWidth = 2; // Adjust the width of the timeline
+      ..color = Colors.grey
+      ..strokeWidth = 2;
 
     final circlePaint = Paint()
-      ..color = Colors.grey // Adjust the color of the circles
-      ..strokeWidth = 6 // Adjust the size of the circles
+      ..color = Colors.grey
+      ..strokeWidth = 6
       ..style = PaintingStyle.fill;
 
-    // Draw the vertical line
     canvas.drawLine(
       Offset(size.width / 2, 0),
       Offset(size.width / 2, size.height),
       paint,
     );
 
-    // Draw circles along the line for entry and exit
     if (hasEntry) {
       canvas.drawCircle(
-        Offset(size.width / 2, size.height / 3), // Adjust position for entry
-        6, // Adjust the size of the circles for entry
+        Offset(size.width / 2, size.height / 3),
+        6,
         circlePaint,
       );
     }
 
     if (hasExit) {
       canvas.drawCircle(
-        Offset(
-            size.width / 2, size.height / 4 * 3.2), // Adjust position for exit
-        6, // Adjust the size of the circles for exit
+        Offset(size.width / 2, size.height / 4 * 3.2),
+        6,
         circlePaint,
       );
     }
@@ -62,35 +59,32 @@ class TimelinePainter2 extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey // Adjust the color of the timeline
-      ..strokeWidth = 2; // Adjust the width of the timeline
+      ..color = Colors.grey
+      ..strokeWidth = 2;
 
     final circlePaint = Paint()
-      ..color = Colors.grey // Adjust the color of the circles
-      ..strokeWidth = 6 // Adjust the size of the circles
+      ..color = Colors.grey
+      ..strokeWidth = 6
       ..style = PaintingStyle.fill;
 
-    // Draw the vertical line
     canvas.drawLine(
       Offset(size.width / 2, 0),
       Offset(size.width / 2, size.height),
       paint,
     );
 
-    // Draw circles along the line for entry and exit
     if (hasEntry) {
       canvas.drawCircle(
-        Offset(size.width / 2, size.height / 4), // Adjust position for entry
-        6, // Adjust the size of the circles for entry
+        Offset(size.width / 2, size.height / 4),
+        6,
         circlePaint,
       );
     }
 
     if (hasExit) {
       canvas.drawCircle(
-        Offset(
-            size.width / 2, size.height / 4 * 3.4), // Adjust position for exit
-        6, // Adjust the size of the circles for exit
+        Offset(size.width / 2, size.height / 4 * 3.4),
+        6,
         circlePaint,
       );
     }
@@ -111,26 +105,24 @@ class TimelinePainter3 extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey // Adjust the color of the timeline
-      ..strokeWidth = 2; // Adjust the width of the timeline
+      ..color = Colors.grey
+      ..strokeWidth = 2;
 
     final circlePaint = Paint()
-      ..color = Colors.grey // Adjust the color of the circles
-      ..strokeWidth = 6 // Adjust the size of the circles
+      ..color = Colors.grey
+      ..strokeWidth = 6
       ..style = PaintingStyle.fill;
 
-    // Draw the vertical line
     canvas.drawLine(
       Offset(size.width / 2, 0),
       Offset(size.width / 2, size.height),
       paint,
     );
 
-    // Draw circles along the line for entry and exit
     if (hasEntry) {
       canvas.drawCircle(
-        Offset(size.width / 2, size.height / 1.65), // Adjust position for entry
-        6, // Adjust the size of the circles for entry
+        Offset(size.width / 2, size.height / 1.65),
+        6,
         circlePaint,
       );
     }
@@ -211,8 +203,8 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
             return Center(child: Text('ไม่มีไทมไลน์ของสถานที่นี้'));
           }
 
-          var previousDate; // เก็บวันที่ก่อนหน้าเพื่อใช้เปรียบเทียบ
-          var previousDateIn; // เก็บวันที่ก่อนหน้าเพื่อใช้เปรียบเทียบ
+          var previousDate;
+          var previousDateIn;
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
@@ -240,14 +232,12 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
               previousDate = thaiDateOut;
               var isDateChangedIn = previousDateIn != thaiDateIn;
               previousDateIn = thaiDateIn;
-// กำหนดค่า timelineHeight ตามเงื่อนไข
 
               return !outwait
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (isDateChanged &&
-                            isDateChangedIn) // Display the date if it's a new date
+                        if (isDateChanged && isDateChangedIn)
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 16.0),
@@ -261,14 +251,11 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                           ),
                         isSameDay
                             ? CustomPaint(
-                                size:
-                                    Size(100, 200), // Adjust the size as needed
+                                size: Size(100, 200),
                                 painter: TimelinePainter(
-                                  hasEntry:
-                                      true, // Set to true to display entry circle
-                                  hasExit:
-                                      true, // Set to true to display exit circle
-                                ), // Custom painter for drawing the timeline
+                                  hasEntry: true,
+                                  hasExit: true,
+                                ),
                                 child: Column(
                                   children: [
                                     ListTile(
@@ -321,14 +308,11 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                                 ),
                               )
                             : CustomPaint(
-                                size:
-                                    Size(100, 200), // Adjust the size as needed
+                                size: Size(100, 200),
                                 painter: TimelinePainter2(
-                                  hasEntry:
-                                      true, // Set to true to display entry circle
-                                  hasExit:
-                                      true, // Set to true to display exit circle
-                                ), // Custom painter for drawing the timeline
+                                  hasEntry: true,
+                                  hasExit: true,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -404,7 +388,7 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (isDateChangedIn) // Display the date if it's a new date
+                        if (isDateChangedIn)
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 16.0),
@@ -418,14 +402,11 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                           ),
                         isSameDay
                             ? CustomPaint(
-                                size:
-                                    Size(100, 200), // Adjust the size as needed
+                                size: Size(100, 200),
                                 painter: TimelinePainter3(
-                                  hasEntry:
-                                      true, // Set to true to display entry circle
-                                  hasExit:
-                                      true, // Set to true to display exit circle
-                                ), // Custom painter for drawing the timeline
+                                  hasEntry: true,
+                                  hasExit: true,
+                                ),
                                 child: Column(
                                   children: [
                                     ListTile(
@@ -455,14 +436,11 @@ class _PlaceTimelineDetailState extends State<PlaceTimelineDetail> {
                                 ),
                               )
                             : CustomPaint(
-                                size:
-                                    Size(100, 200), // Adjust the size as needed
+                                size: Size(100, 200),
                                 painter: TimelinePainter3(
-                                  hasEntry:
-                                      true, // Set to true to display entry circle
-                                  hasExit:
-                                      true, // Set to true to display exit circle
-                                ), // Custom painter for drawing the timeline
+                                  hasEntry: true,
+                                  hasExit: true,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

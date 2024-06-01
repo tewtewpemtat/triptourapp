@@ -5,10 +5,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'dart:typed_data'; // Add this import statement
+import 'dart:typed_data';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:triptourapp/tripmanage.dart';
 
+// ignore: must_be_immutable
 class MapScreen extends StatefulWidget {
   final String? tripUid;
   final String? placeid;
@@ -53,7 +54,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void dispose() {
-    timer?.cancel(); // Cancel the timer when the widget is disposed
+    timer?.cancel();
     super.dispose();
   }
 
@@ -84,7 +85,6 @@ class _MapScreenState extends State<MapScreen> {
 
   void _convertToLatLng(List points) {
     if (mounted) {
-      // เช็คว่า State ยังคงถูก mount หรือไม่ก่อนเรียก setState()
       points.forEach((point) {
         routeCoords.add(LatLng(point[0], point[1]));
       });
@@ -153,24 +153,21 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _getMarkerIcon() async {
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
-    final Paint paint = Paint()
-      ..color = Color.fromARGB(255, 26, 167, 249); // Set color to yellow
-    final double radius = 32; // Increase circle radius
+    final Paint paint = Paint()..color = Color.fromARGB(255, 26, 167, 249);
+    final double radius = 32;
 
-    canvas.drawCircle(Offset(radius, radius), radius,
-        paint); // Increase circle size to 16 and draw in canvas
+    canvas.drawCircle(Offset(radius, radius), radius, paint);
 
-    // Draw white border
     final Paint borderPaint = Paint()
       ..color = Colors.white
-      ..strokeWidth = 10 // Increase border thickness
+      ..strokeWidth = 10
       ..style = PaintingStyle.stroke;
 
     canvas.drawCircle(Offset(radius, radius), radius, borderPaint);
 
     final ui.Picture picture = pictureRecorder.endRecording();
-    final img = await picture.toImage((radius * 2).toInt(),
-        (radius * 2).toInt()); // Increase image size to match circle size
+    final img =
+        await picture.toImage((radius * 2).toInt(), (radius * 2).toInt());
     final ByteData? byteData =
         await img.toByteData(format: ui.ImageByteFormat.png);
 
@@ -193,10 +190,7 @@ class _MapScreenState extends State<MapScreen> {
           IconButton(
             icon: isCameraLocked ? Icon(Icons.lock) : Icon(Icons.lock_open),
             onPressed: () {
-              // Add logic to toggle camera lock/unlock
-              // For example:
               setState(() {
-                // Toggle camera lock state
                 isCameraLocked = !isCameraLocked;
               });
               isCameraLocked

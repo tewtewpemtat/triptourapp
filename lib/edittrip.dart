@@ -11,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class EditTrip extends StatefulWidget {
-  @override
   final String? tripUid;
   const EditTrip({Key? key, this.tripUid}) : super(key: key);
   _EditTripState createState() => _EditTripState();
@@ -48,8 +47,6 @@ class _EditTripState extends State<EditTrip> {
           _selectedLimit = tripSnapshot['tripLimit'];
           _profileImageUrl = tripSnapshot['tripProfileUrl'] ?? '';
           nummax = tripSnapshot['tripJoin']?.length ?? 0;
-
-          // ตัวอย่างเพิ่มเติม หากต้องการใช้ข้อมูลเพิ่มเติมจาก tripSnapshot
         });
       }
     }
@@ -58,28 +55,20 @@ class _EditTripState extends State<EditTrip> {
   Future<void> _uploadImageToStorage(String tripUid, String tripName) async {
     if (_userProfileImage != null) {
       try {
-        // Create a reference to the location where the image will be stored in Firebase Storage
         final reference = FirebaseStorage.instance
             .ref()
             .child('trip/profiletrip/$tripUid.jpg');
 
-        // Upload the file to Firebase Storage
         await reference.putFile(_userProfileImage!);
 
-        // Get the download URL of the uploaded image
         final imageUrl = await reference.getDownloadURL();
 
-        // Update the profile image URL in Firestore
         await FirebaseFirestore.instance
             .collection('trips')
             .doc(tripUid)
             .update({'tripProfileUrl': imageUrl});
-
-        // Show a success message or perform any other desired actions
       } catch (error) {
-        // Handle any errors that occur during the process
         print('Error uploading image: $error');
-        // Show an error message or perform any other desired actions
       }
     }
   }
@@ -93,7 +82,6 @@ class _EditTripState extends State<EditTrip> {
         _userProfileImage = File(pickedFile.path);
       });
 
-      // Upload the selected image to Firebase Storage
       await _uploadImageToStorage(widget.tripUid!, _tripName.text);
     }
   }
@@ -101,54 +89,6 @@ class _EditTripState extends State<EditTrip> {
   String _formatDate(DateTime date) {
     initializeDateFormatting('th_TH');
     return DateFormat('dd MMMM yyyy HH:mm', 'th_TH').format(date);
-  }
-
-  Future<void> _fetchPlaceTimeData() async {
-    QuerySnapshot placeSnapshot = await FirebaseFirestore.instance
-        .collection('places')
-        .where('placetripid', isEqualTo: widget.tripUid)
-        .get();
-
-    if (placeSnapshot.docs.isNotEmpty) {
-      DateTime? minPlaceTimeStart;
-      DateTime? maxPlaceTimeEnd;
-
-      // Find minPlaceTimeStart and maxPlaceTimeEnd
-      placeSnapshot.docs.forEach((doc) {
-        Timestamp? startTimeStamp = doc['placetimestart'] as Timestamp?;
-        Timestamp? endTimeStamp = doc['placetimeend'] as Timestamp?;
-        if (startTimeStamp != null && endTimeStamp != null) {
-          DateTime startTime = startTimeStamp.toDate();
-          DateTime endTime = endTimeStamp.toDate();
-          if (minPlaceTimeStart == null ||
-              startTime.isBefore(minPlaceTimeStart!)) {
-            minPlaceTimeStart = startTime;
-          }
-          if (maxPlaceTimeEnd == null || endTime.isAfter(maxPlaceTimeEnd!)) {
-            maxPlaceTimeEnd = endTime;
-          }
-        }
-      });
-
-      // Check if minPlaceTimeStart and maxPlaceTimeEnd are not null
-      if (minPlaceTimeStart != null && maxPlaceTimeEnd != null) {
-        // Check if selected dates are within the range of minPlaceTimeStart and maxPlaceTimeEnd
-        if (_selectedStartDate.isBefore(minPlaceTimeStart!)) {
-          Fluttertoast.showToast(
-            msg:
-                'โปรดเลือกวันและเวลาที่มากกว่าหรือเท่ากับ ${_formatDate(minPlaceTimeStart!)}',
-          );
-          return null;
-        }
-        if (_selectedEndDate.isAfter(maxPlaceTimeEnd!)) {
-          Fluttertoast.showToast(
-            msg:
-                'โปรดเลือกวันและเวลาที่น้อยกว่าหรือเท่ากับ ${_formatDate(maxPlaceTimeEnd!)}',
-          );
-          return null;
-        }
-      }
-    }
   }
 
   Future<DateTime?> _selectDate(BuildContext context, bool isStartDate) async {
@@ -189,7 +129,6 @@ class _EditTripState extends State<EditTrip> {
       );
 
       if (pickedTime != null) {
-        // Combine pickedDate and pickedTime into a single DateTime object
         DateTime combinedDateTime = DateTime(
           pickedDate.year,
           pickedDate.month,
@@ -235,11 +174,9 @@ class _EditTripState extends State<EditTrip> {
         }
         return combinedDateTime;
       } else {
-        // User canceled picking time, return null
         return null;
       }
     } else {
-      // User canceled picking date, return null
       return null;
     }
   }
@@ -275,13 +212,11 @@ class _EditTripState extends State<EditTrip> {
           _selectedLimit = selectedValue;
         });
 
-        // Update the tripLimit in Firestore
         await FirebaseFirestore.instance
             .collection('trips')
             .doc(widget.tripUid)
             .update({'tripLimit': selectedValue});
       } else {
-        // Show a warning
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -311,7 +246,7 @@ class _EditTripState extends State<EditTrip> {
         return AlertDialog(
           title: Text('แก้ไข $fieldTitle'),
           content: Column(
-            mainAxisSize: MainAxisSize.min, // Use min size for the content
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (fieldTitle == 'วันที่เริ่มทริป' ||
                   fieldTitle == 'วันที่สิ้นสุดทริป')
@@ -339,7 +274,7 @@ class _EditTripState extends State<EditTrip> {
                           .doc(widget.tripUid)
                           .update({'tripEndDate': _selectedEndDate});
                     }
-                    Navigator.pop(context); // Close the dialog
+                    Navigator.pop(context);
                   },
                   child: InputDecorator(
                     decoration: InputDecoration(
@@ -379,20 +314,17 @@ class _EditTripState extends State<EditTrip> {
               TextButton(
                 child: Text('บันทึก'),
                 onPressed: () async {
-                  // Update Firestore if necessary
                   if (fieldTitle == 'ชื่อทริป') {
                     await FirebaseFirestore.instance
                         .collection('trips')
                         .doc(widget.tripUid)
                         .update({'tripName': controller.text});
 
-                    // Update the _tripName variable
                     setState(() {
                       _tripName.text = controller.text;
                     });
                   }
 
-                  // Close the dialog
                   Navigator.of(context).pop();
                 },
               ),
@@ -439,31 +371,24 @@ class _EditTripState extends State<EditTrip> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                  height: 200.0, // Define a fixed height for the container
-                  width:
-                      double.infinity, // Make the container take the full width
+                  height: 200.0,
+                  width: double.infinity,
                   decoration: BoxDecoration(
-                    // Use BoxDecoration to customize the appearance
-                    color:
-                        Colors.grey[300], // Background color for the container
+                    color: Colors.grey[300],
                     image: DecorationImage(
-                      // Background image
                       image: _userProfileImage != null
                           ? FileImage(_userProfileImage!)
                           : _profileImageUrl.isNotEmpty
                               ? NetworkImage(_profileImageUrl) as ImageProvider
-                              : AssetImage(
-                                  'assets/cat.jpg'), // Default image if no profile image
-                      fit: BoxFit.cover, // Cover the entire widget area
+                              : AssetImage('assets/cat.jpg'),
+                      fit: BoxFit.cover,
                     ),
                   ),
                   child: InkWell(
-                    onTap: _pickImage, // Function to pick image
+                    onTap: _pickImage,
                     child: Container(
-                      alignment: Alignment
-                          .center, // Center the icon inside the container
-                      color: Color.fromARGB(
-                          0, 19, 19, 19), // Semi-transparent overlay
+                      alignment: Alignment.center,
+                      color: Color.fromARGB(0, 19, 19, 19),
                       child: Icon(
                         Icons.camera_alt,
                         size: 40.0,
@@ -542,7 +467,7 @@ class _EditTripState extends State<EditTrip> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle: Text(_selectedLimit.toString() ?? ''),
+                  subtitle: Text(_selectedLimit.toString()),
                   trailing: IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {

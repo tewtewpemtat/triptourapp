@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import intl package for formatting
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,7 +18,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TimeOfDay _selectedTime = TimeOfDay.now(); // Initialize with default value
+  TimeOfDay _selectedTime = TimeOfDay.now();
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -33,7 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // Formatting selected time to display in Thai format
     final thaiTime = DateFormat.Hm()
         .format(DateTime(2021, 1, 1, _selectedTime.hour, _selectedTime.minute));
 
@@ -46,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Selected Time: $thaiTime', // Display Thai formatted time
+              'Selected Time: $thaiTime',
             ),
             SizedBox(height: 20),
             ElevatedButton(

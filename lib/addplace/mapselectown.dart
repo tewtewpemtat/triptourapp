@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/addplace.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +22,6 @@ class MapSelectionOwnPage extends StatefulWidget {
 }
 
 class _MapSelectionPageState extends State<MapSelectionOwnPage> {
-  late GoogleMapController _controller;
   String? uid;
   LatLng? _selectedPosition;
   String placestart = '';
@@ -38,10 +34,9 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
   List<String> placewhogo = [];
   String? useruid;
   TextEditingController _placeNameController = TextEditingController();
-  TextEditingController _placeAddressController = TextEditingController();
   late StreamSubscription<Position> _positionStreamSubscription;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
 
   @override
   void initState() {
@@ -73,7 +68,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('กำหนดสถานที่'),
-        automaticallyImplyLeading: false, // ไม่แสดงปุ่ม Back อัตโนมัติ
+        automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -82,7 +77,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
               MaterialPageRoute(
                 builder: (context) => AddPage(tripUid: widget.tripUid),
               ),
-            ); // กลับไปที่หน้า AddPage
+            );
           },
         ),
       ),
@@ -102,16 +97,14 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
           }
 
           return GoogleMap(
-            onMapCreated: (controller) {
-              _controller = controller;
-            },
+            onMapCreated: (controller) {},
             onTap: (position) {
               setState(() {
                 _selectedPosition = position;
               });
             },
             initialCameraPosition: CameraPosition(
-              target: LatLng(userLatitude, userLongitude), // Default position
+              target: LatLng(userLatitude, userLongitude),
               zoom: 12,
             ),
             markers:
@@ -127,8 +120,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
               child: Icon(Icons.save),
             )
           : null,
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.startFloat, // ตำแหน่ง FAB ที่กำหนด
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 
@@ -158,8 +150,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
                         : GestureDetector(
                             onTap: () {
                               _getImage().then((_) {
-                                setState(
-                                    () {}); // เรียกใช้ setState เพื่อให้ Dialog สร้างใหม่เพื่อแสดงรูปภาพใหม่
+                                setState(() {});
                               });
                             },
                             child: Container(
@@ -231,7 +222,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
 
-    if (placemarks != null && placemarks.isNotEmpty) {
+    if (placemarks.isNotEmpty) {
       Placemark placemark = placemarks.first;
       return placemark.subAdministrativeArea;
     } else {
@@ -243,10 +234,9 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
 
-    if (placemarks != null && placemarks.isNotEmpty) {
+    if (placemarks.isNotEmpty) {
       Placemark placemark = placemarks.first;
-      return placemark
-          .administrativeArea; // หรือจะใช้ .subAdministrativeArea ก็ได้
+      return placemark.administrativeArea;
     } else {
       return null;
     }
@@ -323,7 +313,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
 
       Fluttertoast.showToast(msg: 'เพิ่มสถานที่เรียบร้อยแล้ว');
     } catch (e) {
-      print('Error: $e'); // แสดง error message ใน console
+      print('Error: $e');
       Fluttertoast.showToast(msg: 'เกิดข้อผิดพลาดในการเพิ่มสถานที่');
     }
   }

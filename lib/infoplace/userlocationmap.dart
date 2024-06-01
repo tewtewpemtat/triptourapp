@@ -23,7 +23,6 @@ class UserLocationMapState extends State<UserLocationMap> {
   late Future<CameraPosition> _cameraPosition;
   late Future<Map<String, LatLng>> _userLocations;
   late Map<String, String> _userNicknames = {};
-  late Map<String, String> _userProfileImageUrls = {};
   Map<String, BitmapDescriptor> _userProfileIcons = {};
   final String? uid = FirebaseAuth.instance.currentUser?.uid;
   @override
@@ -32,7 +31,6 @@ class UserLocationMapState extends State<UserLocationMap> {
     _cameraPosition = _fetchPlaceCoordinates();
     _userLocations = _fetchUserLocations();
     _fetchUserDetails();
-    // New method call
   }
 
   void _showLoadingToast() {
@@ -48,13 +46,6 @@ class UserLocationMapState extends State<UserLocationMap> {
     super.dispose();
   }
 
-  void _showCompleteToast() {
-    Fluttertoast.showToast(
-      msg: "โหลดข้อมูลเสร็จสมบูรณ์",
-      gravity: ToastGravity.CENTER,
-    );
-  }
-
   Future<void> _fetchUserDetails() async {
     _showLoadingToast();
     for (String userId in widget.userLocations!) {
@@ -64,8 +55,7 @@ class UserLocationMapState extends State<UserLocationMap> {
           .get();
       if (userSnapshot.exists) {
         if (userId == uid) {
-          _userNicknames[userId] =
-              'คุณ'; // กำหนดชื่อเป็น "คุณ" ถ้า userId เท่ากับ uid
+          _userNicknames[userId] = 'คุณ';
         } else {
           _userNicknames[userId] = userSnapshot['nickname'];
         }
@@ -78,7 +68,7 @@ class UserLocationMapState extends State<UserLocationMap> {
     }
     if (mounted) {
       setState(() {});
-    } // Update state to trigger marker rebuild
+    }
   }
 
   Future<Uint8List> _loadImage(String imageUrl,
@@ -99,21 +89,18 @@ class UserLocationMapState extends State<UserLocationMap> {
         final canvas = Canvas(recorder);
         final size = Size(width.toDouble(), height.toDouble());
 
-        // Draw the circle border
         final paintBorder = Paint()
-          ..color = Colors.blue // Choose your desired border color
+          ..color = Colors.blue
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2;
 
         final radius = size.width / 2;
         canvas.drawCircle(Offset(radius, radius), radius - 1, paintBorder);
 
-        // Clip the canvas to draw the image only inside the circle
         canvas.clipRRect(RRect.fromRectAndRadius(
             Rect.fromLTWH(0, 0, size.width, size.height),
             Radius.circular(radius)));
 
-        // Draw the image
         final image = await decodeImageFromList(resizedImageData);
         final paintImage = Paint()..filterQuality = FilterQuality.high;
         canvas.drawImageRect(
@@ -223,9 +210,7 @@ class UserLocationMapState extends State<UserLocationMap> {
       infoWindow: InfoWindow(
         title: nickname,
         snippet: userId == uid ? 'ตำแหน่งของคุณ' : 'ตำแหน่งผู้ร่วมทริป',
-        onTap: () {
-          // Handle marker tap event
-        },
+        onTap: () {},
       ),
     );
   }

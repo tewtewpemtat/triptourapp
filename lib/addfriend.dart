@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -109,7 +108,6 @@ class _AddFriendState extends State<AddFriend> {
 
   void _performSearch(String query) async {
     if (query.isNotEmpty) {
-      // Get the current user's friend list
       DocumentSnapshot currentUserSnapshot =
           await FirebaseFirestore.instance.collection('users').doc(myUid).get();
       List<String> currentUserFriendList =
@@ -122,7 +120,6 @@ class _AddFriendState extends State<AddFriend> {
           .get();
 
       setState(() {
-        // Filter out users who are already friends
         _searchResults = result.docs.where((user) {
           String uid = user.id;
           return !currentUserFriendList.contains(uid);
@@ -149,7 +146,6 @@ class _AddFriendState extends State<AddFriend> {
 
   Widget buildFriendItem(context, String firstName, String lastName, String uid,
       String profileImageUrl) {
-    // ตรวจสอบว่าเป็น UID ของผู้ใช้ปัจจุบันหรือไม่
     if (uid != myUid) {
       return FutureBuilder<bool>(
         future: checkIfFriend(uid),
@@ -161,7 +157,6 @@ class _AddFriendState extends State<AddFriend> {
           } else {
             bool isFriend = snapshot.data ?? false;
             if (!isFriend) {
-              // แสดงผลลัพธ์เฉพาะเมื่อไม่ใช่เพื่อน
               return Material(
                 child: InkWell(
                   onTap: () {
@@ -194,7 +189,7 @@ class _AddFriendState extends State<AddFriend> {
                                       fit: BoxFit.cover,
                                     )
                                   : Image.asset(
-                                      'assets/cat.jpg', // A default image in case there is no profile image.
+                                      'assets/cat.jpg',
                                       width: 70.0,
                                       height: 70.0,
                                       fit: BoxFit.cover,
@@ -248,14 +243,12 @@ class _AddFriendState extends State<AddFriend> {
                 ),
               );
             } else {
-              // ไม่แสดงผลลัพธ์ถ้าเป็นเพื่อนแล้ว
               return Container();
             }
           }
         },
       );
     } else {
-      // ไม่แสดงผลลัพธ์ถ้า UID เป็นของผู้ใช้ปัจจุบัน
       return Container();
     }
   }
@@ -267,7 +260,6 @@ class _AddFriendState extends State<AddFriend> {
       print("hi");
       List<String> friendList = List<String>.from(userSnapshot['friendList']);
 
-      // ตรวจสอบว่า uid นี้อยู่ใน friendList หรือไม่
       return friendList.contains(uid);
     } catch (e) {
       print('Error checking if friend: $e');
@@ -278,10 +270,8 @@ class _AddFriendState extends State<AddFriend> {
 
 void sendFriendRequest(String friendUid) async {
   try {
-    // Get the current user's UID
     String? myUid = FirebaseAuth.instance.currentUser?.uid;
 
-    // Check if there is an existing friend request with the specified conditions
     QuerySnapshot existingRequests = await FirebaseFirestore.instance
         .collection('friendrequest')
         .where('senderUid', isEqualTo: myUid)
@@ -290,28 +280,23 @@ void sendFriendRequest(String friendUid) async {
         .get();
 
     if (existingRequests.docs.isEmpty) {
-      // If no existing request, then add a new friend request
       await FirebaseFirestore.instance.collection('friendrequest').add({
         'senderUid': myUid,
         'receiverUid': friendUid,
         'status': 'Wait',
-        // You can add more fields if needed
       });
 
-      // Display a success message or perform any other actions as needed
       print('Friend request sent successfully.');
       Fluttertoast.showToast(
         msg: "ส่งคำขอเสร็จสิ้น",
       );
     } else {
-      // Display a message indicating that a friend request already exists
       print('Friend request already exists.');
       Fluttertoast.showToast(
         msg: "คำขอของคุณกำลังรอการยืนยัน",
       );
     }
   } catch (e) {
-    // Handle errors
     print('Error sending friend request: $e');
   }
 }

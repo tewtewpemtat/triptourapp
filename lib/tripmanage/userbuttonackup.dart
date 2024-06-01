@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Userbutton extends StatefulWidget {
-  @override
   final String? tripUid;
   const Userbutton({Key? key, this.tripUid}) : super(key: key);
 
@@ -58,8 +57,8 @@ class UserbuttonState extends State<Userbutton> {
                     _removeUserFromTrip();
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง
-                    primary: Colors.white, // กำหนดสีของตัวอักษรเป็นสีขาว
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.red, // กำหนดสีของตัวอักษรเป็นสีขาว
                   ),
                   child: Text(
                     'ออกจากทริป',
@@ -89,8 +88,8 @@ class UserbuttonState extends State<Userbutton> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // สีพื้นหลังของปุ่ม
-                    onPrimary: Colors.black, // สีขอบตัวอักษร
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -130,8 +129,8 @@ class UserbuttonState extends State<Userbutton> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // สีพื้นหลังของปุ่ม
-                    onPrimary: Colors.black, // สีขอบตัวอักษร
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white, // สีขอบตัวอักษร
                     fixedSize: Size(200, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),

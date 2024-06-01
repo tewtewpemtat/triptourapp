@@ -23,13 +23,11 @@ class DirectionsScreen extends StatefulWidget {
 }
 
 class _DirectionsScreenState extends State<DirectionsScreen> {
-  late GoogleMapController _controller;
   Timer? _timer;
-  List<LatLng> _route = []; // เก็บเส้นทาง
-
+  List<LatLng> _route = [];
   @override
   void dispose() {
-    _timer?.cancel(); // ยกเลิกการเรียกใช้งาน Timer ก่อนที่จะ dispose หน้าจอ
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -45,7 +43,6 @@ class _DirectionsScreenState extends State<DirectionsScreen> {
           zoom: 12,
         ),
         onMapCreated: (controller) async {
-          _controller = controller;
           _startTimerToUpdatePosition();
           await _getRoute();
         },
@@ -83,26 +80,21 @@ class _DirectionsScreenState extends State<DirectionsScreen> {
 
   void _startTimerToUpdatePosition() {
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      // อัปเดตตำแหน่งปัจจุบันของเราทุก 1 นาที
       _updateCurrentLocation();
     });
   }
 
   void _updateCurrentLocation() {
     setState(() {
-      // อัปเดตตำแหน่งปัจจุบันของเราและวาดเส้นทางใหม่
       _route = [
-        LatLng(
-            widget.userLatitude, widget.userLongitude), // ตำแหน่งปัจจุบันของเรา
-        LatLng(widget.destinationLatitude,
-            widget.destinationLongitude), // จุดนัดพบ
+        LatLng(widget.userLatitude, widget.userLongitude),
+        LatLng(widget.destinationLatitude, widget.destinationLongitude),
       ];
     });
   }
 
   Future<List<LatLng>> fetchRoute(LatLng origin, LatLng destination) async {
-    final String apiKey =
-        'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4'; // Replace with your Google Maps API key
+    final String apiKey = 'AIzaSyDgzISmUfbwWBHyrqyyma9AQQ_Tctimlt4';
     final String apiUrl =
         'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey';
 

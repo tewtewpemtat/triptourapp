@@ -17,8 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuthService auth = FirebaseAuthService();
 
-  bool _isSigningIn =
-      false; // เปลี่ยนชื่อตัวแปรเป็น _isSigningIn เพื่อให้เหมาะสมกับการล็อกอิน
+  bool _isSigningIn = false;
 
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
@@ -239,13 +238,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {}
       } catch (e) {
       } finally {
-        try {
-          UserCredential userCredential =
-              await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email,
-            password: password,
-          );
-        } catch (e) {
+        try {} catch (e) {
           Fluttertoast.showToast(msg: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
         }
         if (mounted)

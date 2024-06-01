@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/timeplace/placesum.dart';
 import 'package:triptourapp/timeplace/slideplace.dart';
-import 'package:triptourapp/timeplace/slidetime.dart';
 
 class TimePlacePage extends StatefulWidget {
-  @override
   final String? tripUid;
   const TimePlacePage({Key? key, this.tripUid}) : super(key: key);
   _TimePlacePageState createState() => _TimePlacePageState();
@@ -60,26 +58,6 @@ class _TimePlacePageState extends State<TimePlacePage> {
               ),
             ),
             SlidePlace(tripUid: widget.tripUid),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 10),
-            //   child: Text(
-            //     'กำหนดเวลา',
-            //     style: GoogleFonts.ibmPlexSansThai(
-            //       fontSize: 24.0,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(height: 5),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 10),
-            //   child: Text(
-            //     'ระบุเวลาการเดินทางของแต่ละสถานที่',
-            //     style: GoogleFonts.ibmPlexSansThai(
-            //         fontSize: 14.0, color: Colors.grey),
-            //   ),
-            // ),
-
             SizedBox(height: 7),
             Padding(
               padding: const EdgeInsets.only(left: 10),

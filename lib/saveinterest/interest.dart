@@ -3,23 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:triptourapp/addplaceuser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
 import 'dart:math';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/infoplace/groupchat.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'dart:typed_data'; // Add this import statement
+import 'dart:typed_data';
 
 class InterestPage extends StatefulWidget {
   final String? tripUid;
@@ -34,28 +27,24 @@ class InterestPage extends StatefulWidget {
 class _InterestPageState extends State<InterestPage> {
   late GoogleMapController _controller;
   String? uid;
-  LatLng? _startPosition;
   LatLng? _selectedPosition;
   String? placetripid;
   File? _selectedImage;
   String? useruid;
   TextEditingController _placeNameController = TextEditingController();
   TextEditingController _placeAddressController = TextEditingController();
-  double? _placeLatitude;
-  double? _placeLongitude;
   String? placeid;
   late Future<void> _initialCameraPositionFuture;
-  Position? _currentPosition; // Variable to store the current position
-  final Geolocator _geolocator = Geolocator(); // Instance of Geolocator
+  Position? _currentPosition;
+
   bool _isDisposed = false;
   late Uint8List markerIconBytes = Uint8List(0);
   @override
   void initState() {
     super.initState();
     uid = FirebaseAuth.instance.currentUser?.uid;
-    _initialCameraPositionFuture =
-        _getInitialCameraPosition(); // Initialize Future in initState
-    _getCurrentLocation(); // Get current location when the widget is initialized
+    _initialCameraPositionFuture = _getInitialCameraPosition();
+    _getCurrentLocation();
     _getMarkerIcon();
     Geolocator.getPositionStream().listen((Position position) {
       if (!_isDisposed) {
@@ -89,24 +78,21 @@ class _InterestPageState extends State<InterestPage> {
   Future<void> _getMarkerIcon() async {
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
-    final Paint paint = Paint()
-      ..color = Color.fromARGB(255, 26, 167, 249); // Set color to yellow
-    final double radius = 32; // Increase circle radius
+    final Paint paint = Paint()..color = Color.fromARGB(255, 26, 167, 249);
+    final double radius = 32;
 
-    canvas.drawCircle(Offset(radius, radius), radius,
-        paint); // Increase circle size to 16 and draw in canvas
+    canvas.drawCircle(Offset(radius, radius), radius, paint);
 
-    // Draw white border
     final Paint borderPaint = Paint()
       ..color = Colors.white
-      ..strokeWidth = 10 // Increase border thickness
+      ..strokeWidth = 10
       ..style = PaintingStyle.stroke;
 
     canvas.drawCircle(Offset(radius, radius), radius, borderPaint);
 
     final ui.Picture picture = pictureRecorder.endRecording();
-    final img = await picture.toImage((radius * 2).toInt(),
-        (radius * 2).toInt()); // Increase image size to match circle size
+    final img =
+        await picture.toImage((radius * 2).toInt(), (radius * 2).toInt());
     final ByteData? byteData =
         await img.toByteData(format: ui.ImageByteFormat.png);
 
@@ -124,7 +110,7 @@ class _InterestPageState extends State<InterestPage> {
         title: Text('\tกำหนดสถานที่',
             style: GoogleFonts.ibmPlexSansThai(
                 fontSize: 24, fontWeight: FontWeight.bold)),
-        automaticallyImplyLeading: false, // ไม่แสดงปุ่ม Back อัตโนมัติ
+        automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -139,12 +125,12 @@ class _InterestPageState extends State<InterestPage> {
         ),
       ),
       body: FutureBuilder<void>(
-        future: _initialCameraPositionFuture, // Use the Future here
+        future: _initialCameraPositionFuture,
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else {
-            return _buildGoogleMap(); // Build GoogleMap after Future completes
+            return _buildGoogleMap();
           }
         },
       ),
@@ -156,19 +142,8 @@ class _InterestPageState extends State<InterestPage> {
               child: Icon(Icons.save),
             )
           : null,
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.startFloat, // ตำแหน่ง FAB ที่กำหนด
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
-  }
-
-  Set<Marker> _createMarkers() {
-    return <Marker>{
-      Marker(
-        markerId: MarkerId('selected_position'),
-        position: _selectedPosition!,
-        draggable: false,
-      ),
-    };
   }
 
   Widget _buildGoogleMap() {
@@ -185,7 +160,6 @@ class _InterestPageState extends State<InterestPage> {
           icon: markerIconBytes.isNotEmpty
               ? BitmapDescriptor.fromBytes(markerIconBytes)
               : BitmapDescriptor.defaultMarker,
-          // You can customize the icon further if needed
           infoWindow: InfoWindow(
             title: 'ตำแหน่งปัจจุบันของคุณ',
           ),
@@ -221,8 +195,7 @@ class _InterestPageState extends State<InterestPage> {
               zoom: 17,
             )
           : CameraPosition(
-              target: LatLng(13.736717,
-                  100.523186), // Default position (Bangkok coordinates)
+              target: LatLng(13.736717, 100.523186),
               zoom: 17,
             ),
       markers: Set<Marker>.from(markers),
@@ -248,8 +221,7 @@ class _InterestPageState extends State<InterestPage> {
                         : GestureDetector(
                             onTap: () {
                               _getImage().then((_) {
-                                setState(
-                                    () {}); // เรียกใช้ setState เพื่อให้ Dialog สร้างใหม่เพื่อแสดงรูปภาพใหม่
+                                setState(() {});
                               });
                             },
                             child: Container(
@@ -280,8 +252,7 @@ class _InterestPageState extends State<InterestPage> {
                       controller: _placeAddressController,
                       decoration:
                           InputDecoration(labelText: 'รายละเอียดสิ่งน่าสนใจ'),
-                      keyboardType: TextInputType
-                          .multiline, // กำหนดให้สามารถพิมพ์หลายบรรทัดได้
+                      keyboardType: TextInputType.multiline,
                       maxLines: null,
                     ),
                   ],
@@ -340,23 +311,14 @@ class _InterestPageState extends State<InterestPage> {
 
       if (placesSnapshot.docs.isNotEmpty) {
         final placeDoc = placesSnapshot.docs.first;
-        final placeData = placeDoc.data() as Map<String, dynamic>;
-        final placeIddoc = placeDoc.id; // เก็บ ID ของเอกสารที่พบ
-
-        _placeLatitude = placeData['placeLatitude'];
-        _placeLongitude = placeData['placeLongitude'];
+        placeDoc.data();
+        final placeIddoc = placeDoc.id;
 
         setState(() {
-          _placeLatitude = placeData['placeLatitude'];
-          _placeLongitude = placeData['placeLongitude'];
           placeid = placeIddoc;
         });
       } else {
-        // ตั้งค่าเริ่มต้นให้กับ _placeLatitude และ _placeLongitude
-        // เมื่อไม่มีข้อมูลในฐานข้อมูล
-        _placeLatitude = 13.736717; // ละติจูดตำแหน่งเริ่มต้น
-        _placeLongitude = 100.523186;
-        placeid = widget.tripUid; // ลองจิจูดตำแหน่งเริ่มต้น
+        placeid = widget.tripUid;
       }
     } catch (e) {
       print('Error fetching initial camera position: $e');
@@ -376,8 +338,7 @@ class _InterestPageState extends State<InterestPage> {
       final placeLongitude = _selectedPosition!.longitude;
       final placeTripid = widget.tripUid;
       final userUid = FirebaseAuth.instance.currentUser?.uid;
-      final randomImg =
-          generateRandomNumber(); // Generate a random 9-digit number
+      final randomImg = generateRandomNumber();
       final imageName = '${widget.tripUid}$randomImg.jpg';
       final firebaseStorageRef = firebase_storage.FirebaseStorage.instance
           .ref()
@@ -411,8 +372,7 @@ class _InterestPageState extends State<InterestPage> {
         'nickname': nickname,
         'profileImageUrl': profileImageUrl,
         'senderUid': userUid,
-        'timestampserver':
-            FieldValue.serverTimestamp(), // Assuming you have a timestamp field
+        'timestampserver': FieldValue.serverTimestamp(),
         'tripChatUid': widget.tripUid
       });
       setState(() {
@@ -424,7 +384,7 @@ class _InterestPageState extends State<InterestPage> {
 
       Fluttertoast.showToast(msg: 'เพิ่มสิ่งน่าสนใจเรียบร้อยแล้ว');
     } catch (e) {
-      print('Error: $e'); // แสดง error message ใน console
+      print('Error: $e');
       Fluttertoast.showToast(msg: 'เกิดข้อผิดพลาดในการเพิ่มสิ่งน่าสนใจ');
     }
   }

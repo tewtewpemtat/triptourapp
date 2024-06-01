@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/main.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class EditUser extends StatefulWidget {
   @override
@@ -87,7 +84,7 @@ class _EditUser extends State<EditUser> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16), // ตัวกันระหว่างปุ่ม
+                    SizedBox(width: 16),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
@@ -127,7 +124,6 @@ class _EditUser extends State<EditUser> {
 
     if (newPassword.isNotEmpty && newPassword == confirmPassword) {
       try {
-        // Update password
         await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
         await FirebaseAuth.instance.currentUser!.reload();
 
@@ -157,7 +153,6 @@ class _EditUser extends State<EditUser> {
           },
         );
       } catch (error) {
-        // Handle error
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -177,7 +172,6 @@ class _EditUser extends State<EditUser> {
         );
       }
     } else {
-      // Show an error message or handle the case where passwords don't match
       showDialog(
         context: context,
         builder: (BuildContext context) {

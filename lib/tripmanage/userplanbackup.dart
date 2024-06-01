@@ -130,8 +130,8 @@ class UserPlan extends StatelessWidget {
                               // ทำอะไรเมื่อกดปุ่มเพิ่มสถานที่
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 63, 177, 88),
-                              onPrimary: Colors.white,
+                              foregroundColor: Colors.white,
+                              backgroundColor: Color.fromARGB(255, 63, 177, 88),
                               fixedSize: Size(70, 10),
                             ),
                             child: Text(
@@ -151,8 +151,8 @@ class UserPlan extends StatelessWidget {
                               // ทำอะไรเมื่อกดปุ่มกำหนดเวลาแต่ละสถานที่
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xffcfcfcf),
-                              onPrimary: Colors.black,
+                              foregroundColor: Colors.black,
+                              backgroundColor: Color(0xffcfcfcf),
                               fixedSize: Size(70, 10),
                             ),
                             child: Text(

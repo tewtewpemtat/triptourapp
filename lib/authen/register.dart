@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController2 = new TextEditingController();
   @override
   void dispose() {
+    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _passwordController2.dispose();
@@ -80,9 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(width: 20),
                 InkWell(
-                  onTap: () {
-                    // เพิ่มโค้ดสำหรับสมัครสมาชิก
-                  },
+                  onTap: () {},
                   child: Text(
                     'สมัครสมาชิก',
                     style: GoogleFonts.ibmPlexSansThai(
@@ -115,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
-                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
+                      color: Color(0xFFEE8B60),
                     ),
                   ),
                 ),
@@ -130,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 color: Colors.white,
               ),
               child: TextFormField(
-                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                obscureText: true,
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'รหัสผ่าน',
@@ -140,7 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
-                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
+                      color: Color(0xFFEE8B60),
                     ),
                   ),
                 ),
@@ -155,7 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 color: Colors.white,
               ),
               child: TextFormField(
-                obscureText: true, // กำหนดให้เป็นรหัสผ่าน
+                obscureText: true,
                 controller: _passwordController2,
                 decoration: InputDecoration(
                   labelText: 'ยืนยันรหัสผ่าน',
@@ -165,7 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
-                      color: Color(0xFFEE8B60), // สีที่ต้องการเมื่อรับ focus
+                      color: Color(0xFFEE8B60),
                     ),
                   ),
                 ),

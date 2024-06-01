@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/invite.dart';
 import 'package:triptourapp/main.dart';
 import 'package:triptourapp/tripmanage/userbutton.dart';
@@ -9,16 +8,13 @@ import 'tripmanage/headplan.dart';
 import 'tripmanage/headinformation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:geolocator/geolocator.dart';
 
 class TripmanagePage extends StatelessWidget {
   final String? tripUid;
-  const TripmanagePage({Key? key, this.tripUid})
-      : super(key: key); // Constructor ที่รับค่า UID
+  const TripmanagePage({Key? key, this.tripUid}) : super(key: key);
 
   Future<bool> _checkGroupChatExist(String tripUid) async {
     QuerySnapshot query = await FirebaseFirestore.instance
@@ -45,8 +41,6 @@ class TripmanagePage extends StatelessWidget {
     await FirebaseFirestore.instance.collection('groupmessages').add({
       'tripChatUid': tripUid,
       'timestampserver': FieldValue.serverTimestamp(),
-
-      // Add other necessary fields
     });
   }
 
@@ -55,16 +49,13 @@ class TripmanagePage extends StatelessWidget {
         await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
 
     if (tripSnapshot.exists) {
-      // เช็คว่าเอกสาร trip นั้นมีอยู่หรือไม่
       String? tripCreate =
           (tripSnapshot.data() as Map<String, dynamic>?)?['tripCreate'];
       String? uid = FirebaseAuth.instance.currentUser?.uid;
       if (tripCreate == uid) {
-        // ถ้าเท่ากัน ให้สร้างหน้า HeadButton
         return true;
       }
     }
-    // ถ้าไม่เท่ากัน หรือไม่มีข้อมูล ให้สร้างหน้า UserButton
     return false;
   }
 
@@ -77,12 +68,9 @@ class TripmanagePage extends StatelessWidget {
 
   Future<void> _checkLocationPermission(
       BuildContext context, String myUid) async {
-    // Check if permission is already granted
     PermissionStatus status = await Permission.location.request();
 
-    // Check if permission is granted
     if (status.isGranted) {
-      // Permission is granted, proceed with fetching location
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
@@ -90,22 +78,17 @@ class TripmanagePage extends StatelessWidget {
       double userLatitude = position.latitude;
       double userLongitude = position.longitude;
 
-      // Store user location in database
-// Store user location in database
       final userLocationRef =
           FirebaseFirestore.instance.collection('userlocation').doc(myUid);
 
-// Check if the document already exists
       final existingDoc = await userLocationRef.get();
 
       if (existingDoc.exists) {
-        // If document exists, update the fields
         await userLocationRef.update({
           'userLatitude': userLatitude,
           'userLongitude': userLongitude,
         });
       } else {
-        // If document doesn't exist, create a new one
         await userLocationRef.set({
           'userId': myUid,
           'userLatitude': userLatitude,
@@ -113,7 +96,6 @@ class TripmanagePage extends StatelessWidget {
         });
       }
     } else if (status.isDenied) {
-      // Permission is denied, show a message to the user
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -185,8 +167,7 @@ class TripmanagePage extends StatelessWidget {
                       },
                     );
                   } else {
-                    return Text(
-                        '      '); // ไม่แสดงอะไรเลยถ้าไม่ใช่ผู้สร้างทริป
+                    return Text('      ');
                   }
                 }
               },
@@ -199,8 +180,7 @@ class TripmanagePage extends StatelessWidget {
           children: [
             InformationPage(tripUid: tripUid),
             FutureBuilder<bool>(
-              future: _checkTripUidExist(
-                  tripUid!), // เรียกใช้ฟังก์ชันตรวจสอบ tripUid
+              future: _checkTripUidExist(tripUid!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
@@ -217,8 +197,7 @@ class TripmanagePage extends StatelessWidget {
               },
             ),
             FutureBuilder<bool>(
-              future: _checkTripCreate(
-                  tripUid!, myUid!), // เรียกใช้ฟังก์ชันตรวจสอบ tripUid
+              future: _checkTripCreate(tripUid!, myUid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();

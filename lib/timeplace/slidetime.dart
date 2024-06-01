@@ -2,19 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: SlideTime(), // นำ MyApp() ไปเป็นหน้าจอหลัก
+      home: SlideTime(),
     ),
   );
 }
 
 class SlideTime extends StatefulWidget {
-  final String? selectedPlaceUid; // รับค่า UID จาก SlidePlace widget
+  final String? selectedPlaceUid;
 
   const SlideTime({Key? key, this.selectedPlaceUid}) : super(key: key);
 
@@ -38,7 +36,7 @@ class _SlideTimeState extends State<SlideTime> {
   DateTime timeend = DateTime.now();
   DateTime? selectdate;
   String? formattedTime;
-  String? formattedTimeEnd; // ย้ายตัวแปร formattedTime มาที่นี่
+  String? formattedTimeEnd;
   List<DateTime> tripDates = [];
   List<DateTime> tripDatesNew = [];
 
@@ -47,7 +45,6 @@ class _SlideTimeState extends State<SlideTime> {
     super.didUpdateWidget(oldWidget);
     if (widget.selectedPlaceUid != oldWidget.selectedPlaceUid) {
       setState(() {
-        // เมื่อ selectedPlaceUid เปลี่ยนค่า กำหนด startTime และ endTime เป็น null
         startTime = null;
         endTime = null;
         selectedDay = null;
@@ -95,7 +92,7 @@ class _SlideTimeState extends State<SlideTime> {
             tripStartDateFormatted =
                 DateFormat('yyyy-MM-dd').format(tripStartDate);
 
-            tripDates = []; // ล้างรายการเดิมก่อนที่จะสร้างรายการใหม่
+            tripDates = [];
             for (DateTime date = DateTime(
                     tripStartDate.year, tripStartDate.month, tripStartDate.day);
                 date.isBefore(DateTime(tripEndDate.year, tripEndDate.month,
@@ -106,7 +103,6 @@ class _SlideTimeState extends State<SlideTime> {
               tripDates.add(date);
             }
 
-            // อัปเดตค่าของตัวแปร tripDates หลังจากสร้างรายการเสร็จสมบูรณ์
             print(widget.selectedPlaceUid);
             tripEndDateFormatted = DateFormat('yyyy-MM-dd').format(tripEndDate);
 
@@ -227,11 +223,10 @@ class _SlideTimeState extends State<SlideTime> {
                     },
                     child: Text('เลือกเวลา'),
                   ),
-                  // เพิ่มระยะห่าง
                 ],
               ),
             ],
-          ), // เพิ่มระยะห่างระหว่าง DropdownButton และเวลาเริ่มต้น
+          ),
           Row(
             children: [
               ElevatedButton(
@@ -248,8 +243,8 @@ class _SlideTimeState extends State<SlideTime> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 245, 136, 2), // สีพื้นหลัง
-                  onPrimary: Colors.white, // สีของตัวอักษร
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color.fromARGB(255, 245, 136, 2),
                 ),
                 child: Text('บันทึกเวลา '),
               ),
@@ -262,8 +257,8 @@ class _SlideTimeState extends State<SlideTime> {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 254, 0, 0), // สีพื้นหลัง
-                  onPrimary: Colors.white, // สีของตัวอักษร
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color.fromARGB(255, 254, 0, 0),
                 ),
                 child: Text('รีเซ็ตเวลา'),
               ),
@@ -321,62 +316,17 @@ class _SlideTimeState extends State<SlideTime> {
   ) async {
     try {
       await FirebaseFirestore.instance
-          .collection('places') // ใช้คอลเล็กชัน "places"
-          .doc(widget
-              .selectedPlaceUid) // เอกสารที่มี UID เท่ากับ widget.selectedPlaceUid
+          .collection('places')
+          .doc(widget.selectedPlaceUid)
           .update({
         'placetimestart': startTime,
         'placetimeend': endTime,
-        'placeadd': 'Yes' // ส่ง Timestamp ไปยัง Firestore
+        'placeadd': 'Yes'
       });
 
       print('Start time saved successfully!');
     } catch (error) {
       print('Error saving start time: $error');
-    }
-  }
-
-  void _clearEndTime(BuildContext context) {
-    setState(() {
-      placetimeend = null;
-      print('Start time cleared!');
-    });
-    _clearEndTimeFromFirestore(); // ส่งค่า null เพื่อลบข้อมูลจาก Firestore
-  }
-
-  void _clearEndTimeFromFirestore() async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('places')
-          .doc(widget.selectedPlaceUid)
-          .update({
-        'placetimeend': null,
-      });
-      print('Start time cleared successfully!');
-    } catch (error) {
-      print('Error clearing end time: $error');
-    }
-  }
-
-  void _clearStartTime(BuildContext context) {
-    setState(() {
-      placetimestart = null;
-      print('Start time cleared!');
-    });
-    _clearStartTimeFromFirestore(); // ส่งค่า null เพื่อลบข้อมูลจาก Firestore
-  }
-
-  void _clearStartTimeFromFirestore() async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('places')
-          .doc(widget.selectedPlaceUid)
-          .update({
-        'placetimestart': null,
-      });
-      print('Start time cleared successfully!');
-    } catch (error) {
-      print('Error clearing start time: $error');
     }
   }
 
@@ -461,16 +411,11 @@ class _SlideTimeState extends State<SlideTime> {
   }
 
   void _saveTime() async {
-    // ตรวจสอบว่า startTime มากกว่า endTime หรือไม่
     if (startTime!.isAfter(endTime!)) {
       _showInvalidTimeAlertStart(context);
-    }
-    // ตรวจสอบว่า endTime มากกว่า startTime หรือไม่
-    else if (endTime!.isBefore(startTime!)) {
+    } else if (endTime!.isBefore(startTime!)) {
       _showInvalidTimeAlertEnd(context);
-    }
-    // กรณีที่เวลาถูกต้องทั้งสอง
-    else {
+    } else {
       final placeData = await FirebaseFirestore.instance
           .collection('places')
           .doc(widget.selectedPlaceUid)
@@ -481,7 +426,7 @@ class _SlideTimeState extends State<SlideTime> {
           .doc(placetripid)
           .get();
 
-      DateTime tripStartDate = tripData['tripStartDate'].toDate();
+      tripData['tripStartDate'].toDate();
       DateTime tripEndDate = tripData['tripEndDate'].toDate();
 
       final querySnapshot = await FirebaseFirestore.instance
@@ -489,7 +434,7 @@ class _SlideTimeState extends State<SlideTime> {
           .where('placetripid', isEqualTo: placetripid)
           .get();
 
-      bool isOverlapping = false; // ตั้งค่าตรวจสอบการทับซ้อนเป็นเท็จเริ่มต้น
+      bool isOverlapping = false;
 
       for (final doc in querySnapshot.docs) {
         final existingPlaceData = doc.data();
@@ -501,81 +446,26 @@ class _SlideTimeState extends State<SlideTime> {
                   startTime!.isBefore(existingEndTime.toDate())) ||
               (endTime!.isAfter(existingStartTime.toDate()) &&
                   endTime!.isBefore(existingEndTime.toDate()))) {
-            // หากมีการทับซ้อนเวลากับสถานที่อื่น ๆ
             isOverlapping = true;
             _showInvalidTimeRangeAlert(context);
-            break; // หยุดการตรวจสอบเมื่อพบการทับซ้อน
+            break;
           }
         }
       }
 
-      // ถ้าไม่มีการทับซ้อนและเวลาสิ้นสุดไม่มากกว่า tripEndDate
       if (!isOverlapping && endTime!.isBefore(tripEndDate)) {
         Timestamp endTimestamp = Timestamp.fromDate(endTime!);
         Timestamp startTimestamp = Timestamp.fromDate(startTime!);
         _saveStarAndEndtTimeToFirestore(startTimestamp, endTimestamp);
         _Saved(context);
-      }
-      // หากมีการทับซ้อนหรือเวลาสิ้นสุดมากกว่า tripEndDate
-      else {
+      } else {
         if (isOverlapping) {
           print('Invalid time: Overlapping with existing time');
         }
         if (endTime!.isAfter(tripEndDate)) {
-          // แสดง Alert dialog หากเวลาสิ้นสุดมากกว่า tripEndDate
           _showTimeMore(context);
         }
       }
-    }
-  }
-
-  Future<bool> _checkTimeRangeValidity(Timestamp newStartTime) async {
-    try {
-      // ดึงข้อมูลที่เกี่ยวข้องกับ placetripid
-      final placeData = await FirebaseFirestore.instance
-          .collection('places')
-          .doc(widget.selectedPlaceUid)
-          .get();
-
-      final placetripid = placeData['placetripid'];
-
-      // ดึงข้อมูลที่เกี่ยวข้องกับ placetripid ใน trips collection
-      final tripData = await FirebaseFirestore.instance
-          .collection('trips')
-          .doc(placetripid)
-          .get();
-
-      // แปลงวันเริ่มต้นและสิ้นสุดของทริปเป็น DateTime
-      DateTime tripStartDate = tripData['tripStartDate'].toDate();
-      DateTime tripEndDate = tripData['tripEndDate'].toDate();
-
-      // ดึงข้อมูลที่เกี่ยวข้องกับสถานที่ที่มี placetripid เดียวกัน
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('places')
-          .where('placetripid', isEqualTo: placetripid)
-          .get();
-
-      // ตรวจสอบว่า placetimestart ใหม่อยู่ในช่วงเวลาที่ไม่ซ้ำกันกับสถานที่อื่น ๆ
-      for (final doc in querySnapshot.docs) {
-        final existingPlaceData = doc.data();
-        final existingStartTime = existingPlaceData['placetimestart'];
-        final existingEndTime = existingPlaceData['placetimeend'];
-
-        // ตรวจสอบช่วงเวลา
-        if (existingStartTime != null && existingEndTime != null) {
-          if (newStartTime.compareTo(existingStartTime) >= 0 &&
-              newStartTime.compareTo(existingEndTime) <= 0) {
-            // ช่วงเวลาไม่ถูกต้อง
-            return false;
-          }
-        }
-      }
-
-      // หากไม่มีสถานที่ใดๆที่ชนกันในช่วงเวลาเดียวกัน
-      return true;
-    } catch (error) {
-      print('Error checking time range validity: $error');
-      return false;
     }
   }
 

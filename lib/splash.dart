@@ -35,7 +35,6 @@ class _IntroducePageState extends State<IntroducePage> {
   @override
   void initState() {
     super.initState();
-    // Automatically transition to the next page every 2 seconds
     Future.delayed(Duration(seconds: 3), _autoTransition);
   }
 
@@ -53,7 +52,6 @@ class _IntroducePageState extends State<IntroducePage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Top 50%: Image
         Expanded(
           flex: 8,
           child: PageView.builder(
@@ -66,7 +64,7 @@ class _IntroducePageState extends State<IntroducePage> {
             itemCount: imagePaths.length,
             itemBuilder: (context, index) {
               return FractionallySizedBox(
-                heightFactor: 1, // ลองปรับค่านี้เพื่อเปลี่ยนความสูง
+                heightFactor: 1,
                 child: Image.asset(
                   imagePaths[index],
                   fit: BoxFit.cover,
@@ -75,14 +73,10 @@ class _IntroducePageState extends State<IntroducePage> {
             },
           ),
         ),
-
-        // Bottom 50%: Text and Button
-        // 50% ล่าง: ข้อความและปุ่ม
         Expanded(
           flex: 5,
           child: Align(
-            alignment: Alignment
-                .center, // เปลี่ยนจาก Alignment.topCenter เป็น Alignment.center
+            alignment: Alignment.center,
             child: FractionallySizedBox(
               widthFactor: 0.8,
               child: Padding(
@@ -91,8 +85,7 @@ class _IntroducePageState extends State<IntroducePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center, // เพิ่มบรรทัดนี้
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Trip',

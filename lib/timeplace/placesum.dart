@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
@@ -23,8 +19,7 @@ class _PlaceSumState extends State<PlaceSum> {
 
   @override
   Widget build(BuildContext context) {
-    return // Set a fixed height or use constraints
-        StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('places')
           .where('placetripid', isEqualTo: widget.tripUid)
@@ -62,14 +57,13 @@ class _PlaceSumState extends State<PlaceSum> {
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
     String placeAddress = placeData['placeaddress'];
-    int maxCharsFirstLine = 17; // Maximum characters for the first line
-    int maxCharsTotal = 30; // Maximum characters to display in total
-    int maxCharsFirstLine2 = 50; // Maximum characters for the first line
-    int maxCharsTotal2 = 60; // Maximum characters to display in total
+    int maxCharsFirstLine = 17;
+    int maxCharsTotal = 30;
+    int maxCharsFirstLine2 = 50;
+    int maxCharsTotal2 = 60;
     String displayedName = placeName.length > maxCharsFirstLine
         ? (placeName.length > maxCharsTotal
-            ? placeName.substring(0, maxCharsFirstLine) +
-                '...' // Add ... after truncating the first line
+            ? placeName.substring(0, maxCharsFirstLine) + '...'
             : placeName.substring(0, maxCharsFirstLine) +
                 '\n' +
                 (placeName.length > maxCharsTotal
@@ -79,8 +73,7 @@ class _PlaceSumState extends State<PlaceSum> {
         : placeName;
     String displayedName2 = placeAddress.length > maxCharsFirstLine2
         ? (placeAddress.length > maxCharsTotal2
-            ? placeAddress.substring(0, maxCharsFirstLine2) +
-                '...' // Add ... after truncating the first line
+            ? placeAddress.substring(0, maxCharsFirstLine2) + '...'
             : placeAddress.substring(0, maxCharsFirstLine2) +
                 '\n' +
                 (placeAddress.length > maxCharsTotal2
@@ -92,12 +85,11 @@ class _PlaceSumState extends State<PlaceSum> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        // Set the width to your desired value
         height: 120.0,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.grey, // Border color
-            width: 1.0, // Border width
+            color: Colors.grey,
+            width: 1.0,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -133,7 +125,7 @@ class _PlaceSumState extends State<PlaceSum> {
                           children: [
                             Expanded(
                               child: Text(
-                                displayedName ?? '',
+                                displayedName,
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -146,11 +138,11 @@ class _PlaceSumState extends State<PlaceSum> {
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black, // Border color
-                              width: 1.0, // Border width
+                              color: Colors.black,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(16.0),
-                            color: Color(0xFF1E30D7), // Background color
+                            color: Color(0xFF1E30D7),
                           ),
                           padding: EdgeInsets.all(3.0),
                           child: Text(
@@ -163,7 +155,7 @@ class _PlaceSumState extends State<PlaceSum> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          displayedName2 ?? '',
+                          displayedName2,
                           style: GoogleFonts.ibmPlexSansThai(fontSize: 12),
                         ),
                         SizedBox(height: 8),
@@ -187,10 +179,8 @@ class _PlaceSumState extends State<PlaceSum> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimestart']
-                                                as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimestart'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -221,9 +211,8 @@ class _PlaceSumState extends State<PlaceSum> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimeend'] as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimeend'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:triptourapp/addfriend.dart';
-import 'package:triptourapp/friendrequest.dart';
 
 class FriendButton extends StatelessWidget {
   @override
@@ -13,7 +11,7 @@ class FriendButton extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(
             left: 10,
-          ), // Adjust the values as needed
+          ),
           child: Text(
             'รายชื่อเพื่อน',
             style: GoogleFonts.ibmPlexSansThai(
@@ -26,7 +24,7 @@ class FriendButton extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(
             left: 10,
-          ), // Adjust the values as needed
+          ),
           child: Text(
             'แชทส่วนตัวเพื่อสนทนาในเเอปพลิเคชั่น TripTour',
             style:

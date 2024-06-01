@@ -13,8 +13,8 @@ class TripTimeLine extends StatelessWidget {
     return MaterialApp(
       title: 'TripTour',
       home: Scaffold(
-        appBar: TopNavbar(), // เรียกใช้ TopNavbar Widgetna
-        resizeToAvoidBottomInset: false, // เพิ่มการตั้งค่านี้
+        appBar: TopNavbar(),
+        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -24,9 +24,7 @@ class TripTimeLine extends StatelessWidget {
         ),
         bottomNavigationBar: BottomNavbar(
           selectedIndex: 2,
-          onItemTapped: (index) {
-            // โค้ดที่จะทำเมื่อผู้ใช้แตะที่ BottomNavbar
-          },
+          onItemTapped: (index) {},
         ),
       ),
     );

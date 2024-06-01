@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:triptourapp/tripmanage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geolocator/geolocator.dart';
-import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:math' show sin, cos, sqrt, pow, atan2, pi;
+import 'dart:math' show sin, cos, sqrt, atan2, pi;
 
 class DistancePage extends StatefulWidget {
-  @override
   final String? tripUid;
   final String? placeid;
   const DistancePage({Key? key, this.tripUid, this.placeid}) : super(key: key);
@@ -42,7 +38,6 @@ class DistancePageState extends State<DistancePage> {
         .get()
         .then((querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
-        // ถ้ามีเอกสารในระบบแล้ว ให้ทำการอัปเดตเฉพาะฟิลด์ distance
         querySnapshot.docs.forEach((doc) {
           doc.reference.update({'distance': distance2}).then((value) {
             print("Document updated successfully");
@@ -51,7 +46,6 @@ class DistancePageState extends State<DistancePage> {
           });
         });
       } else {
-        // ถ้าไม่มีเอกสารในระบบ ให้ทำการสร้างเอกสารใหม่
         FirebaseFirestore.instance.collection('timeline').add({
           'placeid': widget.placeid,
           'placetripid': widget.tripUid,
@@ -77,7 +71,6 @@ class DistancePageState extends State<DistancePage> {
         .get()
         .then((querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
-        // ถ้ามีเอกสารใน Firestore
         setState(() {
           saveTimelineOption = 'บันทึก';
           distance2 = querySnapshot.docs.first.get('distance');
@@ -97,15 +90,13 @@ class DistancePageState extends State<DistancePage> {
 
   double calculateDistanceInMeters(
       double lat1, double lon1, double lat2, double lon2) {
-    const double earthRadius = 6371000; // Radius of the earth in meters
+    const double earthRadius = 6371000;
 
-    // Convert degrees to radians
     double lat1Rad = radians(lat1);
     double lon1Rad = radians(lon1);
     double lat2Rad = radians(lat2);
     double lon2Rad = radians(lon2);
 
-    // Haversine formula
     double dLat = lat2Rad - lat1Rad;
     double dLon = lon2Rad - lon1Rad;
     double a = sin(dLat / 2) * sin(dLat / 2) +
@@ -176,18 +167,16 @@ class DistancePageState extends State<DistancePage> {
             double doubleValue = double.tryParse(value) ?? 0.0;
             print(doubleValue);
             distance2 = doubleValue;
-            // แปลงเป็นข้อความ
           },
         ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              // เมื่อผู้ใช้ป้อนระยะห่างในการค้นหาแล้วให้ดึงสถานที่ใกล้เคียงตามระยะที่ระบุ
+
               if (distance2 != 0.0) {
                 setState(() {
                   distance = calculateDistance(distance2 ?? 0.0);
-                  // แปลงเป็นข้อความ
                 });
                 Fluttertoast.showToast(
                   msg: "บันทึกระยะสำเร็จ",

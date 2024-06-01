@@ -87,14 +87,12 @@ class FriendRequestPage extends StatelessWidget {
                       String firstName = userData['firstName'] ?? '';
                       String lastName = userData['lastName'] ?? '';
                       String nickName = userData['nickname'] ?? '';
-                      // ตรวจสอบว่ามีข้อมูลรูปภาพหรือไม่
+
                       String profileImageUrl =
                           userData['profileImageUrl'] ?? '';
 
                       return InkWell(
                         onTap: () {
-                          // ทำงานเมื่อแตะที่รายการ
-                          // ตัวอย่างเช่น Navigator.push, showDialog, etc.
                           print('Tapped on friend request item');
                         },
                         child: Container(
@@ -113,8 +111,8 @@ class FriendRequestPage extends StatelessWidget {
                               Expanded(
                                 flex: 3,
                                 child: Container(
-                                  width: 120.0, // ความกว้างของ Container
-                                  height: 120.0, // ความสูงของ Container
+                                  width: 120.0,
+                                  height: 120.0,
                                   child: ClipOval(
                                     child: profileImageUrl.isNotEmpty
                                         ? Image.network(
@@ -165,7 +163,6 @@ class FriendRequestPage extends StatelessWidget {
                                                       FirebaseAuth.instance
                                                           .currentUser?.uid;
 
-                                                  // 1. Add receiverUid to the friendList of the sender
                                                   await FirebaseFirestore
                                                       .instance
                                                       .collection('users')
@@ -175,7 +172,7 @@ class FriendRequestPage extends StatelessWidget {
                                                         FieldValue.arrayUnion(
                                                             [receiverUid]),
                                                   });
-                                                  // 2. Add senderUid to the friendList of the receiver
+
                                                   await FirebaseFirestore
                                                       .instance
                                                       .collection('users')
@@ -186,7 +183,6 @@ class FriendRequestPage extends StatelessWidget {
                                                             [senderUid]),
                                                   });
 
-                                                  // 3. Update the status to 'Accepted' in the 'friendrequest' collection
                                                   String friendRequestId =
                                                       snapshot
                                                           .data!.docs[index].id;
@@ -197,14 +193,12 @@ class FriendRequestPage extends StatelessWidget {
                                                       .doc(friendRequestId)
                                                       .delete();
 
-                                                  // Log success or perform any other actions
                                                   print(
                                                       'Friend request accepted successfully');
                                                   Fluttertoast.showToast(
                                                     msg: 'ตอบรับคำขอเสร็จสิ้น',
                                                   );
                                                 } catch (error) {
-                                                  // Handle errors (e.g., Firestore errors, network errors, etc.)
                                                   print(
                                                       'Error accepting friend request: $error');
                                                 }
@@ -220,7 +214,7 @@ class FriendRequestPage extends StatelessWidget {
                                                 ),
                                               ),
                                               style: ElevatedButton.styleFrom(
-                                                primary: Colors.green,
+                                                backgroundColor: Colors.green,
                                                 padding: EdgeInsets.symmetric(
                                                   vertical: 0,
                                                 ),
@@ -233,7 +227,6 @@ class FriendRequestPage extends StatelessWidget {
                                             child: ElevatedButton(
                                               onPressed: () async {
                                                 try {
-                                                  // 1. Delete the friendrequest document
                                                   String friendRequestId =
                                                       snapshot
                                                           .data!.docs[index].id;
@@ -244,14 +237,12 @@ class FriendRequestPage extends StatelessWidget {
                                                       .doc(friendRequestId)
                                                       .delete();
 
-                                                  // Log success or perform any other actions
                                                   print(
                                                       'Friend request declined successfully');
                                                   Fluttertoast.showToast(
                                                     msg: 'ปฎิเสธคำขอเสร็จสิ้น',
                                                   );
                                                 } catch (error) {
-                                                  // Handle errors (e.g., Firestore errors, network errors, etc.)
                                                   print(
                                                       'Error declining friend request: $error');
                                                 }
@@ -267,7 +258,7 @@ class FriendRequestPage extends StatelessWidget {
                                                 ),
                                               ),
                                               style: ElevatedButton.styleFrom(
-                                                primary: Colors.red,
+                                                backgroundColor: Colors.red,
                                                 padding: EdgeInsets.symmetric(
                                                   vertical: 0,
                                                 ),

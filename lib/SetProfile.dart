@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:triptourapp/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -150,8 +149,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
                   await _updateProfileStatus();
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xffdb923c),
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color(0xffdb923c),
                   fixedSize: Size(200, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -176,9 +175,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
   }
 
   bool isNumeric(String str) {
-    if (str == null) {
-      return false;
-    }
     return double.tryParse(str) != null;
   }
 
@@ -198,7 +194,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
         });
         _uploadImage();
         String? uid = FirebaseAuth.instance.currentUser?.uid;
-        // Update profile data in Firestore
         await FirebaseFirestore.instance.collection('users').doc(uid).set({
           'firstName': _firstNameController.text,
           'lastName': _lastNameController.text,
@@ -228,22 +223,15 @@ class _SetProfilePageState extends State<SetProfilePage> {
     try {
       String? uid = FirebaseAuth.instance.currentUser?.uid;
 
-      // กำหนด path ใน Firebase Storage
       String storagePath = 'profilepic/$uid/profile.jpg';
 
-      // สร้าง Reference สำหรับอ้างถึง storagePath
       Reference storageReference = FirebaseStorage.instance.ref(storagePath);
 
       if (_userProfileImage != null) {
-        // อัปโหลดไฟล์รูปภาพ
         await storageReference.putFile(_userProfileImage!);
 
-        // ดึง URL ของรูปภาพที่อัปโหลด
         final String imageUrl = await storageReference.getDownloadURL();
 
-        // ทำอะไรกับ imageUrl ต่อไป
-
-        // Update the user document with the image URL
         await FirebaseFirestore.instance
             .collection('users')
             .doc(uid)

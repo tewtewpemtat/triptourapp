@@ -4,14 +4,12 @@ import 'package:triptourapp/TripTimeLine.dart';
 import 'package:triptourapp/addplaceuser.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:triptourapp/main.dart';
-import 'package:triptourapp/requestplace.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class Userbutton extends StatefulWidget {
-  @override
   final String? tripUid;
   const Userbutton({Key? key, this.tripUid}) : super(key: key);
 
@@ -107,14 +105,12 @@ class UserbuttonState extends State<Userbutton> {
                 document.data() as Map<String, dynamic>?;
             if (data != null) {
               List<dynamic> placeWhogo = data['placewhogo'];
-              if (placeWhogo != null) {
-                if (placeWhogo.contains(uid)) {
-                  placeWhogo.remove(uid);
-                  await FirebaseFirestore.instance
-                      .collection('places')
-                      .doc(document.id)
-                      .update({'placewhogo': placeWhogo});
-                }
+              if (placeWhogo.contains(uid)) {
+                placeWhogo.remove(uid);
+                await FirebaseFirestore.instance
+                    .collection('places')
+                    .doc(document.id)
+                    .update({'placewhogo': placeWhogo});
               }
             }
           }
@@ -263,10 +259,9 @@ class UserbuttonState extends State<Userbutton> {
                             _removeUserFromTrip();
                           },
                           style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
                             backgroundColor:
-                                Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง
-                            primary:
-                                Colors.white, // กำหนดสีของตัวอักษรเป็นสีขาว
+                                Colors.red, // กำหนดสีของตัวอักษรเป็นสีขาว
                           ),
                           child: Text(
                             'ออกจากทริป',
@@ -296,8 +291,8 @@ class UserbuttonState extends State<Userbutton> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white, // สีพื้นหลังของปุ่ม
-                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white, // สีขอบตัวอักษร
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -364,10 +359,9 @@ class UserbuttonState extends State<Userbutton> {
                             _removeUserFromTrip();
                           },
                           style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
                             backgroundColor:
-                                Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง
-                            primary:
-                                Colors.white, // กำหนดสีของตัวอักษรเป็นสีขาว
+                                Colors.red, // กำหนดสีของตัวอักษรเป็นสีขาว
                           ),
                           child: Text(
                             'ออกจากทริป',
@@ -396,8 +390,8 @@ class UserbuttonState extends State<Userbutton> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white, // สีพื้นหลังของปุ่ม
-                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white, // สีขอบตัวอักษร
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -439,8 +433,8 @@ class UserbuttonState extends State<Userbutton> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white, // สีพื้นหลังของปุ่ม
-                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white, // สีขอบตัวอักษร
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -492,8 +486,8 @@ class UserbuttonState extends State<Userbutton> {
                             Fluttertoast.showToast(msg: 'ทริปสิ้นสุดเเล้ว');
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white, // สีพื้นหลังของปุ่ม
-                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white, // สีขอบตัวอักษร
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),

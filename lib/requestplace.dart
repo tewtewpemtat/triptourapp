@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class RequestPage extends StatefulWidget {
-  @override
   final String? tripUid;
 
   const RequestPage({Key? key, this.tripUid}) : super(key: key);
@@ -53,15 +52,14 @@ class _RequestPageState extends State<RequestPage> {
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
             place['placepicUrl'],
-            width: 80, // ปรับค่า width ตามต้องการ
-            height: 80, // ปรับค่า height ตามต้องการ
+            width: 80,
+            height: 80,
             fit: BoxFit.cover,
           ),
         ),
         trailing: IconButton(
           icon: Icon(Icons.add),
           onPressed: () {
-            // อัปเดตค่า placestatus เมื่อคลิกที่ไอคอน "add"
             FirebaseFirestore.instance
                 .collection('places')
                 .doc(place.id)
@@ -76,9 +74,7 @@ class _RequestPageState extends State<RequestPage> {
             });
           },
         ),
-        onTap: () {
-          // Handle tap event
-        },
+        onTap: () {},
       ),
     );
   }
@@ -140,8 +136,8 @@ class _RequestPageState extends State<RequestPage> {
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
                             place['placepicUrl'],
-                            width: 100, // ปรับค่า width ตามต้องการ
-                            height: 100, // ปรับค่า height ตามต้องการ
+                            width: 100,
+                            height: 100,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -162,8 +158,8 @@ class _RequestPageState extends State<RequestPage> {
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
                             place['placepicUrl'],
-                            width: 100, // ปรับค่า width ตามต้องการ
-                            height: 100, // ปรับค่า height ตามต้องการ
+                            width: 100,
+                            height: 100,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -185,8 +181,8 @@ class _RequestPageState extends State<RequestPage> {
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
                             place['placepicUrl'],
-                            width: 100, // ปรับค่า width ตามต้องการ
-                            height: 100, // ปรับค่า height ตามต้องการ
+                            width: 100,
+                            height: 100,
                             fit: BoxFit.cover,
                           ),
                         ),

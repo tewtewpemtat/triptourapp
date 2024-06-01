@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/tripmanage.dart';
 
 class MapSelectionPage extends StatefulWidget {
-  @override
   final String? tripUid;
   final double? placelat;
   final double? placelong;
@@ -15,7 +13,6 @@ class MapSelectionPage extends StatefulWidget {
 }
 
 class _MapSelectionPageState extends State<MapSelectionPage> {
-  late GoogleMapController _controller;
   LatLng? _selectedPosition;
 
   late Future<void> _initialCameraPositionFuture;
@@ -98,9 +95,7 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
       );
     }
     return GoogleMap(
-      onMapCreated: (controller) {
-        _controller = controller;
-      },
+      onMapCreated: (controller) {},
       onTap: (position) {
         setState(() {
           _selectedPosition = position;
@@ -114,15 +109,5 @@ class _MapSelectionPageState extends State<MapSelectionPage> {
       ),
       markers: Set<Marker>.from(markers),
     );
-  }
-
-  Set<Marker> _createMarkers() {
-    return <Marker>{
-      Marker(
-        markerId: MarkerId('selected_position'),
-        position: _selectedPosition!,
-        draggable: false,
-      ),
-    };
   }
 }

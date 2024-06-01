@@ -38,16 +38,14 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
-  List<Map<String, dynamic>> _messages = [];
   final ScrollController _scrollController = ScrollController();
   String? placename;
   String? placepicUrl;
   String? placeid;
   String? placetripid;
   String? placeaddress;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
-  File? _userProfileImage;
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
   Future<void> fetchMessages() async {
     try {
       yourUserData = (await getUserData(getCurrentUserUid())) ?? {};
@@ -55,7 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
       if (yourUserData.isNotEmpty) {
         setState(() {});
       }
-      // Fetch messages from the Firestore collection where the current user is either sender or receiver
+
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await FirebaseFirestore.instance
               .collection('groupmessages')
@@ -68,13 +66,12 @@ class _ChatScreenState extends State<ChatScreen> {
         print('Message: ${doc.data()}');
       });
       List<Map<String, dynamic>> sentMessages = querySnapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = doc.data();
         final dynamic nickname = data['nickname'];
         final dynamic message = data['message'];
         final dynamic profileImageUrl = data['profileImageUrl'];
         final dynamic timestamp = data['timestampserver'];
 
-        // Check if 'message' is a string
         if (message is String) {
           return {
             'user': 'You',
@@ -84,7 +81,6 @@ class _ChatScreenState extends State<ChatScreen> {
             'profileImageUrl': profileImageUrl
           };
         } else {
-          // Handle the case where 'message' is not a string
           print('Warning: Message is not a string');
           return {
             'user': 'You',
@@ -94,7 +90,6 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       }).toList();
 
-      // Fetch messages where the current user is the receiver
       querySnapshot = await FirebaseFirestore.instance
           .collection('groupmessages')
           .where('senderUid', isNotEqualTo: getCurrentUserUid())
@@ -103,12 +98,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
       List<Map<String, dynamic>> receivedMessages =
           querySnapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = doc.data();
         final dynamic nickname = data['nickname'];
         final dynamic message = data['message'];
         final dynamic timestamp = data['timestampserver'];
         final dynamic profileImageUrl = data['profileImageUrl'];
-        // Check if 'message' is a string
+
         if (message is String) {
           return {
             'user': 'Friend',
@@ -118,7 +113,6 @@ class _ChatScreenState extends State<ChatScreen> {
             'profileImageUrl': profileImageUrl
           };
         } else {
-          // Handle the case where 'message' is not a string
           print('Warning: Message is not a string');
           return {
             'user': 'Friend',
@@ -130,22 +124,18 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       }).toList();
 
-      // Combine sent and received messages
       List<Map<String, dynamic>> allMessages = [
         ...sentMessages,
         ...receivedMessages
       ];
 
-      // Sort messages by timestamp
       allMessages.sort((a, b) {
         final Timestamp timestampA = a['timestamp'];
         final Timestamp timestampB = b['timestamp'];
         return timestampA.compareTo(timestampB);
       });
 
-      setState(() {
-        _messages = allMessages;
-      });
+      setState(() {});
     } catch (e) {
       print('Error fetching messages: $e');
     }
@@ -153,18 +143,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void removeMyfromFriendTrip(String friendUid) async {
     try {
-      // 1. Remove the friendUid from the friendList of the current user
       await FirebaseFirestore.instance.collection('users').doc(myUid).update({
         'friendList': FieldValue.arrayRemove([friendUid]),
       });
 
-      // 2. Fetch all trips where the friendUid is the trip creator
       QuerySnapshot tripsSnapshot = await FirebaseFirestore.instance
           .collection('trips')
           .where('tripCreate', isEqualTo: friendUid)
           .get();
 
-      // 3. Loop through each trip and remove the current user from tripJoin if exists
       tripsSnapshot.docs.forEach((tripDoc) async {
         String tripId = tripDoc.id;
         DocumentSnapshot tripDataSnapshot = tripDoc as DocumentSnapshot;
@@ -179,17 +166,14 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       });
 
-      // Log success or perform any other actions
       print('Friend removed successfully');
     } catch (error) {
-      // Handle errors (e.g., Firestore errors, network errors, etc.)
       print('Error removing friend: $error');
     }
   }
 
   void removeFriendfromMyTrip(String friendUid) async {
     try {
-      // 1. Remove the friendUid from the friendList of the current user
       await FirebaseFirestore.instance
           .collection('users')
           .doc(friendUid)
@@ -197,13 +181,11 @@ class _ChatScreenState extends State<ChatScreen> {
         'friendList': FieldValue.arrayRemove([myUid]),
       });
 
-      // 2. Fetch all trips where the friendUid is the trip creator
       QuerySnapshot tripsSnapshot = await FirebaseFirestore.instance
           .collection('trips')
           .where('tripCreate', isEqualTo: myUid)
           .get();
 
-      // 3. Loop through each trip and remove the current user from tripJoin if exists
       tripsSnapshot.docs.forEach((tripDoc) async {
         String tripId = tripDoc.id;
         DocumentSnapshot tripDataSnapshot = tripDoc as DocumentSnapshot;
@@ -218,10 +200,8 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       });
 
-      // Log success or perform any other actions
       print('Friend removed successfully');
     } catch (error) {
-      // Handle errors (e.g., Firestore errors, network errors, etc.)
       print('Error removing friend: $error');
     }
   }
@@ -237,13 +217,12 @@ class _ChatScreenState extends State<ChatScreen> {
         .snapshots()
         .asyncMap((querySnapshot) async {
       List<Map<String, dynamic>> sentMessages = querySnapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        final dynamic senderUid = data['senderUid'];
+        Map<String, dynamic> data = doc.data();
         final dynamic nickname = data['nickname'];
         final dynamic message = data['message'];
         final dynamic timestamp = data['timestampserver'];
         final dynamic profileImageUrl = data['profileImageUrl'];
-        // Check if 'message' is a string
+
         if (message is String) {
           return {
             'user': 'Friend',
@@ -253,7 +232,6 @@ class _ChatScreenState extends State<ChatScreen> {
             'profileImageUrl': profileImageUrl
           };
         } else {
-          // Handle the case where 'message' is not a string
           print('Warning: Message is not a string');
           return {
             'user': 'Friend',
@@ -265,7 +243,6 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       }).toList();
 
-      // Fetch messages where the current user is the receiver
       QuerySnapshot<Map<String, dynamic>> receivedQuerySnapshot =
           await FirebaseFirestore.instance
               .collection('groupmessages')
@@ -276,13 +253,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
       List<Map<String, dynamic>> receivedMessages =
           receivedQuerySnapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = doc.data();
         final dynamic message = data['message'];
         final dynamic nickname = data['nickname'];
         final dynamic timestamp = data['timestampserver'];
         final dynamic profileImageUrl = data['profileImageUrl'];
 
-        // Check if 'message' is a string
         if (message is String) {
           return {
             'user': 'You',
@@ -292,7 +268,6 @@ class _ChatScreenState extends State<ChatScreen> {
             'profileImageUrl': profileImageUrl
           };
         } else {
-          // Handle the case where 'message' is not a string
           print('Warning: Message is not a string');
           return {
             'user': 'You',
@@ -304,13 +279,11 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       }).toList();
 
-      // Combine sent and received messages
       List<Map<String, dynamic>> allMessages = [
         ...sentMessages,
         ...receivedMessages
       ];
 
-      // Sort messages by timestamp
       allMessages.sort((a, b) {
         final Timestamp timestampA = a['timestamp'];
         final Timestamp timestampB = b['timestamp'];
@@ -325,7 +298,7 @@ class _ChatScreenState extends State<ChatScreen> {
     try {
       DocumentSnapshot snapshot =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      return snapshot.data() as Map<String, dynamic>?; // Return user data
+      return snapshot.data() as Map<String, dynamic>?;
     } catch (e) {
       print("Error fetching user data: $e");
       return null;
@@ -341,7 +314,6 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
 
-    // Fetch and load messages when the screen is initially opened
     fetchMessages();
     getUserLocation();
     getMessagesStream();
@@ -376,9 +348,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void scrollToBottom() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.animateTo(
-        0.0, // Scroll to the top
+        0.0,
         duration: Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
@@ -391,7 +363,7 @@ class _ChatScreenState extends State<ChatScreen> {
           .collection('users')
           .doc(friendUid)
           .get();
-      return snapshot.data() as Map<String, dynamic>?; // Return friend data
+      return snapshot.data() as Map<String, dynamic>?;
     } catch (e) {
       print("Error fetching friend data: $e");
       return null;
@@ -405,7 +377,6 @@ class _ChatScreenState extends State<ChatScreen> {
     if (user != null) {
       return user.uid;
     } else {
-      // Handle the case where the user is not authenticated
       return '';
     }
   }
@@ -418,7 +389,7 @@ class _ChatScreenState extends State<ChatScreen> {
           .collection('users')
           .doc(currentUserUid)
           .get();
-      return snapshot.data(); // Return user data
+      return snapshot.data();
     } catch (e) {
       print("Error fetching current user data: $e");
       return null;
@@ -428,11 +399,9 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> removeFriendFromCurrentUser(
       String currentUserUid, String friendUid) async {
     try {
-      // Reference to the current user's document
       DocumentReference currentUserRef =
           FirebaseFirestore.instance.collection('users').doc(currentUserUid);
 
-      // Remove friendUid from the friendList array
       await currentUserRef.update({
         'friendList': FieldValue.arrayRemove([friendUid]),
       });
@@ -446,11 +415,9 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> removeCurrentUserFromFriend(
       String currentUserUid, String friendUid) async {
     try {
-      // Reference to the friend's document
       DocumentReference friendRef =
           FirebaseFirestore.instance.collection('users').doc(friendUid);
 
-      // Remove currentUserUid from the friend's friendList array
       await friendRef.update({
         'friendList': FieldValue.arrayRemove([currentUserUid]),
       });
@@ -469,9 +436,9 @@ class _ChatScreenState extends State<ChatScreen> {
       final currentUserUid = getCurrentUserUid();
       final friendUid = widget.tripUid;
 
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
-          0.0, // Scroll to the top
+          0.0,
           duration: Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
@@ -482,13 +449,12 @@ class _ChatScreenState extends State<ChatScreen> {
         String profileImageUrl = currentUserData['profileImageUrl'];
         String nickname = currentUserData['nickname'];
         if (messageText.length > 20) {
-          // Split message into chunks of maximum 20 characters
           List<String> chunks = [];
           for (int i = 0; i < messageText.length; i += 20) {
             chunks.add(messageText.substring(
                 i, i + 20 < messageText.length ? i + 20 : messageText.length));
           }
-          // Join chunks with newline character
+
           String formattedMessage = chunks.join('\n');
 
           await FirebaseFirestore.instance.collection('groupmessages').add({
@@ -510,14 +476,13 @@ class _ChatScreenState extends State<ChatScreen> {
           });
         }
       }
-      // After sending the message, fetch updated messages
+
       fetchMessages();
     }
   }
 
   void deleteChats(String currentUserUid, String friendUid) async {
     try {
-      // Delete chats where the current user is the sender
       await FirebaseFirestore.instance
           .collection('chats')
           .where('senderUid', isEqualTo: currentUserUid)
@@ -529,7 +494,6 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       });
 
-      // Delete chats where the current user is the receiver
       await FirebaseFirestore.instance
           .collection('chats')
           .where('receiverUid', isEqualTo: currentUserUid)
@@ -564,39 +528,20 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _showSpecialDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Special Message"),
-          content: Text("Hi"),
-          actions: <Widget>[],
-        );
-      },
-    );
-  }
-
   void getPlaceData(String postId, BuildContext context) async {
     try {
-      // ค้นหา document ใน collection 'placemeet' โดยใช้ postId ที่ได้จากข้อความ
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('placemeet')
           .doc(postId)
           .get();
 
-      // ถ้าพบ document
       if (snapshot.exists) {
-        // เข้าถึงข้อมูลจาก snapshot
         String placename = snapshot['placename'];
         String placepicUrl = snapshot['placepicUrl'];
-        String placeid = snapshot['placeid'];
         double placeLatitude = snapshot['placeLatitude'];
         double placeLongitude = snapshot['placeLongitude'];
-        String placetripid = snapshot['placetripid'];
         String placeaddress = snapshot['placeaddress'];
 
-        // แสดงข้อมูลในรูปแบบของ Dialog
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -609,8 +554,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Column(
                   children: <Widget>[
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // กำหนด border radius ให้กับรูปภาพ
+                      borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
                         placepicUrl,
                         width: 150.0,
@@ -656,19 +600,15 @@ class _ChatScreenState extends State<ChatScreen> {
                 TextButton(
                   child: Text('นำทางจุดนัดพบ'),
                   onPressed: () {
-                    Navigator.of(context).pop(); // ปิด AlertDialog
+                    Navigator.of(context).pop();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => DirectionsScreen(
-                          userLatitude:
-                              userLatitude, // ใส่พิกัดละติจูดปัจจุบันของผู้ใช้
-                          userLongitude:
-                              userLongitude, // ใส่พิกัดลองจิจูดปัจจุบันของผู้ใช้
-                          destinationLatitude:
-                              placeLatitude, // ใส่พิกัดละติจูดของจุดนัดพบ
-                          destinationLongitude:
-                              placeLongitude, // ใส่พิกัดลองจิจูดของจุดนัดพบ
+                          userLatitude: userLatitude,
+                          userLongitude: userLongitude,
+                          destinationLatitude: placeLatitude,
+                          destinationLongitude: placeLongitude,
                         ),
                       ),
                     );
@@ -685,34 +625,26 @@ class _ChatScreenState extends State<ChatScreen> {
           },
         );
       } else {
-        // ถ้าไม่พบ document
         print('ไม่พบเอกสาร');
       }
     } catch (e) {
-      // หากเกิดข้อผิดพลาดในการเรียกข้อมูล
       print('Error retrieving place data: $e');
     }
   }
 
   void getPlaceData2(String postId, BuildContext context) async {
     try {
-      // ค้นหา document ใน collection 'placemeet' โดยใช้ postId ที่ได้จากข้อความ
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('interest')
           .doc(postId)
           .get();
 
-      // ถ้าพบ document
       if (snapshot.exists) {
-        // เข้าถึงข้อมูลจาก snapshot
         String placepicUrl = snapshot['placepicUrl'];
-        String placeid = snapshot['placeid'];
-        String placetripid = snapshot['placetripid'];
         double placeLatitude = snapshot['placeLatitude'];
         double placeLongitude = snapshot['placeLongitude'];
         String placeaddress = snapshot['placeaddress'];
 
-        // แสดงข้อมูลในรูปแบบของ Dialog
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -725,8 +657,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Column(
                   children: <Widget>[
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // กำหนด border radius ให้กับรูปภาพ
+                      borderRadius: BorderRadius.circular(10.0),
                       child: Image.network(
                         placepicUrl,
                         width: 150.0,
@@ -763,19 +694,15 @@ class _ChatScreenState extends State<ChatScreen> {
                 TextButton(
                   child: Text('นำทางไปยังสิ่งน่าสนใจ'),
                   onPressed: () {
-                    Navigator.of(context).pop(); // ปิด AlertDialog
+                    Navigator.of(context).pop();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => DirectionsScreen(
-                          userLatitude:
-                              userLatitude, // ใส่พิกัดละติจูดปัจจุบันของผู้ใช้
-                          userLongitude:
-                              userLongitude, // ใส่พิกัดลองจิจูดปัจจุบันของผู้ใช้
-                          destinationLatitude:
-                              placeLatitude, // ใส่พิกัดละติจูดของจุดนัดพบ
-                          destinationLongitude:
-                              placeLongitude, // ใส่พิกัดลองจิจูดของจุดนัดพบ
+                          userLatitude: userLatitude,
+                          userLongitude: userLongitude,
+                          destinationLatitude: placeLatitude,
+                          destinationLongitude: placeLongitude,
                         ),
                       ),
                     );
@@ -792,11 +719,9 @@ class _ChatScreenState extends State<ChatScreen> {
           },
         );
       } else {
-        // ถ้าไม่พบ document
         print('ไม่พบเอกสาร');
       }
     } catch (e) {
-      // หากเกิดข้อผิดพลาดในการเรียกข้อมูล
       print('Error retrieving place data: $e');
     }
   }
@@ -817,9 +742,7 @@ class _ChatScreenState extends State<ChatScreen> {
         String? profileImageUrl = userData['profileImageUrl'];
         _showSendDialog(
             pickedFile.path, nickname ?? '', profileImageUrl ?? '', 'รูปภาพ');
-      } else {
-        // Handle case where user data is not available
-      }
+      } else {}
     }
   }
 
@@ -833,9 +756,7 @@ class _ChatScreenState extends State<ChatScreen> {
         String? profileImageUrl = userData['profileImageUrl'];
         _showSendDialog(
             pickedFile.path, nickname ?? '', profileImageUrl ?? '', 'กล้อง');
-      } else {
-        // Handle case where user data is not available
-      }
+      } else {}
     }
   }
 
@@ -843,7 +764,7 @@ class _ChatScreenState extends State<ChatScreen> {
     Completer<Size> completer = Completer();
     Image image = Image.network(
       imageUrl,
-      width: 300, // Limit width to 300 for faster image loading
+      width: 300,
       height: 500,
     );
     image.image.resolve(ImageConfiguration()).addListener(
@@ -864,8 +785,7 @@ class _ChatScreenState extends State<ChatScreen> {
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
-            Navigator.pop(
-                context); // Navigate back when tapped outside the dialog
+            Navigator.pop(context);
           },
           child: AlertDialog(
             contentPadding: EdgeInsets.zero,
@@ -885,7 +805,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       double width = imageSize.width;
                       double height = imageSize.height;
 
-                      // Limit width and height to 300
                       if (width > 300 || height > 500) {
                         double ratio = width / height;
                         if (ratio > 1) {
@@ -964,46 +883,37 @@ class _ChatScreenState extends State<ChatScreen> {
       String option) async {
     try {
       String message = 'uploadpic';
-      final randomImg =
-          generateRandomNumber(); // Generate a random 9-digit number
+      final randomImg = generateRandomNumber();
       String? uid = FirebaseAuth.instance.currentUser?.uid;
 
-      // กำหนด path ใน Firebase Storage
       String storagePath = 'message/$uid/$randomImg.jpg';
 
-      // สร้าง Reference สำหรับอ้างถึง storagePath
       Reference storageReference = FirebaseStorage.instance.ref(storagePath);
 
       File imgsave = File(img);
-      if (imgsave != null) {
-        // อัปโหลดไฟล์รูปภาพ
-        await storageReference.putFile(imgsave!);
 
-        // ดึง URL ของรูปภาพที่อัปโหลด
-        final String imageUrl = await storageReference.getDownloadURL();
+      await storageReference.putFile(imgsave);
 
-        // ทำอะไรกับ imageUrl ต่อไป
-        if (option == "กล้อง") {
-          message = 'ahGOke969S8G9hjjAODKsowW@@${imageUrl}';
-        }
-        if (option == "รูปภาพ") {
-          message = 'W5s9we6W8CF895w9f4sjyfr@@${imageUrl}';
-        }
+      final String imageUrl = await storageReference.getDownloadURL();
 
-        // Update the user document with the image URL
-        final MessageCollection =
-            FirebaseFirestore.instance.collection('groupmessages');
-        await MessageCollection.add({
-          'message': message,
-          'nickname': nickname,
-          'profileImageUrl': profileImageUrl,
-          'senderUid': uid,
-          'timestampserver': FieldValue
-              .serverTimestamp(), // Assuming you have a timestamp field
-          'tripChatUid': widget.tripUid
-        });
-        fetchMessages();
+      if (option == "กล้อง") {
+        message = 'ahGOke969S8G9hjjAODKsowW@@${imageUrl}';
       }
+      if (option == "รูปภาพ") {
+        message = 'W5s9we6W8CF895w9f4sjyfr@@${imageUrl}';
+      }
+
+      final MessageCollection =
+          FirebaseFirestore.instance.collection('groupmessages');
+      await MessageCollection.add({
+        'message': message,
+        'nickname': nickname,
+        'profileImageUrl': profileImageUrl,
+        'senderUid': uid,
+        'timestampserver': FieldValue.serverTimestamp(),
+        'tripChatUid': widget.tripUid
+      });
+      fetchMessages();
     } catch (e) {
       print('Error uploading image: $e');
     }
@@ -1021,7 +931,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 if (snapshot.hasData) {
                   WidgetsBinding.instance
                       .addPostFrameCallback((_) => scrollToBottom());
-                  // Add this line
 
                   List<Map<String, dynamic>> messages = snapshot.data!;
                   return ListView.builder(
@@ -1033,16 +942,13 @@ class _ChatScreenState extends State<ChatScreen> {
                       final user = message['user'] ?? '';
                       final messageText = message['message'] ?? '';
                       final isCurrentUser = user == 'You';
-                      final messageTimestamp = message[
-                          'timestamp']; // เก็บ timestampserver จากข้อมูลข้อความ
+                      final messageTimestamp = message['timestamp'];
                       final timestamp = messageTimestamp != null
                           ? (messageTimestamp as Timestamp).toDate()
-                          : null; // แปลง timestampserver เป็น DateTime
+                          : null;
                       final formattedTime = timestamp != null
                           ? DateFormat('HH:mm').format(timestamp)
-                          : ''; // แปลง DateTime เป็นรูปแบบของเวลาที่ต้องการ
-                      final userData =
-                          isCurrentUser ? yourUserData : friendUserData;
+                          : '';
                       final nickname = message['nickname'] ?? '';
                       var urlpic = '';
                       final profileImageUrl = message['profileImageUrl'] ?? '';
@@ -1120,7 +1026,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                               onTap: () {
                                                 String postId =
                                                     messageText.split('=')[1];
-                                                // แยก postId จากข้อความโดยใช้เครื่องหมาย '='
+
                                                 getPlaceData(postId, context);
                                               },
                                               child: Row(children: [
@@ -1132,8 +1038,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                               255, 59, 57, 57)),
                                                 ),
                                                 Icon(Icons.location_on,
-                                                    size:
-                                                        20.0), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
+                                                    size: 20.0),
                                               ]),
                                             ))
                                           : isSpecialMessage2
@@ -1142,7 +1047,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   onTap: () {
                                                     String postId = messageText
                                                         .split('=')[1];
-                                                    // แยก postId จากข้อความโดยใช้เครื่องหมาย '='
+
                                                     getPlaceData2(
                                                         postId, context);
                                                   },
@@ -1154,10 +1059,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                               .fromARGB(
                                                               255, 59, 57, 57)),
                                                     ),
-
-                                                    Icon(Icons.map,
-                                                        size:
-                                                            20.0), // วิดเจ็ตที่คุณต้องการวางภายใน GestureDetector
+                                                    Icon(Icons.map, size: 20.0),
                                                   ]),
                                                 ))
                                               : isSpecialMessage3 ||
@@ -1204,15 +1106,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                                     ),
                                     ),
                                   ),
-                                  SizedBox(
-                                      height:
-                                          4), // Add some space between message and timestamp
+                                  SizedBox(height: 4),
                                   (isSpecialMessage || isSpecialMessage2)
                                       ? Text(
-                                          "", // Display formatted timestamp
+                                          "",
                                         )
                                       : Text(
-                                          formattedTime, // Display formatted timestamp
+                                          formattedTime,
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                 ],
@@ -1242,7 +1142,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    // Handle add icon tap
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
@@ -1270,7 +1169,6 @@ class _ChatScreenState extends State<ChatScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  // Handle camera icon tap
                                   Navigator.pop(context);
                                   _pickImage(myUid ?? '');
                                 },
@@ -1300,9 +1198,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       controller: _messageController,
                       decoration: InputDecoration(
                         hintText: 'พิมข้อความ',
-                        border: InputBorder.none, // Remove the border
+                        border: InputBorder.none,
                       ),
-                      maxLines: null, // Allow multiline input
+                      maxLines: null,
                       textInputAction: TextInputAction.newline,
                     ),
                   ),
@@ -1336,33 +1234,3 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
-//  void _sendMessage() async {
-//     final messageText = _messageController.text;
-//     if (messageText.isNotEmpty) {
-//       _messageController.clear();
-
-//       final currentUserUid = getCurrentUserUid();
-//       final friendUid = widget.friendUid;
-
-//       WidgetsBinding.instance!.addPostFrameCallback((_) {
-//         _scrollController.animateTo(
-//           _scrollController.position.maxScrollExtent,
-//           duration: Duration(milliseconds: 300),
-//           curve: Curves.easeOut,
-//         );
-//       });
-
-//       try {
-//         await FirebaseFirestore.instance.collection('messages').add({
-//           'senderUid': currentUserUid,
-//           'receiverUid': friendUid,
-//           'message': messageText,
-//           'timestampserver': FieldValue.serverTimestamp(),
-//         });
-
-//         // No need to setState for messages as StreamBuilder takes care of it
-//       } catch (e) {
-//         print('Error sending message: $e');
-//       }
-//     }
-//   }

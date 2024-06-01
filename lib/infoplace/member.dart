@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:triptourapp/infoplace/headinfobutton.dart';
 import 'package:triptourapp/infoplace/userlocation.dart';
 
 class MemberPage extends StatefulWidget {
-  @override
   final String? tripUid;
   final String? placeid;
   const MemberPage({Key? key, this.tripUid, this.placeid}) : super(key: key);
@@ -19,8 +15,8 @@ class MemberPage extends StatefulWidget {
 
 class MemberPageState extends State<MemberPage> {
   String uid = FirebaseAuth.instance.currentUser!.uid;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
 
   @override
   void initState() {
@@ -59,10 +55,9 @@ class MemberPageState extends State<MemberPage> {
             child: Text('ไม่พบข้อมูลสถานที่'),
           );
         }
-        // Retrieve the data from the document snapshot
+
         final placeData = snapshot.data!.data() as Map<String, dynamic>;
 
-        // Continue with your UI logic using placeData
         return buildTripItem(context, placeData, snapshot.data!);
       },
     );
@@ -118,8 +113,8 @@ class MemberPageState extends State<MemberPage> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.grey, // สีของเส้นกรอบ
-          width: 1.0, // ความหนาของเส้นกรอบ
+          color: Colors.grey,
+          width: 1.0,
         ),
         borderRadius: BorderRadius.circular(10.0),
       ),

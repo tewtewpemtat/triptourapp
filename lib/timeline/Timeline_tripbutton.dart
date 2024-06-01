@@ -9,10 +9,9 @@ class TimeLineTripButton extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          margin: EdgeInsets.all(10), // ระยะห่างระหว่างปุ่ม
+          margin: EdgeInsets.all(10),
           child: Align(
-            alignment: Alignment.centerLeft, // จัดตำแหน่งข้อความไปทางซ้าย
-
+            alignment: Alignment.centerLeft,
             child: Text(
               'ไทม์ไลน์ของคุณ',
               style: TextStyle(
@@ -36,7 +35,7 @@ class TimeLineTripButton extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Color(0xffdb923c), // ให้สีปุ่มเท่ากับสีของ Container
+              backgroundColor: Color(0xffdb923c),
               padding: EdgeInsets.all(16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -56,7 +55,6 @@ class TimeLineTripButton extends StatelessWidget {
           ),
           child: ElevatedButton(
             onPressed: () {
-              // ไปยังหน้าเข้าร่วมทริป
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -65,8 +63,7 @@ class TimeLineTripButton extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Color(
-                  0xffdb923c), // ให้สีเหมือนกับสีของ Container ที่ใช้ในการสร้างทริป
+              backgroundColor: Color(0xffdb923c),
               padding: EdgeInsets.all(16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),

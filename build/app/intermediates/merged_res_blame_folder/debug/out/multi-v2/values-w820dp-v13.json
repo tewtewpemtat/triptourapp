@@ -4,7 +4,7 @@
             "outputFile": "com.example.triptourapp-mergeDebugResources-31:/values-w820dp-v13/values-w820dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\tew00\\.gradle\\caches\\transforms-3\\7b340c49ea328876a01877ebc39eb875\\transformed\\jetified-flutter_sound_core-9.2.13\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\7b340c49ea328876a01877ebc39eb875\\transformed\\jetified-flutter_sound_core-9.2.13\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:triptourapp/addfriend.dart';
 import 'package:triptourapp/friendrequest.dart';
 import '../privatechat.dart';
 import 'package:intl/intl.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class FriendList extends StatefulWidget {
   @override
@@ -23,7 +21,6 @@ class _FriendListState extends State<FriendList> {
     try {
       final collection = FirebaseFirestore.instance.collection('friendrequest');
 
-      // Stream for unread messages where current user is the receiver
       final stream = collection
           .where('receiverUid', isEqualTo: myUid)
           .where('status', isEqualTo: 'Wait')
@@ -124,8 +121,8 @@ class _FriendListState extends State<FriendList> {
                         int unreadCount = snapshot.data ?? 0;
                         return unreadCount != 0
                             ? Positioned(
-                                top: -10, // ปรับตำแหน่งตามต้องการ
-                                right: -10.5, // ปรับตำแหน่งตามต้องการ
+                                top: -10,
+                                right: -10.5,
                                 child: Container(
                                   margin: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -146,7 +143,7 @@ class _FriendListState extends State<FriendList> {
                                   ),
                                 ),
                               )
-                            : SizedBox(); // กำหนดให้มีความสูงเป็นศูนย์ถ้าไม่มีข้อความที่ยังไม่ได้อ่าน
+                            : SizedBox();
                       },
                     ),
                   ],
@@ -199,18 +196,15 @@ class _FriendListState extends State<FriendList> {
 
   void markMessagesAsRead(String friendUid) {
     try {
-      // Get a reference to the Firestore collection
       CollectionReference chatsCollection =
           FirebaseFirestore.instance.collection('messages');
 
-      // Query for unread messages where current user is the receiver and the friend is the sender
       chatsCollection
           .where('receiverUid', isEqualTo: myUid)
           .where('senderUid', isEqualTo: friendUid)
           .where('status', isEqualTo: 'Unread')
           .get()
           .then((querySnapshot) {
-        // Iterate through the documents and update their status to "Read"
         querySnapshot.docs.forEach((doc) {
           chatsCollection.doc(doc.id).update({'status': 'Read'});
         });
@@ -324,21 +318,18 @@ class _FriendListState extends State<FriendList> {
                                 return unreadCount != 0
                                     ? Container(
                                         margin: EdgeInsets.only(top: 25.0),
-                                        width: 28.0, // ขนาดของวงกลม
-                                        height: 30.0, // ขนาดของวงกลม
+                                        width: 28.0,
+                                        height: 30.0,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color.fromARGB(
-                                              255, 251, 2, 2), // สีของวงกลม
+                                          color: Color.fromARGB(255, 251, 2, 2),
                                         ),
                                         child: Center(
                                           child: Text(
-                                            unreadCount
-                                                .toString(), // จำนวนข้อความที่ยังไม่ได้อ่าน
+                                            unreadCount.toString(),
                                             style: TextStyle(
-                                              color:
-                                                  Colors.white, // สีของตัวเลข
-                                              fontSize: 14.0, // ขนาดตัวเลข
+                                              color: Colors.white,
+                                              fontSize: 14.0,
                                             ),
                                           ),
                                         ),
@@ -356,7 +347,7 @@ class _FriendListState extends State<FriendList> {
             ),
           );
         } else {
-          return Container(); // Don't show the item if it doesn't match the search query
+          return Container();
         }
       },
     );
@@ -366,7 +357,6 @@ class _FriendListState extends State<FriendList> {
     try {
       final collection = FirebaseFirestore.instance.collection('messages');
 
-      // Stream for unread messages where current user is the receiver
       final stream = collection
           .where('receiverUid', isEqualTo: myUid)
           .where('senderUid', isEqualTo: friendUid)
@@ -386,21 +376,18 @@ class _FriendListState extends State<FriendList> {
     try {
       final collection = FirebaseFirestore.instance.collection('chats');
 
-      // Stream for messages where current user is the receiver
       final stream1 = collection
           .where('receiverUid', isEqualTo: friendUid)
           .where('senderUid', isEqualTo: myUid)
           .orderBy('timestampserver', descending: true)
           .snapshots();
 
-      // Stream for messages where current user is the sender
       final stream2 = collection
           .where('receiverUid', isEqualTo: myUid)
           .where('senderUid', isEqualTo: friendUid)
           .orderBy('timestampserver', descending: true)
           .snapshots();
 
-      // Combine the streams
       await for (QuerySnapshot querySnapshot1 in stream1) {
         await for (QuerySnapshot querySnapshot2 in stream2) {
           List<DocumentSnapshot> documents = [

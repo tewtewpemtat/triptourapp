@@ -5,12 +5,9 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:triptourapp/infoplace.dart';
 import 'package:triptourapp/infoplace/maproutetofriend.dart';
-import 'package:triptourapp/infoplace/member.dart';
-import 'package:geolocator/geolocator.dart';
 
 class UserLocationShow extends StatefulWidget {
   final double? userLatitude;
@@ -37,12 +34,10 @@ class UserLocationState extends State<UserLocationShow> {
   late Map<String, String> _userProfileImageUrls = {};
   Map<String, BitmapDescriptor> _userProfileIcons = {};
   final String? uid = FirebaseAuth.instance.currentUser?.uid;
-  double friendLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double friendLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double friendLatitude = 0.0;
+  double friendLongitude = 0.0;
   @override
   void dispose() {
-    // Clear any data or resources here before exiting the screen
-    // For example, you can clear friend's location coordinates
     friendLatitude = 0.0;
     friendLongitude = 0.0;
 
@@ -53,17 +48,9 @@ class UserLocationState extends State<UserLocationShow> {
   void initState() {
     super.initState();
     _cameraPosition = _fetchFriendCoordinates();
-    _fetchFriendDetails(); // New method call
+    _fetchFriendDetails();
     getFriendLocation();
     print(widget.friendId);
-  }
-
-  void _showLoadingToast() {
-    Fluttertoast.showToast(
-      msg: "Loading user data...",
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
-    );
   }
 
   void getFriendLocation() async {
@@ -74,7 +61,6 @@ class UserLocationState extends State<UserLocationShow> {
           .get();
 
       if (locationSnapshot.exists) {
-        // Retrieve latitude and longitude from the document snapshot
         if (mounted) {
           setState(() {
             friendLatitude = locationSnapshot['userLatitude'];
@@ -107,7 +93,7 @@ class UserLocationState extends State<UserLocationShow> {
               BitmapDescriptor.fromBytes(imageData);
         }
       }
-      setState(() {}); // Update state to trigger marker rebuild
+      setState(() {});
     } catch (error) {
       print('Error fetching friend details: $error');
     }
@@ -131,21 +117,18 @@ class UserLocationState extends State<UserLocationShow> {
         final canvas = Canvas(recorder);
         final size = Size(width.toDouble(), height.toDouble());
 
-        // Draw the circle border
         final paintBorder = Paint()
-          ..color = Colors.blue // Choose your desired border color
+          ..color = Colors.blue
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2;
 
         final radius = size.width / 2;
         canvas.drawCircle(Offset(radius, radius), radius - 1, paintBorder);
 
-        // Clip the canvas to draw the image only inside the circle
         canvas.clipRRect(RRect.fromRectAndRadius(
             Rect.fromLTWH(0, 0, size.width, size.height),
             Radius.circular(radius)));
 
-        // Draw the image
         final image = await decodeImageFromList(resizedImageData);
         final paintImage = Paint()..filterQuality = FilterQuality.high;
         canvas.drawImageRect(
@@ -263,8 +246,7 @@ class UserLocationState extends State<UserLocationShow> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      // การทำงานเมื่อผู้ใช้กด "ตกลง"
-                      Navigator.of(context).pop(); // ปิด Dialog
+                      Navigator.of(context).pop();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -282,8 +264,7 @@ class UserLocationState extends State<UserLocationShow> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // การทำงานเมื่อผู้ใช้กด "ยกเลิก"
-                      Navigator.of(context).pop(); // ปิด Dialog
+                      Navigator.of(context).pop();
                     },
                     child: Text('ยกเลิก'),
                   ),

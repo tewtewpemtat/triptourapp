@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/main.dart';
-import 'package:triptourapp/tripmanage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,10 +29,8 @@ class _JoinTripPageState extends State<JoinTripPage> {
       if (requestSnapshot.exists) {
         var requestData = requestSnapshot.data() as Map<String, dynamic>;
         String tripUid = requestData['tripUid'];
-        String senderUid = requestData['senderUid'];
         String receiverUid = requestData['receiverUid'];
 
-        // Retrieve trip data to get tripLimit
         DocumentSnapshot tripSnapshot = await FirebaseFirestore.instance
             .collection('trips')
             .doc(tripUid)
@@ -42,17 +39,14 @@ class _JoinTripPageState extends State<JoinTripPage> {
           var tripData = tripSnapshot.data() as Map<String, dynamic>;
           int tripLimit = tripData['tripLimit'];
 
-          // Check if trip is full
           List<dynamic> tripJoin = tripData['tripJoin'] ?? [];
           if (tripJoin.length >= tripLimit) {
-            // Trip is full, notify and remove request
             Fluttertoast.showToast(msg: 'ทริปนี้เต็มเเล้ว');
             await FirebaseFirestore.instance
                 .collection('triprequest')
                 .doc(requestId)
                 .delete();
           } else {
-            // Trip is not full, add user to tripJoin and remove request
             tripJoin.add(receiverUid);
             await FirebaseFirestore.instance
                 .collection('trips')
@@ -273,10 +267,6 @@ class _JoinTripPageState extends State<JoinTripPage> {
                                         return Text(
                                             'เกิดข้อผิดพลาด: ${userSnapshot.error}');
                                       }
-                                      var userData = userSnapshot.data!.data()
-                                          as Map<String, dynamic>;
-                                      String tripCreatorName =
-                                          userData['nickname'];
 
                                       return Text('ชื่อทริป: $tripName ');
                                     },

@@ -232,7 +232,6 @@ class _FriendListState extends State<FriendList> {
 
   Future<Widget> fetchLastMessageAndDisplay(String friendUid) async {
     try {
-      // Fetch the last message where current user is the receiver
       var querySnapshot1 = await FirebaseFirestore.instance
           .collection('chats')
           .where('receiverUid', isEqualTo: myUid)
@@ -241,7 +240,6 @@ class _FriendListState extends State<FriendList> {
           .limit(1)
           .get();
 
-      // Fetch the last message where current user is the sender
       var querySnapshot2 = await FirebaseFirestore.instance
           .collection('chats')
           .where('receiverUid', isEqualTo: friendUid)
@@ -250,7 +248,6 @@ class _FriendListState extends State<FriendList> {
           .limit(1)
           .get();
 
-      // Compare timestamps and select the most recent message
       Map<String, dynamic>? lastMessage;
       if (querySnapshot1.docs.isNotEmpty && querySnapshot2.docs.isNotEmpty) {
         final message1 = querySnapshot1.docs[0].data();
@@ -281,8 +278,7 @@ class _FriendListState extends State<FriendList> {
 
         String displayMessage = senderUid == myUid
             ? 'You: $justmessage $formattedTime'
-            : 'ชื่อเพื่อน: $justmessage $formattedTime'; // Adjust to include friend's name
-        // Fetch friend's name if needed
+            : 'ชื่อเพื่อน: $justmessage $formattedTime';
         if (senderUid != myUid) {
           DocumentSnapshot friendSnapshot = await FirebaseFirestore.instance
               .collection('users')

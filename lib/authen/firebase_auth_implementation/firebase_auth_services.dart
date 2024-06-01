@@ -14,7 +14,6 @@ class FirebaseAuthService {
       await _firestore.collection('users').doc(credential.user!.uid).set({
         'email': email,
         'profileStatus': "None",
-        // ข้อมูลเพิ่มเติมตามที่คุณต้องการ
       });
       return credential.user;
     } on FirebaseAuthException catch (e) {

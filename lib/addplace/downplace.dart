@@ -5,17 +5,14 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/addplace/mapselectown.dart';
 import 'package:triptourapp/requestplace.dart';
-import 'mapselect.dart'; // ต้องแก้ไขตามชื่อไฟล์ของหน้า MapSelectionPage จริงๆ
+import 'mapselect.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:triptourapp/addplace/slideplace.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:triptourapp/requestlist.dart';
 import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math';
@@ -24,10 +21,9 @@ class Place {
   final String name;
   final String province;
   final String imageUrl;
-  final double latitude; // Add latitude field
+  final double latitude;
   final double longitude;
   final String? placeprovince;
-// Add longitude field
   Place({
     required this.name,
     required this.province,
@@ -56,7 +52,7 @@ class _DownPageState extends State<DownPage> {
   bool isLoading = false;
   int searchRadius = 0;
   int searchRadius2 = 0;
-  bool search = false; // ค่าเริ่มต้นของระยะห่างในการค้นหา
+  bool search = false;
   @override
   void initState() {
     super.initState();
@@ -112,8 +108,7 @@ class _DownPageState extends State<DownPage> {
                   setState(() {
                     placeType = values['placeType'];
 
-                    selectedOption = values[
-                        'selectedOption']; // เข้าถึงค่า selectedOption ใน values
+                    selectedOption = values['selectedOption'];
                     _checkLocationPermission(selectedOption ?? "");
                   });
                 },
@@ -198,36 +193,22 @@ class _DownPageState extends State<DownPage> {
                                     toastLength: Toast.LENGTH_LONG,
                                   );
                                   addPlaceToFirestore(
-                                      userUid: uid ??
-                                          '', // Use the current user's UID
-                                      placeTripId: widget.tripUid ??
-                                          '', // Use the trip UID from the widget property
-                                      placeName: places[index]
-                                          .name, // Use the name of the place
-                                      placePicUrl: places[index]
-                                          .imageUrl, // Use the image URL of the place
-                                      placeAddress: places[index]
-                                          .province, // You can leave this empty or provide an address if available
-                                      placeStart:
-                                          '', // You can leave this empty or provide a start time if available
-                                      placeTimeEnd:
-                                          null, // You can leave this empty or provide an end time if available
-                                      placeTimeStart:
-                                          null, // You can leave this empty or provide a start time if available
-                                      placeLatitude: places[index]
-                                          .latitude, // Use latitude field
-                                      placeLongitude: places[index]
-                                          .longitude, // Use longitude field
-
-                                      // Use the location of the place
+                                      userUid: uid ?? '',
+                                      placeTripId: widget.tripUid ?? '',
+                                      placeName: places[index].name,
+                                      placePicUrl: places[index].imageUrl,
+                                      placeAddress: places[index].province,
+                                      placeStart: '',
+                                      placeTimeEnd: null,
+                                      placeTimeStart: null,
+                                      placeLatitude: places[index].latitude,
+                                      placeLongitude: places[index].longitude,
                                       placeWhoGo: [uid ?? ''],
                                       placeStatus: 'Added',
                                       placeProvince:
                                           places[index].placeprovince ?? '',
-                                      placeAdd: 'No' ?? '',
-                                      placeRun: 'Start' ??
-                                          '' // Initially, no one goes to this place, so it's an empty array
-                                      );
+                                      placeAdd: 'No',
+                                      placeRun: 'Start');
                                 },
                                 child: Icon(
                                   Icons.add,
@@ -244,6 +225,7 @@ class _DownPageState extends State<DownPage> {
                         msg: "ไม่พบสถานที่",
                       );
                     }
+                    return null;
                   },
                 ),
               ),
@@ -267,10 +249,10 @@ class _DownPageState extends State<DownPage> {
     required String placePicUrl,
     required String placeAddress,
     required String placeStart,
-    required DateTime? placeTimeEnd, // เปลี่ยนให้เป็น DateTime?
-    required DateTime? placeTimeStart, // เปลี่ยนให้เป็น DateTime?
-    required double placeLatitude, // Change parameter name to placeLatitude
-    required double placeLongitude, // Change parameter name to placeLongitude
+    required DateTime? placeTimeEnd,
+    required DateTime? placeTimeStart,
+    required double placeLatitude,
+    required double placeLongitude,
     required List<String> placeWhoGo,
     required String placeStatus,
     required String placeProvince,
@@ -278,25 +260,20 @@ class _DownPageState extends State<DownPage> {
     required String placeRun,
   }) async {
     try {
-      // Check if the place already exists in the trip
       QuerySnapshot tripPlaces = await FirebaseFirestore.instance
           .collection('places')
           .where('placetripid', isEqualTo: placeTripId)
           .where('placename', isEqualTo: placeName)
-          .where('placeLatitude', isEqualTo: placeLatitude) // Check latitude
+          .where('placeLatitude', isEqualTo: placeLatitude)
           .where('placeLongitude', isEqualTo: placeLongitude)
-// Check longitude
           .get();
 
-      // If the place already exists in the trip, do not add it again
       if (tripPlaces.docs.isNotEmpty) {
-        // Place already exists in the trip
         DocumentSnapshot existingPlace = tripPlaces.docs.first;
         String existingPlaceId = existingPlace.id;
         String existingPlaceStatus = existingPlace.get('placestatus');
 
         if (existingPlaceStatus == 'Wait') {
-          // Update the place status to 'Added'
           await FirebaseFirestore.instance
               .collection('places')
               .doc(existingPlaceId)
@@ -304,14 +281,12 @@ class _DownPageState extends State<DownPage> {
 
           Fluttertoast.showToast(msg: 'เพิ่มสถานที่สำเร็จ');
         } else {
-          // Place exists in the trip with a status other than 'Wait'
           Fluttertoast.showToast(msg: 'มีสถานที่นี้อยู่บนทริปเเล้ว');
         }
         return;
       }
       final randomImg = generateRandomNumber();
 
-      // Upload image to Firebase Storage
       Reference storageReference = FirebaseStorage.instance.ref().child(
             'trip/places/profilepic/$placeTripId/$placeName$randomImg.jpg',
           );
@@ -321,7 +296,6 @@ class _DownPageState extends State<DownPage> {
       TaskSnapshot storageTaskSnapshot = await uploadTask;
       String downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
 
-      // Add place data to Firestore
       await FirebaseFirestore.instance.collection('places').doc().set({
         'useruid': userUid,
         'placetripid': placeTripId,
@@ -331,9 +305,8 @@ class _DownPageState extends State<DownPage> {
         'placestart': placeStart,
         'placetimestart': placeTimeStart,
         'placetimeend': placeTimeEnd,
-        'placeLatitude': placeLatitude, // แก้เป็น placeLatitude
-        'placeLongitude':
-            placeLongitude, // แก้เป็น placeLongitudeUse new latitude and longitude fields
+        'placeLatitude': placeLatitude,
+        'placeLongitude': placeLongitude,
         'placewhogo': placeWhoGo,
         'placestatus': placeStatus,
         'placeprovince': placeProvince,
@@ -341,7 +314,6 @@ class _DownPageState extends State<DownPage> {
         'placerun': placeRun
       });
 
-      // Notify the user that the place has been successfully added
       Fluttertoast.showToast(msg: 'เพิ่มสถานที่สำเร็จ');
     } catch (error) {
       print('Error adding place to Firestore: $error');
@@ -371,61 +343,53 @@ class _DownPageState extends State<DownPage> {
   Future<String?> fetchProvinceFromAddress(String address) async {
     try {
       List<String> parts = address.split(',');
-      // ถ้ามีส่วนที่อยู่จังหวัด
       if (parts.length >= 2) {
-        // นำส่วนที่อยู่จังหวัดมาใช้งาน
         String provincePart = parts[parts.length - 2].trim();
         return provincePart;
       } else {
-        // ถ้าไม่มีส่วนที่อยู่จังหวัด ให้คืนค่า null
         return null;
       }
     } catch (e) {
       Fluttertoast.showToast(msg: 'ไม่พบสถานที่');
     }
+    return null;
   }
 
   Future<void> searchPlaces(String query) async {
     try {
       PlacesSearchResponse response = await _places.searchByText(query);
       if (response.isOkay) {
-        // Clear existing places first
         places.clear();
         int maxResults = 10;
-        if (response.results != null) {
-          // Iterate through the results and add them to the list
-          for (int i = 0; i < response.results!.length && i < maxResults; i++) {
-            PlacesSearchResult result = response.results![i];
-            PlacesDetailsResponse detailsResponse =
-                await _places.getDetailsByPlaceId(result.placeId!);
-            String? placeAddress = detailsResponse.result?.formattedAddress;
-            String? province =
-                await fetchProvinceFromAddress(placeAddress ?? '');
-            LatLng position = LatLng(
-              detailsResponse.result?.geometry?.location.lat ?? 0.0,
-              detailsResponse.result?.geometry?.location.lng ?? 0.0,
-            );
-            String? placeProvince = await getProvinceFromCoordinates(position);
-            double latitude =
-                detailsResponse.result?.geometry?.location.lat ?? 0.0;
-            double longitude =
-                detailsResponse.result?.geometry?.location.lng ?? 0.0;
-            places.add(Place(
-                name: result.name ?? 'Unknown',
-                province: province ?? 'Unknown',
-                imageUrl: result.photos != null && result.photos!.isNotEmpty
-                    ? _places.buildPhotoUrl(
-                        photoReference: result.photos![0].photoReference!,
-                        maxWidth: 400,
-                      )
-                    : 'https://via.placeholder.com/400',
-                latitude:
-                    latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
-                longitude: longitude,
-                placeprovince: placeProvince));
-          }
+        for (int i = 0; i < response.results.length && i < maxResults; i++) {
+          PlacesSearchResult result = response.results[i];
+          PlacesDetailsResponse detailsResponse =
+              await _places.getDetailsByPlaceId(result.placeId);
+          String? placeAddress = detailsResponse.result.formattedAddress;
+          String? province = await fetchProvinceFromAddress(placeAddress ?? '');
+          LatLng position = LatLng(
+            detailsResponse.result.geometry?.location.lat ?? 0.0,
+            detailsResponse.result.geometry?.location.lng ?? 0.0,
+          );
+          String? placeProvince = await getProvinceFromCoordinates(position);
+          double latitude =
+              detailsResponse.result.geometry?.location.lat ?? 0.0;
+          double longitude =
+              detailsResponse.result.geometry?.location.lng ?? 0.0;
+          places.add(Place(
+              name: result.name,
+              province: province ?? 'Unknown',
+              imageUrl: result.photos.isNotEmpty
+                  ? _places.buildPhotoUrl(
+                      photoReference: result.photos[0].photoReference,
+                      maxWidth: 400,
+                    )
+                  : 'https://via.placeholder.com/400',
+              latitude: latitude,
+              longitude: longitude,
+              placeprovince: placeProvince));
         }
-        setState(() {}); // Update UI
+        setState(() {});
       }
     } catch (e) {
       Fluttertoast.showToast(msg: 'ไม่พบสถานที่');
@@ -437,31 +401,26 @@ class _DownPageState extends State<DownPage> {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
 
-      if (placemarks != null && placemarks.isNotEmpty) {
+      if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        return placemark
-            .administrativeArea; // หรือจะใช้ .subAdministrativeArea ก็ได้
+        return placemark.administrativeArea;
       } else {
         return null;
       }
     } catch (e) {
       Fluttertoast.showToast(msg: 'ไม่พบสถานที่');
     }
+    return null;
   }
-// Function to fetch province from address
 
   Future<void> _checkLocationPermission(String newOption) async {
-    // Check if permission is already granted
     PermissionStatus status = await Permission.location.request();
 
-    // Check if permission is granted
     if (status.isGranted) {
-      // Permission is granted, proceed with fetching location
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
 
-      // Check if selectedOption is "จากตำแหน่งใกล้ฉัน"
       setState(() {
         selectedOption = newOption;
         if (selectedOption == "จากตำแหน่งใกล้ฉัน") {
@@ -592,7 +551,6 @@ class _DownPageState extends State<DownPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      // เมื่อผู้ใช้ป้อนระยะห่างในการค้นหาแล้วให้ดึงสถานที่ใกล้เคียงตามระยะที่ระบุ
                       fetchNearLocation(selectedPosition?.latitude ?? 0.0,
                           selectedPosition?.longitude ?? 0.0);
                     },
@@ -682,7 +640,6 @@ class _DownPageState extends State<DownPage> {
         }
       });
     } else if (status.isDenied) {
-      // Permission is denied, show a message to the user
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -707,7 +664,6 @@ class _DownPageState extends State<DownPage> {
       ),
     );
 
-    // เก็บตำแหน่งที่มาร์คบนแผนที่เมื่อผู้ใช้เลือก
     if (selectedPosition == null) {
       setState(() {
         this.markedPosition = selectedPosition;
@@ -725,52 +681,40 @@ class _DownPageState extends State<DownPage> {
         lat: latitude,
         lng: longitude,
       ),
-      search
-          ? searchRadius
-          : searchRadius2, // Search radius in meters (adjust as needed)
+      search ? searchRadius : searchRadius2,
       type: placeType,
       keyword: placeType,
-      // ตัวอย่างค้นหาร้านอาหาร
     );
     print(placeType);
-    // Clear existing places
     places.clear();
 
-    // Iterate through the results and add them to the list
-    if (response.results != null) {
-      for (PlacesSearchResult result in response.results!) {
-        PlacesDetailsResponse detailsResponse =
-            await _places.getDetailsByPlaceId(result.placeId!);
-        LatLng position = LatLng(
-          detailsResponse.result?.geometry?.location.lat ?? 0.0,
-          detailsResponse.result?.geometry?.location.lng ?? 0.0,
-        );
-        String? placeProvince = await getProvinceFromCoordinates(position);
-        String? placeAddress = detailsResponse.result?.formattedAddress;
-        String? province = await fetchProvinceFromAddress(placeAddress ?? '');
-        double latitude = detailsResponse.result?.geometry?.location.lat ?? 0.0;
-        double longitude =
-            detailsResponse.result?.geometry?.location.lng ?? 0.0;
+    for (PlacesSearchResult result in response.results) {
+      PlacesDetailsResponse detailsResponse =
+          await _places.getDetailsByPlaceId(result.placeId);
+      LatLng position = LatLng(
+        detailsResponse.result.geometry?.location.lat ?? 0.0,
+        detailsResponse.result.geometry?.location.lng ?? 0.0,
+      );
+      String? placeProvince = await getProvinceFromCoordinates(position);
+      String? placeAddress = detailsResponse.result.formattedAddress;
+      String? province = await fetchProvinceFromAddress(placeAddress ?? '');
+      double latitude = detailsResponse.result.geometry?.location.lat ?? 0.0;
+      double longitude = detailsResponse.result.geometry?.location.lng ?? 0.0;
 
-        places.add(Place(
-            name: result.name ?? 'Unknown',
-            province: province ?? 'Unknown', // ตัวอย่างการกำหนดชื่อจังหวัด
-            imageUrl: result.photos != null && result.photos!.isNotEmpty
-                ? _places.buildPhotoUrl(
-                    photoReference: result.photos![0].photoReference!,
-                    maxWidth: 400,
-                  )
-                : 'https://via.placeholder.com/400', // URL ของรูปภาพตัวอย่าง
-            latitude:
-                latitude, // เพิ่มพารามิเตอร์ latitude ให้กับอ็อบเจกต์ Place
-            longitude: longitude,
-            placeprovince:
-                placeProvince // เพิ่มพารามิเตอร์ longitude ให้กับอ็อบเจกต์ Place
-            ));
-      }
+      places.add(Place(
+          name: result.name,
+          province: province ?? 'Unknown',
+          imageUrl: result.photos.isNotEmpty
+              ? _places.buildPhotoUrl(
+                  photoReference: result.photos[0].photoReference,
+                  maxWidth: 400,
+                )
+              : 'https://via.placeholder.com/400',
+          latitude: latitude,
+          longitude: longitude,
+          placeprovince: placeProvince));
     }
 
-    // Update the UI
     setState(() {});
   }
 

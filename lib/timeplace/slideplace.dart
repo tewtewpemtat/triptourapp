@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import './slidetime.dart';
 
 class SlidePlace extends StatefulWidget {
@@ -21,7 +17,7 @@ class SlidePlace extends StatefulWidget {
 class _SlidePlaceState extends State<SlidePlace> {
   late String uid = FirebaseAuth.instance.currentUser!.uid;
 
-  String? selectedPlaceUid; // เพิ่มตัวแปรสำหรับเก็บ UID ที่เลือก
+  String? selectedPlaceUid;
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +60,7 @@ class _SlidePlaceState extends State<SlidePlace> {
             },
           ),
         ),
-
-        SlideTime(
-            selectedPlaceUid:
-                selectedPlaceUid), // ส่งค่า UID ไปยัง SlideTime widget
+        SlideTime(selectedPlaceUid: selectedPlaceUid),
       ],
     );
   }
@@ -87,14 +80,13 @@ class _SlidePlaceState extends State<SlidePlace> {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     String placeName = data['placename'];
     String placeAddress = data['placeaddress'];
-    int maxCharsFirstLine = 16; // จำนวนตัวอักษรสูงสุดในบรรทัดแรก
-    int maxCharsTotal = 30; // จำนวนตัวอักษรสูงสุดที่ต้องการให้แสดงทั้งหมด
-    int maxCharsFirstLine2 = 60; // จำนวนตัวอักษรสูงสุดในบรรทัดแรก
-    int maxCharsTotal2 = 60; // จำนวนตัวอักษรสูงสุดที่ต้องการให้แสดงทั้งหมด
+    int maxCharsFirstLine = 16;
+    int maxCharsTotal = 30;
+    int maxCharsFirstLine2 = 60;
+    int maxCharsTotal2 = 60;
     String displayedName = placeName.length > maxCharsFirstLine
         ? (placeName.length > maxCharsTotal
-            ? placeName.substring(0, maxCharsFirstLine) +
-                '...' // ใส่ ... หลังจากตัดข้อความในบรรทัดแรก
+            ? placeName.substring(0, maxCharsFirstLine) + '...'
             : placeName.substring(0, maxCharsFirstLine) +
                 '\n' +
                 (placeName.length > maxCharsTotal
@@ -104,8 +96,7 @@ class _SlidePlaceState extends State<SlidePlace> {
         : placeName;
     String displayedName2 = placeAddress.length > maxCharsFirstLine2
         ? (placeAddress.length > maxCharsTotal2
-            ? placeAddress.substring(0, maxCharsFirstLine2) +
-                '...' // ใส่ ... หลังจากตัดข้อความในบรรทัดแรก
+            ? placeAddress.substring(0, maxCharsFirstLine2) + '...'
             : placeAddress.substring(0, maxCharsFirstLine2) +
                 '\n' +
                 (placeAddress.length > maxCharsTotal2
@@ -200,7 +191,6 @@ class _SlidePlaceState extends State<SlidePlace> {
                     onPressed: () async {
                       String placeId = document.id;
                       String placeName = data['placename'];
-                      String tripId = data['placetripid'];
                       String imageUrl = data['placepicUrl'];
 
                       try {
@@ -209,11 +199,9 @@ class _SlidePlaceState extends State<SlidePlace> {
                             .doc(placeId)
                             .delete();
 
-                        if (imageUrl != null) {
-                          Reference imageRef =
-                              FirebaseStorage.instance.refFromURL(imageUrl);
-                          await imageRef.delete();
-                        }
+                        Reference imageRef =
+                            FirebaseStorage.instance.refFromURL(imageUrl);
+                        await imageRef.delete();
 
                         setState(() {});
                       } catch (error) {

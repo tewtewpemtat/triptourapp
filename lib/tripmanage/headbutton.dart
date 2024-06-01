@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/TripTimeLine.dart';
@@ -7,8 +5,6 @@ import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/main.dart';
-import 'package:triptourapp/timeline/Timeline_History.dart';
-import 'package:triptourapp/tripmanage.dart';
 import '../timeplace.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,122 +40,112 @@ void cancelTrip(BuildContext context, String tripUid) async {
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    if (querySnapshot2 != null)
-      querySnapshot2.docs.forEach((document) async {
-        String placePicUrl = document['placepicUrl'];
-        // ลบรูปภาพใน Firebase Storage
-        Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
-        await ref.delete();
-        // ลบเอกสารที่พบเจอออกจาก Firestore
-        await FirebaseFirestore.instance
-            .collection('placemeet')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot2.docs.forEach((document) async {
+      String placePicUrl = document['placepicUrl'];
+
+      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+      await ref.delete();
+
+      await FirebaseFirestore.instance
+          .collection('placemeet')
+          .doc(document.id)
+          .delete();
+    });
 
     QuerySnapshot querySnapshot3 = await FirebaseFirestore.instance
         .collection('interest')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    if (querySnapshot3 != null)
-      querySnapshot3.docs.forEach((document) async {
-        String placePicUrl = document['placepicUrl'];
-        // ลบรูปภาพใน Firebase Storage
-        Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
-        await ref.delete();
-        // ลบเอกสารที่พบเจอออกจาก Firestore
-        await FirebaseFirestore.instance
-            .collection('interest')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot3.docs.forEach((document) async {
+      String placePicUrl = document['placepicUrl'];
+
+      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+      await ref.delete();
+
+      await FirebaseFirestore.instance
+          .collection('interest')
+          .doc(document.id)
+          .delete();
+    });
     QuerySnapshot querySnapshot4 = await FirebaseFirestore.instance
         .collection('groupmessages')
         .where('tripChatUid', isEqualTo: tripUid)
         .get();
 
-    if (querySnapshot4 != null)
-      querySnapshot4.docs.forEach((document) async {
-        await FirebaseFirestore.instance
-            .collection('groupmessages')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot4.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('groupmessages')
+          .doc(document.id)
+          .delete();
+    });
     QuerySnapshot querySnapshot5 = await FirebaseFirestore.instance
         .collection('triprequest')
         .where('tripUid', isEqualTo: tripUid)
         .get();
 
-    if (querySnapshot5 != null)
-      querySnapshot5.docs.forEach((document) async {
-        await FirebaseFirestore.instance
-            .collection('triprequest')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot5.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('triprequest')
+          .doc(document.id)
+          .delete();
+    });
     QuerySnapshot querySnapshot6 = await FirebaseFirestore.instance
         .collection('timeline')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    if (querySnapshot6 != null)
-      querySnapshot6.docs.forEach((document) async {
-        await FirebaseFirestore.instance
-            .collection('timeline')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot6.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('timeline')
+          .doc(document.id)
+          .delete();
+    });
 
     QuerySnapshot querySnapshot7 = await FirebaseFirestore.instance
         .collection('timeline')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    if (querySnapshot7 != null)
-      querySnapshot7.docs.forEach((document) async {
-        await FirebaseFirestore.instance
-            .collection('timeline')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot7.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('timeline')
+          .doc(document.id)
+          .delete();
+    });
 
     QuerySnapshot querySnapshot8 = await FirebaseFirestore.instance
         .collection('timelinestamp')
         .where('placetripid', isEqualTo: tripUid)
         .where('useruid', isEqualTo: uid)
         .get();
-    if (querySnapshot8 != null)
-      querySnapshot8.docs.forEach((document) async {
-        await FirebaseFirestore.instance
-            .collection('timelinestamp')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot8.docs.forEach((document) async {
+      await FirebaseFirestore.instance
+          .collection('timelinestamp')
+          .doc(document.id)
+          .delete();
+    });
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('places')
         .where('placetripid', isEqualTo: tripUid)
         .get();
 
-    if (querySnapshot != null)
-      querySnapshot.docs.forEach((document) async {
-        String placePicUrl = document['placepicUrl'];
-        // ลบรูปภาพใน Firebase Storage
-        Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
-        await ref.delete();
-        // ลบเอกสารที่พบเจอออกจาก Firestore
-        await FirebaseFirestore.instance
-            .collection('places')
-            .doc(document.id)
-            .delete();
-      });
+    querySnapshot.docs.forEach((document) async {
+      String placePicUrl = document['placepicUrl'];
 
-    // ลบภาพใน Firebase Storage
+      Reference ref = FirebaseStorage.instance.refFromURL(placePicUrl);
+      await ref.delete();
+
+      await FirebaseFirestore.instance
+          .collection('places')
+          .doc(document.id)
+          .delete();
+    });
+
     String tripProfileUrl = tripSnapshot['tripProfileUrl'];
     Reference ref = FirebaseStorage.instance.refFromURL(tripProfileUrl);
     await ref.delete();
 
-    // ลบเอกสารที่อ้างอิงถึงทริปออกจาก Firestore
     await FirebaseFirestore.instance.collection('trips').doc(tripUid).delete();
     Navigator.push(
       context,
@@ -216,7 +202,6 @@ class _HeadButtonState extends State<HeadButton> {
         }
         if (!snapshot.hasData || snapshot.data == null) {
           return Container();
-          // หรือส่วนที่คุณต้องการทำต่อไป
         }
 
         var tripData = snapshot.data?.data() as Map<String, dynamic>?;
@@ -226,14 +211,12 @@ class _HeadButtonState extends State<HeadButton> {
             DateTime tripStartDate = tripData['tripStartDate'].toDate();
             DateTime tripEndDate = tripData['tripEndDate'].toDate();
             if (now.isAfter(tripStartDate) && now.isBefore(tripEndDate)) {
-              // เปรียบเทียบเวลาปัจจุบันกับเวลาเริ่มต้นของทริป
               FirebaseFirestore.instance
                   .collection('trips')
                   .doc(widget.tripUid)
                   .update({'tripStatus': 'กำลังดำเนินการ'});
               print('Trip status updated successfully');
             } else if (now.isAfter(tripEndDate)) {
-              // เปรียบเทียบเวลาปัจจุบันกับเวลาเริ่มต้นของทริป
               FirebaseFirestore.instance
                   .collection('trips')
                   .doc(widget.tripUid)
@@ -252,7 +235,6 @@ class _HeadButtonState extends State<HeadButton> {
           var tripStatus = tripData['tripStatus'];
 
           if (tripStatus == 'กำลังดำเนินการ') {
-            // หาก tripStatus เป็น "กำลังดำเนินการ" แสดงว่าต้องซ่อนปุ่ม
             return Container(
               margin: EdgeInsets.all(8.0),
               child: Column(
@@ -271,7 +253,6 @@ class _HeadButtonState extends State<HeadButton> {
                           margin: EdgeInsets.symmetric(
                               horizontal: 0.0, vertical: 0.0),
                           child: IconButton(
-                            // Wrap the Icon with IconButton
                             icon: Icon(
                               Icons.refresh,
                               color: Colors.grey,
@@ -291,17 +272,14 @@ class _HeadButtonState extends State<HeadButton> {
                             cancelTrip(context, widget.tripUid.toString());
                           },
                           style: TextButton.styleFrom(
-                            backgroundColor:
-                                Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง
-                            primary:
-                                Colors.white, // กำหนดสีของตัวอักษรเป็นสีขาว
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red,
                           ),
                           child: Text(
                             'ยกเลิกทริป',
                             style: GoogleFonts.ibmPlexSansThai(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              // สามารถกำหนดสีข้อความเพิ่มเติมได้ที่นี่ถ้าต้องการ
                             ),
                           ),
                         )
@@ -324,8 +302,8 @@ class _HeadButtonState extends State<HeadButton> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white, // สีพื้นหลังของปุ่ม
-                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -334,10 +312,8 @@ class _HeadButtonState extends State<HeadButton> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.chat), // รูปไอคอนแชท
-                              SizedBox(
-                                  width:
-                                      8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
+                              Icon(Icons.chat),
+                              SizedBox(width: 8),
                               Text(
                                 'แชทกลุ่ม',
                                 style: GoogleFonts.ibmPlexSansThai(
@@ -355,7 +331,6 @@ class _HeadButtonState extends State<HeadButton> {
               ),
             );
           } else if (tripStatus == 'ยังไม่เริ่มต้น') {
-            // หาก tripStatus ไม่เป็น "กำลังดำเนินการ" แสดงว่าต้องแสดงปุ่ม
             return Container(
               margin: EdgeInsets.all(8.0),
               child: Column(
@@ -374,7 +349,6 @@ class _HeadButtonState extends State<HeadButton> {
                           margin: EdgeInsets.symmetric(
                               horizontal: 0.0, vertical: 0.0),
                           child: IconButton(
-                            // Wrap the Icon with IconButton
                             icon: Icon(
                               Icons.refresh,
                               color: Colors.grey,
@@ -392,17 +366,14 @@ class _HeadButtonState extends State<HeadButton> {
                             cancelTrip(context, widget.tripUid.toString());
                           },
                           style: TextButton.styleFrom(
-                            backgroundColor:
-                                Colors.red, // กำหนดสีพื้นหลังเป็นสีแดง
-                            primary:
-                                Colors.white, // กำหนดสีของตัวอักษรเป็นสีขาว
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red,
                           ),
                           child: Text(
                             'ยกเลิกทริป',
                             style: GoogleFonts.ibmPlexSansThai(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              // สามารถกำหนดสีข้อความเพิ่มเติมได้ที่นี่ถ้าต้องการ
                             ),
                           ),
                         )
@@ -424,8 +395,8 @@ class _HeadButtonState extends State<HeadButton> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white, // สีพื้นหลังของปุ่ม
-                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -434,10 +405,8 @@ class _HeadButtonState extends State<HeadButton> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.chat), // รูปไอคอนแชท
-                              SizedBox(
-                                  width:
-                                      8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
+                              Icon(Icons.chat),
+                              SizedBox(width: 8),
                               Text(
                                 'แชทกลุ่ม',
                                 style: GoogleFonts.ibmPlexSansThai(
@@ -465,8 +434,8 @@ class _HeadButtonState extends State<HeadButton> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            onPrimary: Colors.black,
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -475,7 +444,7 @@ class _HeadButtonState extends State<HeadButton> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.location_on), // รูปไอคอนแชท
+                              Icon(Icons.location_on),
                               SizedBox(width: 2),
                               Text(
                                 'เพิ่มสถานที่',
@@ -500,8 +469,8 @@ class _HeadButtonState extends State<HeadButton> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            onPrimary: Colors.black,
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -510,7 +479,7 @@ class _HeadButtonState extends State<HeadButton> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.access_time), // รูปไอคอนแชท
+                              Icon(Icons.access_time),
                               SizedBox(width: 2),
                               Text(
                                 'กำหนดเวลาสถานที่',
@@ -530,7 +499,6 @@ class _HeadButtonState extends State<HeadButton> {
               ),
             );
           } else if (tripStatus == 'สิ้นสุด') {
-            // หาก tripStatus ไม่เป็น "กำลังดำเนินการ" แสดงว่าต้องแสดงปุ่ม
             return Container(
               margin: EdgeInsets.all(8.0),
               child: Column(
@@ -550,8 +518,8 @@ class _HeadButtonState extends State<HeadButton> {
                             Fluttertoast.showToast(msg: 'ทริปสิ้นสุดเเล้ว');
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white, // สีพื้นหลังของปุ่ม
-                            onPrimary: Colors.black, // สีขอบตัวอักษร
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
                             fixedSize: Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),

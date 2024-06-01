@@ -2,21 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:triptourapp/infoplace/maproute.dart';
-import 'package:triptourapp/addplace/mapselectown.dart';
 import 'package:geolocator/geolocator.dart';
-import '../infoplace.dart';
 import 'dart:math' show sin, cos, sqrt, pow, atan2, pi;
 
 class InformationPlan extends StatefulWidget {
-  @override
   final String? tripUid;
   final String? placeid;
   const InformationPlan({Key? key, this.tripUid, this.placeid})
@@ -34,8 +26,8 @@ class InformationPlanState extends State<InformationPlan> {
   double? placelong;
   LatLng? selectedPosition = null;
   LatLng? markedPosition;
-  double userLatitude = 0.0; // พิกัดละติจูดปัจจุบันของผู้ใช้
-  double userLongitude = 0.0; // พิกัดลองจิจูดปัจจุบันของผู้ใช้
+  double userLatitude = 0.0;
+  double userLongitude = 0.0;
 
   @override
   void initState() {
@@ -62,10 +54,8 @@ class InformationPlanState extends State<InformationPlan> {
           );
         }
 
-        // Retrieve the data from the document snapshot
         final placeData = snapshot.data!.data() as Map<String, dynamic>;
 
-        // Continue with your UI logic using placeData
         return buildPlaceItem(context, placeData, snapshot.data!);
       },
     );
@@ -80,8 +70,8 @@ class InformationPlanState extends State<InformationPlan> {
           placeid: widget.placeid,
           userLatitude: userLatitude,
           userLongitude: userLongitude,
-          placeLatitude: placeLatitude, // ประกาศพารามิเตอร์ placelatitude
-          placeLongitude: placeLongitude, // ประกาศพารามิเตอร์ placelongitude
+          placeLatitude: placeLatitude,
+          placeLongitude: placeLongitude,
         ),
       ),
     );
@@ -104,7 +94,7 @@ class InformationPlanState extends State<InformationPlan> {
 
   double calculateDistance(double userLatitude, double userLongitude,
       double placeLatitude, double placeLongitude) {
-    const double earthRadius = 6371.0; // รัศมีของโลกในหน่วยกิโลเมตร
+    const double earthRadius = 6371.0;
     double lat1Rad = radians(userLatitude);
     double lon1Rad = radians(userLongitude);
     double lat2Rad = radians(placeLatitude);
@@ -121,7 +111,6 @@ class InformationPlanState extends State<InformationPlan> {
     return distance;
   }
 
-  // เปลี่ยนจากองศาเป็นเรเดียน
   double radians(double degrees) {
     return degrees * (pi / 180);
   }
@@ -129,22 +118,17 @@ class InformationPlanState extends State<InformationPlan> {
   Widget buildPlaceItem(
       BuildContext context, Map<String, dynamic> placeData, place) {
     String placeName = placeData['placename'];
-    String placeAddress = placeData['placeaddress'];
-    int maxCharsFirstLine = 40; // Maximum characters for the first line
-    int maxCharsTotal = 40; // Maximum characters to display in total
-    int maxCharsFirstLine2 = 50; // Maximum characters for the first line
-    int maxCharsTotal2 = 60; // Maximum characters to display in total
+    int maxCharsFirstLine = 40;
+    int maxCharsTotal = 40;
+
     int countTrip = placeData['placewhogo'].length;
 
-    // Update the placerun field in Firestore based on the time condition
     double distance = calculateDistance(userLatitude, userLongitude,
         placeData['placeLatitude'], placeData['placeLongitude']);
-    String distanceText =
-        distance.toStringAsFixed(2) + ' กิโลเมตร'; // แปลงเป็นข้อความ
+    String distanceText = distance.toStringAsFixed(2) + ' กิโลเมตร';
     String displayedName = placeName.length > maxCharsFirstLine
         ? (placeName.length > maxCharsTotal
-            ? placeName.substring(0, maxCharsFirstLine) +
-                '...' // Add ... after truncating the first line
+            ? placeName.substring(0, maxCharsFirstLine) + '...'
             : placeName.substring(0, maxCharsFirstLine) +
                 '...' +
                 (placeName.length > maxCharsTotal
@@ -152,18 +136,6 @@ class InformationPlanState extends State<InformationPlan> {
                         '...'
                     : placeName.substring(maxCharsFirstLine)))
         : placeName;
-    String displayedName2 = placeAddress.length > maxCharsFirstLine2
-        ? (placeAddress.length > maxCharsTotal2
-            ? placeAddress.substring(0, maxCharsFirstLine2) +
-                '...' // Add ... after truncating the first line
-            : placeAddress.substring(0, maxCharsFirstLine2) +
-                '\n' +
-                (placeAddress.length > maxCharsTotal2
-                    ? placeAddress.substring(
-                            maxCharsFirstLine2, maxCharsTotal2) +
-                        '...'
-                    : placeAddress.substring(maxCharsFirstLine2)))
-        : placeAddress;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -172,8 +144,8 @@ class InformationPlanState extends State<InformationPlan> {
           height: 200.0,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey, // Border color
-                width: 1.0, // Border width
+                color: Colors.grey,
+                width: 1.0,
               ),
               borderRadius: BorderRadius.circular(10),
               color: Color.fromARGB(255, 255, 255, 255)),
@@ -207,7 +179,7 @@ class InformationPlanState extends State<InformationPlan> {
                           children: [
                             Expanded(
                               child: Text(
-                                displayedName ?? '',
+                                displayedName,
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -220,11 +192,11 @@ class InformationPlanState extends State<InformationPlan> {
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black, // Border color
-                              width: 1.0, // Border width
+                              color: Colors.black,
+                              width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(16.0),
-                            color: Color(0xFF1E30D7), // Background color
+                            color: Color(0xFF1E30D7),
                           ),
                           padding: EdgeInsets.all(3.0),
                           child: Text(
@@ -256,10 +228,8 @@ class InformationPlanState extends State<InformationPlan> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimestart']
-                                                as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimestart'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,
@@ -290,9 +260,8 @@ class InformationPlanState extends State<InformationPlan> {
                               padding: EdgeInsets.all(3.0),
                               child: Text(
                                 DateFormat('dd-MM-yyy HH:mm').format(
-                                        (placeData['placetimeend'] as Timestamp)
-                                            .toDate()) ??
-                                    '',
+                                    (placeData['placetimeend'] as Timestamp)
+                                        .toDate()),
                                 style: GoogleFonts.ibmPlexSansThai(
                                   fontSize: 10,
                                   color: Colors.black,

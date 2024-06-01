@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../infoplace.dart';
 
 class HeadPlan extends StatefulWidget {
-  @override
   final String? tripUid;
   const HeadPlan({Key? key, this.tripUid}) : super(key: key);
   _HeadPlanPageState createState() => _HeadPlanPageState();
@@ -33,10 +32,10 @@ class _HeadPlanPageState extends State<HeadPlan> {
         padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.grey, // สีของเส้นกรอบ
-            width: 1.0, // ความหนาของเส้นกรอบ
+            color: Colors.grey,
+            width: 1.0,
           ),
-          borderRadius: BorderRadius.circular(10), // มุมโค้งของ Container
+          borderRadius: BorderRadius.circular(10),
         ),
         margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Row(
@@ -85,19 +84,18 @@ class _HeadPlanPageState extends State<HeadPlan> {
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.grey, // สีของเส้นกรอบ
-                          width: 1.0, // ความหนาของเส้นกรอบ
+                          color: Colors.grey,
+                          width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(16.0),
-                        color: Color(0xFF1E30D7), // ความโค้งของมุมกรอบ
+                        color: Color(0xFF1E30D7),
                       ),
                       padding: EdgeInsets.all(3.0),
                       child: Text(
                         'กรุงเทพมหานคร',
                         style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 8,
-                          color: Colors.white, // สีของข้อความ
-                          // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -116,10 +114,9 @@ class _HeadPlanPageState extends State<HeadPlan> {
                         'กำหนดการเวลา : 00:00',
                         style: GoogleFonts.ibmPlexSansThai(
                           fontSize: 8,
-                          color: Colors.white, // สีของข้อความ
-                          fontWeight: FontWeight.bold, // หนา
-                          fontStyle: FontStyle.italic, // เอียง
-                          // และคุณสามารถกำหนดคุณสมบัติอื่น ๆ ตามต้องการ
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
                     ),
@@ -133,20 +130,16 @@ class _HeadPlanPageState extends State<HeadPlan> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: ElevatedButton(
-                              onPressed: () {
-                                // ทำอะไรเมื่อกดปุ่มเพิ่มสถานที่
-                              },
+                              onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xffcfcfcf),
-                                onPrimary: Colors.black,
+                                foregroundColor: Colors.black,
+                                backgroundColor: Color(0xffcfcfcf),
                                 fixedSize: Size(70, 10),
                               ),
                               child: Text(
                                 'จุดนัดพบ',
                                 style: GoogleFonts.ibmPlexSansThai(
-                                  fontWeight:
-                                      FontWeight.bold, // ทำให้เป็นตัวหนา
-                                  // สามารถเพิ่มคุณสมบัติอื่น ๆ ตามต้องการ
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

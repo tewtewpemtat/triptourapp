@@ -20,7 +20,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController _nicknameController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   String _selectedGender = '';
-  String? uid; // Added to store user UID
+  String? uid;
   String _profileImageUrl = '';
   @override
   void initState() {
@@ -101,13 +101,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               onPressed: () async {
                 String fieldName = _getFieldName(fieldTitle);
 
-                // Update user data using the correct document ID (uid)
                 await FirebaseFirestore.instance
                     .collection('users')
                     .doc(uid)
                     .update({fieldName: controller.text});
 
-                // Refresh the user data after the update
                 await _fetchUserData();
                 Navigator.of(context).pop();
               },

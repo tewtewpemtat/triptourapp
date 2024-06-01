@@ -55,8 +55,7 @@ class _TripHistoryState extends State<TripHistory> {
                     padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.grey), // Color of the border
+                        border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Row(
@@ -86,14 +85,12 @@ class _TripHistoryState extends State<TripHistory> {
                 ),
                 Container(
                   child: IconButton(
-                    // Wrap the Icon with IconButton
                     icon: Icon(
                       Icons.refresh,
                       color: Colors.grey,
                       size: 28,
                     ),
                     onPressed: () {
-                      // Your code to handle the tap event
                       setState(() {});
                     },
                   ),
@@ -128,11 +125,10 @@ class _TripHistoryState extends State<TripHistory> {
                 itemBuilder: (context, index) {
                   Map<String, dynamic> tripData =
                       tripDataList[index].data() as Map<String, dynamic>;
-                  // Check if the trip has started and its status is 'Not started yet'
+
                   if (DateTime.now()
                           .isAfter(tripData['tripStartDate'].toDate()) &&
                       tripData['tripStatus'] == 'ยังไม่เริ่มต้น') {
-                    // Update trip status to "In progress"
                     FirebaseFirestore.instance
                         .collection('trips')
                         .doc(tripDataList[index].id)
@@ -140,7 +136,6 @@ class _TripHistoryState extends State<TripHistory> {
                   } else if (DateTime.now()
                           .isAfter(tripData['tripEndDate'].toDate()) &&
                       tripData['tripStatus'] == 'กำลังดำเนินการ') {
-                    // Update trip status to "In progress"
                     FirebaseFirestore.instance
                         .collection('trips')
                         .doc(tripDataList[index].id)
@@ -172,10 +167,9 @@ class _TripHistoryState extends State<TripHistory> {
 
     var tripData = placesSnapshot.data();
 
-    if (tripData != null && // Add null check for tripData
+    if (tripData != null &&
         DateTime.now().isAfter(tripData['tripStartDate'].toDate()) &&
         tripData['tripStatus'] == 'ยังไม่เริ่มต้น') {
-      // Update trip status to "In progress"
       FirebaseFirestore.instance
           .collection('trips')
           .doc(tripUid)
@@ -186,10 +180,9 @@ class _TripHistoryState extends State<TripHistory> {
         MaterialPageRoute(
             builder: (context) => TripmanagePage(tripUid: tripUid)),
       );
-    } else if (tripData != null && // Add null check for tripData
+    } else if (tripData != null &&
         DateTime.now().isAfter(tripData['tripEndDate'].toDate()) &&
         tripData['tripStatus'] == 'กำลังดำเนินการ') {
-      // Update trip status to "In progress"
       FirebaseFirestore.instance
           .collection('trips')
           .doc(tripUid)
@@ -242,7 +235,6 @@ class _TripHistoryState extends State<TripHistory> {
                         snapshot.data!.data() as Map<String, dynamic>;
                     String firstName = userData['firstName'] ?? '';
                     String nickname = userData['nickname'] ?? '';
-                    String profileImageUrl = userData['profileImageUrl'] ?? '';
                     return ListTile(
                       leading: CircleAvatar(
                         radius: 30.0,
@@ -317,10 +309,9 @@ class _TripHistoryState extends State<TripHistory> {
                               fit: BoxFit.cover,
                             )
                           : Placeholder(
-                              // สร้าง Placeholder หรือรูปภาพแทนกรณีที่ URL เป็น null
                               fallbackHeight: 140.0,
                               fallbackWidth: double.infinity,
-                              color: Colors.grey, // สีพื้นหลังของ Placeholder
+                              color: Colors.grey,
                             ),
                     ),
                   ),
