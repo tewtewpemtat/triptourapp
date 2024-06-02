@@ -100,6 +100,8 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+drawable amu_bubble_mask
+drawable amu_bubble_shadow
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -173,6 +175,7 @@ id action_text
 id actions
 id adjust_height
 id adjust_width
+id amu_text
 id androidx_window_activity_scope
 id async
 id auto
@@ -220,9 +223,14 @@ id text
 id text2
 id time
 id title
+id webview
 id wide
+id window
 integer google_play_services_version
 integer status_bar_notification_info_maxnum
+layout amu_info_window
+layout amu_text_bubble
+layout amu_webview
 layout custom_dialog
 layout notification_action
 layout notification_action_tombstone
@@ -256,6 +264,9 @@ style TextAppearance_Compat_Notification_Time
 style TextAppearance_Compat_Notification_Title
 style Widget_Compat_NotificationActionContainer
 style Widget_Compat_NotificationActionText
+style amu_Bubble_TextAppearance_Dark
+style amu_Bubble_TextAppearance_Light
+style amu_ClusterIcon_TextAppearance
 styleable ActivityFilter activityAction activityName
 styleable ActivityRule alwaysExpand
 styleable Capability queryPatterns shortcutMatchRequired
