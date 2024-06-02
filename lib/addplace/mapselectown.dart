@@ -298,6 +298,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
         'placetimestart': placetimeStart,
         'placetimeend': placetimeEnd,
         'placetripid': placeTripid,
+        'placetripcreate': userUid,
         'placewhogo': placeWhoGo,
         'useruid': userUid,
         'placestatus': placeStatus,

@@ -54,8 +54,6 @@ dependencies:
   google_fonts: 4.0.4
   flutter_map: ^3.0.0
   geolocator: ^8.0.1
-  cloud_functions: ^4.7.6
-  firebase_messaging: ^14.9.4
   flutter_local_notifications: ^17.1.2
   webview_flutter: ^2.0.13
   http: ^0.13.3

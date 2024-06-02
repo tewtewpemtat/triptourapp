@@ -75,6 +75,7 @@ class InviteState extends State<Invite> {
           'senderUid': myUid,
           'receiverUid': friendUid,
           'status': 'Waiting',
+          'sendStatus': 'no',
         });
         print('Friend request sent successfully');
       } else {

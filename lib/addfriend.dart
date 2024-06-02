@@ -284,6 +284,7 @@ void sendFriendRequest(String friendUid) async {
         'senderUid': myUid,
         'receiverUid': friendUid,
         'status': 'Wait',
+        'sendStatus': 'no',
       });
 
       print('Friend request sent successfully.');

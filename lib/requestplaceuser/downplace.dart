@@ -207,8 +207,9 @@ class _DownPageState extends State<DownPage> {
                                     toastLength: Toast.LENGTH_LONG,
                                   );
                                   addPlaceToFirestore(
-                                      userUid: tripCreate ?? '',
+                                      userUid: uid ?? '',
                                       placeTripId: widget.tripUid ?? '',
+                                      placeTripCreate: tripCreate ?? '',
                                       placeName: places[index].name,
                                       placePicUrl: places[index].imageUrl,
                                       placeAddress: places[index].province,
@@ -258,6 +259,7 @@ class _DownPageState extends State<DownPage> {
   Future<void> addPlaceToFirestore({
     required String userUid,
     required String placeTripId,
+    required String placeTripCreate,
     required String placeName,
     required String placePicUrl,
     required String placeAddress,
@@ -299,6 +301,7 @@ class _DownPageState extends State<DownPage> {
       await FirebaseFirestore.instance.collection('places').doc().set({
         'useruid': userUid,
         'placetripid': placeTripId,
+        'placetripcreate': placeTripCreate,
         'placename': placeName,
         'placepicUrl': downloadUrl,
         'placeaddress': placeAddress,

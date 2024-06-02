@@ -37,11 +37,13 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
   late StreamSubscription<Position> _positionStreamSubscription;
   double userLatitude = 0.0;
   double userLongitude = 0.0;
+  String? tripCreate;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    getTripCreate(widget.tripUid);
     uid = FirebaseAuth.instance.currentUser?.uid;
   }
 
@@ -240,6 +242,20 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
     }
   }
 
+  void getTripCreate(String? tripUid) async {
+    DocumentSnapshot tripDoc =
+        await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
+    if (tripDoc.exists) {
+      setState(() {
+        tripCreate = tripDoc['tripCreate'];
+      });
+    } else {
+      setState(() {
+        tripCreate = null;
+      });
+    }
+  }
+
   Future<void> _getImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -295,6 +311,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
         'placetimestart': placetimeStart,
         'placetimeend': placetimeEnd,
         'placetripid': placeTripid,
+        'placetripcreate': tripCreate,
         'placewhogo': placeWhoGo,
         'useruid': userUid,
         'placestatus': placeStatus,

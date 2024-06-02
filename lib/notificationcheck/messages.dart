@@ -25,9 +25,9 @@ class messagesCheck extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Container();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Container();
         } else {
           bool shouldSendNotification = false;
           String? latestSenderUid;

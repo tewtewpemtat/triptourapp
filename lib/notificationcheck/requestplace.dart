@@ -34,6 +34,16 @@ class _placeCheckState extends State<placeCheck> {
     }
   }
 
+  Future<Map<String, String>> _getSenderInfo(String senderUid) async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(senderUid)
+        .get();
+    String firstName = userDoc['firstName'];
+    String lastName = userDoc['lastName'];
+    return {'firstName': firstName, 'lastName': lastName};
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -41,7 +51,8 @@ class _placeCheckState extends State<placeCheck> {
           .collection('places')
           .where('placetripid', isEqualTo: widget.tripUid)
           .where('placenotification', isEqualTo: 'no')
-          .where('useruid', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+          .where('placetripcreate',
+              isEqualTo: FirebaseAuth.instance.currentUser?.uid)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:triptourapp/authen/login.dart';
+import 'package:triptourapp/notificationcheck/friendrequest.dart';
+import 'package:triptourapp/notificationcheck/tripinvite.dart';
 import 'package:triptourapp/service/notification.dart';
 import 'main/bottom_navbar.dart';
 import 'main/top_navbar.dart';
@@ -61,6 +63,8 @@ class MyApp extends StatelessWidget {
             children: [
               TripButtons(),
               TripHistory(),
+              inviteCheck(),
+              friendinviteCheck(),
             ],
           ),
         ),
