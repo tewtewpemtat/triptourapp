@@ -33,7 +33,7 @@ class _PlacetimelineState extends State<Placetimeline> {
           color: Colors.black,
         ),
         title: Text(
-          'ไทมไลน์สถานที่',
+          'รายการเข้าร่วมสถานที่',
           textAlign: TextAlign.center,
           style: GoogleFonts.ibmPlexSansThai(
             fontWeight: FontWeight.bold,
@@ -348,6 +348,7 @@ class _PlacetimelineState extends State<Placetimeline> {
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: Placetimeline(),
   ));
 }

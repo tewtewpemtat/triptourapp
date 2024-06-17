@@ -45,7 +45,6 @@ class _ChatScreenState extends State<ChatScreen> {
       if (yourUserData.isNotEmpty && friendUserData.isNotEmpty) {
         setState(() {});
       }
-      // Fetch messages from the Firestore collection where the current user is either sender or receiver
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await FirebaseFirestore.instance
               .collection('messages')
