@@ -27,7 +27,7 @@ class _TripTimelineState extends State<TripTimelinePage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'ไทมไลน์ของคุณ',
+                'ประวัติทริป',
                 style: GoogleFonts.ibmPlexSansThai(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
