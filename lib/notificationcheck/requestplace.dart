@@ -36,16 +36,6 @@ class _placeCheckState extends State<placeCheck> {
     }
   }
 
-  Future<Map<String, String>> _getSenderInfo(String senderUid) async {
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(senderUid)
-        .get();
-    String firstName = userDoc['firstName'];
-    String lastName = userDoc['lastName'];
-    return {'firstName': firstName, 'lastName': lastName};
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
