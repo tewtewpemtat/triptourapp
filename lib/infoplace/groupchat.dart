@@ -7,6 +7,7 @@ import 'package:triptourapp/infoplace.dart';
 import 'package:triptourapp/saveinterest/interest.dart';
 import 'package:triptourapp/saveinterest/meetplace.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:triptourapp/showprofile.dart';
 import 'package:triptourapp/tripmanage/maproute.dart';
 import 'dart:math';
 import 'dart:async';
@@ -75,14 +76,15 @@ class _ChatScreenState extends State<ChatScreen> {
         final dynamic message = data['message'];
         final dynamic profileImageUrl = data['profileImageUrl'];
         final dynamic timestamp = data['timestampserver'];
-
+        final dynamic senderUid = data['senderUid'];
         if (message is String) {
           return {
             'user': 'You',
             'message': message,
             'timestamp': timestamp,
             'nickname': nickname,
-            'profileImageUrl': profileImageUrl
+            'profileImageUrl': profileImageUrl,
+            'senderUid': senderUid
           };
         } else {
           print('Warning: Message is not a string');
@@ -107,6 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
         final dynamic message = data['message'];
         final dynamic timestamp = data['timestampserver'];
         final dynamic profileImageUrl = data['profileImageUrl'];
+        final dynamic senderUid = data['senderUid'];
 
         if (message is String) {
           return {
@@ -114,7 +117,8 @@ class _ChatScreenState extends State<ChatScreen> {
             'message': message,
             'timestamp': timestamp,
             'nickname': nickname,
-            'profileImageUrl': profileImageUrl
+            'profileImageUrl': profileImageUrl,
+            'senderUid': senderUid
           };
         } else {
           print('Warning: Message is not a string');
@@ -123,7 +127,8 @@ class _ChatScreenState extends State<ChatScreen> {
             'message': 'Invalid message',
             'timestamp': timestamp,
             'nickname': nickname,
-            'profileImageUrl': profileImageUrl
+            'profileImageUrl': profileImageUrl,
+            'senderUid': senderUid
           };
         }
       }).toList();
@@ -226,6 +231,7 @@ class _ChatScreenState extends State<ChatScreen> {
         final dynamic message = data['message'];
         final dynamic timestamp = data['timestampserver'];
         final dynamic profileImageUrl = data['profileImageUrl'];
+        final dynamic senderUid = data['senderUid'];
 
         if (message is String) {
           return {
@@ -233,7 +239,8 @@ class _ChatScreenState extends State<ChatScreen> {
             'message': message,
             'timestamp': timestamp,
             'nickname': nickname,
-            'profileImageUrl': profileImageUrl
+            'profileImageUrl': profileImageUrl,
+            'senderUid': senderUid
           };
         } else {
           print('Warning: Message is not a string');
@@ -242,7 +249,8 @@ class _ChatScreenState extends State<ChatScreen> {
             'message': 'Invalid message',
             'timestamp': timestamp,
             'nickname': nickname,
-            'profileImageUrl': profileImageUrl
+            'profileImageUrl': profileImageUrl,
+            'senderUid': senderUid
           };
         }
       }).toList();
@@ -262,6 +270,7 @@ class _ChatScreenState extends State<ChatScreen> {
         final dynamic nickname = data['nickname'];
         final dynamic timestamp = data['timestampserver'];
         final dynamic profileImageUrl = data['profileImageUrl'];
+        final dynamic senderUid = data['senderUid'];
 
         if (message is String) {
           return {
@@ -269,7 +278,8 @@ class _ChatScreenState extends State<ChatScreen> {
             'message': message,
             'timestamp': timestamp,
             'nickname': nickname,
-            'profileImageUrl': profileImageUrl
+            'profileImageUrl': profileImageUrl,
+            'senderUid': senderUid
           };
         } else {
           print('Warning: Message is not a string');
@@ -278,7 +288,8 @@ class _ChatScreenState extends State<ChatScreen> {
             'message': 'Invalid message',
             'timestamp': timestamp,
             'nickname': nickname,
-            'profileImageUrl': profileImageUrl
+            'profileImageUrl': profileImageUrl,
+            'senderUid': senderUid
           };
         }
       }).toList();
@@ -993,9 +1004,16 @@ class _ChatScreenState extends State<ChatScreen> {
                                   profileImageUrl.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 28.0),
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(profileImageUrl),
+                                  child: InkWell(
+                                    onTap: () {
+                                      MaterialPageRoute(
+                                          builder: (context) => ShowProfilePage(
+                                              friendUid: message['senderUid']));
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(profileImageUrl),
+                                    ),
                                   ),
                                 ),
                               SizedBox(width: 8.0),

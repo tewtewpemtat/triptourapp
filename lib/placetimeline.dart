@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:triptourapp/TripTimeLine.dart';
 import 'package:triptourapp/placedetailtimeline.dart';
+import 'package:triptourapp/showprofile.dart';
 
 class Placetimeline extends StatefulWidget {
   final String? tripUid;
@@ -114,10 +115,20 @@ class _PlacetimelineState extends State<Placetimeline> {
                     String firstName = userData['firstName'] ?? '';
                     String nickname = userData['nickname'] ?? '';
                     return ListTile(
-                      leading: CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage:
-                            NetworkImage(userData['profileImageUrl'] ?? ''),
+                      leading: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShowProfilePage(
+                                    friendUid: snapshot.data!.id)),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: 30.0,
+                          backgroundImage:
+                              NetworkImage(userData['profileImageUrl'] ?? ''),
+                        ),
                       ),
                       title: Text(firstName),
                       subtitle: Text(nickname),

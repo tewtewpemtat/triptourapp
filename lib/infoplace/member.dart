@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:triptourapp/infoplace/userlocation.dart';
+import 'package:triptourapp/showprofile.dart';
 
 class MemberPage extends StatefulWidget {
   final String? tripUid;
@@ -122,9 +123,18 @@ class MemberPageState extends State<MemberPage> {
       padding: EdgeInsets.all(8),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 30.0,
-            backgroundImage: NetworkImage(userData['profileImageUrl'] ?? ''),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ShowProfilePage(friendUid: docid)),
+              );
+            },
+            child: CircleAvatar(
+              radius: 30.0,
+              backgroundImage: NetworkImage(userData['profileImageUrl'] ?? ''),
+            ),
           ),
           SizedBox(width: 10.0),
           Expanded(

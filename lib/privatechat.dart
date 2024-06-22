@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:triptourapp/showprofile.dart';
 
 class ChatScreenPage extends StatelessWidget {
   final String friendUid;
@@ -759,9 +760,21 @@ class _ChatScreenState extends State<ChatScreen> {
                               if (!isCurrentUser && profileImageUrl.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 28.0),
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(profileImageUrl),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ShowProfilePage(
+                                                    friendUid:
+                                                        widget.friendUid)),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(profileImageUrl),
+                                    ),
                                   ),
                                 ),
                               SizedBox(width: 8.0),
@@ -957,6 +970,13 @@ class _ChatScreenState extends State<ChatScreen> {
                 items: [
                   PopupMenuItem(
                     child: Text(
+                      'ดูโปรไฟล์',
+                      style: GoogleFonts.ibmPlexSansThai(),
+                    ),
+                    value: 'checkprofile',
+                  ),
+                  PopupMenuItem(
+                    child: Text(
                       'ลบเพื่อน',
                       style: GoogleFonts.ibmPlexSansThai(),
                     ),
@@ -981,6 +1001,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Friend()),
+                    );
+                    break;
+                  case 'checkprofile':
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShowProfilePage(
+                                friendUid: widget.friendUid,
+                              )),
                     );
                     break;
                 }

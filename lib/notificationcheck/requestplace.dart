@@ -24,13 +24,15 @@ class _placeCheckState extends State<placeCheck> {
     DocumentSnapshot tripDoc =
         await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
     if (tripDoc.exists) {
-      setState(() {
-        tripCreate = tripDoc['tripCreate'];
-      });
+      if (mounted)
+        setState(() {
+          tripCreate = tripDoc['tripCreate'];
+        });
     } else {
-      setState(() {
-        tripCreate = null;
-      });
+      if (mounted)
+        setState(() {
+          tripCreate = null;
+        });
     }
   }
 
