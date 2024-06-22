@@ -813,9 +813,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                                       child, loadingProgress) {
                                                     if (loadingProgress == null)
                                                       return child;
-                                                    return Center(
-                                                      child:
-                                                          CircularProgressIndicator(),
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              16.0),
+                                                      child: Center(
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      ),
                                                     );
                                                   },
                                                   errorBuilder: (context, error,

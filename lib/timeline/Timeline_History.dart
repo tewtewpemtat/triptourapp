@@ -6,6 +6,7 @@ import 'package:triptourapp/placetimeline.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:triptourapp/showprofile.dart';
+import 'package:triptourapp/placedetailtimeline.dart';
 
 class TripTimelinePage extends StatefulWidget {
   @override
@@ -235,7 +236,11 @@ class _TripTimelineState extends State<TripTimelinePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Placetimeline(tripUid: tripUid)),
+                builder: (context) => PlaceTimelineDetail(
+                  tripUid: tripUid,
+                  userUid: uid ?? '',
+                ),
+              ),
             );
           },
           child: Stack(

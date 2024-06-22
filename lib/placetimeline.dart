@@ -178,7 +178,6 @@ class _PlacetimelineState extends State<Placetimeline> {
             MaterialPageRoute(
               builder: (context) => PlaceTimelineDetail(
                 tripUid: widget.tripUid ?? '',
-                placeId: place.id,
                 userUid: uid,
               ),
             ),

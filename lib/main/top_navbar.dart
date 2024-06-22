@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:triptourapp/EditProfile.dart';
 import 'package:triptourapp/editpassword.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:triptourapp/showprofile.dart';
 import '../authen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -52,11 +53,21 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
 
                   return Row(
                     children: [
-                      CircleAvatar(
-                        radius: 25.0,
-                        backgroundImage: userData['profileImageUrl'] != null
-                            ? NetworkImage(userData['profileImageUrl'])
-                            : AssetImage('assets/profile.jpg') as ImageProvider,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowProfilePage(friendUid: uid ?? '')));
+                        },
+                        child: CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage: userData['profileImageUrl'] != null
+                              ? NetworkImage(userData['profileImageUrl'])
+                              : AssetImage('assets/profile.jpg')
+                                  as ImageProvider,
+                        ),
                       ),
                       SizedBox(width: 10),
                       Column(
