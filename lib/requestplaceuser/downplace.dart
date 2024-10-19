@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 import 'package:triptourapp/requestplaceuser/mapselectown.dart';
 import 'mapselect.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -225,6 +226,8 @@ class _DownPageState extends State<DownPage> {
                                           places[index].placeprovince ?? '',
                                       placeAdd: 'No',
                                       placeRun: 'Start');
+                                  requestPlaceNotification(
+                                      widget.tripUid ?? '');
                                 },
                                 child: Icon(
                                   Icons.add,

@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:triptourapp/maplocation.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 import 'package:triptourapp/tripmanage/maproute.dart';
 import 'mapselect.dart';
 import 'package:geolocator/geolocator.dart';
@@ -66,18 +68,34 @@ class _HeadPlanPageState extends State<HeadPlan> {
         return Column(
           children: places.map((place) {
             final placeData = place.data() as Map<String, dynamic>;
-            isPlaceEnd =
+
+            bool isPlaceEnd =
                 DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
                     DateTime.now().isAfter(placeData['placetimeend'].toDate());
-            isPlaceLength =
+            bool isPlaceLength =
                 DateTime.now().isAfter(placeData['placetimestart'].toDate()) &&
                     DateTime.now().isBefore(placeData['placetimeend'].toDate());
+
             if (isPlaceLength) {
-              place.reference.update({'placerun': 'Running'});
+              if (placeData['placerun'] != 'Running') {
+                place.reference.update({'placerun': 'Running'}).then((_) async {
+                  await placeRunNotification(widget.tripUid ?? '', place.id);
+                }).catchError((error) {
+                  print('Failed to update placerun to Running: $error');
+                });
+              }
             }
+
             if (isPlaceEnd) {
-              place.reference.update({'placerun': 'End'});
+              if (placeData['placerun'] != 'End') {
+                place.reference.update({'placerun': 'End'}).then((_) async {
+                  await placeEndNotification(widget.tripUid ?? '', place.id);
+                }).catchError((error) {
+                  print('Failed to update placerun to End: $error');
+                });
+              }
             }
+
             return buildPlaceItem(context, placeData, place);
           }).toList(),
         );
@@ -361,23 +379,64 @@ class _HeadPlanPageState extends State<HeadPlan> {
                           ],
                         ),
                         SizedBox(height: 5),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(16.0),
+                                color: Color(0xFF1E30D7),
+                              ),
+                              padding: EdgeInsets.all(3.0),
+                              child: Text(
+                                placeData['placeprovince'] ?? '',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontSize: 10,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(16.0),
-                            color: Color(0xFF1E30D7),
-                          ),
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(
-                            placeData['placeprovince'] ?? '',
-                            style: GoogleFonts.ibmPlexSansThai(
-                              fontSize: 10,
-                              color: Colors.white,
+                            SizedBox(
+                              width: 5,
                             ),
-                          ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MapShowLocationPage(
+                                          latitude: placeData['placeLatitude'],
+                                          longitude:
+                                              placeData['placeLongitude'])),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/mark.png',
+                                    width: 12,
+                                  ),
+                                  SizedBox(
+                                    width: 2,
+                                  ),
+                                  Text(
+                                    'ตำแหน่ง',
+                                    style: GoogleFonts.ibmPlexSansThai(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500,
+                                        decoration: TextDecoration.underline,
+                                        color: Color.fromARGB(252, 165, 3, 3),
+                                        decorationColor:
+                                            Color.fromARGB(255, 180, 2, 2)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 5),
                         Row(

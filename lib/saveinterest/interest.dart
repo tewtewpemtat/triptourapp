@@ -14,6 +14,8 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
+
 class InterestPage extends StatefulWidget {
   final String? tripUid;
   final String? placeid;
@@ -381,7 +383,7 @@ class _InterestPageState extends State<InterestPage> {
         _placeAddressController.clear();
         _selectedPosition = null;
       });
-
+      await tripInterestNotification(widget.tripUid ?? '');
       Fluttertoast.showToast(msg: 'เพิ่มสิ่งน่าสนใจเรียบร้อยแล้ว');
     } catch (e) {
       print('Error: $e');

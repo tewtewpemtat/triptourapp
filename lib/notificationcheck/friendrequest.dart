@@ -43,11 +43,11 @@ class friendinviteCheck extends StatelessWidget {
 
           if (shouldSendNotification && latestSenderUid != null) {
             _getSenderInfo(latestSenderUid).then((senderInfo) {
-              NotificationService().showNotification(
-                title: 'แจ้งเตือน',
-                body:
-                    '${senderInfo['firstName']} ${senderInfo['lastName']} ส่งคำขอเป็นเพื่อนถึงคุณ',
-              );
+              // NotificationService().showNotification(
+              //   title: 'แจ้งเตือน',
+              //   body:
+              //       '${senderInfo['firstName']} ${senderInfo['lastName']} ส่งคำขอเป็นเพื่อนถึงคุณ',
+              // );
             });
           }
 

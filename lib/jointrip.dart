@@ -4,6 +4,9 @@ import 'package:triptourapp/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:triptourapp/maplocation.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
+import 'package:triptourapp/notificationsend.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -57,6 +60,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
                 .doc(requestId)
                 .delete();
             Fluttertoast.showToast(msg: 'เข้าร่วมทริปสำเร็จ');
+            await joinTripNotification(tripUid);
           }
         }
       }
@@ -119,6 +123,103 @@ class _JoinTripPageState extends State<JoinTripPage> {
       print('Error fetching sender profile image URL: $e');
       return '';
     }
+  }
+
+  void _showPlaceDialog(String tripUid) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+              child: Text(
+            'รายละเอียดสถานที่',
+            style: TextStyle(fontWeight: FontWeight.w700),
+          )),
+          content: Container(
+            width: double.maxFinite,
+            child: FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('places')
+                  .where('placetripid', isEqualTo: tripUid)
+                  .where('placeadd', isEqualTo: 'Yes')
+                  .get(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Text('ไม่พบข้อมูลสถานที่');
+                }
+
+                // Display the list of places
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    var place = snapshot.data!.docs[index].data()
+                        as Map<String, dynamic>;
+                    String placePicUrl = place['placepicUrl'] ?? '';
+                    double placeLatitude = place['placeLatitude'] ?? 0;
+                    double placeLongitude = place['placeLongitude'] ?? 0;
+                    String placeName = place['placename'] ?? 'ไม่มีชื่อสถานที่';
+                    String placeAddress =
+                        place['placeaddress'] ?? 'ไม่มีที่อยู่';
+
+                    int maxCharsFirstLine = 20;
+                    int maxCharsTotal = 20;
+                    String displayedName = placeName.length > maxCharsFirstLine
+                        ? (placeName.length > maxCharsTotal
+                            ? placeName.substring(0, maxCharsFirstLine) + '...'
+                            : placeName.substring(0, maxCharsFirstLine) +
+                                '...' +
+                                (placeName.length > maxCharsTotal
+                                    ? placeName.substring(
+                                            maxCharsFirstLine, maxCharsTotal) +
+                                        '...'
+                                    : placeName.substring(maxCharsFirstLine)))
+                        : placeName;
+                    return ListTile(
+                      leading: placePicUrl.isNotEmpty
+                          ? Image.network(
+                              placePicUrl,
+                              width: 60,
+                              height: 60,
+                              fit: BoxFit.cover,
+                            )
+                          : Icon(Icons.location_on),
+                      title: Text(displayedName),
+                      subtitle: Text(placeAddress),
+                      trailing: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapShowLocationPage(
+                                      latitude: placeLatitude,
+                                      longitude: placeLongitude)),
+                            );
+                          },
+                          child: Icon(Icons.map_rounded)),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('ปิด'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -198,119 +299,177 @@ class _JoinTripPageState extends State<JoinTripPage> {
                               return Text(
                                   'เกิดข้อผิดพลาด: ${urlSnapshot.error}');
                             }
-                            return ListTile(
-                              leading: ClipOval(
-                                child: Image.network(
-                                  urlSnapshot.data ?? 'URL ของรูปโปรไฟล์',
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    ClipOval(
+                                      child: Image.network(
+                                        urlSnapshot.data ?? 'URL ของรูปโปรไฟล์',
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          FutureBuilder(
+                                            future: FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(request['senderUid'])
+                                                .get(),
+                                            builder: (context,
+                                                AsyncSnapshot<DocumentSnapshot>
+                                                    userSnapshot) {
+                                              if (userSnapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return CircularProgressIndicator();
+                                              }
+                                              if (userSnapshot.hasError) {
+                                                return Text(
+                                                    'เกิดข้อผิดพลาด: ${userSnapshot.error}');
+                                              }
+                                              var userData =
+                                                  userSnapshot.data!.data()
+                                                      as Map<String, dynamic>;
+                                              return Text(
+                                                  'คำเชิญจาก: ${userData['nickname']}',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold));
+                                            },
+                                          ),
+                                          SizedBox(height: 5),
+                                          FutureBuilder(
+                                            future: FirebaseFirestore.instance
+                                                .collection('trips')
+                                                .doc(request['tripUid'])
+                                                .get(),
+                                            builder: (context,
+                                                AsyncSnapshot<DocumentSnapshot>
+                                                    tripSnapshot) {
+                                              if (tripSnapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return CircularProgressIndicator();
+                                              }
+                                              if (tripSnapshot.hasError) {
+                                                return Text(
+                                                    'เกิดข้อผิดพลาด: ${tripSnapshot.error}');
+                                              }
+                                              var tripData =
+                                                  tripSnapshot.data!.data()
+                                                      as Map<String, dynamic>;
+                                              String tripName =
+                                                  tripData['tripName'];
+                                              String tripCreatorUid =
+                                                  tripData['tripCreate'];
+
+                                              return FutureBuilder(
+                                                future: FirebaseFirestore
+                                                    .instance
+                                                    .collection('users')
+                                                    .doc(tripCreatorUid)
+                                                    .get(),
+                                                builder: (context,
+                                                    AsyncSnapshot<
+                                                            DocumentSnapshot>
+                                                        userSnapshot) {
+                                                  if (userSnapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
+                                                  }
+                                                  if (userSnapshot.hasError) {
+                                                    return Text(
+                                                        'เกิดข้อผิดพลาด: ${userSnapshot.error}');
+                                                  }
+
+                                                  return Text(
+                                                      'ชื่อทริป: $tripName');
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            acceptRequest(document.id);
+                                          },
+                                          style: ButtonStyle(
+                                            minimumSize:
+                                                MaterialStateProperty.all(
+                                                    Size(20, 10)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Color.fromARGB(
+                                                        255, 255, 156, 8)),
+                                          ),
+                                          child: Text(
+                                            'ยอมรับ',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10),
+                                        TextButton(
+                                          onPressed: () {
+                                            declineRequest(document.id);
+                                          },
+                                          style: ButtonStyle(
+                                            minimumSize:
+                                                MaterialStateProperty.all(
+                                                    Size(20, 10)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Color.fromARGB(
+                                                        255, 255, 156, 8)),
+                                          ),
+                                          child: Text(
+                                            'ปฏิเสธ',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              title: FutureBuilder(
-                                future: FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(request['senderUid'])
-                                    .get(),
-                                builder: (context,
-                                    AsyncSnapshot<DocumentSnapshot>
-                                        userSnapshot) {
-                                  if (userSnapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
-                                  }
-                                  if (userSnapshot.hasError) {
-                                    return Text(
-                                        'เกิดข้อผิดพลาด: ${userSnapshot.error}');
-                                  }
-                                  var userData = userSnapshot.data!.data()
-                                      as Map<String, dynamic>;
-                                  return Text(
-                                      'คำเชิญจาก: ${userData['nickname']}');
-                                },
-                              ),
-                              subtitle: FutureBuilder(
-                                future: FirebaseFirestore.instance
-                                    .collection('trips')
-                                    .doc(request['tripUid'])
-                                    .get(),
-                                builder: (context,
-                                    AsyncSnapshot<DocumentSnapshot>
-                                        tripSnapshot) {
-                                  if (tripSnapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
-                                  }
-                                  if (tripSnapshot.hasError) {
-                                    return Text(
-                                        'เกิดข้อผิดพลาด: ${tripSnapshot.error}');
-                                  }
-                                  var tripData = tripSnapshot.data!.data()
-                                      as Map<String, dynamic>;
-                                  String tripName = tripData['tripName'];
-                                  String tripCreatorUid =
-                                      tripData['tripCreate'];
-
-                                  return FutureBuilder(
-                                    future: FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(tripCreatorUid)
-                                        .get(),
-                                    builder: (context,
-                                        AsyncSnapshot<DocumentSnapshot>
-                                            userSnapshot) {
-                                      if (userSnapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return CircularProgressIndicator();
-                                      }
-                                      if (userSnapshot.hasError) {
-                                        return Text(
-                                            'เกิดข้อผิดพลาด: ${userSnapshot.error}');
-                                      }
-
-                                      return Text('ชื่อทริป: $tripName ');
-                                    },
-                                  );
-                                },
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      acceptRequest(document.id);
-                                    },
-                                    style: ButtonStyle(
-                                      minimumSize: MaterialStateProperty.all(
-                                          Size(20, 10)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Color.fromARGB(255, 255, 156, 8)),
-                                    ),
-                                    child: Text(
-                                      'ยอมรับ',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _showPlaceDialog(request['tripUid']);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'รายละเอียดสถานที่',
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(width: 10),
-                                  TextButton(
-                                    onPressed: () {
-                                      declineRequest(document.id);
-                                    },
-                                    style: ButtonStyle(
-                                      minimumSize: MaterialStateProperty.all(
-                                          Size(20, 10)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Color.fromARGB(255, 255, 156, 8)),
-                                    ),
-                                    child: Text(
-                                      'ปฏิเสธ',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                              ],
                             );
                           },
                         ),

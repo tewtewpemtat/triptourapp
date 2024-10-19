@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:triptourapp/SetProfile.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import './firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../main.dart';
@@ -188,6 +192,54 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Future<void> _saveUserToken(String userId) async {
+    try {
+      // Get FCM token
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      if (fcmToken == null) {
+        print("Unable to get FCM token");
+        return;
+      }
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      String deviceId;
+
+      if (Platform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        deviceId = androidInfo.id;
+        print(deviceId);
+      } else if (Platform.isIOS) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        deviceId = iosInfo.identifierForVendor ?? 'Unknown';
+      } else {
+        deviceId = 'Unknown';
+      }
+
+      CollectionReference usersTokenRef =
+          FirebaseFirestore.instance.collection('usersToken');
+
+      QuerySnapshot querySnapshot =
+          await usersTokenRef.where('deviceId', isEqualTo: deviceId).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        await querySnapshot.docs.first.reference.update({
+          'token': fcmToken,
+          'userId': userId,
+        });
+        print("User token updated successfully");
+      } else {
+        await usersTokenRef.add({
+          'userId': userId,
+          'deviceId': deviceId,
+          'token': fcmToken,
+        });
+        print("User token saved successfully");
+      }
+    } catch (e) {
+      print("Error saving user token: $e");
+    }
+  }
+
   void _signIn(BuildContext context) async {
     String email = _emailController.text;
     String password = _passwordController.text;
@@ -211,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
           print("Successfully signed In");
           Fluttertoast.showToast(msg: 'เข้าสู่ระบบสำเร็จ');
           String? uid = user.uid;
-
+          _saveUserToken(uid);
           DocumentSnapshot<Map<String, dynamic>> userDoc =
               await FirebaseFirestore.instance
                   .collection('users')

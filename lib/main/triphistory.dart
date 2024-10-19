@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/TripTimeLine.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 import 'package:triptourapp/showprofile.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:intl/intl.dart';
@@ -133,14 +134,23 @@ class _TripHistoryState extends State<TripHistory> {
                     FirebaseFirestore.instance
                         .collection('trips')
                         .doc(tripDataList[index].id)
-                        .update({'tripStatus': 'กำลังดำเนินการ'});
+                        .update({'tripStatus': 'กำลังดำเนินการ'}).then(
+                            (_) async {
+                      await tripRunNotification(tripDataList[index].id);
+                    }).catchError((error) {
+                      print('Failed to update placerun to Running: $error');
+                    });
                   } else if (DateTime.now()
                           .isAfter(tripData['tripEndDate'].toDate()) &&
                       tripData['tripStatus'] == 'กำลังดำเนินการ') {
                     FirebaseFirestore.instance
                         .collection('trips')
                         .doc(tripDataList[index].id)
-                        .update({'tripStatus': 'สิ้นสุด'});
+                        .update({'tripStatus': 'สิ้นสุด'}).then((_) async {
+                      await tripEndNotification(tripDataList[index].id);
+                    }).catchError((error) {
+                      print('Failed to update placerun to Running: $error');
+                    });
                   }
                   return buildTripItem(
                     context,
@@ -174,7 +184,11 @@ class _TripHistoryState extends State<TripHistory> {
       FirebaseFirestore.instance
           .collection('trips')
           .doc(tripUid)
-          .update({'tripStatus': 'กำลังดำเนินการ'});
+          .update({'tripStatus': 'กำลังดำเนินการ'}).then((_) async {
+        await tripRunNotification(tripUid);
+      }).catchError((error) {
+        print('Failed to update placerun to Running: $error');
+      });
 
       Navigator.pushReplacement(
         context,
@@ -187,7 +201,11 @@ class _TripHistoryState extends State<TripHistory> {
       FirebaseFirestore.instance
           .collection('trips')
           .doc(tripUid)
-          .update({'tripStatus': 'สิ้นสุด'});
+          .update({'tripStatus': 'สิ้นสุด'}).then((_) async {
+        await tripEndNotification(tripUid);
+      }).catchError((error) {
+        print('Failed to update placerun to Running: $error');
+      });
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => TripTimeLine()),

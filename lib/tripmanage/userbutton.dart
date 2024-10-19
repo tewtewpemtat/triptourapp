@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 
 class Userbutton extends StatefulWidget {
   final String? tripUid;
@@ -140,6 +141,7 @@ class UserbuttonState extends State<Userbutton> {
               .delete();
         });
         Fluttertoast.showToast(msg: 'ออกจากทริปเรียบร้อยเเล้ว');
+        await leaveTripNotification(widget.tripUid ?? '');
       } catch (e) {
         print('Error: $e'); // แสดง error message ใน console
         Fluttertoast.showToast(msg: 'เกิดข้อผิดพลาดในการออกทริป');
@@ -154,7 +156,7 @@ class UserbuttonState extends State<Userbutton> {
         .where('placeadd', isEqualTo: 'Yes')
         .get();
 
-    placesSnapshot.docs.forEach((place) {
+    placesSnapshot.docs.forEach((place) async {
       var placeData = place.data();
       bool isPlaceEnd =
           DateTime.now().isAfter(placeData['placetimeend'].toDate());
@@ -163,10 +165,16 @@ class UserbuttonState extends State<Userbutton> {
               DateTime.now().isBefore(placeData['placetimeend'].toDate());
 
       if (isPlaceLength) {
-        place.reference.update({'placerun': 'Running'});
+        if (placeData['placerun'] != 'Running') {
+          place.reference.update({'placerun': 'Running'});
+          await placeRunNotification(tripUid, place.id);
+        }
       }
       if (isPlaceEnd) {
-        place.reference.update({'placerun': 'End'});
+        if (placeData['placerun'] != 'End') {
+          place.reference.update({'placerun': 'End'});
+          await placeEndNotification(tripUid, place.id);
+        }
       }
     });
   }
@@ -196,20 +204,30 @@ class UserbuttonState extends State<Userbutton> {
             DateTime tripStartDate = tripData['tripStartDate'].toDate();
             DateTime tripEndDate = tripData['tripEndDate'].toDate();
             if (now.isAfter(tripStartDate) && now.isBefore(tripEndDate)) {
-              // เปรียบเทียบเวลาปัจจุบันกับเวลาเริ่มต้นของทริป
-              FirebaseFirestore.instance
-                  .collection('trips')
-                  .doc(widget.tripUid)
-                  .update({'tripStatus': 'กำลังดำเนินการ'});
-              print('Trip status updated successfully');
+              if (tripData['tripStatus'] != 'กำลังดำเนินการ') {
+                FirebaseFirestore.instance
+                    .collection('trips')
+                    .doc(widget.tripUid)
+                    .update({'tripStatus': 'กำลังดำเนินการ'}).then((_) async {
+                  await tripRunNotification(widget.tripUid ?? '');
+                }).catchError((error) {
+                  print('Failed to update placerun to Running: $error');
+                });
+                print('Trip status updated successfully');
+              }
             } else if (now.isAfter(tripEndDate)) {
-              // เปรียบเทียบเวลาปัจจุบันกับเวลาเริ่มต้นของทริป
-              FirebaseFirestore.instance
-                  .collection('trips')
-                  .doc(widget.tripUid)
-                  .update({'tripStatus': 'สิ้นสุด'});
+              if (tripData['tripStatus'] != 'สิ้นสุด') {
+                FirebaseFirestore.instance
+                    .collection('trips')
+                    .doc(widget.tripUid)
+                    .update({'tripStatus': 'สิ้นสุด'}).then((_) async {
+                  await tripEndNotification(widget.tripUid ?? '');
+                }).catchError((error) {
+                  print('Failed to update placerun to Running: $error');
+                });
 
-              print('Trip status updated successfully');
+                print('Trip status updated successfully');
+              }
             } else {
               print('Trip has not started yet');
             }
@@ -318,6 +336,51 @@ class UserbuttonState extends State<Userbutton> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    (AddPage(tripUid: widget.tripUid)),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white, // สีขอบตัวอักษร
+                            fixedSize: Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.mail),
+
+                              // รูปไอคอนแชท
+                              SizedBox(
+                                  width:
+                                      8), // ระยะห่างระหว่างไอคอนแชทและข้อความ
+                              Text(
+                                'แนะนำสถานที่',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 6),
                 ],
               ),
             );

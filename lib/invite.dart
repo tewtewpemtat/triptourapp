@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
+import 'package:triptourapp/notificationsend.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -77,10 +79,12 @@ class InviteState extends State<Invite> {
           'status': 'Waiting',
           'sendStatus': 'no',
         });
+
         print('Friend request sent successfully');
       } else {
         print('Friend request already sent');
       }
+      await InviteTripNotification(friendUid);
       Fluttertoast.showToast(msg: 'ส่งคำเชิญเเล้ว');
     } catch (e) {
       print('Error sending friend request: $e');

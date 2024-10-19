@@ -14,6 +14,8 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
+
 class MeetplacePage extends StatefulWidget {
   final String? tripUid;
   final String? placeid;
@@ -389,7 +391,7 @@ class _MeetplacePageState extends State<MeetplacePage> {
         _placeAddressController.clear();
         _selectedPosition = null;
       });
-
+      await tripMeetNotification(widget.tripUid ?? '');
       Fluttertoast.showToast(msg: 'เพิ่มจุดนัดพบเรียบร้อยแล้ว');
     } catch (e) {
       print('Error: $e');

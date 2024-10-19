@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 
 void main() {
   runApp(
@@ -458,6 +459,7 @@ class _SlideTimeState extends State<SlideTime> {
         Timestamp startTimestamp = Timestamp.fromDate(startTime!);
         _saveStarAndEndtTimeToFirestore(startTimestamp, endTimestamp);
         _Saved(context);
+        await tripUpdatePlanNotification(tripData.id);
       } else {
         if (isOverlapping) {
           print('Invalid time: Overlapping with existing time');

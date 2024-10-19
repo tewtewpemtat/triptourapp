@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.triptourapp-mergeReleaseResources-29:/values-sr/values-sr.xml",
+            "outputFile": "com.example.triptourapp-mergeReleaseResources-31:/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\wanla\\.gradle\\caches\\transforms-3\\1bce39bc8386bdc3216e7be646dec691\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-sr\\values.xml",

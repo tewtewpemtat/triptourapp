@@ -216,7 +216,7 @@ class TripmanagePage extends StatelessWidget {
               },
             ),
             NotificationCheck(),
-            placeCheck(tripUid: tripUid),
+            // placeCheck(tripUid: tripUid),
           ],
         ),
       ),

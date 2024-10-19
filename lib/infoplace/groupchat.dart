@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:triptourapp/infoplace.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 import 'package:triptourapp/saveinterest/interest.dart';
 import 'package:triptourapp/saveinterest/meetplace.dart';
 import 'package:geolocator/geolocator.dart';
@@ -491,8 +492,8 @@ class _ChatScreenState extends State<ChatScreen> {
           });
         }
       }
-
       fetchMessages();
+      await groupChatNotification(widget.tripUid, messageText);
     }
   }
 
@@ -937,6 +938,7 @@ class _ChatScreenState extends State<ChatScreen> {
         'tripChatUid': widget.tripUid
       });
       fetchMessages();
+      await groupChatNotification(widget.tripUid, 'Pic');
     } catch (e) {
       print('Error uploading image: $e');
     }

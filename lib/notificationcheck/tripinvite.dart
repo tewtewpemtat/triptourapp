@@ -43,11 +43,11 @@ class inviteCheck extends StatelessWidget {
 
           if (shouldSendNotification && latestSenderUid != null) {
             _getSenderInfo(latestSenderUid).then((senderInfo) {
-              NotificationService().showNotification(
-                title: 'แจ้งเตือน',
-                body:
-                    '${senderInfo['firstName']} ${senderInfo['lastName']} ได้เชิญคุณเข้าร่วมทริป',
-              );
+              // NotificationService().showNotification(
+              //   title: 'แจ้งเตือน',
+              //   body:
+              //       '${senderInfo['firstName']} ${senderInfo['lastName']} ได้เชิญคุณเข้าร่วมทริป',
+              // );
             });
           }
 

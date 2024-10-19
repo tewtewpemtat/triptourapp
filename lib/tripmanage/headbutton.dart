@@ -5,6 +5,7 @@ import 'package:triptourapp/addplace.dart';
 import 'package:triptourapp/groupchat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:triptourapp/main.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 import '../timeplace.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,7 @@ class HeadButton extends StatefulWidget {
 final String tripUidsend = 'Uid';
 void cancelTrip(BuildContext context, String tripUid) async {
   try {
+    Fluttertoast.showToast(msg: 'กำลังลบทริป...');
     DocumentSnapshot tripSnapshot =
         await FirebaseFirestore.instance.collection('trips').doc(tripUid).get();
 
@@ -28,13 +30,13 @@ void cancelTrip(BuildContext context, String tripUid) async {
       return;
     }
 
-    List<dynamic> tripJoin = tripSnapshot['tripJoin'];
+    // List<dynamic> tripJoin = tripSnapshot['tripJoin'];
 
-    if (tripJoin.length > 1) {
-      await Fluttertoast.showToast(
-          msg: 'จำนวนผู้ร่วมต้องไม่เกิน 1 คนจึงจะสามารถลบทริปได้');
-      return;
-    }
+    // if (tripJoin.length > 1) {
+    //   await Fluttertoast.showToast(
+    //       msg: 'จำนวนผู้ร่วมต้องไม่เกิน 1 คนจึงจะสามารถลบทริปได้');
+    //   return;
+    // }
     QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
         .collection('placemeet')
         .where('placetripid', isEqualTo: tripUid)
@@ -147,12 +149,7 @@ void cancelTrip(BuildContext context, String tripUid) async {
     await ref.delete();
 
     await FirebaseFirestore.instance.collection('trips').doc(tripUid).delete();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MyApp(),
-      ),
-    );
+
     Fluttertoast.showToast(msg: 'ลบทริปสำเร็จ');
     print('Trip canceled successfully');
   } catch (e) {
@@ -167,7 +164,7 @@ void checkAndUpdatePlaces(String tripUid) async {
       .where('placeadd', isEqualTo: 'Yes')
       .get();
 
-  placesSnapshot.docs.forEach((place) {
+  placesSnapshot.docs.forEach((place) async {
     var placeData = place.data();
     bool isPlaceEnd =
         DateTime.now().isAfter(placeData['placetimeend'].toDate());
@@ -176,12 +173,80 @@ void checkAndUpdatePlaces(String tripUid) async {
             DateTime.now().isBefore(placeData['placetimeend'].toDate());
 
     if (isPlaceLength) {
-      place.reference.update({'placerun': 'Running'});
+      if (placeData['placerun'] != 'Running') {
+        place.reference.update({'placerun': 'Running'});
+        await placeRunNotification(tripUid, place.id);
+      }
     }
     if (isPlaceEnd) {
-      place.reference.update({'placerun': 'End'});
+      if (placeData['placerun'] != 'End') {
+        place.reference.update({'placerun': 'End'});
+        await placeEndNotification(tripUid, place.id);
+      }
     }
   });
+}
+
+void showCancelTripDialog(BuildContext context, String tripUid) {
+  TextEditingController remarkController = TextEditingController();
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Center(child: Text('ยกเลิกทริป')),
+        content: TextField(
+          controller: remarkController,
+          decoration: InputDecoration(
+            hintText: 'กรุณากรอกหมายเหตุ',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              borderSide: BorderSide(color: Colors.grey, width: 1.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              borderSide: BorderSide(color: Colors.blue, width: 2.0),
+            ),
+          ),
+          maxLines: 3,
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('ยกเลิก'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _saveTripRemark(tripUid, remarkController.text);
+              cancelTrip(context, tripUid);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyApp(),
+                ),
+              );
+              cancelTripNotification(tripUid);
+            },
+            child: Text('บันทึก'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _saveTripRemark(String tripUid, String remark) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection('trips')
+        .doc(tripUid)
+        .update({'tripRemark': remark});
+    print('หมายเหตุถูกบันทึกเรียบร้อย');
+  } catch (e) {
+    print('เกิดข้อผิดพลาดในการบันทึกหมายเหตุ: $e');
+  }
 }
 
 String? uid = FirebaseAuth.instance.currentUser?.uid;
@@ -211,18 +276,30 @@ class _HeadButtonState extends State<HeadButton> {
             DateTime tripStartDate = tripData['tripStartDate'].toDate();
             DateTime tripEndDate = tripData['tripEndDate'].toDate();
             if (now.isAfter(tripStartDate) && now.isBefore(tripEndDate)) {
-              FirebaseFirestore.instance
-                  .collection('trips')
-                  .doc(widget.tripUid)
-                  .update({'tripStatus': 'กำลังดำเนินการ'});
-              print('Trip status updated successfully');
+              if (tripData['tripStatus'] != 'กำลังดำเนินการ') {
+                FirebaseFirestore.instance
+                    .collection('trips')
+                    .doc(widget.tripUid)
+                    .update({'tripStatus': 'กำลังดำเนินการ'}).then((_) async {
+                  await tripRunNotification(widget.tripUid ?? '');
+                }).catchError((error) {
+                  print('Failed to update placerun to Running: $error');
+                });
+                print('Trip status updated successfully');
+              }
             } else if (now.isAfter(tripEndDate)) {
-              FirebaseFirestore.instance
-                  .collection('trips')
-                  .doc(widget.tripUid)
-                  .update({'tripStatus': 'สิ้นสุด'});
+              if (tripData['tripStatus'] != 'สิ้นสุด') {
+                FirebaseFirestore.instance
+                    .collection('trips')
+                    .doc(widget.tripUid)
+                    .update({'tripStatus': 'สิ้นสุด'}).then((_) async {
+                  await tripEndNotification(widget.tripUid ?? '');
+                }).catchError((error) {
+                  print('Failed to update placerun to Running: $error');
+                });
 
-              print('Trip status updated successfully');
+                print('Trip status updated successfully');
+              }
             } else {
               print('Trip has not started yet');
             }
@@ -269,7 +346,8 @@ class _HeadButtonState extends State<HeadButton> {
                         Spacer(),
                         TextButton(
                           onPressed: () {
-                            cancelTrip(context, widget.tripUid.toString());
+                            showCancelTripDialog(
+                                context, widget.tripUid.toString());
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
@@ -327,6 +405,80 @@ class _HeadButtonState extends State<HeadButton> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddPage(tripUid: widget.tripUid ?? '')),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
+                            fixedSize: Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.location_on),
+                              SizedBox(width: 2),
+                              Text(
+                                'เพิ่มสถานที่',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      TimePlacePage(tripUid: widget.tripUid)),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
+                            fixedSize: Size(200, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.access_time),
+                              SizedBox(width: 2),
+                              Text(
+                                'กำหนดเวลาสถานที่',
+                                style: GoogleFonts.ibmPlexSansThai(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             );
@@ -363,7 +515,8 @@ class _HeadButtonState extends State<HeadButton> {
                         Spacer(),
                         TextButton(
                           onPressed: () {
-                            cancelTrip(context, widget.tripUid.toString());
+                            showCancelTripDialog(
+                                context, widget.tripUid.toString());
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,

@@ -11,6 +11,7 @@ import 'package:geocoding/geocoding.dart';
 import 'dart:math';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 
 class MapSelectionOwnPage extends StatefulWidget {
   final String? tripUid;
@@ -320,6 +321,7 @@ class _MapSelectionPageState extends State<MapSelectionOwnPage> {
         'placeadd': placeAdd,
         'placeRun': placeStart
       });
+      await requestPlaceNotification(widget.tripUid ?? '');
 
       setState(() {
         _selectedImage = null;

@@ -155,6 +155,18 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
                       builder: (context) => LoginPage(),
                     ),
                   );
+                  if (uid != null) {
+                    await FirebaseFirestore.instance
+                        .collection('usersToken')
+                        .where('userId', isEqualTo: uid)
+                        .get()
+                        .then((querySnapshot) {
+                      for (var doc in querySnapshot.docs) {
+                        doc.reference.delete();
+                      }
+                    });
+                  }
+
                   Fluttertoast.showToast(msg: 'ออกจากระบบสำเร็จ');
                   break;
               }

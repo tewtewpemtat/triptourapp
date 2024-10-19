@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 import 'package:triptourapp/showprofile.dart';
 
 class ChatScreenPage extends StatelessWidget {
@@ -38,7 +39,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   String? myUid = FirebaseAuth.instance.currentUser?.uid;
   final ScrollController _scrollController = ScrollController();
-
   Future<void> fetchMessages() async {
     try {
       yourUserData = (await getUserData(getCurrentUserUid())) ?? {};
@@ -401,6 +401,7 @@ class _ChatScreenState extends State<ChatScreen> {
             });
           }
           fetchMessages();
+          await chatSendNotification(friendUid);
         } catch (e) {
           print('Error sending message: $e');
         }
@@ -441,6 +442,7 @@ class _ChatScreenState extends State<ChatScreen> {
             });
           }
           fetchMessages();
+          await chatSendNotification(friendUid);
         } catch (e) {
           print('Error sending message: $e');
         }
@@ -648,12 +650,12 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void markMessagesAsRead(String friendUid) {
+  Future<void> markMessagesAsRead(String friendUid) async {
     try {
       CollectionReference chatsCollection =
           FirebaseFirestore.instance.collection('messages');
 
-      chatsCollection
+      await chatsCollection
           .where('receiverUid', isEqualTo: myUid)
           .where('senderUid', isEqualTo: friendUid)
           .where('status', isEqualTo: 'Unread')
@@ -951,8 +953,8 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: IconButton(
           color: Colors.black,
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            markMessagesAsRead(widget.friendUid);
+          onPressed: () async {
+            await markMessagesAsRead(widget.friendUid);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => Friend()),

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 
 class AddFriend extends StatefulWidget {
   @override
@@ -286,7 +287,7 @@ void sendFriendRequest(String friendUid) async {
         'status': 'Wait',
         'sendStatus': 'no',
       });
-
+      await addFriendNotification(friendUid);
       print('Friend request sent successfully.');
       Fluttertoast.showToast(
         msg: "ส่งคำขอเสร็จสิ้น",

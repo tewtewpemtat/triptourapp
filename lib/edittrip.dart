@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:triptourapp/notificationcheck/notificationfunction.dart';
 import 'package:triptourapp/tripmanage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -268,13 +269,15 @@ class _EditTripState extends State<EditTrip> {
                           .collection('trips')
                           .doc(widget.tripUid)
                           .update({'tripStartDate': _selectedStartDate});
+                      await tripUpdatePlanNotification(widget.tripUid ?? '');
                     } else if (fieldTitle == 'วันที่สิ้นสุดทริป') {
                       await FirebaseFirestore.instance
                           .collection('trips')
                           .doc(widget.tripUid)
                           .update({'tripEndDate': _selectedEndDate});
+                      await tripUpdatePlanNotification(widget.tripUid ?? '');
                     }
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                   },
                   child: InputDecorator(
                     decoration: InputDecoration(

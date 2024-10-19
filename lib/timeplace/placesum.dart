@@ -229,43 +229,45 @@ class _PlaceSumState extends State<PlaceSum> {
               ),
             ],
           ),
-          Positioned(
-            top: -5,
-            right: -5,
-            child: InkWell(
-              onTap: () {},
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: () async {
-                    String placeId = place.reference.id;
-                    List<String> updatedWhogo = [uid];
-                    try {
-                      await FirebaseFirestore.instance
-                          .collection('places')
-                          .doc(placeId)
-                          .update({
-                        'placetimestart': null,
-                        'placetimeend': null,
-                        'placeadd': 'No',
-                        'placestart': '',
-                        'placewhogo': updatedWhogo
-                      });
+          if (placeData['placerun'] == "Start")
+            Positioned(
+              top: -5,
+              right: -5,
+              child: InkWell(
+                onTap: () {},
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed: () async {
+                      String placeId = place.reference.id;
+                      List<String> updatedWhogo = [uid];
+                      try {
+                        await FirebaseFirestore.instance
+                            .collection('places')
+                            .doc(placeId)
+                            .update({
+                          'placetimestart': null,
+                          'placetimeend': null,
+                          'placeadd': 'No',
+                          'placestart': '',
+                          'placewhogo': updatedWhogo
+                        });
 
-                      Fluttertoast.showToast(msg: 'ลบสถานที่สำเร็จ');
-                      setState(() {});
-                    } catch (error) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('Error deleting $placeName: $error')),
-                      );
-                    }
-                  },
-                  icon: Icon(Icons.remove),
+                        Fluttertoast.showToast(msg: 'ลบสถานที่สำเร็จ');
+                        setState(() {});
+                      } catch (error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content:
+                                  Text('Error deleting $placeName: $error')),
+                        );
+                      }
+                    },
+                    icon: Icon(Icons.remove),
+                  ),
                 ),
               ),
             ),
-          ),
         ]),
       ),
     );

@@ -136,8 +136,7 @@ class InformationPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (isTripCreator &&
-                        tripData['tripStatus'] == 'ยังไม่เริ่มต้น')
+                    if (isTripCreator)
                       InkWell(
                         onTap: () {
                           Navigator.push(
