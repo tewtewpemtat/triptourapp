@@ -56,13 +56,15 @@ Future<void> _setupLocalNotifications() async {
 }
 
 void _setupForegroundNotificationListener() {
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    await Firebase.initializeApp();
     _showNotification(message);
   });
 }
 
 @pragma('vm:entry-point')
 Future<void> _firebaseBackgroundMessageHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
   _showNotification(message);
 }
 
@@ -101,12 +103,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessageHandler);
 
   await _requestPermissionToUser();
   await _setForegroundNotification();
   await _setupLocalNotifications();
   _setupForegroundNotificationListener();
-  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessageHandler);
 
   runApp(
     MaterialApp(
