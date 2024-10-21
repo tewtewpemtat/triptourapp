@@ -88,7 +88,7 @@ Future<void> _showNotification(RemoteMessage message) async {
     android: androidPlatformChannelSpecifics,
     iOS: iOSPlatformChannelSpecifics,
   );
-  if (title != 'Chat')
+  if (title != 'Message')
     await flutterLocalNotificationsPlugin.show(
       message.hashCode,
       title,

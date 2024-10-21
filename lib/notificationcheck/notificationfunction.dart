@@ -72,7 +72,7 @@ Future<void> chatSendNotification(String friendUid) async {
 
     await sendNotification(
       token,
-      'Chat',
+      'Message',
       'คุณมีข้อความใหม่จาก $firstName $lastName',
     );
   } else {

@@ -1,4 +1,4 @@
-#Mon Oct 21 21:50:36 ICT 2024
+#Mon Oct 21 22:02:11 ICT 2024
 base.0=C\:\\triptourapp\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
