@@ -202,7 +202,7 @@ class _DownPageState extends State<DownPage> {
                             Expanded(
                               flex: 1,
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   Fluttertoast.showToast(
                                     msg: "กำลังเพิ่มสถานที่...",
                                     toastLength: Toast.LENGTH_LONG,
@@ -226,7 +226,7 @@ class _DownPageState extends State<DownPage> {
                                           places[index].placeprovince ?? '',
                                       placeAdd: 'No',
                                       placeRun: 'Start');
-                                  requestPlaceNotification(
+                                  await requestPlaceNotification(
                                       widget.tripUid ?? '');
                                 },
                                 child: Icon(
